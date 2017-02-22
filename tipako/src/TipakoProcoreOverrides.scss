@@ -1,0 +1,42 @@
+@import "./variables";
+
+.caret {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: palette(gray, dark) !important;
+  padding: 0 !important;
+
+  &:hover {
+    background: palette(orange) !important;
+    color: palette(white) !important;
+  }
+}
+
+.controlsButton:not(#bogus1):not(#bogus2) {
+  background: 0 !important;
+  border: 0 !important;
+  color: palette(black) !important;
+  padding: 3px !important;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+.item {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: palette(black) !important;
+  display: flex !important;
+  padding: 0 !important;
+
+  &:hover {
+    background: palette(gray, light) !important;
+  }
+}
+
+.childItem {
+  padding: 2px 15px !important;
+}

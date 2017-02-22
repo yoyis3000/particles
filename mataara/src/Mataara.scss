@@ -1,0 +1,101 @@
+@import "./variables";
+
+$h: 36px;
+
+.notification {
+  border: 1px solid;
+  border-radius: 2px;
+  line-height: $h;
+  margin-top: 5px;
+  padding: 0 10px;
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+.title {
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.body {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.alertInfo {
+  background: palette(blue, xlight);
+  border-color: palette(blue, dark);
+  color: palette(blue, dark);
+
+  :global .fa-times {
+    color: palette(blue, dark);
+
+    &:hover {
+      color: palette(blue);
+    }
+  }
+
+  .btnCancel:hover {
+    background: palette(blue, dark);
+    color: palette(white);
+  }
+}
+
+.alertSuccess {
+  background: #DFF0D8;
+  border-color: #336B34;
+  color: #336B34;
+
+  :global .fa-times {
+    color: #336B34;
+  }
+
+  .btnCancel:hover {
+    background: #336B34;
+    color: palette(white);
+  }
+}
+
+.alertError {
+  background: palette(red, xlight);
+  border-color: palette(red);
+  color: palette(red);
+
+  :global .fa-times {
+    color: palette(red);
+
+    &:hover {
+      color: palette(red, light);
+    }
+  }
+
+  .btnCancel:hover {
+    background: palette(red);
+    color: palette(white);
+  }
+}
+
+.btnCancel {
+  cursor: pointer;
+  font-size: 16px;
+  height: $h;
+  line-height: $h;
+  margin-top: #{-$h / 2};
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transition: background-color .1s ease, color .1s ease;
+  width: $h;
+
+  .fa {
+    cursor: pointer;
+  }
+}

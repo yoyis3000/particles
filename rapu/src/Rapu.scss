@@ -1,0 +1,72 @@
+@import "./variables";
+
+$side: 30px;
+
+.search {
+  background: bisque;
+  display: block;
+  margin-right: 10px;
+  position: relative;
+  vertical-align: top;
+}
+
+.input {
+  background-color: palette(white);
+  border-radius: 2px;
+  border: 1px solid palette(gray, dark);
+  box-sizing: border-box;
+  color: palette(black);
+  font-size: 13px;
+  height: $side;
+  margin: 0;
+  padding: 2px 2 * $side 2px 5px;
+  position: relative;
+  width: 100%;
+}
+
+.input:focus {
+  outline: 0;
+}
+
+.input::-ms-clear {
+  display: none;
+}
+
+.btn-base {
+  cursor: pointer;
+  height: $side - 2;
+  line-height: $side - 2;
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  transition: background-color .1s ease, color .1s ease;
+  width: $side;
+
+  &:hover {
+    background-color: palette(orange);
+    color: palette(white);
+  }
+
+  .fa {
+    cursor: pointer;
+  }
+}
+
+.btn-submit {
+  composes: btn-base;
+
+  background: palette(white);
+  border: solid palette(gray, dark);
+  border-width: 0 0 0 1px;
+  border-radius: 0 1px 1px 0;
+  color: palette(black);
+  right: 1px;
+}
+
+.btn-clear {
+  composes: btn-base;
+
+  background: palette(white);
+  color: palette(gray, dark);
+  right: $side + 1;
+}

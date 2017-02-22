@@ -1,0 +1,68 @@
+import React, { PropTypes } from 'react';
+import Uta from 'uta';
+import styles from './ListPartial.scss';
+
+const ListPartial = ({
+  exportComponent,
+  filterComponent,
+  headerComponent,
+  isLoading,
+  notifications,
+  paginationComponent,
+  searchComponent,
+  tableComponent,
+}) => (
+  <div>
+    <div className={styles.exportComponent}>
+      { exportComponent && exportComponent }
+    </div>
+
+    <div className={styles.toolHeader}>
+      {headerComponent && headerComponent}
+    </div>
+    <div>
+      <div className={styles.toolControls}>
+        <div className={styles.searchComponent}>
+          { searchComponent && searchComponent }
+        </div>
+        <div className={styles.filterComponent}>
+          { filterComponent && filterComponent }
+        </div>
+      </div>
+
+      <div className={styles.notifications}>
+        { notifications && notifications }
+      </div>
+
+      <Uta isLoading={isLoading}>
+        { paginationComponent && paginationComponent }
+        { tableComponent && tableComponent }
+        { paginationComponent && paginationComponent }
+      </Uta>
+    </div>
+  </div>
+);
+
+ListPartial.propTypes = {
+  exportComponent: PropTypes.shape(),
+  filterComponent: PropTypes.shape(),
+  headerComponent: PropTypes.shape(),
+  isLoading: PropTypes.bool,
+  notifications: PropTypes.arrayOf(PropTypes.shape()),
+  paginationComponent: PropTypes.shape(),
+  searchComponent: PropTypes.shape(),
+  tableComponent: PropTypes.shape(),
+};
+
+ListPartial.defaultProps = {
+  exportComponent: null,
+  filterComponent: null,
+  headerComponent: null,
+  isLoading: false,
+  notifications: null,
+  paginationComponent: null,
+  searchComponent: null,
+  tableComponent: null,
+};
+
+export default ListPartial;

@@ -1,0 +1,38 @@
+# List Partial
+
+A template partial for showing list presentations.
+
+# Change Log
+
+##### 1.3.7
+- Removing `isEmpty` flag
+
+##### 1.3.6
+- Linting
+
+##### 1.3.5
+- Minor Webpack fix
+
+##### 1.3.4
+- Implementing Webpack 2.2.1
+
+##### 1.3.3
+- Bundle size optimized
+
+##### 1.3.2
+- Licensing update
+
+##### 1.3.1
+- Improved prop type validation
+
+##### 1.3.0
+- Updated header component logic
+
+##### 1.2.0
+- Added notifications
+
+##### 1.1.0
+- Added export component
+
+##### 1.0.0
+- Initial commit

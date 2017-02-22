@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Tipako.scss';
+import defaultStyles from './TipakoDefault.scss';
 import composeStyles from '../../../shared/stylesheet-composer';
 
 let timer = null;
@@ -39,7 +40,7 @@ export default class Tipako extends React.Component {
     msgPlaceholder: 'Search...',
     onFetch: () => {},
     renderTokens: null,
-    stylesheets: [],
+    stylesheets: [ defaultStyles ],
   }
 
   constructor(props) {

@@ -1,13 +1,13 @@
 module.exports = {
-  entry: ['./src/index.js'],
+  entry: './src/index.js',
 
   module: {
-    loaders: [
+    rules: [
       {
         loader: 'babel-loader',
         include: [
-          __dirname + '/src',
-          __dirname + '/sandbox'
+          `${__dirname}/src`,
+          `${__dirname}/sandbox`,
         ],
         test: /\.jsx?$/,
         query: {
@@ -15,16 +15,37 @@ module.exports = {
           presets: ['latest', 'react', 'stage-0'],
         },
       },
+      {
+        test: /\.s?[ca]ss$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+            importLoaders: 1,
+            localIdentName: '[local]__[path][name]__[hash:base64:5]',
+          },
+        }, {
+          loader: 'autoprefixer-loader',
+          options: {
+            browsers: 'last 2 versions',
+          },
+        }, {
+          loader: 'sass-loader',
+        }],
+      },
     ],
   },
 
   output: {
-    path: './',
+    path: '/',
     filename: 'index.js',
     libraryTarget: 'umd',
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
 };

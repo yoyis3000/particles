@@ -1,0 +1,59 @@
+@import "_variables";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.title {
+  color: palette(orange);
+  display: flex;
+  font-size: 30px;
+  font-weight: 300;
+  margin-right: 35px;
+}
+
+.slot {
+  display: flex;
+  margin-left: auto;
+}
+
+// This is unfortunate, but there are other classes with too high of
+// specificity in _buttons.scss, so the !importants are necessary -CR 10042016
+.tab {
+  background-color: palette(white) !important;
+  border: 1px solid #676767;
+  border-bottom: 2px solid palette(white) !important;
+  border-color: palette(white) !important;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: palette(gray, xdark) !important;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px !important;
+  line-height: 28px;
+  margin-right: 35px;
+  padding: 0 !important;
+  text-align: center;
+  text-decoration: none !important;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:hover {
+    border-bottom: 2px solid palette(gray, light) !important;
+  }
+}
+
+.active,
+.active:hover {
+  border-bottom: 2px solid palette(gray, xdark) !important;
+  cursor: default;
+  font-weight: bold;
+}
+
+.tab:focus {
+  outline: none;
+}

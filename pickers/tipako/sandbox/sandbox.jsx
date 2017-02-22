@@ -4,7 +4,7 @@ import React from 'react';
 import Tipako from '../src';
 
 import sandboxStyles from './sandbox.scss';
-// import procoreStyles from '../src/TipakoProcore.scss';
+import procoreStyles from '../src/TipakoProcore.scss';
 
 const data = [
   { text: 'Animals',
@@ -84,7 +84,7 @@ const addGroupTokens = true;
 const maxResults = 4;
 
 const stylesheets = [
-  // procoreStyles,
+  procoreStyles,
 ];
 
 render(

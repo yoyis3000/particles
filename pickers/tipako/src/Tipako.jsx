@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import styles from './Tipako.scss';
-import procoreStyles from './TipakoProcore.scss';
-import procoreOverrides from './TipakoProcoreOverrides.scss';
+import baseStyles from './Tipako.scss';
+import composeStyles from '../../stylesheet-composer';
 
 let timer = null;
+let styles = {};
 
 export default class Tipako extends React.Component {
   static propTypes = {
@@ -45,17 +45,7 @@ export default class Tipako extends React.Component {
   constructor(props) {
     super(props);
 
-    // TEMPORARY...? Ben 170217
-    props.stylesheets.push(procoreStyles);
-    props.stylesheets.push(procoreOverrides);
-
-    props.stylesheets.forEach((s) => {
-      Object.keys(s).forEach((k) => {
-        if (styles[k] && s[k]) {
-          styles[k] = styles[k].split(' ').concat(s[k].split(' ')).join(' ');
-        }
-      });
-    });
+    styles = composeStyles(baseStyles, props.stylesheets);
 
     this.state = {
       data: this.props.data || [],

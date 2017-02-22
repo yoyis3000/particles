@@ -1,5 +1,3 @@
-var path = require('path');
-
 module.exports = {
   entry: ['./src/index.js'],
 
@@ -16,10 +14,6 @@ module.exports = {
           plugins: ['transform-decorators-legacy', 'transform-runtime'],
           presets: ['latest', 'react', 'stage-0'],
         },
-      },
-      {
-        test: /\.scss$/,
-        loader: 'style-loader!css?localIdentName=[name]__[local]___[hash:base64:5]&modules&importLoaders=1!autoprefixer?browsers=last 2 versions!sass',
       },
     ],
   },

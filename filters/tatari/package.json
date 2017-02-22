@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisarevir/tatari.git"
+    "url": "git+https://github.com/chrisarevir/component-library.git"
   },
   "author": "Procore",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chrisarevir/tatari/issues"
+    "url": "https://github.com/chrisarevir/component-library/issues"
   },
-  "homepage": "https://github.com/chrisarevir/tatari#readme",
+  "homepage": "https://github.com/chrisarevir/component-library#readme",
   "dependencies": {
     "axios": "^0.15.2",
     "immutable": "^3.7.5",

@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisarevir/ripanga.git"
+    "url": "git+https://github.com/chrisarevir/component-library.git"
   },
   "author": "Procore",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chrisarevir/ripanga/issues"
+    "url": "https://github.com/chrisarevir/component-library/issues"
   },
-  "homepage": "https://github.com/chrisarevir/ripanga#readme",
+  "homepage": "https://github.com/chrisarevir/component-library#readme",
   "dependencies": {
     "classnames": "^2.2.5",
     "immutable": "^3.7.5",

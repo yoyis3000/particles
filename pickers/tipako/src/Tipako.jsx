@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Tipako.scss';
-import composeStyles from '../../stylesheet-composer';
+import composeStyles from '../../../shared/stylesheet-composer';
 
 let timer = null;
 let styles = {};

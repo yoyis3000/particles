@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-
 import defaultStyles from '../src/KaweakeDefault.scss';
 import sandboxStyles from './sandbox.scss';
 

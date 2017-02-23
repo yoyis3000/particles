@@ -18,7 +18,7 @@ $delay: 0.5s;
 
 .head {
   align-items: center;
-  background: #e1e1e1;
+  background: 0;
   border: 0;
   cursor: pointer;
   display: flex;
@@ -60,7 +60,7 @@ $delay: 0.5s;
 }
 
 .body {
-  background: #e1e1e1;
+  background: inherit;
 }
 
 .option {

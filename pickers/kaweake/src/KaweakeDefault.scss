@@ -1,17 +1,25 @@
 @import "./variables";
 
-:global .rw-state-focus {
-  &.rw-list-option:not(#bogus) {
-    background: transparent;
-    border: 0;
+$h: 36px;
+$delay: 0.5s;
 
-    &:hover {
-      background: #e7e7e7;
-    }
-  }
+.container {
+  background: #e3e3e3;
+  border-radius: 5px;
+}
 
-  &.rw-widget {
-    border-color: 0;
-    outline: 0;
-  }
+.title {
+  font-size: 14px;
+}
+
+.caret {
+  color: #7b7b7b;
+}
+
+.body {
+  background: #e3e3e3;
+}
+
+.option {
+  font-size: 14px;
 }

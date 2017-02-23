@@ -3,9 +3,10 @@
 A `<select>` dropdown to manage downloads.
 
 # Change Log
+##### 2.2.0
+- Removed React widgets dependency
 
 ##### 2.1.0
-- Removed React widgets dependency
 - Stylesheet composition
 
 ##### 2.0.2 - 2.04

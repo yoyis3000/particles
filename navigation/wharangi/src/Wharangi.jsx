@@ -1,13 +1,18 @@
 import React, { PropTypes } from 'react';
 import qs from 'qs';
 import cx from 'classnames';
-import styles from './Wharangi.scss';
+import baseStyles from './Wharangi.scss';
+import defaultStyles from './WharangiDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 export default class Wharangi extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func,
     perPage: PropTypes.number,
     pagesToShow: PropTypes.number,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     totalRecords: PropTypes.number,
   };
 
@@ -15,6 +20,7 @@ export default class Wharangi extends React.Component {
     onSelect: null,
     perPage: 150,
     pagesToShow: 3,
+    stylesheets: [defaultStyles],
     totalRecords: 0,
   };
 
@@ -29,6 +35,8 @@ export default class Wharangi extends React.Component {
 
   constructor(props) {
     super(props);
+
+    styles = composeStyles(baseStyles, props.stylesheets);
 
     const totalPages = Math.ceil(props.totalRecords / props.perPage);
 

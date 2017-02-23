@@ -4,6 +4,10 @@ A `<select>` dropdown to manage downloads.
 
 # Change Log
 
+##### 2.1.0
+- Removed React widgets dependency
+- Stylesheet composition
+
 ##### 2.0.2 - 2.04
 - Removed focus styling
 

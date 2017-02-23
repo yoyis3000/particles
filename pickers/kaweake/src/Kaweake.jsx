@@ -37,7 +37,7 @@ export default class Kaweake extends React.Component {
 
   onFocus = (evt) => {
     evt.stopPropagation();
-    this.setState({ expanded: true });
+    this.setState({ expanded: !this.state.expanded });
   }
 
   onBlur = () => {
@@ -66,7 +66,10 @@ export default class Kaweake extends React.Component {
       {this.props.placeholder}
     </span>);
 
-    const caret = <div className={cx(styles.caret, 'fa', 'fa-caret-down', { [styles.expanded]: this.state.expanded })} />;
+    const caret = <div
+      className={cx(styles.caret, 'fa', 'fa-caret-down',
+      { [styles.expanded]: this.state.expanded })}
+    />;
 
     return (<div className={cx(styles.container, { [styles.expanded]: this.state.expanded })}>
       <button className={styles.head} onClick={this.onFocus}>

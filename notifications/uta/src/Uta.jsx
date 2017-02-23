@@ -1,6 +1,10 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import styles from './Uta.scss';
+import baseStyles from './Uta.scss';
+import defaultStyles from './UtaDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 const Uta = (props) => {
   const {
@@ -8,8 +12,12 @@ const Uta = (props) => {
     className,
     Component,
     isLoading,
+    stylesheets,
     titleText,
   } = props;
+
+  styles = composeStyles(baseStyles, stylesheets);
+
   const classes = cx(
     className,
     styles.asyncLoad,
@@ -30,6 +38,7 @@ Uta.propTypes = {
   className: PropTypes.string,
   Component: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   isLoading: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   titleText: PropTypes.string,
 };
 
@@ -38,6 +47,7 @@ Uta.defaultProps = {
   className: null,
   Component: 'div',
   isLoading: false,
+  stylesheets: [defaultStyles],
   titleText: 'Loading',
 };
 

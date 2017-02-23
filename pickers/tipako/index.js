@@ -1086,11 +1086,11 @@ var Tipako = (_temp = _class = function (_React$Component) {
     _this.onSearch = function (evt) {
       var str = evt.target.value;
 
-      if (_this.props.onFetch === undefined) {
+      if (_this.props.onFetch === Tipako.defaultProps.onFetch) {
         var data = _this.props.data.reduce(function (acc, val) {
           var matchText = val.text.toLowerCase().indexOf(str) !== -1;
 
-          var matchChild = val.children || val.children.reduce(function (result, child) {
+          var matchChild = val.children && val.children.reduce(function (result, child) {
             return result || child.text.toLowerCase().indexOf(str) !== -1;
           }, false);
 
@@ -1241,18 +1241,16 @@ var Tipako = (_temp = _class = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.props.onFetch('', function (data) {
-        _this2.setState({ data: data, fetching: false });
-      });
+      if (this.props.onFetch !== Tipako.defaultProps.onFetch) {
+        this.props.onFetch('', function (data) {
+          _this2.setState({ data: data, fetching: false });
+        });
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
-
-      // TODO
-      // select all then remove one -> can't use dropdown
-      // select all then search -> spinner doesn't stop
 
       var itemIcon = this.props.itemIcon ? _react2.default.createElement('img', { alt: 'Item', src: this.props.itemIcon, className: styles.itemIcon }) : null;
 
@@ -1447,7 +1445,7 @@ var Tipako = (_temp = _class = function (_React$Component) {
   maxResults: Math.Infinite,
   msgEmpty: 'No matching items.',
   msgPlaceholder: 'Search...',
-  onFetch: function onFetch() {},
+  onFetch: null,
   renderTokens: null,
   stylesheets: [_TipakoDefault2.default]
 }, _temp);

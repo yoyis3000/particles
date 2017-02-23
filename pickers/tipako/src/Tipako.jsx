@@ -6,6 +6,7 @@ import composeStyles from '../../../shared/stylesheet-composer';
 
 let timer = null;
 let styles = {};
+const tokensMemo = {};
 
 export default class Tipako extends React.Component {
   static propTypes = {
@@ -38,7 +39,7 @@ export default class Tipako extends React.Component {
     maxResults: Math.Infinite,
     msgEmpty: 'No matching items.',
     msgPlaceholder: 'Search...',
-    onFetch: () => {},
+    onFetch: null,
     renderTokens: null,
     stylesheets: [ defaultStyles ],
   }
@@ -52,7 +53,7 @@ export default class Tipako extends React.Component {
       data: this.props.data || [],
       expanded: false,
       fetching: false,
-      tokens: {},
+      tokens: [],
       value: '',
     };
   }
@@ -62,19 +63,21 @@ export default class Tipako extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onFetch('', (data) => {
-      this.setState({ data, fetching: false });
-    });
+    if (this.props.onFetch !== Tipako.defaultProps.onFetch) {
+      this.props.onFetch('', (data) => {
+        this.setState({ data, fetching: false });
+      });
+    }
   }
 
   onSearch = (evt) => {
     const str = evt.target.value;
 
-    if (this.props.onFetch === undefined) {
+    if (this.props.onFetch === Tipako.defaultProps.onFetch) {
       const data = this.props.data.reduce((acc, val) => {
         const matchText = val.text.toLowerCase().indexOf(str) !== -1;
 
-        const matchChild = val.children ||
+        const matchChild = val.children &&
           val.children.reduce((result, child) => {
             return result || (child.text.toLowerCase().indexOf(str) !== -1);
           }, false);
@@ -101,39 +104,57 @@ export default class Tipako extends React.Component {
     this.setState({ value: str });
   }
 
-  onChildClick = (obj) => {
+  onChildClick = (child) => {
     const tokens = this.state.tokens;
-    tokens[obj.id] = obj;
+
+    tokensMemo[child.id] = tokens.length;
+    tokens.push(child);
 
     this.setState({ tokens, expanded: false, value: '' });
   }
 
-  onGroupClick = (obj) => {
+  onGroupClick = (group) => {
     const tokens = this.state.tokens;
 
-    if (this.props.addGroupTokens) {
-      tokens[obj.id] = obj;
-    }
-
-    obj.children.forEach((child) => {
-      tokens[child.id] = child;
+    // Use child index stored in the memoisation to remove if exists. Ben 170222
+    group.children.forEach((child) => {
+      if (tokensMemo[child.id] !== undefined) {
+        tokens.splice(tokensMemo[child.id], 1);
+        delete tokensMemo[child.id];
+      }
     });
 
-    this.props.onSelect(Object.values(tokens));
+    if (this.props.addGroupTokens) {
+      tokensMemo[group.id] = tokens.length;
+      tokens.push(group);
+    }
+
+    group.children.forEach((child) => {
+      tokensMemo[child.id] = tokens.length;
+      tokens.push(child);
+    });
+
+    this.props.onSelect(tokens);
     this.setState({ tokens, expanded: false, value: '' });
   }
 
-  onUngroupedClick = (obj) => {
+  onUngroupedClick = (ungrouped) => {
     const tokens = this.state.tokens;
-    tokens[obj.id] = obj;
+    tokensMemo[ungrouped.id] = tokens.length;
+    tokens.push(ungrouped);
 
-    this.props.onSelect(Object.values(tokens));
+    this.props.onSelect(tokens);
     this.setState({ tokens, expanded: false, value: '' });
   }
 
   onTokenClick = (obj) => {
     const tokens = this.state.tokens;
-    delete tokens[obj.id];
+    tokens.splice(tokensMemo[obj.id], 1);
+    delete tokensMemo[obj.id];
+
+    tokens.forEach((t, i) => {
+      tokensMemo[t.id] = i;
+    });
 
     this.props.onSelect(Object.values(tokens));
     this.setState({ tokens, expanded: false });
@@ -152,18 +173,21 @@ export default class Tipako extends React.Component {
 
       if (obj.children) {
         if (addGroupTokens) {
-          result[obj.id] = obj;
+          tokensMemo[obj.id] = result.length;
+          result.push(obj);
         }
 
         obj.children.forEach((child) => {
-          result[child.id] = child;
+          tokensMemo[child.id] = result.length;
+          result.push(child);
         });
       } else {
-        result[obj.id] = obj;
+        tokensMemo[obj.id] = result.length;
+        result.push(obj);
       }
 
       return result;
-    }, {});
+    }, []);
 
     this.props.onSelect(Object.values(tokens));
     this.setState({ tokens, expanded: false });
@@ -171,7 +195,7 @@ export default class Tipako extends React.Component {
 
   onClearAll = () => {
     this.props.onSelect(Object.values(this.state.tokens));
-    this.setState({ tokens: {}, expanded: false });
+    this.setState({ tokens: [], expanded: false });
   }
 
   onFocus = () => {
@@ -195,7 +219,7 @@ export default class Tipako extends React.Component {
       // Grouped
       if (v.children) {
         const children = v.children.reduce((result, vv) => {
-          if (this.state.tokens[vv.id] !== undefined) {
+          if (tokensMemo[vv.id] !== undefined) {
             return result;
           }
 
@@ -213,7 +237,7 @@ export default class Tipako extends React.Component {
           return acc;
         }
 
-        if (this.state.tokens[v.id] !== undefined) {
+        if (tokensMemo[v.id] !== undefined && children.length === 0) {
           return acc;
         }
 
@@ -230,7 +254,7 @@ export default class Tipako extends React.Component {
       }
 
       // Ungrouped
-      if (this.state.tokens[v.id] !== undefined) {
+      if (tokensMemo[v.id] !== undefined) {
         return acc;
       }
 
@@ -262,11 +286,11 @@ export default class Tipako extends React.Component {
       </button>
     </div>);
 
-    const values = Object.values(this.state.tokens);
     const tokens = this.props.renderTokens
-       ? this.props.renderTokens(values, this.onTokenClick)
-       : values.map((val) => {
+       ? this.props.renderTokens(this.state.tokens, this.onTokenClick)
+       : this.state.tokens.map((val) => {
          return (<button
+           className={styles.token}
            key={`token-${val.id}`}
            onClick={() => { this.onTokenClick(val); }}
          >

@@ -4,11 +4,10 @@ import React from 'react';
 import Tipako from '../src';
 
 import sandboxStyles from './sandbox.scss';
-import procoreStyles from '../src/TipakoProcore.scss';
 
 const data = [
   { text: 'Animals',
-    id: 1,
+    id: 100,
     children: [
       { text: 'Dolphin', id: 2 },
       { text: 'Albatross', id: 3 },
@@ -83,10 +82,6 @@ const msgPlaceholder = 'Hello world';
 const addGroupTokens = true;
 const maxResults = 4;
 
-const stylesheets = [
-  procoreStyles,
-];
-
 render(
   <Tipako
     {...{
@@ -98,7 +93,6 @@ render(
       msgEmpty,
       msgPlaceholder,
       onSelect,
-      stylesheets,
     }}
 
     className={sandboxStyles.sandbox}

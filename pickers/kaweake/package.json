@@ -4,9 +4,9 @@
   "description": "A select dropdown to manage downloads.",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV='development' webpack --progress --colors --watch --config webpack.dev.config.js",
+    "dev": "NODE_ENV='development' webpack --progress --colors --watch",
     "prod": "NODE_ENV='production' webpack --progress --colors -p",
-    "sandbox": "NODE_ENV='development' webpack-dev-server --progress --colors --hot --inline ./sandbox/sandbox.jsx --config webpack.sandbox.config.js"
+    "sandbox": "NODE_ENV='development' webpack-dev-server --progress --colors --hot --inline ./sandbox/sandbox.jsx --config webpack.dev.config.js"
   },
   "repository": {
     "type": "git",

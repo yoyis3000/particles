@@ -1,0 +1,17 @@
+@import "./variables";
+
+:global .rw-state-focus {
+  &.rw-list-option:not(#bogus) {
+    background: transparent;
+    border: 0;
+
+    &:hover {
+      background: #e7e7e7;
+    }
+  }
+
+  &.rw-widget {
+    border-color: 0;
+    outline: 0;
+  }
+}

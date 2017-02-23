@@ -1,24 +1,39 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+
+import defaultStyles from '../src/KaweakeDefault.scss';
+import sandboxStyles from './sandbox.scss';
+
 import Kaweake from '../src';
 
-const options = [
-  {name: 'CSV', format: 'csv'},
-  {name: 'PDF', format: 'pdf'},
-  {name: 'Excel', format: 'xlsx'},
+const icon = 'sandbox/icon.svg';
+
+const data = [
+  { text: 'CSV', value: 'csv' },
+  { text: 'PDF', value: 'pdf' },
+  { text: 'Excel', value: 'xlsx' },
 ];
 
-const generateEndpoint = (format) => {
-  const baseUrl = `${window.location.origin + window.location.pathname}.`;
-  return `${baseUrl}${format}${window.location.search}`;
+const onSelect = (value) => {
+  console.warn(`Selected '${value}'.`); // eslint-disable-line no-console
 };
+
+const placeholder = 'Export';
+
+const stylesheets = [
+  defaultStyles,
+  sandboxStyles,
+];
 
 render(
   <Kaweake
     {...{
-      options,
-      generateEndpoint,
+      data,
+      icon,
+      onSelect,
+      placeholder,
+      stylesheets,
     }}
   />,
   window.document.getElementById('root'));

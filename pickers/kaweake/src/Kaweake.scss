@@ -1,18 +1,82 @@
 @import "./variables";
 
-:global .rw-state-focus {
+$h: 36px;
+$delay: 0.5s;
 
-  &.rw-list-option:not(#bogus) {
-    background: transparent;
-    border: 0;
+.container {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  max-height: $h;
+  overflow: hidden;
+  transition: all $delay ease;
 
-    &:hover {
-      background: #e7e7e7;
-    }
+  &.expanded {
+    height: auto;
+    max-height: 300px;
+  }
+}
+
+.head {
+  align-items: center;
+  background: #e1e1e1;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  height: $h;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    background: #eee;
   }
 
-  &.rw-widget {
-    border-color: 0;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.icon {
+  display: flex;
+  height: 20px;
+  margin: 0 10px;
+  width: 20px;
+}
+
+.title {
+  display: flex;
+  margin: 0 auto 0 5px;
+}
+
+.caret {
+  display: block;
+  font-size: 16px;
+  margin: 0 10px 0 auto;
+  transition: all 0.3s ease;
+
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.body {
+  background: #e1e1e1;
+}
+
+.option {
+  background: 0;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  padding: 5px;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &:focus {
     outline: 0;
   }
 }

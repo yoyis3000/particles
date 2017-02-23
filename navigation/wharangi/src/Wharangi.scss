@@ -1,16 +1,8 @@
-@import "./variables";
-
-$containerH: 45px;
-$itemH: 17px;
-
 .paginator {
   align-items: center;
-  background-color: palette(gray, xlight);
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  height: $containerH;
-  line-height: $containerH;
   padding: 0 10px;
   width: 100%;
 }
@@ -24,26 +16,16 @@ $itemH: 17px;
 .next {
   background: 0;
   border: 0;
-  border-radius: 2px;
-  color: palette(black);
+  cursor: pointer;
   display: flex;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
-  height: $itemH;
-  line-height: $itemH;
   margin-right: 5px;
   padding: 0 5px;
   text-decoration: none;
   text-transform: uppercase;
-  transition: all .2s ease;
   user-select: none;
-
-  &:hover {
-    background: palette(gray);
-    color: palette(white);
-    cursor: pointer;
-  }
 
   &:focus {
     outline: 0;
@@ -52,19 +34,17 @@ $itemH: 17px;
 
 .active,
 .active:hover {
-  background: palette(gray, dark);
-  color: palette(white);
+  background: #eee;
   cursor: default;
   font-weight: 700;
 }
 
 .ellipsis {
-  color: palette(gray);
   cursor: default;
   margin-right: 5px;
   user-select: none;
 }
 
 .empty {
-
+  font-family: inherit;
 }

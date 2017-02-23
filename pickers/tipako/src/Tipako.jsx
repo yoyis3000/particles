@@ -11,7 +11,6 @@ const tokensMemo = {};
 export default class Tipako extends React.Component {
   static propTypes = {
     addGroupTokens: PropTypes.bool,
-    className: PropTypes.string,
     data: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.arrayOf(PropTypes.shape({
         text: PropTypes.string.isRequired,
@@ -32,7 +31,6 @@ export default class Tipako extends React.Component {
 
   static defaultProps = {
     addGroupTokens: false,
-    className: '',
     data: [],
     groupIcon: null,
     itemIcon: null,
@@ -198,10 +196,6 @@ export default class Tipako extends React.Component {
     this.setState({ tokens: [], expanded: false });
   }
 
-  onFocus = () => {
-    this.setState({ expanded: true });
-  }
-
   onBlur = () => {
     this.setState({ expanded: false });
   };
@@ -322,7 +316,7 @@ export default class Tipako extends React.Component {
       : 'This search is too general, so the results have been limited.';
 
     return (<div
-      className={cx(styles.picker, this.props.className)}
+      className={styles.picker}
       title={maxResultsWarningText}
     >
       {tokens}

@@ -4,7 +4,7 @@ import React from 'react';
 import Rapu from '../src';
 
 const onSubmit = () => {
-  console.warn("Submitted.");
+  console.warn('Submitted.'); // eslint-disable-line
 };
 
 render(

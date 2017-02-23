@@ -1,0 +1,24 @@
+{
+  "name": "component-library",
+  "version": "1.0.0",
+  "description": "A small, organized, component library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisarevir/component-library.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisarevir/component-library/issues"
+  },
+  "homepage": "https://github.com/chrisarevir/component-library#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "friendly-errors-webpack-plugin": "^1.4.0",
+    "webpack": "^2.2.1"
+  }
+}

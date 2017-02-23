@@ -1,8 +1,17 @@
+// CSS modules a map of style classes keyed to their hashed name, e.g.
+// { "foo" : "foo_4b" }
+//
+// To extend these classes, simply add a new hashed name separated by a space:
+// { "foo": "foo_4b foo_7u" }
+//
+// This util takes a set of base styles and an array of extension maps to
+// apply these extensions to the base, then return it.
+
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-param-reassign */
 
-const composer = function composer(base, extensions) {
+module.exports = function composer(base, extensions) {
   return extensions.reduce(function (result, baseStyle) {
     return Object.keys(baseStyle).reduce(function (subResult, k) {
       if (subResult[k] && baseStyle[k]) {
@@ -13,9 +22,3 @@ const composer = function composer(base, extensions) {
     }, result);
   }, base);
 };
-
-/* eslint-enable func-names */
-/* eslint-enable prefer-arrow-callback */
-/* eslint-enable no-param-reassign */
-
-exports.default = composer;

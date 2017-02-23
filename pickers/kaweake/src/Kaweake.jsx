@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Kaweake.scss';
 import defaultStyles from './KaweakeDefault.scss';
-import composeStyles from '../../../shared/stylesheet-composer';
+import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 
@@ -14,15 +14,15 @@ export default class Kaweake extends React.Component {
     placeholder: PropTypes.string.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     textField: PropTypes.string,
-    valueField: PropTypes.string,
+    valueField: PropTypes.string
   };
 
   static defaultProps = {
     icon: null,
     data: [],
-    stylesheets: [ defaultStyles ],
+    stylesheets: [defaultStyles],
     textField: 'text',
-    valueField: 'value',
+    valueField: 'value'
   };
 
   constructor(props) {
@@ -50,19 +50,17 @@ export default class Kaweake extends React.Component {
 
   render() {
     const img = this.props.icon
-      ? <img alt="" src={this.props.icon} className={styles.icon} />
+      ? <img alt='' src={this.props.icon} className={styles.icon} />
       : null;
 
-    const options = this.props.data.map((obj) => {
-      return (<button
-        key={`option-${obj[this.props.valueField]}`}
-        className={styles.option}
-        data-value={obj[this.props.valueField]}
-        onClick={this.onClick}
-      >
-        {obj[this.props.textField]}
-      </button>);
-    });
+    const options = this.props.data.map(obj => (<button
+      key={`option-${obj[this.props.valueField]}`}
+      className={styles.option}
+      data-value={obj[this.props.valueField]}
+      onClick={this.onClick}
+    >
+      {obj[this.props.textField]}
+    </button>));
 
     const title = (<span className={styles.title}>
       {this.props.placeholder}

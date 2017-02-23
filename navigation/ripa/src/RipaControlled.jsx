@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import qs from 'qs';
-import Ripa from 'Ripa';
+import Ripa from './Ripa';
 
 const RipaControlled = ({
   onChange,

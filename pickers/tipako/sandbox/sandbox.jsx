@@ -3,6 +3,7 @@ import React from 'react';
 
 import Tipako from '../src';
 
+import defaultStyles from '../src/TipakoDefault.scss';
 import sandboxStyles from './sandbox.scss';
 
 const data = [
@@ -81,6 +82,10 @@ const msgEmpty = 'No results!';
 const msgPlaceholder = 'Hello world';
 const addGroupTokens = true;
 const maxResults = 4;
+const stylesheets = [
+  defaultStyles,
+  sandboxStyles,
+];
 
 render(
   <Tipako
@@ -92,7 +97,10 @@ render(
       maxResults,
       msgEmpty,
       msgPlaceholder,
+      onFetch,
       onSelect,
+      renderTokens,
+      stylesheets,
     }}
 
     className={sandboxStyles.sandbox}

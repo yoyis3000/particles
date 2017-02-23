@@ -4,16 +4,16 @@ import qs from 'qs';
 import styles from './Rapu.scss';
 
 const i18n = {
-  SEARCH_PLACEHOLDER: 'Search',
+  SEARCH_PLACEHOLDER: 'Search'
 };
 
 export default class Rapu extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    onSubmit: () => {},
+    onSubmit: () => {}
   };
 
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Rapu extends React.Component {
     const params = qs.parse(url[1]);
 
     this.state = {
-      value: (params.search || ''),
+      value: (params.search || '')
     };
   }
 
@@ -83,7 +83,7 @@ export default class Rapu extends React.Component {
         <input
           value={this.state.value}
           className={styles.input}
-          type="text"
+          type='text'
           placeholder={i18n.SEARCH_PLACEHOLDER}
           onSubmit={this._onSubmit}
           onChange={this._handleChange}

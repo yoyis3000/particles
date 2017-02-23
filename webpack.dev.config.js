@@ -1,5 +1,6 @@
 const path = require('path');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { mergeDeep } = require('./shared/mergeDeep');
 
@@ -51,7 +52,10 @@ const devConfig = (dir, options = {}) => {
       libraryTarget: 'umd'
     },
 
-    plugins: [new FriendlyErrorsWebpackPlugin()],
+    plugins: [
+      new FriendlyErrorsWebpackPlugin(),
+      new WebpackNotifierPlugin({ alwaysNotify: false })
+    ],
 
     resolve: {
       extensions: ['.js', '.jsx', '.scss']

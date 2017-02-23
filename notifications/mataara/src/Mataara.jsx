@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import cx from 'classnames';
 
-import styles from './Mataara.scss';
+import baseStyles from './Mataara.scss';
+import defaultStyles from './MataaraDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 const TYPES = {
   ERROR: 'error',
@@ -9,7 +13,9 @@ const TYPES = {
   SUCCESS: 'success',
 };
 
-const Mataara = ({ title, body, type, onCancel, noDismiss }) => {
+const Mataara = ({ title, body, type, onCancel, noDismiss, stylesheets }) => {
+  styles = composeStyles(baseStyles, stylesheets);
+
   return (
     <div
       className={cx(
@@ -37,6 +43,7 @@ Mataara.propTypes = {
   body: React.PropTypes.string.isRequired,
   noDismiss: React.PropTypes.bool,
   onCancel: React.PropTypes.func,
+  stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   title: React.PropTypes.string.isRequired,
   type: React.PropTypes.string,
 };
@@ -44,6 +51,7 @@ Mataara.propTypes = {
 Mataara.defaultProps = {
   noDismiss: false,
   onCancel: null,
+  stylesheets: [ defaultStyles ],
   type: TYPES.INFO,
 };
 

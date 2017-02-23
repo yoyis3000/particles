@@ -6,6 +6,7 @@ An (optionally) dismissable notification bar.
 
 ##### 1.1.0
 - Enumerated types
+- Stylesheet composition
 
 ##### 1.0.3
 - Minor `.gitignore` update

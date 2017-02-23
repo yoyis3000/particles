@@ -1,0 +1,22 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "document": true,
+    "history": true,
+    "localStorage": true,
+    "sessionStorage": true,
+    "window": true,
+  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "babel"
+  ],
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "id-length": 0,
+    "jsx-quotes": [2, "prefer-single"],
+    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
+    "react/jsx-no-bind": 1,
+    "react/jsx-no-duplicate-props": 2,
+  }
+}

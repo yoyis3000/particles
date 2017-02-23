@@ -4,8 +4,8 @@ A loading spinner which wraps around content.
 
 # Change Log
 
-##### 1.1.1
-- Prod build.
+##### 1.1.1, 1.1.2
+- Stylesheet composition.
 
 ##### 1.1.0
 - CSSModule styling applied.

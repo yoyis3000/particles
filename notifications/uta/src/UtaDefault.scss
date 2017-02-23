@@ -1,0 +1,38 @@
+.asyncLoad {
+  &::after {
+    animation-duration: 1.5s;
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background-image:
+      url(
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDov\
+        L3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJz48cGF0aCB\
+        kPSdNIDUgNTAgQSA0NSA0NSAwIDEgMSAxOC4xOCA4MS44MicgZmlsbD0nbm9uZScgc3Ryb2\
+        tlPScjY2NjY2NjJyBzdHJva2Utb3BhY2l0eT0nMC40JyBzdHJva2Utd2lkdGg9JzgnIC8+P\
+        HBhdGggZD0nTSA1IDUwIEEgNDUgNDUgMCAwIDAgMTguMTggODEuODInIGZpbGw9J25vbmUn\
+        IHN0cm9rZT0nI0Y0N0U0Micgc3Ryb2tlLXdpZHRoPSc4JyAvPjwvc3ZnPg=="
+      );
+    content: ' ';
+    height: 1px;
+    left: 50%;
+    margin-left: -50px;
+    opacity: 0;
+    position: absolute;
+    top: 30px;
+    transform-origin: 50% 50%;
+    transition: opacity 0.5s ease;
+    width: 1px;
+    z-index: 1;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

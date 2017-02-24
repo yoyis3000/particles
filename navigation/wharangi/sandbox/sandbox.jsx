@@ -17,8 +17,8 @@ render(
       onSelect,
       pagesToShow,
       perPage,
-      totalRecords,
+      totalRecords
     }}
   />,
-  window.document.getElementById('root'),
+  window.document.getElementById('root')
 );

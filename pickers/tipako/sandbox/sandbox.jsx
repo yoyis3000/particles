@@ -14,8 +14,8 @@ const data = [
       { text: 'Albatross', id: 3 },
       { text: 'German Shepherd', id: 4 },
       { text: 'Mole', id: 5 },
-      { text: 'Lesser Southern Floridian Muskrat', id: 6 },
-    ],
+      { text: 'Lesser Southern Floridian Muskrat', id: 6 }
+    ]
   },
 
   { text: 'Woodworking',
@@ -25,8 +25,8 @@ const data = [
       { text: 'Carpentry', id: 9 },
       { text: 'Parquetry', id: 10 },
       { text: 'Joinery', id: 11 },
-      { text: 'Cabinetry', id: 12 },
-    ],
+      { text: 'Cabinetry', id: 12 }
+    ]
   },
 
   { text: 'Saturnian Moons Found Around Saturn',
@@ -36,8 +36,8 @@ const data = [
       { text: 'Calypso', id: 15 },
       { text: 'Enceladus', id: 16 },
       { text: 'Rhea', id: 17 },
-      { text: 'Iapetus', id: 18 },
-    ],
+      { text: 'Iapetus', id: 18 }
+    ]
   },
 
   { text: 'An empty group appears!', id: 19, children: [] },
@@ -46,7 +46,7 @@ const data = [
   { text: 'Guacamole', id: 21 },
   { text: 'Crankshaft', id: 22 },
   { text: 'Demographic', id: 23 },
-  { text: 'Almond', id: 24 },
+  { text: 'Almond', id: 24 }
 ];
 
 const renderTokens = (tokens, onRemove) => {
@@ -62,8 +62,8 @@ const renderTokens = (tokens, onRemove) => {
     </div>));
 };
 
-const groupIcon = '/sandbox/icon-group.png';
-const itemIcon = '/sandbox/icon-item.png';
+const groupIcon = 'icon-group.png';
+const itemIcon = 'icon-item.png';
 
 // Use this method to customize your call with URIs, query parameters, etc.
 const onFetch = (str, callback) => {
@@ -100,9 +100,10 @@ render(
       onFetch,
       onSelect,
       renderTokens,
-      stylesheets,
+      stylesheets
     }}
 
     className={sandboxStyles.sandbox}
   />,
-  window.document.getElementById('root'));
+  window.document.getElementById('root')
+);

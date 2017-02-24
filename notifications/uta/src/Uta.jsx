@@ -13,7 +13,7 @@ const Uta = (props) => {
     Component,
     isLoading,
     stylesheets,
-    titleText,
+    titleText
   } = props;
 
   styles = composeStyles(baseStyles, stylesheets);
@@ -39,7 +39,7 @@ Uta.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   isLoading: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-  titleText: PropTypes.string,
+  titleText: PropTypes.string
 };
 
 Uta.defaultProps = {
@@ -48,7 +48,7 @@ Uta.defaultProps = {
   Component: 'div',
   isLoading: false,
   stylesheets: [defaultStyles],
-  titleText: 'Loading',
+  titleText: 'Loading'
 };
 
 export default Uta;

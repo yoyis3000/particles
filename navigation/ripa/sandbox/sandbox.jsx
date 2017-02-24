@@ -4,13 +4,13 @@ import React from 'react';
 import Ripa, { RipaControlled } from '../src';
 
 const onChange = () => {
-  console.warn("Tab changed; external callback triggered.");
+  console.warn('Tab changed; external callback triggered.');
 };
 
 const labels = [
   { k: 'foo', v: 'The Foo' },
   { k: 'bar', v: 'A Bar' },
-  { k: 'baz', v: 'Some Baz' },
+  { k: 'baz', v: 'Some Baz' }
 ];
 
 const slot = <div>Right side slot</div>;
@@ -31,5 +31,5 @@ render(
       title={titleB}
     />
   </div>,
-  window.document.getElementById('root'),
+  window.document.getElementById('root')
 );

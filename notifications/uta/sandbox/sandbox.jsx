@@ -11,5 +11,5 @@ render(
       I am content that is still loading.
     </div>
   </Uta>,
-  window.document.getElementById('root'),
+  window.document.getElementById('root')
 );

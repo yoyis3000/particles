@@ -1,0 +1,31 @@
+@import "./variables";
+
+.input {
+  background-color: palette(white);
+  border-radius: 2px;
+  border: 1px solid palette(gray, dark);
+  color: palette(black);
+}
+
+.btn-submit {
+  background: palette(white);
+  border: solid palette(gray, dark);
+  border-width: 0 0 0 1px;
+  border-radius: 0 1px 1px 0;
+  color: palette(black);
+
+  &:hover {
+    background-color: palette(orange);
+    color: palette(white);
+  }
+}
+
+.btn-clear {
+  background: palette(white);
+  color: palette(gray, dark);
+
+  &:hover {
+    background-color: palette(orange);
+    color: palette(white);
+  }
+}

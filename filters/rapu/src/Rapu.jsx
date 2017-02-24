@@ -1,7 +1,11 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import qs from 'qs';
-import styles from './Rapu.scss';
+import baseStyles from './Rapu.scss';
+import defaultStyles from './RapuDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 const i18n = {
   SEARCH_PLACEHOLDER: 'Search'
@@ -9,15 +13,19 @@ const i18n = {
 
 export default class Rapu extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
   static defaultProps = {
-    onSubmit: () => {}
+    onSubmit: () => {},
+    stylesheets: [defaultStyles]
   };
 
   constructor(props) {
     super(props);
+
+    styles = composeStyles(baseStyles, props.stylesheets);
 
     const url = window.location.href.split('?');
     const params = qs.parse(url[1]);

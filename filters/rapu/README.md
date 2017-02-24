@@ -4,6 +4,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.1
+- Stylesheet composition
+
 ##### 2.0.0
 - Module-specific styles added.
 

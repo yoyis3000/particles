@@ -84,7 +84,7 @@ const addGroupTokens = true;
 const maxResults = 4;
 const stylesheets = [
   defaultStyles,
-  sandboxStyles,
+  sandboxStyles
 ];
 
 render(

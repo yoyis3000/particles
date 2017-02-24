@@ -296,10 +296,9 @@ export default class Tipako extends React.Component {
 
     const caret = (this.state.fetching || items.length === 0)
       ? null
-      : (<button
-        className={`fa fa-caret-down ${styles.caret}`}
-        onClick={this.onCaretClick}
-      />);
+      : (<button onClick={this.onCaretClick} className={styles.caret}>
+        <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })}></span>
+      </button>);
 
     const busy = this.state.fetching
       ? <span className={styles.busy} />
@@ -324,7 +323,7 @@ export default class Tipako extends React.Component {
       <div className={cx(styles.inputContainer)}>
         <input
           className={styles.input}
-          type="text"
+          type='text'
           placeholder={this.props.msgPlaceholder}
           value={this.state.value}
           onChange={this.onSearch}

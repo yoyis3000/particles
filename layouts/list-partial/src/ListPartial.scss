@@ -1,13 +1,8 @@
-@import "./variables";
-
-
 .notifications {
   margin: 10px 0;
 }
 
 .toolControls {
-  border-bottom: 1px dashed palette(black);
-  border-top: 1px solid palette(gray);
   display: flex;
   line-height: 35px;
   padding: 15px 0 15px 0;
@@ -25,27 +20,4 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-
-  :global .rw-btn {
-    display: none;
-  }
-
-  :global .rw-dropdownlist {
-    padding-right: 15px;
-  }
-
-  :global .rw-placeholder {
-    color: $orange1;
-  }
-
-  :global .rw-widget {
-    border-color: $orange1;
-  }
-
-  :global ul.rw-list > li.rw-list-option.rw-state-focus {
-    border-color: #fff;
-    &:hover {
-      background-color: #e6e6e6;
-    }
-  }
 }

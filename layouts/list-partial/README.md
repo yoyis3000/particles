@@ -4,6 +4,9 @@ A template partial for showing list presentations.
 
 # Change Log
 
+##### 1.3.8
+- Stylesheet composition
+
 ##### 1.3.7
 - Removing `isEmpty` flag
 

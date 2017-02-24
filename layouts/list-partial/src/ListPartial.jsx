@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react';
 import Uta from 'uta';
-import styles from './ListPartial.scss';
+import cx from 'classnames';
+import baseStyles from './ListPartial.scss';
+import defaultStyles from './ListPartialDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 const ListPartial = ({
   exportComponent,
@@ -10,9 +15,12 @@ const ListPartial = ({
   notifications,
   paginationComponent,
   searchComponent,
+  stylesheets,
   tableComponent,
-}) => (
-  <div>
+}) => {
+  styles = composeStyles(baseStyles, stylesheets);
+
+  return (<div>
     <div className={styles.exportComponent}>
       { exportComponent && exportComponent }
     </div>
@@ -40,8 +48,8 @@ const ListPartial = ({
         { paginationComponent && paginationComponent }
       </Uta>
     </div>
-  </div>
-);
+  </div>);
+};
 
 ListPartial.propTypes = {
   exportComponent: PropTypes.shape(),
@@ -51,6 +59,7 @@ ListPartial.propTypes = {
   notifications: PropTypes.arrayOf(PropTypes.shape()),
   paginationComponent: PropTypes.shape(),
   searchComponent: PropTypes.shape(),
+  stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   tableComponent: PropTypes.shape(),
 };
 
@@ -62,6 +71,7 @@ ListPartial.defaultProps = {
   notifications: null,
   paginationComponent: null,
   searchComponent: null,
+  stylesheets: [defaultStyles],
   tableComponent: null,
 };
 

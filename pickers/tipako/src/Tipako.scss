@@ -126,6 +126,11 @@ $p: 5px;
   text-align: left;
   padding: 2px $p;
   width: 100%;
+
+  &.disabled {
+    color: #aaa;
+    cursor: not-allowed;
+  }
 }
 
 .itemIcon {

@@ -13,10 +13,10 @@ export default class Tipako extends React.Component {
     addGroupTokens: PropTypes.bool,
     data: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.arrayOf(PropTypes.shape({
-        text: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired
       })),
       text: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired
     })),
     groupIcon: PropTypes.string,
     itemIcon: PropTypes.string,
@@ -26,7 +26,7 @@ export default class Tipako extends React.Component {
     onFetch: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     renderTokens: PropTypes.func,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    stylesheets: PropTypes.arrayOf(PropTypes.shape())
   }
 
   static defaultProps = {
@@ -39,7 +39,7 @@ export default class Tipako extends React.Component {
     msgPlaceholder: 'Search...',
     onFetch: null,
     renderTokens: null,
-    stylesheets: [ defaultStyles ],
+    stylesheets: [defaultStyles]
   }
 
   constructor(props) {
@@ -52,7 +52,7 @@ export default class Tipako extends React.Component {
       expanded: false,
       fetching: false,
       tokens: [],
-      value: '',
+      value: ''
     };
   }
 
@@ -76,9 +76,8 @@ export default class Tipako extends React.Component {
         const matchText = val.text.toLowerCase().indexOf(str) !== -1;
 
         const matchChild = val.children &&
-          val.children.reduce((result, child) => {
-            return result || (child.text.toLowerCase().indexOf(str) !== -1);
-          }, false);
+          val.children.reduce((result, child) =>
+            result || (child.text.toLowerCase().indexOf(str) !== -1), false);
 
         if (matchText || matchChild) {
           return acc.concat(val);
@@ -103,6 +102,10 @@ export default class Tipako extends React.Component {
   }
 
   onChildClick = (child) => {
+    if (child.disabled) {
+      return;
+    }
+
     const tokens = this.state.tokens;
 
     tokensMemo[child.id] = tokens.length;
@@ -112,6 +115,10 @@ export default class Tipako extends React.Component {
   }
 
   onGroupClick = (group) => {
+    if (group.disabled) {
+      return;
+    }
+
     const tokens = this.state.tokens;
 
     // Use child index stored in the memoisation to remove if exists. Ben 170222
@@ -137,6 +144,10 @@ export default class Tipako extends React.Component {
   }
 
   onUngroupedClick = (ungrouped) => {
+    if (ungrouped.disabled) {
+      return;
+    }
+
     const tokens = this.state.tokens;
     tokensMemo[ungrouped.id] = tokens.length;
     tokens.push(ungrouped);
@@ -202,11 +213,11 @@ export default class Tipako extends React.Component {
 
   render() {
     const itemIcon = this.props.itemIcon
-      ? <img alt="Item" src={this.props.itemIcon} className={styles.itemIcon} />
+      ? <img alt='Item' src={this.props.itemIcon} className={styles.itemIcon} />
       : null;
 
     const groupIcon = this.props.groupIcon
-      ? <img alt="Group" src={this.props.groupIcon} className={styles.itemIcon} />
+      ? <img alt='Group' src={this.props.groupIcon} className={styles.itemIcon} />
       : null;
 
     const items = this.state.data.reduce((acc, v) => {
@@ -219,7 +230,7 @@ export default class Tipako extends React.Component {
 
           return result.concat(<button
             onClick={() => { this.onChildClick(vv); }}
-            className={`${styles.item} ${styles.childItem}`}
+            className={cx(styles.item, styles.childItem, { [styles.disabled]: vv.disabled })}
             key={`item-${vv.id}`}
           >
             {itemIcon}
@@ -237,7 +248,7 @@ export default class Tipako extends React.Component {
 
         const group = (<button
           onClick={() => { this.onGroupClick(v); }}
-          className={`${styles.item} ${styles.groupItem}`}
+          className={cx(styles.item, styles.groupItem, { [styles.disabled]: v.disabled })}
           key={`item-${v.id}`}
         >
           {groupIcon}
@@ -254,7 +265,7 @@ export default class Tipako extends React.Component {
 
       const ungrouped = (<button
         onClick={() => { this.onUngroupedClick(v); }}
-        className={`${styles.item} ${styles.ungroupedItem}`}
+        className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
         key={`item-${v.id}`}
       >
         {itemIcon}
@@ -282,22 +293,20 @@ export default class Tipako extends React.Component {
 
     const tokens = this.props.renderTokens
        ? this.props.renderTokens(this.state.tokens, this.onTokenClick)
-       : this.state.tokens.map((val) => {
-         return (<button
-           className={styles.token}
-           key={`token-${val.id}`}
-           onClick={() => { this.onTokenClick(val); }}
-         >
-           {val.text}
-         </button>);
-       });
+       : this.state.tokens.map(val => (<button
+         className={styles.token}
+         key={`token-${val.id}`}
+         onClick={() => { this.onTokenClick(val); }}
+       >
+         {val.text}
+       </button>));
 
     const nomatch = <div className={styles.nomatch}>{this.props.msgEmpty}</div>;
 
     const caret = (this.state.fetching || items.length === 0)
       ? null
       : (<button onClick={this.onCaretClick} className={styles.caret}>
-        <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })}></span>
+        <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
       </button>);
 
     const busy = this.state.fetching

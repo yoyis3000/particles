@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.2.0
+- Support for disabled items
+
 ##### 2.1.1
 - Rotating arrow on expand/collapse
 

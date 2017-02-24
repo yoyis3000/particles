@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.1.1
+- Rotating arrow on expand/collapse
+
 ##### 2.1.0
 - Memoised to maintain original order while remaining efficient
 - Token styling added

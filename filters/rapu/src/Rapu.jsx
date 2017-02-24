@@ -18,7 +18,6 @@ export default class Rapu extends React.Component {
   };
 
   static defaultProps = {
-    onSubmit: () => {},
     stylesheets: [defaultStyles]
   };
 
@@ -42,32 +41,32 @@ export default class Rapu extends React.Component {
     this.setState({ value: (params.search || '') });
   }
 
-  _handleChange = (e) => {
+  handleChange = (e) => {
     this.setState({ value: e.target.value });
   }
 
-  _handleClear = () => {
+  handleClear = () => {
     const value = '';
     this.setState({ value });
-    this._updateUrl(value);
+    this.updateUrl(value);
 
     this.props.onSubmit(value);
   }
 
-  _handleSubmit = () => {
+  handleSubmit = () => {
     const value = this.state.value;
-    this._updateUrl(value);
+    this.updateUrl(value);
 
     this.props.onSubmit(value);
   }
 
-  _handleKeyUp = (e) => {
+  handleKeyUp = (e) => {
     if (e.key === 'Enter') {
-      this._handleSubmit();
+      this.handleSubmit();
     }
   }
 
-  _updateUrl = (value) => {
+  updateUrl = (value) => {
     const url = window.location.href.split('?');
     const params = qs.parse(url[1]);
     params.search = value;
@@ -93,20 +92,20 @@ export default class Rapu extends React.Component {
           className={styles.input}
           type='text'
           placeholder={i18n.SEARCH_PLACEHOLDER}
-          onSubmit={this._onSubmit}
-          onChange={this._handleChange}
-          onKeyUp={this._handleKeyUp}
+          onSubmit={this.onSubmit}
+          onChange={this.handleChange}
+          onKeyUp={this.handleKeyUp}
         />
 
         <div
           className={cx(styles['btn-submit'], 'fa', 'fa-search')}
-          onClick={this._handleSubmit}
+          onClick={this.handleSubmit}
         />
 
         <div
           className={cx(styles['btn-clear'], 'fa', 'fa-times',
-            { hidden: this.state.value.length === 0 })}
-          onClick={this._handleClear}
+            { [styles.hidden]: this.state.value.length === 0 })}
+          onClick={this.handleClear}
         />
       </div>
     );

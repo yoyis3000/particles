@@ -6,12 +6,12 @@ import sandboxStyles from './sandbox.scss';
 
 import Kaweake from '../src';
 
-const icon = 'sandbox/icon.svg';
+const icon = 'icon.svg';
 
 const data = [
   { text: 'CSV', value: 'csv' },
   { text: 'PDF', value: 'pdf' },
-  { text: 'Excel', value: 'xlsx' },
+  { text: 'Excel', value: 'xlsx' }
 ];
 
 const onSelect = (value) => {
@@ -22,7 +22,7 @@ const placeholder = 'Export';
 
 const stylesheets = [
   defaultStyles,
-  sandboxStyles,
+  sandboxStyles
 ];
 
 render(
@@ -32,7 +32,8 @@ render(
       icon,
       onSelect,
       placeholder,
-      stylesheets,
+      stylesheets
     }}
   />,
-  window.document.getElementById('root'));
+  window.document.getElementById('root')
+);

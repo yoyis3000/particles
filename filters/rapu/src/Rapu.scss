@@ -55,3 +55,7 @@ $side: 30px;
   composes: btn-base;
   right: $side + 2;
 }
+
+.hidden {
+  display: none;
+}

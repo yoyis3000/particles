@@ -63,8 +63,8 @@ const renderTokens = (tokens, onRemove) => {
     </div>));
 };
 
-const groupIcon = '/sandbox/icon-group.png';
-const itemIcon = '/sandbox/icon-item.png';
+const groupIcon = 'icon-group.png';
+const itemIcon = 'icon-item.png';
 
 // Use this method to customize your call with URIs, query parameters, etc.
 const onFetch = (str, callback) => {
@@ -106,4 +106,5 @@ render(
 
     className={sandboxStyles.sandbox}
   />,
-  window.document.getElementById('root'));
+  window.document.getElementById('root')
+);

@@ -6,8 +6,8 @@ import ListPartial from '../src';
 const headerComponent = (<div>Header Component</div>);
 const filterComponent = (<div>Filter Component</div>);
 const notifications = [
-  <div key="1">Notification 1</div>,
-  <div key="2">Notification 2</div>,
+  <div key='1'>Notification 1</div>,
+  <div key='2'>Notification 2</div>
 ];
 const paginationComponent = (<div>Pagination Component</div>);
 const searchComponent = (<div>Search Component</div>);
@@ -24,7 +24,7 @@ render(
       notifications,
       paginationComponent,
       searchComponent,
-      tableComponent,
+      tableComponent
     }}
   />,
   window.document.getElementById('root'),

@@ -8,31 +8,32 @@ const def = {
   label: '',
   name: '',
   sortable: false,
-  sortKey: '',
+  sortKey: ''
 };
 
 const renderer = (defaultRenderer, obj) => <td>{obj.text}</td>;
 
 const tableData = [{
-  key: undefined, data: [
+  key: undefined,
+  data: [
     { text: 'cellA', key: 'cellA' },
     { text: 'cellB', key: 'cellB' },
-    { text: 'cellC', key: 'cellC' },
-  ] },
+    { text: 'cellC', key: 'cellC' }
+  ] }
 ];
 
 const columnDefinitions = [
   Object.assign(Object.assign({}, def), { label: 'Cell A' }),
   Object.assign(Object.assign({}, def), { label: 'Cell B' }),
-  Object.assign(Object.assign({}, def), { label: 'Cell C' }),
+  Object.assign(Object.assign({}, def), { label: 'Cell C' })
 ];
 
 render(
   <Ripanga
     renderBodyCell={renderer}
     columnDefinitions={columnDefinitions}
-    idKey="key"
+    idKey='key'
     tableData={tableData}
   />,
-  document.getElementById('tableDiv'),
+  document.getElementById('root'),
 );

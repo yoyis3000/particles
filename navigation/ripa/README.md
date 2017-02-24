@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 2.0.2
+- Stylesheet composition
+
 ##### 2.0.1
 - Removing selected index from props, only supporting selected key
 - Changing export method

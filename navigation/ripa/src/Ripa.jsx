@@ -1,7 +1,37 @@
 import React, { PropTypes } from 'react';
-import styles from './Ripa.scss';
+import baseStyles from './Ripa.scss';
+import defaultStyles from './RipaDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
 
 class Ripa extends React.Component {
+  static propTypes = {
+    labels: PropTypes.arrayOf(
+      PropTypes.shape({
+        k: PropTypes.string,
+        v: PropTypes.string,
+      }),
+    ).isRequired,
+    onChange: PropTypes.func,
+    selectedKey: PropTypes.string,
+    slot: PropTypes.node,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    title: PropTypes.string,
+  };
+
+  static defaultProps = {
+    onChange: null,
+    selectedKey: null,
+    slot: null,
+    stylesheets: [defaultStyles],
+    title: null,
+  };
+
+  constructor(props) {
+    super(props);
+    styles = composeStyles(baseStyles, props.stylesheets);
+  }
 
   componentWillMount() {
     const { selectedKey, labels } = this.props;
@@ -49,26 +79,5 @@ class Ripa extends React.Component {
     );
   }
 }
-
-Ripa.propTypes = {
-  labels: PropTypes.arrayOf(
-    PropTypes.shape({
-      k: PropTypes.string,
-      v: PropTypes.string,
-    }),
-  ).isRequired,
-  onChange: PropTypes.func,
-  selectedKey: PropTypes.string,
-  slot: PropTypes.node,
-  title: PropTypes.string,
-};
-
-Ripa.defaultProps = {
-  selectedKey: null,
-  onChange: null,
-  slot: null,
-  title: null,
-};
-
 
 export default Ripa;

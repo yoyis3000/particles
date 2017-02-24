@@ -1,0 +1,25 @@
+@import "_variables";
+
+.container {
+  padding-bottom: 10px;
+}
+
+.title {
+  color: palette(orange);
+}
+
+.tab {
+  background-color: palette(white);
+  border-bottom: 2px solid palette(white);
+  border-color: palette(white);
+  color: palette(gray, xdark);
+
+  &:hover {
+    border-bottom: 2px solid palette(gray, light);
+  }
+}
+
+.active,
+.active:hover {
+  border-bottom: 2px solid palette(gray, xdark);
+}

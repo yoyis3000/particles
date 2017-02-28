@@ -1,3 +1,5 @@
+@import "../../../shared/reset";
+
 .asyncLoad {
   display: block;
   min-height: 200px;
@@ -6,7 +8,7 @@
   &.loading .asyncLoadFadeContainer {
     opacity: 0;
 
-    &:after {
+    &::after {
       bottom: 0;
       content: ' ';
       left: 0;
@@ -18,17 +20,17 @@
 
   .asyncLoadFadeContainer {
     opacity: 1;
-    transition:opacity 0.5s ease;
+    transition: opacity 0.5s ease;
   }
 
-  &.loading:before,
-  &.loading:after {
+  &.loading::before,
+  &.loading::after {
     opacity: 1;
     width: 100px;
     height: 100px;
   }
 
-  &:before {
+  &::before {
     content: attr(data-text);
     font-size: 10px;
     height: 20px;

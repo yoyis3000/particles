@@ -31,10 +31,9 @@ $green2: #9fceb6;
 
 $red1: #d33d3d;
 $red2: #e08585;
-$red3: #ffcccc;
+$red3: #fcc;
 
-$white1: #ffffff;
-
+$white1: #fff;
 
 $palette: (
   black: (
@@ -55,7 +54,7 @@ $palette: (
     base: $orange1,
     secondary1: #e36937,
     secondary2: #d04e33,
-    marketing: #ff6600
+    marketing: #f60
   ),
   yellow: (
     base: #e8b83f,
@@ -89,18 +88,16 @@ $font-awesome: (
   pencil: '\f040'
 );
 
-
 // -------------------------------------------------------------
-
 
 // main font
 $main-font: Lato, sans-serif;
 
 //ORANGES
-$orange-red:  #FFA500 !default; // Deprecating
+$orange-red:  #ffa500 !default; // Deprecating
 
 //Transistion
-$default-trans: all .2s ease-in;
+$default-trans: all 0.2s ease-in;
 
 $sidebarWidth: 264px;
 
@@ -108,5 +105,5 @@ $sidebarWidth: 264px;
 $default-border-radius:2px;
 
 //Shadows
-$card-shadow: 0px 1px 4px -1px rgba(52,55,57,0.7);
-$card-shadow-hover-light: 0px 1px 5px 0px rgba(52,55,57,0.6);
+$card-shadow: 0 1px 4px -1px rgba(52, 55, 57, 0.7);
+$card-shadow-hover-light: 0 1px 5px 0 rgba(52, 55, 57, 0.6);

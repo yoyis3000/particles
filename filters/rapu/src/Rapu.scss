@@ -1,3 +1,5 @@
+@import "../../../shared/reset";
+
 $side: 30px;
 
 .search {
@@ -53,7 +55,7 @@ $side: 30px;
 
 .btn-clear {
   composes: btn-base;
-  right: $side + 2;
+  right: $side + 1;
 }
 
 .hidden {

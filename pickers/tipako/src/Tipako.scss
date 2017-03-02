@@ -46,6 +46,7 @@ $p: 5px;
   display: block;
 
   .arrow {
+    cursor: pointer;
     display: block;
     transition: transform 0.3s ease;
 
@@ -136,6 +137,7 @@ $p: 5px;
 }
 
 .itemIcon {
+  cursor: pointer;
   height: $h;
   margin-right: 5px;
   display: flex;
@@ -143,16 +145,16 @@ $p: 5px;
 }
 
 .groupItem {
-  color: seagreen;
+  // color: seagreen;
 }
 
 .childItem {
-  color: firebrick;
+  // color: firebrick;
   padding: 2px ($p + 10);
 }
 
 .ungroupedItem {
-  color: turquoise;
+  // color: turquoise;
 }
 
 .controls {

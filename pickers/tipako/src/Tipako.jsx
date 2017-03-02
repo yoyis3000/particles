@@ -111,7 +111,9 @@ export default class Tipako extends React.Component {
     tokensMemo[child.id] = tokens.length;
     tokens.push(child);
 
-    this.setState({ tokens, expanded: false, value: '' });
+    this.props.onSelect(tokens);
+    this.searchInput.focus();
+    this.setState({ tokens, expanded: false });
   }
 
   onGroupClick = (group) => {
@@ -135,12 +137,15 @@ export default class Tipako extends React.Component {
     }
 
     group.children.forEach((child) => {
-      tokensMemo[child.id] = tokens.length;
-      tokens.push(child);
+      if (!child.disabled) {
+        tokensMemo[child.id] = tokens.length;
+        tokens.push(child);
+      }
     });
 
     this.props.onSelect(tokens);
-    this.setState({ tokens, expanded: false, value: '' });
+    this.searchInput.focus();
+    this.setState({ tokens, expanded: false });
   }
 
   onUngroupedClick = (ungrouped) => {
@@ -153,7 +158,8 @@ export default class Tipako extends React.Component {
     tokens.push(ungrouped);
 
     this.props.onSelect(tokens);
-    this.setState({ tokens, expanded: false, value: '' });
+    this.searchInput.focus();
+    this.setState({ tokens, expanded: false });
   }
 
   onTokenClick = (obj) => {
@@ -336,6 +342,7 @@ export default class Tipako extends React.Component {
           placeholder={this.props.msgPlaceholder}
           value={this.state.value}
           onChange={this.onSearch}
+          ref={(input) => { this.searchInput = input; }}
         />
         {caret}
         {busy}

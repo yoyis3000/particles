@@ -1,208 +1,352 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { PropTypes } from 'react';
-import { DropdownList } from 'react-widgets';
+import qs from 'qs';
+import { get, patch } from './TatariApi';
+import TatariDropdownPlain from './TatariDropdownPlain';
+import TatariDropdownCheckboxes from './TatariDropdownCheckboxes';
 
-import styles from './Tatari.scss';
-import TatariInterface from './TatariInterface';
-import TatariCheckboxItem from './TatariCheckboxItem';
-import TatariPlainItem from './TatariPlainItem';
-import TatariClearAll from './TatariClearAll';
-import TatariFilterHead from './TatariFilterHead';
+import baseStyles from './Tatari.scss';
+import defaultStyles from './TatariDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
 
-@TatariInterface
+let styles = {};
+
 export default class Tatari extends React.Component {
   static propTypes = {
-    activeAdd: PropTypes.func,
-    activeFilters: PropTypes.shape(),
-    activeFiltersCheckedCount: PropTypes.shape(),
-    activeRemoveAll: PropTypes.func,
-    activeRemoveEmpty: PropTypes.func,
-    activeRemoveOne: PropTypes.func,
-    activeSetAllClosed: PropTypes.func,
-    activeSetOpen: PropTypes.func,
-    availableFilters: PropTypes.arrayOf(PropTypes.shape()),
-    availableGet: PropTypes.func,
-    callback: PropTypes.func,
-    checkAllCheckboxes: PropTypes.func,
-    hydrateUrl: PropTypes.func,
-    init: PropTypes.func,
-    isOpen: PropTypes.shape(),
-    onChange: PropTypes.func,
-    storedPatch: PropTypes.func,
-    toggleCheckbox: PropTypes.func,
-    uncheckAllCheckboxes: PropTypes.func,
-    updateUrl: PropTypes.func,
+    onComplete: PropTypes.func.isRequired,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    urls: PropTypes.shape({
+      available: PropTypes.string.isRequired,
+      patch: PropTypes.string,
+      saved: PropTypes.string
+    }).isRequired
   }
 
-  componentWillMount() {
-    const {
-      availableGet,
-      callback,
-      hydrateUrl,
-      init,
-    } = this.props;
-
-    try {
-      hydrateUrl()
-      .then(availableGet)
-      .then(init)
-      .then(callback);
-    } catch (e) {
-      console.error(e); // eslint-disable-line
-    }
-
-    window.addEventListener('click', this.blurHandler);
+  static defaultProps = {
+    stylesheets: [defaultStyles]
   }
 
-  onAvailableClick = (evt) => {
+  constructor(props) {
+    super(props);
+
+    styles = composeStyles(baseStyles, props.stylesheets);
+
+    this.state = {
+      activeFilters: [],
+      expanded: {},
+      inactiveFilters: [],
+      hiding: {},
+      loading: {},
+      options: {}
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', this.onBlur);
+
+    Promise.all([
+      get(this.props.urls.available),
+      get(this.props.urls.saved)
+    ])
+    .then(([{ data: availableFilters }, { data: saved }]) => {
+      const url = window.location.href.split('?');
+      const params = qs.parse(url[1]);
+      const previousFilters = params.filters || saved;
+
+      const activeFilters = availableFilters.reduce((acc, filter, index) => {
+        if (previousFilters[filter.key] !== undefined) {
+          acc.push(Object.assign(filter, { index }));
+        }
+
+        return acc;
+      }, []);
+
+      const inactiveFilters = availableFilters.reduce((acc, filter, index) => {
+        if (previousFilters[filter.key] === undefined) {
+          acc.push(Object.assign(filter, { index }));
+        }
+
+        return acc;
+      }, []);
+
+      const loading = availableFilters.reduce((acc, filter) =>
+        Object.assign(acc, { [filter.key]: previousFilters[filter.key] !== undefined }),
+        {});
+
+      this.setState({ inactiveFilters, activeFilters, loading });
+
+      Promise.all(activeFilters.map(filter => get(filter.endpoint)))
+        .then((values) => {
+          const options = activeFilters.reduce((acc, filter, index) => {
+            const { data } = values[index];
+
+            const setChecked = d => Object.assign(d,
+              { checked: (previousFilters[filter.key].indexOf(d.key.toString()) > -1) });
+
+            return Object.assign(acc, { [filter.key]: data.map(setChecked) });
+          }, {});
+
+          this.setState({ options, loading: {} }, () => {
+            this.updateUrl();
+            this.props.onComplete();
+          });
+        });
+    })
+    .catch(e => { console.error(e); }) // eslint-disable-line
+  }
+
+  onExpand = (evt) => {
     evt.stopPropagation();
-  }
-
-  onClearAllClick = () => {
-    this.props.activeRemoveAll();
-    this.props.updateUrl();
-    this.props.onChange();
-  }
-
-  onAvailableChange = (item) => {
-    this.props.activeAdd(item);
-    this.props.activeSetOpen({ key: item.key });
-  }
-
-  onAvailableToggle = (isExpanded) => {
-    if (isExpanded) {
-      this.props.activeSetAllClosed();
-      this.props.activeRemoveEmpty();
+    const key = evt.currentTarget.dataset.key;
+    if (this.state.loading[key]) {
+      return;
     }
+
+    const expandedStatus = !this.state.expanded[key];
+
+    if (expandedStatus === false && key !== 'inactive') {
+      this.onBlur();
+    }
+
+    const expanded = { [key]: expandedStatus };
+
+    this.setState({ expanded });
   }
 
-  expandActiveFilter = key => (evt) => {
+  onBlur = () => {
+    const activeExpandedCount = this.state.activeFilters.reduce((acc, filter) =>
+      (this.state.expanded[filter.key] === true ? acc + 1 : acc), 0);
+
+    if (activeExpandedCount) {
+      this.updateUrl();
+      this.removeEmptyActive();
+      this.saveOptions();
+    }
+
+    this.setState({ expanded: {} });
+  }
+
+  onSearch = (evt) => {
     evt.stopPropagation();
 
-    if (this.props.isOpen.get(key) !== true) {
-      this.props.activeSetOpen({ key });
-    }
+    const value = evt.target.value.toLowerCase();
+    const key = evt.target.dataset.key;
+
+    const options = this.state.options;
+
+    const filteredOptions = options[key].map(option => Object.assign(option,
+      { hidden: (option.value.toLowerCase().indexOf(value) === -1) }));
+
+    options[key] = filteredOptions;
+
+    this.setState({ options });
   }
 
-  blurHandler = () => {
-    const {
-      activeRemoveEmpty,
-      activeSetAllClosed,
-      isOpen,
-      onChange,
-      storedPatch,
-      persistenceUrl,
-    } = this.props;
+  updateUrl = () => {
+    const url = window.location.href.split('?');
+    const params = qs.parse(url[1]);
+    params.filters = this.createPayload();
+    params.page = 1;
 
-    const openFilters = isOpen
-      .reduce((acc, v) => { return (v ? acc + 1 : acc); }, 0);
+    const newParams = qs.stringify(params, { arrayFormat: 'brackets' });
 
-    if (openFilters > 0) {
-      activeRemoveEmpty();
-      activeSetAllClosed();
-      storedPatch(persistenceUrl);
-      onChange();
-    }
+    history.pushState(history.state, '', `${url[0]}?${newParams}`);
+  };
+
+  createPayload = () => {
+    const { activeFilters, options } = this.state;
+
+    const reduceSingle = (acc, value) => {
+      if (value.key && value.checked === true) {
+        acc.push(value.key);
+      }
+
+      return acc;
+    };
+
+    const reduceAll = (acc, filter) =>
+      Object.assign(acc, { [filter.key]: options[filter.key].reduce(reduceSingle, []) });
+
+    return activeFilters.reduce(reduceAll, {});
   }
 
-  itemRenderer = (key) => {
-    const {
-      checkAllCheckboxes,
-      toggleCheckbox,
-      uncheckAllCheckboxes,
-      updateUrl,
-    } = this.props;
+  saveOptions = () => {
+    const payload = { filters: this.createPayload() };
 
-    return TatariCheckboxItem.bind(null, {
-      checkAllCheckboxes,
-      key,
-      toggleCheckbox,
-      uncheckAllCheckboxes,
-      updateUrl,
+    Object.keys(payload.filters).length === 0
+      ? patch(this.props.urls.patch, payload).then(this.props.onComplete)
+      : this.props.onComplete();
+  }
+
+  checkOne = (evt) => {
+    evt.stopPropagation();
+
+    const { options } = this.state;
+    const key = evt.currentTarget.dataset.key;
+    const filterKey = evt.currentTarget.dataset.filterKey;
+
+    options[filterKey] = options[filterKey].reduce((acc, option) => {
+      option.key.toString() === key
+        ? acc.push(Object.assign(option, { checked: !option.checked }))
+        : acc.push(option);
+
+      return acc;
+    }, []);
+
+    this.setState({
+      options,
+      expanded: Object.assign(this.state.expanded, { [filterKey]: true })
     });
   }
 
-  headRenderer = (key) => {
-    const {
-      availableFilters,
-      activeFiltersCheckedCount,
-      activeRemoveOne,
-      onChange,
-      updateUrl,
-    } = this.props;
+  checkAll = (evt) => {
+    evt.stopPropagation();
 
-    const currentFilter = availableFilters.find(obj => obj.key === key);
+    const key = evt.target.dataset.key;
+    const { options } = this.state;
 
-    const onRemove = () => {
-      activeRemoveOne(currentFilter.key);
-      updateUrl();
-      onChange();
+    options[key].reduce((acc, option) =>
+      acc.concat(Object.assign(option, { checked: true })), []);
+
+    this.setState({ options });
+  }
+
+  checkNone = (evt) => {
+    evt.stopPropagation();
+
+    const key = evt.target.dataset.key;
+    const options = this.state.options;
+
+    options[key].reduce((acc, option) =>
+      Object.assign(option, { checked: false }), []);
+
+    this.setState({ options });
+  }
+
+  addActive = (evt) => {
+    evt.stopPropagation();
+
+    const { activeFilters, inactiveFilters, loading, options } = this.state;
+
+    const key = evt.target.dataset.key;
+    const index = inactiveFilters.findIndex(filter => filter.key === key);
+    const item = inactiveFilters[index];
+
+    loading[key] = true;
+    inactiveFilters.splice(index, 1);
+    activeFilters.push(item);
+
+    const retrieveOptions = () => {
+      if (options[key] === undefined) {
+        return get(item.endpoint);
+      }
+
+      return Promise.resolve({ data: options[key] });
     };
 
-    return TatariFilterHead.bind(null,
-      onRemove,
-      currentFilter.text,
-      activeFiltersCheckedCount.get(key),
-    );
+    retrieveOptions().then(({ data }) => {
+      options[key] = data.map(d => Object.assign(d, { checked: false }));
+      const newLoading = this.state.loading;
+      newLoading[key] = false;
+
+      const newExpanded = this.state.expanded;
+      newExpanded[key] = true;
+
+      this.setState({ options, loading: newLoading, expanded: newExpanded });
+    });
+
+    this.setState({ inactiveFilters, activeFilters, loading, expanded: {} });
+  }
+
+  removeActive = (evt) => {
+    evt.stopPropagation();
+
+    const { activeFilters, inactiveFilters } = this.state;
+    const key = evt.target.dataset.key;
+
+    const index = activeFilters.findIndex(filter => filter.key === key);
+    const item = activeFilters[index];
+
+    activeFilters.splice(index, 1);
+    inactiveFilters.push(item);
+    inactiveFilters.sort((a, b) => (a.index - b.index));
+
+    this.setState({ inactiveFilters, activeFilters });
+  }
+
+  removeAllActive = () => {
+    const { activeFilters, inactiveFilters } = this.state;
+    const inactive = inactiveFilters.concat(activeFilters)
+      .sort((a, b) => (a.index - b.index));
+
+    this.setState({ inactiveFilters: inactive, activeFilters: [] }, this.updateUrl);
+  }
+
+  removeEmptyActive = () => {
+    const { activeFilters, inactiveFilters } = this.state;
+
+    const activeUpdated = activeFilters.reduce((activeAcc, filter) => {
+      const isPopulated = this.state.options[filter.key]
+        .reduce((acc, option) => acc || option.checked, false);
+
+      if (isPopulated === false) {
+        inactiveFilters.push(filter);
+      } else {
+        activeAcc.push(filter);
+      }
+
+      return activeAcc;
+    }, []);
+
+    inactiveFilters.sort((a, b) => (a.index - b.index));
+
+    this.setState({
+      activeFilters: activeUpdated,
+      inactiveFilters
+    });
   }
 
   render() {
-    const {
-      activeFilters,
-      availableFilters,
-      isOpen,
-    } = this.props;
+    const inactiveFilters = this.state.inactiveFilters.length
+      ? (<TatariDropdownPlain
+        data={this.state.inactiveFilters}
+        isExpanded={this.state.expanded.inactive}
+        isLoading={this.state.loading.inactive}
+        onChange={this.addActive}
+        onExpand={this.onExpand}
+        styles={styles}
+      />)
+      : null;
 
-    const bank = activeFilters.toJS();
-    const bankKeys = Object.keys(bank);
+    const activeFilters = this.state.activeFilters
+      .map(item => <TatariDropdownCheckboxes
+        key={`active-${item.key}`}
+        filter={item}
+        isExpanded={this.state.expanded[item.key]}
+        isHiding={this.state.hiding[item.key]}
+        isLoading={this.state.loading[item.key]}
+        onCheckOne={this.checkOne}
+        onCheckAll={this.checkAll}
+        onCheckNone={this.checkNone}
+        onExpand={this.onExpand}
+        onRemove={this.removeActive}
+        onSearch={this.onSearch}
+        options={this.state.options[item.key]}
+        styles={styles}
+      />);
 
-    const availableFiltersWithoutActive = availableFilters
-      .filter(obj => bankKeys.indexOf(obj.key) === -1);
-
-    const availableFiltersIfAny = availableFiltersWithoutActive.length
-      ? (<div className={styles.dropdown} onClick={this.onAvailableClick}>
-        <DropdownList
-          data={availableFiltersWithoutActive}
-          itemComponent={TatariPlainItem}
-          onToggle={this.onAvailableToggle}
-          onChange={this.onAvailableChange}
-          value="Add Filter"
-          textField="text"
-          valueField="endpoint"
-        />
+    const clearAll = (activeFilters.length
+      ? (<div
+        onClick={this.removeAllActive}
+        className={styles.clearAllFilters}
+      >
+        Clear All
       </div>)
-      : null;
-
-    const currentFilters = Object.keys(bank).map((key) => {
-      return (
-        <div
-          key={key}
-          className={styles.dropdown}
-          onClick={this.expandActiveFilter(key)}
-          ref={div => (this[key] = div)}
-        >
-          <DropdownList
-            data={bank[key]}
-            filter="contains"
-            valueComponent={this.headRenderer(key)}
-            itemComponent={this.itemRenderer(key)}
-            onToggle={this.onAvailableToggle}
-            open={isOpen.get(key)}
-            textField="value"
-            valueField="key"
-          />
-        </div>
-      );
-    });
-
-    const clearAll = currentFilters.length
-      ? <TatariClearAll onClick={this.onClearAllClick} />
-      : null;
+      : null);
 
     return (
-      <div>
-        {currentFilters}
-        {availableFiltersIfAny}
+      <div className={styles.filterContainer}>
+        {activeFilters}
+        {inactiveFilters}
         {clearAll}
       </div>
     );

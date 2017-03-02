@@ -1,4 +1,4 @@
-@import "../../../shared/variables";
+@import "../../shared/variables.scss";
 
 $h: 30px;
 $p: 5px;
@@ -36,5 +36,13 @@ $p: 5px;
 
   &:focus {
     outline: 0;
+  }
+}
+
+.controlsButton {
+  color: #1e519f;
+
+  &:hover {
+    color: palette(orange);
   }
 }

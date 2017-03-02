@@ -4,6 +4,10 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.0.0
+- Removed Immutable and Redux deps, now 90% smaller (770kb -> 66kb)
+- Various styling upgrades for default component parity
+
 ##### 1.1.7
 - Implemented prod builds
 

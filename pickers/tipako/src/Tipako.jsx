@@ -209,7 +209,7 @@ export default class Tipako extends React.Component {
   }
 
   onClearAll = () => {
-    this.props.onSelect(Object.values(this.state.tokens));
+    this.props.onSelect([]);
     this.setState({ tokens: [], expanded: false });
   }
 

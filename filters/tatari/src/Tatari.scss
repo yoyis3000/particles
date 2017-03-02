@@ -1,129 +1,247 @@
-@import "./variables";
+@import "../../shared/reset.scss";
 
-$dropdownH: 29px;
-$dropdownHeadW: 150px;
-$dropdownBodyW: 250px;
-$inputP: 5px 10px;
+$h: 30px;
+$p: 10px;
+$delay: 0.2s;
+$searchH: 20px;
 
-.dropdown {
-  display: inline-block;
-  margin-right: 10px;
-  min-width: $dropdownHeadW;
-  vertical-align: top;
-
-  :global .rw-popup {
-    width: $dropdownBodyW;
-  }
-
-  :global .rw-filter-input {
-    display: block;
-    line-height: 16px;
-    margin: $inputP;
-    width: auto;
-  }
-
-  :global ul.rw-list > li.rw-list-option {
-    border: 0;
-    line-height: 16px;
-    padding: 0;
-  }
-
-  :global ul.rw-list > li.rw-list-option.rw-state-focus {
-    &:hover {
-      background: #e7e7e7;
-    }
-  }
-
-  :global ul.rw-list > li.rw-list-option.rw-state-selected {
-    background: none;
-    color: inherit;
-  }
+.filterContainer {
+  display: flex;
+  flex-direction: row;
 }
 
-.filter-head {
-  padding-left: 22px;
-
-  .filter-head-remove {
-    color: palette(gray, dark);
-    display: inline-block;
-    height: $dropdownH;
-    left: 0;
-    line-height: $dropdownH;
-    position: absolute;
-    text-align: center;
-    transition: background-color .1s ease, color .1s ease;
-    top: 0;
-    width: $dropdownH;
-
-    &:hover {
-      background: palette(orange);
-      color: #fff;
-    }
-  }
-}
-
-.checkbox-item,
-.plain-item {
+.clearAllFilters {
   cursor: pointer;
-  display: block;
-  position: relative;
-  word-break: keep-all;
-
-  [type=checkbox] {
-    left: 3px;
-    margin-top: -6px;
-    position: absolute;
-    top: 50%;
-  }
-}
-
-.checkbox-item {
-  padding: 5px 10px 5px 25px;
-}
-
-.plain-item {
-  padding: 5px 10px;
-}
-
-.toggle-items-container {
-  line-height: $dropdownH;
-  padding-left: 10px;
-}
-
-.toggle-items-divider {
-  display: inline-block;
-  line-height: $dropdownH;
-  paddding: 0 4px;
-  vertical-align: top;
-}
-
-.clear-all-items,
-.select-all-items {
-  background: none !important;
-  border: 0 !important;
-  color: #1e519f !important;
-  display: inline-block;
-  line-height: $dropdownH;
-  margin: 0 3px;
-  padding: 0 !important;
-  vertical-align: top;
-
-  &:hover {
-    color: palette(orange) !important;
-    text-decoration: underline !important;
-  }
-}
-
-.clear-all-filters {
-  background: none !important;
-  border: 0 !important;
-  color: #1e519f !important;
+  line-height: $h;
   margin-left: 20px;
   outline: 0;
-  padding: 0 !important;
+  padding: 0;
 
   &:hover {
-    color: palette(orange) !important;
-    text-decoration: underline !important;
+    text-decoration: underline;
+  }
+}
+
+.dropdownContainer {
+  box-sizing: border-box;
+  margin-right: 10px;
+  line-height: $h;
+  opacity: 1;
+  // transition: all 0.2s ease;
+  width: 200px;
+
+  // &.hiding {
+  //   margin-right: 0;
+  //   opacity: 0;
+  //   width: 0;
+  // }
+}
+
+.dropdownHead {
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: flex;
+  padding-left: 10px;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.dropdownBody {
+  background: #fff;
+  max-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  transition: all $delay ease;
+  width: 200px;
+
+  &.expanded {
+    border: 1px solid #ccc;
+    border-top: 0;
+    height: auto;
+    max-height: 300px;
+  }
+}
+
+.dropdownTitle {
+  overflow: hidden;
+  padding: 0 2px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdownCaret {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: auto;
+  min-width: $h;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  .arrow {
+    display: block;
+    height: $h;
+    line-height: $h;
+    transition: transform 0.3s ease;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    background: #ddd;
+  }
+}
+
+.dropdownLoading {
+  animation-duration: 1.5s;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  background-image:
+    url(
+      "data:image/svg+xml;base64,PHN2ZyB4bWxucz\
+      0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h\
+      0PScxNic+PGVsbGlwc2UgY3g9IjgiIGN5PSI4IiByeD0iNyIgcnk9IjciIHN0\
+      cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW9wYWNpdHk9JzAuNScgc3Ryb2tlPSIjY\
+      2NjIiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9J00gMSA4IEEgOCA4IDAgMCAwID\
+      QgMTMuNycgZmlsbD0nbm9uZScgc3Ryb2tlPScjRjQ3RTQyJyAgc3Ryb2tlLXd\
+      pZHRoPScyJyBzdHJva2Utb3BhY2l0eT0nMC44JyAvPjwvc3ZnPg=="
+    );
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  height: $h;
+  margin-left: auto;
+  min-width: $h;
+}
+
+.inactiveItem {
+  cursor: pointer;
+  padding: 0 $p;
+
+  &:hover {
+    background: #e7e7e7;
+  }
+}
+
+.activeCount {
+  margin: 0 5px;
+}
+
+.activeRemove {
+  background: 0;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  height: $h;
+  line-height: $h;
+  margin-left: -$p;
+  min-width: $h;
+  outline: 0;
+  text-align: center;
+
+  &:hover {
+    background: #ddd;
+  }
+}
+
+.activeSearch {
+  height: $searchH;
+  margin-top: 10px;
+  padding: 0 $p;
+  position: relative;
+  width: 100%;
+}
+
+.activeInput {
+  display: block;
+  height: $searchH;
+  padding-right: $searchH;
+  width: 100%;
+}
+
+.activeIcon {
+  font-size: $searchH / 2;
+  height: 100%;
+  line-height: $searchH;
+  position: absolute;
+  right: $p;
+  text-align: center;
+  top: 0;
+  width: $searchH;
+}
+
+.activeControls {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0;
+  padding: 0 $p;
+
+  &:hover {
+    background: #e7e7e7;
+  }
+}
+
+.activeControl {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0 3px;
+  padding: 0;
+  vertical-align: top;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.activeDivider {
+  margin: 0 5px;
+}
+
+.activeItem {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 0 $p;
+
+  &:hover {
+    background: #e7e7e7;
+  }
+}
+
+.activeCheckbox {
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }

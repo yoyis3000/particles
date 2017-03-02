@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.3.1
+- Fixing cursor for item children.
+
 ##### 2.3.0
 - Removing disabled items from tokens
 - Focus restored to search input after select

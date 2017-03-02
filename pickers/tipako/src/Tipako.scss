@@ -130,18 +130,25 @@ $p: 5px;
   padding: 2px $p;
   width: 100%;
 
-  &.disabled {
+  * {
+    cursor: pointer;
+  }
+
+  &.disabled,
+  &.disabled *, {
     color: #aaa;
     cursor: not-allowed;
   }
 }
 
 .itemIcon {
-  cursor: pointer;
   height: $h;
   margin-right: 5px;
   display: flex;
   width: $h;
+}
+
+.itemText {
 }
 
 .groupItem {
@@ -155,6 +162,7 @@ $p: 5px;
 
 .ungroupedItem {
   // color: turquoise;
+  cursor: pointer;
 }
 
 .controls {

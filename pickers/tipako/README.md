@@ -4,6 +4,10 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.3.0
+- Removing disabled items from tokens
+- Focus restored to search input after select
+
 ##### 2.2.0
 - Support for disabled items
 

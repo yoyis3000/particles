@@ -1,3 +1,5 @@
-node_modules
 .DS_STORE
+lerna-debug.log
+node_modules
 npm-debug.log
+yarn-error.log

@@ -16,9 +16,9 @@ const renderer = (defaultRenderer, obj) => <td>{obj.text}</td>;
 const tableData = [{
   key: undefined,
   data: [
-    { text: 'cellA', key: 'cellA' },
-    { text: 'cellB', key: 'cellB' },
-    { text: 'cellC', key: 'cellC' }
+    { text: 'cellA', key: 'cellA', id: 1 },
+    { text: 'cellB', key: 'cellB', id: 2 },
+    { text: 'cellC', key: 'cellC', id: 3 }
   ] }
 ];
 

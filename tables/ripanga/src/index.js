@@ -1,3 +1,3 @@
-import Ripanga from './RipangaProvider';
+import Ripanga from './Ripanga';
 
 export default Ripanga;

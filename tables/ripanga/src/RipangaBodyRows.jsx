@@ -23,26 +23,24 @@ const RipangaBodyRows = ({
   toggledGroups,
 }) => {
   const renderBodyRows = (data, groupIndex = 0) => {
-    if (collapsedGroups.get(groupIndex) === true ||
-      toggledGroups.get(groupIndex) === true) {
+    if (collapsedGroups[groupIndex] === true ||
+      toggledGroups[groupIndex] === true) {
       return [];
     }
 
-    return data.map((rowData) => {
-      return (<RipangaBodyRow
-        key={`ripanga-body-${rowData[idKey]}`}
-        {...{ actions,
-          checkedIds,
-          columnDefinitions,
-          globalKey,
-          idKey,
-          onCheck,
-          renderBodyCell,
-          renderBodyRow,
-          rowData,
-          showCheckboxes }}
-      />);
-    });
+    return data.map(rowData => (<RipangaBodyRow
+      key={`ripanga-body-${rowData[idKey]}`}
+      {...{ actions,
+        checkedIds,
+        columnDefinitions,
+        globalKey,
+        idKey,
+        onCheck,
+        renderBodyCell,
+        renderBodyRow,
+        rowData,
+        showCheckboxes }}
+    />));
   };
 
   const renderGroupRow = (groupData, groupIndex = 0) => {
@@ -51,9 +49,7 @@ const RipangaBodyRows = ({
     const initialVal = (showCheckboxes ? 1 : 0);
 
     const colSpan = columnDefinitions
-      .reduce((p, _, i, a) => {
-        return (!a[i].hidden ? p + 1 : p);
-      }, initialVal);
+      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), initialVal);
 
     const titleElement = (renderGroupTitle === undefined
       ? (<span className={styles.title}>{groupData.key.name}</span>)
@@ -75,9 +71,7 @@ const RipangaBodyRows = ({
     }
 
     const colSpan = columnDefinitions
-      .reduce((p, c, i, a) => {
-        return (a[i].hidden === false ? p + 1 : p);
-      }, 0);
+      .reduce((p, c, i, a) => (a[i].hidden === false ? p + 1 : p), 0);
 
     return (<RipangaGroupPane
       {...{ colSpan, groupIndex, renderGroupPaneContent }}

@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './Ripanga.scss';
 
 const RipangaStickyCells = ({
-  collapsedGroups,
+  collapsedGroups = [],  // TODO REQUIRED and proptypes?
+  idKey,
   renderBodyStickyCell = () => null,
   renderGroupStickyCell = () => null,
   renderGroupStickyPane = () => null,
@@ -15,14 +16,14 @@ const RipangaStickyCells = ({
       return [];
     }
 
-    if (data[0].id === undefined) {
-      console.error("Sticky cell renderer aborted: missing object IDs"); // eslint-disable-line
+    if (data[0][idKey] === undefined) {
+      console.error(`Sticky cell renderer aborted: missing ID key '${idKey}'`); // eslint-disable-line
       return [];
     }
 
     return data.map(obj => (<div
       className={styles.stickyCell}
-      key={`sticky-cell-${obj.id}`}
+      key={`sticky-cell-${obj[idKey]}`}
     >
       {renderBodyStickyCell(obj)}
     </div>)

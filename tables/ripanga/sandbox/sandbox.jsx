@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { render } from 'react-dom'; // eslint-disable-line
 import Ripanga from '../src';
 
 const def = {
@@ -11,26 +11,25 @@ const def = {
   sortKey: ''
 };
 
-const renderer = (defaultRenderer, obj) => <td>{obj.text}</td>;
+const renderer = obj => <td>{obj.text}</td>;
 
 const tableData = [{
   key: undefined,
   data: [
-    { text: 'cellA', key: 'cellA', id: 1 },
-    { text: 'cellB', key: 'cellB', id: 2 },
-    { text: 'cellC', key: 'cellC', id: 3 }
+    { text: 'cellA', key: 'cellA' },
+    { text: 'cellB', key: 'cellB' },
+    { text: 'cellC', key: 'cellC' }
   ] }
 ];
 
 const columnDefinitions = [
-  Object.assign(Object.assign({}, def), { label: 'Cell A' }),
-  Object.assign(Object.assign({}, def), { label: 'Cell B' }),
-  Object.assign(Object.assign({}, def), { label: 'Cell C' })
+  Object.assign({ def, renderer }, { label: 'Cell A' }),
+  Object.assign({ def, renderer }, { label: 'Cell B' }),
+  Object.assign({ def, renderer }, { label: 'Cell C' })
 ];
 
 render(
   <Ripanga
-    renderBodyCell={renderer}
     columnDefinitions={columnDefinitions}
     idKey='key'
     tableData={tableData}

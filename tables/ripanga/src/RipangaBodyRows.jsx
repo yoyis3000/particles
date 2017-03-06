@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styles from './Ripanga.scss';
 
 import RipangaGroupPane from './RipangaGroupPane';
@@ -10,7 +10,7 @@ const RipangaBodyRows = ({
   checkedIds,
   columnDefinitions,
   collapsedGroups,
-  globalKey,
+  globalKey,  // TODO REQUIRED (and others)
   idKey,
   onCheck,
   renderBodyCell,
@@ -20,7 +20,7 @@ const RipangaBodyRows = ({
   setCheckedOne,
   showCheckboxes,
   tableData,
-  toggledGroups,
+  toggledGroups
 }) => {
   const renderBodyRows = (data, groupIndex = 0) => {
     if (collapsedGroups[groupIndex] === true ||
@@ -97,6 +97,28 @@ const RipangaBodyRows = ({
     : renderBodyRows(tableData[0].data));
 
   return (<tbody>{rows}</tbody>);
+};
+
+RipangaBodyRows.propTypes = {
+  // actions: PropTypes.shape(),
+  // checkedIds: PropTypes.shape(),
+  // columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  // collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
+  // globalKey: PropTypes.string.isRequired,
+  // idKey,
+  // onCheck,
+  // renderBodyCell,
+  // renderBodyRow,
+  // renderGroupTitle,
+  // renderGroupPaneContent,
+  // setCheckedOne,
+  // showCheckboxes,
+  // tableData,
+  // toggledGroups
+};
+
+RipangaBodyRows.defaultProps = {
+
 };
 
 export default RipangaBodyRows;

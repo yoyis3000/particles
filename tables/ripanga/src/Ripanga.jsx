@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Range from 'react-range';
 
-import RipangaHeadRow from './RipangaHeadRow';
+// import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
 import RipangaStickyCells from './RipangaStickyCells';
 import S from './Ripanga.scss';
@@ -30,14 +30,14 @@ import S from './Ripanga.scss';
 export default class Ripanga extends React.Component {
   static propTypes = {
     // actions: PropTypes.shape(),
-    // globalKey: PropTypes.bool,
+    globalKey: PropTypes.bool,
     // sliderValue: PropTypes.number,
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
     // panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
   };
 
   static defaultProps = {
-    // idKey: 'id',
+    idKey: 'id',
     // panelPosition: 'right',
     // showCheckboxes: false,
   }
@@ -391,8 +391,10 @@ export default class Ripanga extends React.Component {
 
   render() {
     const {
-      sliderValue = 0,
-      tableData,
+      globalKey,
+      idKey,
+      sliderValue,
+      tableData
     } = this.props;
 
     const {
@@ -417,12 +419,6 @@ export default class Ripanga extends React.Component {
       );
     }
 
-    const stickyCells = RipangaStickyCells({
-      collapsedGroups,
-      tableData,
-      toggledGroups
-    });
-
     return (
       <div className={S.container} ref="ripangaContainer">
         {/* <div className={S.headContainer} ref="headContainer">
@@ -433,12 +429,12 @@ export default class Ripanga extends React.Component {
 
         <div className={S.bodyContainer} ref="bodyContainer">
           <table className={S.body} ref="bodyTable">
-            <RipangaBodyRows {...this.props} />
+            { RipangaBodyRows({ collapsedGroups, toggledGroups, globalKey, idKey, tableData }) }
           </table>
         </div>
 
         <div className={S.stickyContainer} ref="stickyContainer">
-          {stickyCells}
+          { RipangaStickyCells({ idKey, tableData, toggledGroups }) }
         </div>
 
         {/* <div className={S.stickyCellHead} ref="stickyHead">

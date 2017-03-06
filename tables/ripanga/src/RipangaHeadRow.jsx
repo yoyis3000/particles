@@ -11,34 +11,25 @@ const RipangaHeadRow = ({
   onSort,
   renderHeadCell,
   showCheckboxes,
-  tableData,
+  tableData
 }) => {
-  const indices = tableData.reduce((acc, group) => {
-    return acc.concat(group.data.map(v => v[idKey]));
-  }, []);
+  const indices = tableData.reduce((acc, group) => acc.concat(group.data.map(v => v[idKey])), []);
 
   const checkedCount = indices.reduce((acc, i) => {
-    if (checkedIds.get(i)) {
+    if (checkedIds[i] === true) {
       return acc + 1;
     }
 
     return acc;
   }, 0);
 
-  const _onCheck = (evt) => {
+  const onChange = (evt) => {
     evt.target.checked
       ? actions.setChecked({ ids: indices, globalKey, onCheck })
       : actions.setUnchecked({ ids: indices, globalKey, onCheck });
   };
 
-  const defaultRenderer = (def, i) => {
-    return (
-      <RipangaHeadCell
-        key={`head-${def.sortKey}-${i}`}
-        {...{def, globalKey, onSort }}
-      />
-    );
-  };
+  const defaultRenderer = def => RipangaHeadCell({ def, globalKey, idKey, onSort });
 
   const renderCell = (def, i) => {
     if (def.hidden === true) {
@@ -46,18 +37,18 @@ const RipangaHeadRow = ({
     }
 
     return (renderHeadCell
-      ? renderHeadCell(defaultRenderer, def, i)
+      ? renderHeadCell(def, i)
       : defaultRenderer(def, i));
   };
 
   const cells = columnDefinitions.map(renderCell);
 
   if (showCheckboxes) {
-    cells.unshift(<th className="headControls" key="headControls">
+    cells.unshift(<th className='headControls' key='headControls'>
       <input
-        type="checkbox"
+        type='checkbox'
         checked={indices.length === checkedCount}
-        onChange={_onCheck}
+        onChange={onChange}
       />
     </th>);
   }
@@ -74,14 +65,23 @@ const RipangaHeadRow = ({
 RipangaHeadRow.propTypes = {
   actions: PropTypes.shape(),
   checkedIds: PropTypes.shape(),
-  columnDefinitions: PropTypes.arrayOf(PropTypes.object),
-  globalKey: PropTypes.string,
+  columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  globalKey: PropTypes.string.isRequired,
   idKey: PropTypes.string,
   onCheck: PropTypes.func,
   onSort: PropTypes.func,
   renderHeadCell: PropTypes.func,
-  showCheckboxes: PropTypes.bool,
-  tableData: PropTypes.arrayOf(PropTypes.object),
+  showCheckboxes: PropTypes.bool.isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+RipangaHeadRow.defaultProps = {
+  actions: {},
+  checkedIds: PropTypes.shape(),
+  idKey: 'id',
+  onCheck: null,
+  onSort: null,
+  renderHeadCell: null
 };
 
 export default RipangaHeadRow;

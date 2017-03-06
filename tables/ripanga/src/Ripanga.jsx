@@ -1,24 +1,24 @@
 import React, { PropTypes } from 'react';
 import Range from 'react-range';
 
-// import RipangaHeadRow from './RipangaHeadRow';
+import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
 import RipangaStickyCells from './RipangaStickyCells';
 import S from './Ripanga.scss';
 
-// const i18n = {
-//   NO_RESULTS: 'No results found',
-// };
+const i18n = {
+  NO_RESULTS: 'No results found'
+};
 
 // TODO configurable columns
-// TODO linting
-// TODO remove immutable
-// TODO stylesheet composition
+// TODO remove group pane and toggling
+// TODO remove immutable and 'actions' property
+// TODO stylesheet composition, rename S
 // TODO observable to resize: Cannot read property 'getBoundingClientRect' of undefined
 // TODO expand all / collapse all to ripanga
 // TODO remove shouldcomponentupdate for row
 // TODO finalize utils style stuff - getDefinitions(), groupingProps()
-// TODO Strange thing if column definition name is not exactly correct ???
+// TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
 // TODO pass group parameter ???
 // TODO ben joseph's changes ???
 // TODO will-change: transform ???
@@ -26,20 +26,29 @@ import S from './Ripanga.scss';
 // TODO andy's single table solution ANDY
 // TODO requestAnimationFrame ANDY
 
-
 export default class Ripanga extends React.Component {
   static propTypes = {
-    // actions: PropTypes.shape(),
-    globalKey: PropTypes.bool,
-    // sliderValue: PropTypes.number,
+    actions: PropTypes.shape(),
+    columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    globalKey: PropTypes.string.isRequired,
+    idKey: PropTypes.string,
+    panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
+    renderBodyRow: PropTypes.func,
+    renderBodyStickyCell: PropTypes.func,
+    renderEmpty: PropTypes.func,
+    renderHeadCell: PropTypes.func,
+    showCheckboxes: PropTypes.bool,
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
-    // panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
   };
 
   static defaultProps = {
+    actions: {},
     idKey: 'id',
-    // panelPosition: 'right',
-    // showCheckboxes: false,
+    panelPosition: 'right',
+    renderBodyRow: null,
+    renderEmpty: null,
+    renderHeadCell: null,
+    showCheckboxes: false
   }
 
   constructor(props) {
@@ -61,7 +70,7 @@ export default class Ripanga extends React.Component {
 
   componentDidMount() {
     const {
-      globalKey,
+      globalKey
     } = this.props;
 
     const storedRecords = localStorage.getItem(`${globalKey}/CHECKED`);
@@ -88,30 +97,37 @@ export default class Ripanga extends React.Component {
       return;
     }
 
-    // this.refs.bodyContainer
+    // this.bodyContainer
     //   .removeEventListener('scroll', this.scrollListener);
     // this.scrollListener =
-    //   this.refs.bodyContainer.addEventListener('scroll', this.scrollBody);
+    //   this.bodyContainer.addEventListener('scroll', this.scrollBody);
 
     this.resize();
   }
 
-  storeCheckedStates = () => {
-    sessionStorage.setItem(`${this.props.globalKey}/CHECKED`, JSON.stringify(this.state.checkedIds));
-  };
-
   setChecked = (ids, globalKey, onCheck) => {
     const checkedIds = ids.reduce((acc, id) => acc.set(id, true), this.state.checkedIds);
-    onCheck ? onCheck(checkedIds) : null;
     this.storeCheckedStates();
     this.setState({ checkedIds });
+
+    if (onCheck) {
+      onCheck(checkedIds);
+    }
   }
 
   setUnchecked = (ids, globalKey, onCheck) => {
     const checkedIds = ids.reduce((acc, id) => acc.set(id, false), this.state.checkedIds);
-    onCheck ? onCheck(checkedIds) : null;
     this.storeCheckedStates(checkedIds, globalKey);
     this.setState({ checkedIds });
+
+    if (onCheck) {
+      onCheck(checkedIds);
+    }
+  }
+
+  setHeadPosition = (value) => {
+    this.stickyHead.style.position = value;
+    this.headContainer.style.position = value;
   }
 
   collapseAllGroups = () => {
@@ -144,16 +160,6 @@ export default class Ripanga extends React.Component {
   //   return state.set('checkedIds', checkedIds);
   // },
 
-  // TODO necessary?
-  scrollSlider = (sliderValue) => {
-    this.setState({ sliderValue });
-  }
-
-  setHeadPosition = (value) => {
-    this.refs.stickyHead.style.position = value;
-    this.refs.headContainer.style.position = value;
-  };
-
   applyStaticBounds = (side) => {
     this.setHeadPosition('absolute');
     this.placePanelStatic(side);
@@ -165,8 +171,8 @@ export default class Ripanga extends React.Component {
   };
 
   hideSticky = () => {
-    this.refs.stickyHead.style.display = 'none';
-    this.refs.stickyContainer.style.display = 'none';
+    this.stickyHead.style.display = 'none';
+    this.stickyContainer.style.display = 'none';
   }
 
   placePanelStatic = (side) => {
@@ -174,8 +180,8 @@ export default class Ripanga extends React.Component {
       headContainer,
       stickyContainer,
       stickyHead,
-      ripangaContainer,
-    } = this.refs;
+      ripangaContainer
+    } = this;
 
     const ripangaBounds = ripangaContainer.getBoundingClientRect();
     const stickyBounds = stickyContainer.getBoundingClientRect();
@@ -193,7 +199,7 @@ export default class Ripanga extends React.Component {
         break;
       case 'none':
         this.hideSticky();
-        this.refs.headContainer.style.left = 0;
+        this.headContainer.style.left = 0;
         break;
       default:
         console.error(`placePanelStatic does not accept side: ${side}`);
@@ -205,8 +211,8 @@ export default class Ripanga extends React.Component {
       headContainer,
       stickyContainer,
       stickyHead,
-      ripangaContainer,
-    } = this.refs;
+      ripangaContainer
+    } = this;
 
     const ripangaBounds = ripangaContainer.getBoundingClientRect();
     const stickyBounds = stickyContainer.getBoundingClientRect();
@@ -241,10 +247,14 @@ export default class Ripanga extends React.Component {
     }
   }
 
+  storeCheckedStates = () => {
+    sessionStorage.setItem(`${this.props.globalKey}/CHECKED`, JSON.stringify(this.state.checkedIds));
+  };
+
   resize = () => {
-    // this.resizeRipanga();
-    // this.resizeHead();
-    // this.resizeSticky();
+    this.resizeRipanga();
+    this.resizeHead();
+    this.resizeSticky();
   }
 
   resizeHead = () => {
@@ -252,15 +262,14 @@ export default class Ripanga extends React.Component {
       bodyContainer,
       bodyTable,
       headContainer,
-      headTable,
-    } = this.refs;
+      headTable
+    } = this;
 
     if (bodyTable.rows.length > 0) {
       const headcells = headTable.rows[0].cells;
 
-      const renderedRow = Array.from(bodyTable.rows).find((row) => {
-        return row.cells.length === headcells.length;
-      });
+      const renderedRow = Array.from(bodyTable.rows)
+        .find(row => row.cells.length === headcells.length);
 
       if (renderedRow !== undefined) {
         ([...renderedRow.cells]).forEach((cell, index) => {
@@ -280,8 +289,9 @@ export default class Ripanga extends React.Component {
     const {
       headContainer,
       stickyContainer,
-      ripangaContainer,
-    } = this.refs;
+      ripangaContainer
+    } = this;
+
     const { panelPosition } = this.props;
 
     const headBounds = headContainer.getBoundingClientRect();
@@ -300,8 +310,7 @@ export default class Ripanga extends React.Component {
           ripangaContainer.style.paddingLeft = 0;
           break;
         default:
-          console.error(
-            `setTableContainerPadding does not accept side: ${side}`);
+          console.error(`setTableContainerPadding does not accept side: ${side}`);
       }
     };
 
@@ -315,9 +324,11 @@ export default class Ripanga extends React.Component {
       headContainer,
       slider,
       stickyContainer,
-      stickyHead,
-    } = this.refs;
+      stickyHead
+    } = this;
+
     const { panelPosition } = this.props;
+
     const headBounds = headContainer.getBoundingClientRect();
 
     if (bodyContainer.clientWidth >= bodyContainer.scrollWidth) {
@@ -344,16 +355,16 @@ export default class Ripanga extends React.Component {
     });
   }
 
-  _scrollSlider = (e) => {
+  scrollSlider = (e) => {
     const {
-      bodyContainer,
-    } = this.refs;
+      bodyContainer
+    } = this;
 
     const v = e.target.value;
     const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
     const delta = e.target.getAttribute('max') - e.target.getAttribute('min');
 
-    this.props.actions.scrollSlider(parseInt(v, 0));
+    this.setState({ sliderValue: parseInt(v, 0) });
 
     bodyContainer.scrollLeft = (scrollWidth * v) / delta;
   }
@@ -363,21 +374,21 @@ export default class Ripanga extends React.Component {
       bodyContainer,
       headContainer,
       slider,
-      stickyContainer,
-    } = this.refs;
+      stickyContainer
+    } = this;
 
     headContainer.scrollLeft = bodyContainer.scrollLeft;
     stickyContainer.scrollTop = bodyContainer.scrollTop;
 
     const delta = slider.props.max - slider.props.min;
     const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-    const v = (bodyContainer.scrollLeft * delta) / scrollWidth;
+    const sliderValue = (bodyContainer.scrollLeft * delta) / scrollWidth;
 
-    this.props.actions.scrollSlider(v);
+    this.setState({ sliderValue });
   }
 
   scrollWindow = () => {
-    if (this.refs.ripangaContainer === undefined) {
+    if (this.ripangaContainer === undefined) {
       return;
     }
 
@@ -385,70 +396,94 @@ export default class Ripanga extends React.Component {
   }
 
   stickyHeaderActive = () => {
-    const ripangaBounds = this.refs.ripangaContainer.getBoundingClientRect();
+    const ripangaBounds = this.ripangaContainer.getBoundingClientRect();
     return ripangaBounds.top < 0;
   }
 
   render() {
     const {
+      actions,
+      columnDefinitions,
       globalKey,
       idKey,
-      sliderValue,
+      renderBodyRow,
+      renderBodyStickyCell,
+      renderEmpty,
+      renderHeadCell,
+      showCheckboxes,
       tableData
     } = this.props;
 
     const {
+      checkedIds,
       collapsedGroups,
+      sliderValue,
       toggledGroups
     } = this.state;
 
     if (tableData.length === 0) {
-      if (this.props.renderEmpty) {
-          return this.props.renderEmpty();
+      if (renderEmpty) {
+        return renderEmpty();
       }
 
       return (
-        <h3 className="no-borders padding-top empty_table empty_graphic">
+        <h3 className='no-borders padding-top empty_table empty_graphic'>
           <img
-            role="presentation"
-            src="/assets/no_results_illustration.svg"
-            className="text-align-center empty_table_graphic"
+            alt='Empty Table'
+            src='/assets/no_results_illustration.svg'
+            className='text-align-center empty_table_graphic'
           />
-          <span className="empty_table_label">{i18n.NO_RESULTS}</span>
+          <span className='empty_table_label'>{i18n.NO_RESULTS}</span>
         </h3>
       );
     }
 
     return (
-      <div className={S.container} ref="ripangaContainer">
-        {/* <div className={S.headContainer} ref="headContainer">
-          <table className={S.head} ref="headTable">
-            <RipangaHeadRow {...this.props} />
-          </table>
-        </div> */}
-
-        <div className={S.bodyContainer} ref="bodyContainer">
-          <table className={S.body} ref="bodyTable">
-            { RipangaBodyRows({ collapsedGroups, toggledGroups, globalKey, idKey, tableData }) }
+      <div className={S.container} ref={(el) => { this.ripangaContainer = el; }}>
+        <div className={S.headContainer} ref={(el) => { this.headContainer = el; }}>
+          <table className={S.head} ref={(el) => { this.headTable = el; }}>
+            { RipangaHeadRow({
+              actions,
+              checkedIds,
+              columnDefinitions,
+              globalKey,
+              idKey,
+              renderHeadCell,
+              showCheckboxes,
+              tableData }) }
           </table>
         </div>
 
-        <div className={S.stickyContainer} ref="stickyContainer">
-          { RipangaStickyCells({ idKey, tableData, toggledGroups }) }
+        <div className={S.bodyContainer} ref={(el) => { this.bodyContainer = el; }}>
+          <table className={S.body} ref={(el) => { this.bodyTable = el; }}>
+            { RipangaBodyRows({
+              collapsedGroups,
+              columnDefinitions,
+              globalKey,
+              idKey,
+              renderBodyRow,
+              showCheckboxes,
+              tableData,
+              toggledGroups }) }
+          </table>
         </div>
 
-        {/* <div className={S.stickyCellHead} ref="stickyHead">
+        <div className={S.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
+          { RipangaStickyCells({ idKey, renderBodyStickyCell, tableData, toggledGroups }) }
+        </div>
+
+        <div className={S.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
           <Range
             className={S.horizontalScroller}
-            max="50"
-            min="0"
-            onChange={this._scrollSlider}
+            max='50'
+            min='0'
+            onChange={this.scrollSlider}
             onClick={this.props.actions.trackSlider}
-            ref="slider"
-            type="range"
+            ref={(el) => { this.slider = el; }}
+            type='range'
             value={sliderValue}
           />
-        </div> */}
+        </div>
       </div>
     );
   }

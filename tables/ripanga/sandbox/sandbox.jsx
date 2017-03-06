@@ -11,7 +11,10 @@ const def = {
   sortKey: ''
 };
 
-const renderer = obj => <td>{obj.text}</td>;
+// TODO examples: ungrouped, ungrouped checkboxes, grouped, grouped checkboxes
+const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
+const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
+const renderBodyStickyCell = rowData => <div key={`sticky-${rowData.key}`}>Sticky {rowData.text}</div>;
 
 const tableData = [{
   key: undefined,
@@ -23,16 +26,21 @@ const tableData = [{
 ];
 
 const columnDefinitions = [
-  Object.assign({ def, renderer }, { label: 'Cell A' }),
-  Object.assign({ def, renderer }, { label: 'Cell B' }),
-  Object.assign({ def, renderer }, { label: 'Cell C' })
+  Object.assign({ def, renderer: renderCell }, { label: 'Cell A', sortKey: 'cellA' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Cell B', sortKey: 'cellB' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Cell C', sortKey: 'cellC' })
 ];
 
 render(
   <Ripanga
-    columnDefinitions={columnDefinitions}
+    globalKey='ripanga-sandbox-ungrouped'
     idKey='key'
-    tableData={tableData}
+    {...{
+      columnDefinitions,
+      renderBodyRow,
+      renderBodyStickyCell,
+      tableData
+    }}
   />,
   document.getElementById('root'),
 );

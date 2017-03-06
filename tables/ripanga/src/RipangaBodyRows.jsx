@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './Ripanga.scss';
 
-import RipangaGroupPane from './RipangaGroupPane';
 import RipangaGroupRow from './RipangaGroupRow';
 import RipangaBodyRow from './RipangaBodyRow';
 
@@ -10,14 +9,11 @@ const RipangaBodyRows = ({
   checkedIds,
   columnDefinitions,
   collapsedGroups,
-  globalKey,  // TODO REQUIRED (and others)
+  globalKey,
   idKey,
   onCheck,
-  renderBodyCell,
   renderBodyRow,
   renderGroupTitle,
-  renderGroupPaneContent,
-  setCheckedOne,
   showCheckboxes,
   tableData,
   toggledGroups
@@ -28,19 +24,17 @@ const RipangaBodyRows = ({
       return [];
     }
 
-    return data.map(rowData => (<RipangaBodyRow
-      key={`ripanga-body-${rowData[idKey]}`}
-      {...{ actions,
-        checkedIds,
-        columnDefinitions,
-        globalKey,
-        idKey,
-        onCheck,
-        renderBodyCell,
-        renderBodyRow,
-        rowData,
-        showCheckboxes }}
-    />));
+    return data.map(rowData => (RipangaBodyRow({
+      actions,
+      checkedIds,
+      columnDefinitions,
+      globalKey,
+      idKey,
+      onCheck,
+      renderBodyRow,
+      rowData,
+      showCheckboxes
+    })));
   };
 
   const renderGroupRow = (groupData, groupIndex = 0) => {
@@ -60,22 +54,8 @@ const RipangaBodyRows = ({
       isCollapsed={collapsedGroups.get(groupIndex)}
       isDisabled={groupData.data.length === 0}
       isToggled={toggledGroups.get(groupIndex)}
+      // TODO make sure groups render
       {...{ actions, collapseGroup, colSpan, globalKey, groupIndex, showCheckboxes, titleElement, toggleGroup, groupData, checkedIds }}
-    />);
-  };
-
-  const renderGroupPane = (groupIndex = 0) => {
-    if (collapsedGroups.get(groupIndex) === true ||
-      !toggledGroups.get(groupIndex) === true) {
-      return [];
-    }
-
-    const colSpan = columnDefinitions
-      .reduce((p, c, i, a) => (a[i].hidden === false ? p + 1 : p), 0);
-
-    return (<RipangaGroupPane
-      {...{ colSpan, groupIndex, renderGroupPaneContent }}
-      key={`group-pane-${groupIndex}`}
     />);
   };
 
@@ -83,7 +63,6 @@ const RipangaBodyRows = ({
     const groups = [];
     tableData.forEach((groupData, index) => {
       groups.push(renderGroupRow(groupData, index));
-      groups.push(renderGroupPane(index));
       groups.push(...renderBodyRows(groupData.data, index));
     });
 
@@ -100,25 +79,28 @@ const RipangaBodyRows = ({
 };
 
 RipangaBodyRows.propTypes = {
-  // actions: PropTypes.shape(),
-  // checkedIds: PropTypes.shape(),
-  // columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  // collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
-  // globalKey: PropTypes.string.isRequired,
-  // idKey,
-  // onCheck,
-  // renderBodyCell,
-  // renderBodyRow,
-  // renderGroupTitle,
-  // renderGroupPaneContent,
-  // setCheckedOne,
-  // showCheckboxes,
-  // tableData,
-  // toggledGroups
+  actions: PropTypes.shape(),
+  checkedIds: PropTypes.shape(),
+  columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
+  globalKey: PropTypes.string.isRequired,
+  idKey: PropTypes.string,
+  onCheck: PropTypes.func,
+  renderBodyRow: PropTypes.func,
+  renderGroupTitle: PropTypes.func,
+  showCheckboxes: PropTypes.bool.isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  toggledGroups: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 RipangaBodyRows.defaultProps = {
-
+  actions: PropTypes.shape(),
+  checkedIds: PropTypes.shape(),
+  idKey: 'id',
+  onCheck: null,
+  renderBodyRow: null,
+  renderGroupTitle: null,
+  renderGroupPaneContent: null
 };
 
 export default RipangaBodyRows;

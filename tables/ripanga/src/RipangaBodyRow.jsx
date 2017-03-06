@@ -7,7 +7,7 @@ const RipangaBodyRow = ({
   globalKey,
   idKey,
   onCheck,
-  renderBodyRow,  // TODO REQUIRED
+  renderBodyRow,
   rowData,
   showCheckboxes
 }) => {
@@ -17,16 +17,16 @@ const RipangaBodyRow = ({
       : actions.setUnchecked({ ids: [rowData[idKey]], globalKey, onCheck });
   };
 
-  const cells = columnDefinitions.map((def) => {
+  const cells = columnDefinitions.map((def, i) => {
     if (def.hidden === true) {
       return null;
     }
 
-    return def.renderer(rowData);
+    return def.renderer(rowData, i);
   });
 
   if (showCheckboxes) {
-    cells.unshift(<td key={`${idKey}-checkboxes`}>
+    cells.unshift(<td key={`${rowData[idKey]}-checkboxes`}>
       <input
         type='checkbox'
         checked={checkedIds.get(rowData[idKey])}
@@ -35,21 +35,27 @@ const RipangaBodyRow = ({
     </td>);
   }
 
-
   return renderBodyRow(rowData, cells);
 };
 
-export default RipangaBodyRow;
+RipangaBodyRow.propTypes = {
+  actions: PropTypes.shape(),
+  checkedIds: PropTypes.shape(),
+  columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  globalKey: PropTypes.string.isRequired,
+  idKey: PropTypes.string,
+  onCheck: PropTypes.func,
+  renderBodyRow: PropTypes.func.isRequired,
+  rowData: PropTypes.shape().isRequired,
+  showCheckboxes: PropTypes.bool
+};
 
-// static propTypes = {
-//   checkedIds: React.PropTypes.shape(),
-//   columnDefinitions: React.PropTypes.arrayOf(React.PropTypes.shape()),
-//   idKey: React.PropTypes.string,
-//   renderBodyCell: React.PropTypes.func,
-//   renderBodyRow: React.PropTypes.func,
-//   rowData: React.PropTypes.shape(),
-//   showCheckboxes: React.PropTypes.bool,
-//   actions: React.PropTypes.shape(),
-//   globalKey: React.PropTypes.string,
-//   onCheck: React.PropTypes.func,
-// };
+RipangaBodyRow.defaultProps = {
+  actions: PropTypes.shape(),
+  checkedIds: PropTypes.shape(),
+  idKey: PropTypes.string,
+  onCheck: PropTypes.func,
+  showCheckboxes: PropTypes.bool
+};
+
+export default RipangaBodyRow;

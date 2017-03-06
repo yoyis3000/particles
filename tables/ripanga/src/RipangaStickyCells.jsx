@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styles from './Ripanga.scss';
 
 const RipangaStickyCells = ({
   collapsedGroups = [],  // TODO REQUIRED and proptypes?
   idKey,
-  renderBodyStickyCell = () => null,
-  renderGroupStickyCell = () => null,
-  renderGroupStickyPane = () => null,
+  renderBodyStickyCell,
+  renderGroupStickyCell,
   tableData,
   toggledGroups
 }) => {
@@ -36,7 +35,6 @@ const RipangaStickyCells = ({
     tableData.forEach((group, index) => {
       cells.push(renderGroupStickyCell(group.data, index));
       cells.push(renderBodyStickyCells(group.data, index));
-      cells.push(renderGroupStickyPane(index));
     });
 
     return cells;
@@ -47,6 +45,21 @@ const RipangaStickyCells = ({
   return (isNotGrouped
     ? renderBodyStickyCells(tableData[0].data)
     : renderGroupStickyCells());
+};
+
+RipangaStickyCells.propTypes = {
+  collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
+  idKey: PropTypes.string,
+  renderBodyStickyCell: PropTypes.func.isRequired,
+  renderGroupStickyCell: null,
+  tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  toggledGroups: PropTypes.arrayOf(PropTypes.shape()).isRequired
+};
+
+RipangaStickyCells.defaultProps = {
+  idKey: 'id',
+  renderBodyStickyCell: null,
+  renderGroupStickyCell: null
 };
 
 export default RipangaStickyCells;

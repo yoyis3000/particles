@@ -10,14 +10,14 @@ class Ripa extends React.Component {
     labels: PropTypes.arrayOf(
       PropTypes.shape({
         k: PropTypes.string,
-        v: PropTypes.string,
+        v: PropTypes.string
       }),
     ).isRequired,
     onChange: PropTypes.func,
     selectedKey: PropTypes.string,
     slot: PropTypes.node,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    title: PropTypes.string,
+    title: PropTypes.string
   };
 
   static defaultProps = {
@@ -25,7 +25,7 @@ class Ripa extends React.Component {
     selectedKey: null,
     slot: null,
     stylesheets: [defaultStyles],
-    title: null,
+    title: null
   };
 
   constructor(props) {
@@ -39,6 +39,10 @@ class Ripa extends React.Component {
     this.state = { selectedIndex };
   }
 
+  onButtonClick = ({ k, v, index }) => () => {
+    this.setSelected({ k, v, index });
+  };
+
   setSelected({ k, v, index }) {
     const { selectedIndex } = this.state;
     if (selectedIndex !== index) {
@@ -47,15 +51,11 @@ class Ripa extends React.Component {
     }
   }
 
-  _onClickButton = ({ k, v, index }) => () => {
-    this.setSelected({ k, v, index });
-  };
-
   render() {
     const {
       labels,
       slot,
-      title,
+      title
     } = this.props;
 
     const { selectedIndex } = this.state;
@@ -64,7 +64,7 @@ class Ripa extends React.Component {
       <button
         className={`${styles.tab} ${selectedIndex === index ? styles.active : null}`}
         key={`${k}-tab`}
-        onClick={this._onClickButton({ k, v, index })}
+        onClick={this.onButtonClick({ k, v, index })}
       >
         {v}
       </button>

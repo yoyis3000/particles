@@ -11,12 +11,11 @@ const i18n = {
 };
 
 // TODO configurable columns
-// TODO remove group pane and toggling
 // TODO remove immutable and 'actions' property
 // TODO stylesheet composition, rename S
+// TODO remove pane positioning
 // TODO observable to resize: Cannot read property 'getBoundingClientRect' of undefined
 // TODO expand all / collapse all to ripanga
-// TODO remove shouldcomponentupdate for row
 // TODO finalize utils style stuff - getDefinitions(), groupingProps()
 // TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
 // TODO pass group parameter ???
@@ -28,7 +27,6 @@ const i18n = {
 
 export default class Ripanga extends React.Component {
   static propTypes = {
-    actions: PropTypes.shape(),
     columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     globalKey: PropTypes.string.isRequired,
     idKey: PropTypes.string,
@@ -36,18 +34,16 @@ export default class Ripanga extends React.Component {
     renderBodyRow: PropTypes.func,
     renderBodyStickyCell: PropTypes.func,
     renderEmpty: PropTypes.func,
-    renderHeadCell: PropTypes.func,
     showCheckboxes: PropTypes.bool,
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
   };
 
   static defaultProps = {
-    actions: {},
     idKey: 'id',
     panelPosition: 'right',
     renderBodyRow: null,
+    renderBodyStickyCell: null,
     renderEmpty: null,
-    renderHeadCell: null,
     showCheckboxes: false
   }
 
@@ -63,8 +59,7 @@ export default class Ripanga extends React.Component {
     this.state = {
       checkedIds: {},
       collapsedGroups: [],
-      sliderValue: 0,
-      toggledGroups: []
+      sliderValue: 0
     };
   }
 
@@ -139,15 +134,13 @@ export default class Ripanga extends React.Component {
     this.setState({ collapsedGroups: [] });
   }
 
-  toggleGroup = (index) => {
-    const toggledGroups = this.state.toggledGroups;
-    toggledGroups[index] = !toggledGroups[index];
-    this.setState({ toggledGroups });
-  }
-
   expandAllGroups = () => {
     this.setState({ collapsedGroups: [] });
   }
+
+  trackSlider = () => () => {
+    // dispatch(trackEvent('project_area.submittals.table_actions.horizontal_scroll'));
+  };
 
   // [COLLAPSE_GROUP]: (state, { payload: index }) => {
   //   const val = state.getIn(['collapsedGroups', index]);
@@ -402,14 +395,12 @@ export default class Ripanga extends React.Component {
 
   render() {
     const {
-      actions,
       columnDefinitions,
       globalKey,
       idKey,
       renderBodyRow,
       renderBodyStickyCell,
       renderEmpty,
-      renderHeadCell,
       showCheckboxes,
       tableData
     } = this.props;
@@ -417,8 +408,7 @@ export default class Ripanga extends React.Component {
     const {
       checkedIds,
       collapsedGroups,
-      sliderValue,
-      toggledGroups
+      sliderValue
     } = this.state;
 
     if (tableData.length === 0) {
@@ -443,33 +433,38 @@ export default class Ripanga extends React.Component {
         <div className={S.headContainer} ref={(el) => { this.headContainer = el; }}>
           <table className={S.head} ref={(el) => { this.headTable = el; }}>
             { RipangaHeadRow({
-              actions,
               checkedIds,
               columnDefinitions,
               globalKey,
               idKey,
-              renderHeadCell,
               showCheckboxes,
-              tableData }) }
+              tableData
+            }) }
           </table>
         </div>
 
         <div className={S.bodyContainer} ref={(el) => { this.bodyContainer = el; }}>
           <table className={S.body} ref={(el) => { this.bodyTable = el; }}>
             { RipangaBodyRows({
+              checkedIds,
               collapsedGroups,
               columnDefinitions,
               globalKey,
               idKey,
               renderBodyRow,
               showCheckboxes,
-              tableData,
-              toggledGroups }) }
+              tableData
+            }) }
           </table>
         </div>
 
         <div className={S.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
-          { RipangaStickyCells({ idKey, renderBodyStickyCell, tableData, toggledGroups }) }
+          { RipangaStickyCells({
+            collapsedGroups,
+            idKey,
+            renderBodyStickyCell,
+            tableData
+          }) }
         </div>
 
         <div className={S.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
@@ -478,7 +473,7 @@ export default class Ripanga extends React.Component {
             max='50'
             min='0'
             onChange={this.scrollSlider}
-            onClick={this.props.actions.trackSlider}
+            onClick={this.trackSlider}
             ref={(el) => { this.slider = el; }}
             type='range'
             value={sliderValue}

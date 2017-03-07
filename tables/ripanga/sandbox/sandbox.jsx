@@ -11,36 +11,77 @@ const def = {
   sortKey: ''
 };
 
-// TODO examples: ungrouped, ungrouped checkboxes, grouped, grouped checkboxes
 const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
 const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
 const renderBodyStickyCell = rowData => <div key={`sticky-${rowData.key}`}>Sticky {rowData.text}</div>;
 
-const tableData = [{
+const tableDataUngrouped = [{
   key: undefined,
   data: [
-    { text: 'cellA', key: 'cellA' },
-    { text: 'cellB', key: 'cellB' },
-    { text: 'cellC', key: 'cellC' }
+    { text: 'rowA', key: 'rowA' },
+    { text: 'rowB', key: 'rowB' },
+    { text: 'rowC', key: 'rowC' }
   ] }
 ];
 
-const columnDefinitions = [
-  Object.assign({ def, renderer: renderCell }, { label: 'Cell A', sortKey: 'cellA' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Cell B', sortKey: 'cellB' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Cell C', sortKey: 'cellC' })
+const tableDataGrouped = [
+  { key: 'groupA',
+    data: [
+      { text: 'rowA', key: 'rowA' },
+      { text: 'rowB', key: 'rowB' },
+      { text: 'rowC', key: 'rowC' }
+    ]
+  }, { key: 'groupB',
+    data: [
+      { text: 'rowD', key: 'rowD' },
+      { text: 'rowE', key: 'rowE' },
+      { text: 'rowF', key: 'rowF' },
+      { text: 'rowG', key: 'rowG' }
+    ]
+  }, { key: 'groupC',
+    data: [
+      { text: 'rowH', key: 'rowH' },
+      { text: 'rowI', key: 'rowI' },
+      { text: 'rowJ', key: 'rowJ' },
+      { text: 'rowK', key: 'rowK' }
+    ]
+  }
 ];
 
+const columnDefinitions = [
+  Object.assign({ def, renderer: renderCell }, { label: 'Col A', sortKey: 'colA' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col B', sortKey: 'colB' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col C', sortKey: 'colC' })
+];
+
+// TODO examples: WITH and WITHOUT
+// grouping
+// checkboxes
+// group title render
+// body row render
+// empty render
 render(
-  <Ripanga
-    globalKey='ripanga-sandbox-ungrouped'
-    idKey='key'
-    {...{
-      columnDefinitions,
-      renderBodyRow,
-      renderBodyStickyCell,
-      tableData
-    }}
-  />,
+  <div>
+    <Ripanga
+      globalKey='ripanga-sandbox-ungrouped'
+      idKey='key'
+      tableData={tableDataUngrouped}
+      {...{
+        columnDefinitions,
+        renderBodyRow,
+        renderBodyStickyCell
+      }}
+    />
+    <Ripanga
+      globalKey='ripanga-sandbox-grouped'
+      idKey='key'
+      tableData={tableDataGrouped}
+      {...{
+        columnDefinitions,
+        renderBodyRow,
+        renderBodyStickyCell
+      }}
+    />
+  </div>,
   document.getElementById('root'),
 );

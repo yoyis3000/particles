@@ -9,7 +9,6 @@ const RipangaHeadRow = ({
   idKey,
   onCheck,
   onSort,
-  renderHeadCell,
   showCheckboxes,
   tableData
 }) => {
@@ -29,16 +28,12 @@ const RipangaHeadRow = ({
       : actions.setUnchecked({ ids: indices, globalKey, onCheck });
   };
 
-  const defaultRenderer = def => RipangaHeadCell({ def, globalKey, idKey, onSort });
-
-  const renderCell = (def, i) => {
+  const renderCell = (def) => {
     if (def.hidden === true) {
       return null;
     }
 
-    return (renderHeadCell
-      ? renderHeadCell(def, i)
-      : defaultRenderer(def, i));
+    return RipangaHeadCell({ def, globalKey, idKey, onSort });
   };
 
   const cells = columnDefinitions.map(renderCell);
@@ -70,7 +65,6 @@ RipangaHeadRow.propTypes = {
   idKey: PropTypes.string,
   onCheck: PropTypes.func,
   onSort: PropTypes.func,
-  renderHeadCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   tableData: PropTypes.arrayOf(PropTypes.object).isRequired
 };
@@ -80,8 +74,7 @@ RipangaHeadRow.defaultProps = {
   checkedIds: PropTypes.shape(),
   idKey: 'id',
   onCheck: null,
-  onSort: null,
-  renderHeadCell: null
+  onSort: null
 };
 
 export default RipangaHeadRow;

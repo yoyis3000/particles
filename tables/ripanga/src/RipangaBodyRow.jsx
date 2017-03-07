@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 const RipangaBodyRow = ({
-  actions,
   checkedIds,
   columnDefinitions,
   globalKey,
@@ -9,12 +8,14 @@ const RipangaBodyRow = ({
   onCheck,
   renderBodyRow,
   rowData,
+  setChecked,
+  setUnchecked, // TODO why oncheck, setchecked, setunchecked
   showCheckboxes
 }) => {
   const onChange = (evt) => {
-    evt.target.checked
-      ? actions.setChecked({ ids: [rowData[idKey]], globalKey, onCheck })
-      : actions.setUnchecked({ ids: [rowData[idKey]], globalKey, onCheck });
+    // evt.target.checked
+    //   ? setChecked({ ids: [rowData[idKey]], globalKey, onCheck })
+    //   : setUnchecked({ ids: [rowData[idKey]], globalKey, onCheck });
   };
 
   const cells = columnDefinitions.map((def, i) => {
@@ -29,7 +30,7 @@ const RipangaBodyRow = ({
     cells.unshift(<td key={`${rowData[idKey]}-checkboxes`}>
       <input
         type='checkbox'
-        checked={checkedIds.get(rowData[idKey])}
+        checked={checkedIds[rowData[idKey]]}
         onChange={onChange}
       />
     </td>);
@@ -47,6 +48,8 @@ RipangaBodyRow.propTypes = {
   onCheck: PropTypes.func,
   renderBodyRow: PropTypes.func.isRequired,
   rowData: PropTypes.shape().isRequired,
+  setChecked: PropTypes.func,
+  setUnchecked: PropTypes.func,
   showCheckboxes: PropTypes.bool
 };
 

@@ -4,7 +4,6 @@ import RipangaCaret from './RipangaCaret';
 import styles from './Ripanga.scss';
 
 const RipangaGroupRow = ({
-  actions,
   globalKey,
   checkedIds,
   collapseGroup,
@@ -19,7 +18,7 @@ const RipangaGroupRow = ({
   const indices = groupData.data.map(v => v.id);
 
   const checkedCount = indices.reduce((acc, i) => {
-    if (checkedIds.get(i)) {
+    if (checkedIds[i]) {
       return acc + 1;
     }
 
@@ -28,8 +27,8 @@ const RipangaGroupRow = ({
 
   const onChange = (evt) => {
     evt.target.checked
-      ? actions.setChecked({ ids: indices, globalKey })
-      : actions.setUnchecked({ ids: indices, globalKey });
+      ? setChecked({ ids: indices, globalKey })
+      : setUnchecked({ ids: indices, globalKey });
   };
 
   const onCaretClick = () => {
@@ -43,7 +42,7 @@ const RipangaGroupRow = ({
     : null);
 
   return (
-    <tr className={styles.groupRow}>
+    <tr className={styles.groupRow} key={`group-${groupData.key}`}>
       <td colSpan={colSpan}>
         <div className={styles.controls}>
           {checkbox}
@@ -56,8 +55,7 @@ const RipangaGroupRow = ({
 };
 
 RipangaGroupRow.propTypes = {
-  actions: PropTypes.shape(),
-  checkedIds: PropTypes.shape(),
+  checkedIds: PropTypes.arrayOf(PropTypes.string),
   collapseGroup: PropTypes.func.isRequired,
   colSpan: PropTypes.number.isRequired,
   globalKey: PropTypes.string.isRequired,
@@ -70,14 +68,12 @@ RipangaGroupRow.propTypes = {
 };
 
 RipangaGroupRow.defaultProps = {
-  actions: PropTypes.shape(),
   checkedIds: PropTypes.shape(),
   idKey: 'id',
   isCollapsed: false,
   isDisabled: false,
   renderBodyRow: null,
   renderGroupTitle: null,
-  renderGroupPaneContent: null,
   titleElement: null
 };
 

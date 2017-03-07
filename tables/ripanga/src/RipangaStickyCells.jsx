@@ -2,21 +2,19 @@ import React, { PropTypes } from 'react';
 import styles from './Ripanga.scss';
 
 const RipangaStickyCells = ({
-  collapsedGroups = [],  // TODO REQUIRED and proptypes?
-  idKey,
+  collapsedGroups,
+  idKey = 'id',
   renderBodyStickyCell,
-  renderGroupStickyCell,
-  tableData,
-  toggledGroups
+  renderGroupStickyCell = () => null,
+  tableData
 }) => {
   const renderBodyStickyCells = (data, groupIndex = 0) => {
-    if (collapsedGroups[groupIndex] === true ||
-      toggledGroups[groupIndex] === true) {
+    if (collapsedGroups[groupIndex] === true) {
       return [];
     }
 
     if (data[0][idKey] === undefined) {
-      console.error(`Sticky cell renderer aborted: missing ID key '${idKey}'`); // eslint-disable-line
+      console.error(`Sticky cell renderer aborted: ID key '${idKey}' not found in row data.`); // eslint-disable-line
       return [];
     }
 
@@ -51,15 +49,8 @@ RipangaStickyCells.propTypes = {
   collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
   idKey: PropTypes.string,
   renderBodyStickyCell: PropTypes.func.isRequired,
-  renderGroupStickyCell: null,
-  tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toggledGroups: PropTypes.arrayOf(PropTypes.shape()).isRequired
-};
-
-RipangaStickyCells.defaultProps = {
-  idKey: 'id',
-  renderBodyStickyCell: null,
-  renderGroupStickyCell: null
+  renderGroupStickyCell: PropTypes.func,
+  tableData: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default RipangaStickyCells;

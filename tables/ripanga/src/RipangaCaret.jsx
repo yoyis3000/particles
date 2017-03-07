@@ -14,8 +14,8 @@ const Caret = ({
 </div>);
 
 Caret.propTypes = {
-  closed: PropTypes.boolean,
-  disabled: PropTypes.boolean,
+  closed: PropTypes.bool,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func.isRequired
 };
 

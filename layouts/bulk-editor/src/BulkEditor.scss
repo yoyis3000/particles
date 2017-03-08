@@ -2,21 +2,44 @@
 
 $defaultSpacing: 5px;
 
+.cancel {
+  color: blue;
+  cursor: pointer;
+  margin-right: $defaultSpacing;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: orange;
+  }
+}
+
 .container {
+  background: pink; // TODO: Take out
   display: flex;
   flex-direction: column;
-  font-family: Lato; // TODO: vendor specific, move out later
 }
 
 .fields {
-  background: navajowhite;
+  background: crimson; // TODO: Take out
   display: flex;
   flex: 7;
 }
 
-.fieldsSpacing {
+.footer {
+  align-items: center;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: $defaultSpacing;
+}
+
+.fieldsContainer {
+  background: skyblue; // TODO: Take out
+  display: flex;
+  flex-direction: column;
   margin-left: $defaultSpacing;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .itemContainer {
@@ -24,13 +47,13 @@ $defaultSpacing: 5px;
 }
 
 .itemsTitle {
-  background: salmon;
+  background: gold; // TODO: Take out
   display: flex;
   flex-direction: row;
 }
 
 .itemsContainer {
-  background: deepskyblue;
+  background: lightgreen; // TODO: Take out
   height: 100%;
   margin-right: $defaultSpacing;
   min-height: 250px;
@@ -40,7 +63,9 @@ $defaultSpacing: 5px;
 .removeButton {
   background: none;
   border: none;
+  margin-left: $defaultSpacing;
   margin-right: $defaultSpacing;
+  margin-top: $defaultSpacing;
   transition: color 0.3s ease;
 
   &:hover {
@@ -61,8 +86,23 @@ $defaultSpacing: 5px;
   flex-direction: row;
 }
 
+.submitButton {
+  background: white;
+  border-radius: 2px;
+  border: 1px solid black;
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 8px 15px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    border: 1px solid orange;
+    color: white;
+    background: orange;
+  }
+}
+
 .title {
-  background: lightgreen;
   display: flex;
   flex-direction: row;
 }

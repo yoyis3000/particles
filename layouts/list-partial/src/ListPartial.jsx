@@ -70,7 +70,7 @@ ListPartial.defaultProps = {
   notifications: null,
   paginationComponent: null,
   searchComponent: null,
-  stylesheets: [],
+  stylesheets: [defaultStyles],
   tableComponent: null
 };
 

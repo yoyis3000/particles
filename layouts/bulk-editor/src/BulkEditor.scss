@@ -1,0 +1,64 @@
+@import "../../shared/reset.scss";
+
+$defaultSpacing: 5px;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  font-family: Lato; // TODO: vendor specific, move out later
+}
+
+.fields {
+  background: navajowhite;
+  display: flex;
+  flex: 7;
+}
+
+.fieldsSpacing {
+  display: flex;
+  margin-left: $defaultSpacing;
+}
+
+.itemsTitle {
+  background: salmon;
+  display: flex;
+  flex-direction: row;
+}
+
+.itemsContainerSpacing {
+  background: deepskyblue;
+  height: 100%;
+  margin-right: $defaultSpacing;
+  min-height: 250px;
+  width: 100%;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  margin-right: $defaultSpacing;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: red;
+  }
+}
+
+.selectedItems {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  max-width: 250px;
+}
+
+.subContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  background: lightgreen;
+  display: flex;
+  flex-direction: row;
+}

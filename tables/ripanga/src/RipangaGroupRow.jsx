@@ -4,49 +4,51 @@ import RipangaCaret from './RipangaCaret';
 import styles from './Ripanga.scss';
 
 const RipangaGroupRow = ({
-  globalKey,
-  checkedIds,
-  collapseGroup,
   colSpan,
+  globalKey,
   groupData,
-  groupIndex,
+  // isChecked,
   isCollapsed,
   isDisabled,
+  onCollapse,
   showCheckboxes,
   titleElement
 }) => {
-  const indices = groupData.data.map(v => v.id);
-
-  const checkedCount = indices.reduce((acc, i) => {
-    if (checkedIds[i]) {
-      return acc + 1;
-    }
-
-    return acc;
-  }, 0);
+  // const indices = groupData.data.map(v => v.id);
+  //
+  // const checkedCount = indices.reduce((acc, i) => {
+  //   if (checkedIds[i]) {
+  //     return acc + 1;
+  //   }
+  //
+  //   return acc;
+  // }, 0);
 
   const onChange = (evt) => {
-    evt.target.checked
-      ? setChecked({ ids: indices, globalKey })
-      : setUnchecked({ ids: indices, globalKey });
+    // evt.target.checked
+    //   ? setChecked({ ids: indices, globalKey })
+    //   : setUnchecked({ ids: indices, globalKey });
   };
 
   const onCaretClick = () => {
     if (isDisabled === false) {
-      collapseGroup(groupIndex);
+      onCollapse(groupData.key.name);
     }
   };
 
-  const checkbox = (showCheckboxes
-    ? <input type='checkbox' checked={indices.length === checkedCount} onChange={onChange} />
-    : null);
+  // const checkbox = (showCheckboxes
+  //   ? <input type='checkbox' checked={indices.length === checkedCount} onChange={onChange} />
+  //   : null);
+  const checkbox = null;
+
+  const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
 
   return (
-    <tr className={styles.groupRow} key={`group-${groupData.key}`}>
+    <tr className={styles.groupRow} key={`group-${groupData.key.name}`}>
       <td colSpan={colSpan}>
         <div className={styles.controls}>
           {checkbox}
-          <RipangaCaret disabled={isDisabled} closed={isCollapsed} onClick={onCaretClick} />
+          {caret}
         </div>
         <span className={styles.title}>{titleElement}</span>
       </td>
@@ -55,12 +57,10 @@ const RipangaGroupRow = ({
 };
 
 RipangaGroupRow.propTypes = {
-  checkedIds: PropTypes.arrayOf(PropTypes.string),
-  collapseGroup: PropTypes.func.isRequired,
+  onCollapse: PropTypes.func.isRequired,
   colSpan: PropTypes.number.isRequired,
   globalKey: PropTypes.string.isRequired,
   groupData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  groupIndex: PropTypes.number.isRequired,
   isCollapsed: PropTypes.bool,
   isDisabled: PropTypes.bool,
   showCheckboxes: PropTypes.bool.isRequired,

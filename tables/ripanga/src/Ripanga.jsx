@@ -4,7 +4,13 @@ import Range from 'react-range';
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
 import RipangaStickyCells from './RipangaStickyCells';
-import S from './Ripanga.scss';
+
+import baseStyles from './Ripanga.scss';
+import defaultStyles from './RipangaDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
+let isGrouped = false;
 
 const i18n = {
   NO_RESULTS: 'No results found'
@@ -12,18 +18,17 @@ const i18n = {
 
 // TODO configurable columns
 // TODO remove immutable and 'actions' property
-// TODO stylesheet composition, rename S
 // TODO remove pane positioning
 // TODO observable to resize: Cannot read property 'getBoundingClientRect' of undefined
 // TODO expand all / collapse all to ripanga
 // TODO finalize utils style stuff - getDefinitions(), groupingProps()
 // TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
-// TODO pass group parameter ???
 // TODO ben joseph's changes ???
 // TODO will-change: transform ???
+// TODO pass group parameter ANDY
 // TODO throttle slider  ANDY
 // TODO andy's single table solution ANDY
-// TODO requestAnimationFrame ANDY
+// TODO two tables, grouped/ungrouped?
 
 export default class Ripanga extends React.Component {
   static propTypes = {
@@ -35,6 +40,7 @@ export default class Ripanga extends React.Component {
     renderBodyStickyCell: PropTypes.func,
     renderEmpty: PropTypes.func,
     showCheckboxes: PropTypes.bool,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
   };
 
@@ -44,7 +50,8 @@ export default class Ripanga extends React.Component {
     renderBodyRow: null,
     renderBodyStickyCell: null,
     renderEmpty: null,
-    showCheckboxes: false
+    showCheckboxes: false,
+    stylesheets: [defaultStyles]
   }
 
   constructor(props) {
@@ -56,33 +63,45 @@ export default class Ripanga extends React.Component {
     window.addEventListener('scroll', this.scrollWindow);
     window.addEventListener('resize', this.resize);
 
+    styles = composeStyles(baseStyles, props.stylesheets);
+
+    isGrouped = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
+
+    const collapsedIds = props.tableData.reduce(
+      (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.name]: false })), {});
+
+    // TODO
+    const allChecked = false;
+    const allCollapsed = false;
+
     this.state = {
-      checkedIds: {},
-      collapsedGroups: [],
+      allChecked,
+      allCollapsed,
+      // checkedIds,
+      collapsedIds,
       sliderValue: 0
     };
   }
 
   componentDidMount() {
-    const {
-      globalKey
-    } = this.props;
-
-    const storedRecords = localStorage.getItem(`${globalKey}/CHECKED`);
-    const obj = (storedRecords ? JSON.parse(storedRecords) : {});
-    const ids = [];
-
-    // eslint-disable-next-line
-    for (let i in obj) {
-      ids.push(parseInt(i, 10));
-    }
-
-    this.setChecked(ids, globalKey);
+    // TODO
+    // const {
+    //   globalKey
+    // } = this.props;
+    //
+    // const storedRecords = localStorage.getItem(`${globalKey}/CHECKED`);
+    // const obj = (storedRecords ? JSON.parse(storedRecords) : {});
+    // const ids = [];
+    //
+    // for (let i in obj) {
+    //   ids.push(parseInt(i, 10));
+    // }
+    //
+    // this.setChecked(ids, globalKey);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(this.props.tableData)
-    !== JSON.stringify(nextProps.tableData)) {
+    if (JSON.stringify(this.props.tableData) !== JSON.stringify(nextProps.tableData)) {
       this.clearCollapsedGroups();
     }
   }
@@ -100,24 +119,42 @@ export default class Ripanga extends React.Component {
     this.resize();
   }
 
-  setChecked = (ids, globalKey, onCheck) => {
-    const checkedIds = ids.reduce((acc, id) => acc.set(id, true), this.state.checkedIds);
-    this.storeCheckedStates();
-    this.setState({ checkedIds });
+  onCollapse = (id) => {
+    const { collapsedIds } = this.state;
+    collapsedIds[id] = !collapsedIds[id];
 
-    if (onCheck) {
-      onCheck(checkedIds);
-    }
+    const allCollapsed = Object.values(collapsedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ collapsedIds, allCollapsed });
+  }
+
+  onCollapseAll = () => {
+    const keys = Object.keys(this.state.collapsedIds);
+    const allCollapsed = !this.state.allCollapsed;
+
+    const collapsedIds = keys.reduce((acc, k) => Object.assign(acc, { [k]: allCollapsed }), {});
+
+    this.setState({ allCollapsed, collapsedIds });
+  }
+
+  setChecked = (ids, globalKey, onCheck) => {
+    // const checkedIds = ids.reduce((acc, id) => acc.set(id, true), this.state.checkedIds);
+    // this.storeCheckedStates();
+    // this.setState({ checkedIds });
+    //
+    // if (onCheck) {
+    //   onCheck(checkedIds);
+    // }
   }
 
   setUnchecked = (ids, globalKey, onCheck) => {
-    const checkedIds = ids.reduce((acc, id) => acc.set(id, false), this.state.checkedIds);
-    this.storeCheckedStates(checkedIds, globalKey);
-    this.setState({ checkedIds });
-
-    if (onCheck) {
-      onCheck(checkedIds);
-    }
+    // const checkedIds = ids.reduce((acc, id) => acc.set(id, false), this.state.checkedIds);
+    // this.storeCheckedStates(checkedIds, globalKey);
+    // this.setState({ checkedIds });
+    //
+    // if (onCheck) {
+    //   onCheck(checkedIds);
+    // }
   }
 
   setHeadPosition = (value) => {
@@ -125,27 +162,10 @@ export default class Ripanga extends React.Component {
     this.headContainer.style.position = value;
   }
 
-  collapseAllGroups = () => {
-    // TODO
-    // return state.set('collapsedIds', List(new Array(len).fill(true)));
-  }
-
-  clearCollapsedGroups = () => {
-    this.setState({ collapsedGroups: [] });
-  }
-
-  expandAllGroups = () => {
-    this.setState({ collapsedGroups: [] });
-  }
-
-  trackSlider = () => () => {
+  trackSlider = () => {
     // dispatch(trackEvent('project_area.submittals.table_actions.horizontal_scroll'));
-  };
+  }
 
-  // [COLLAPSE_GROUP]: (state, { payload: index }) => {
-  //   const val = state.getIn(['collapsedGroups', index]);
-  //   return state.setIn(['collapsedGroups', index], !val);
-  // },
   // [SET_UNCHECKED]: (state, { payload: { ids, globalKey, onCheck } }) => {
   //   const checkedIds = ids.reduce((acc, id) => acc.delete(id), state.get('checkedIds'));
   //   onCheck ? onCheck(checkedIds) : null;
@@ -245,9 +265,9 @@ export default class Ripanga extends React.Component {
   };
 
   resize = () => {
-    this.resizeRipanga();
-    this.resizeHead();
-    this.resizeSticky();
+    // this.resizeRipanga();
+    // this.resizeHead();
+    // this.resizeSticky();
   }
 
   resizeHead = () => {
@@ -406,8 +426,9 @@ export default class Ripanga extends React.Component {
     } = this.props;
 
     const {
+      allCollapsed,
       checkedIds,
-      collapsedGroups,
+      collapsedIds,
       sliderValue
     } = this.state;
 
@@ -429,47 +450,52 @@ export default class Ripanga extends React.Component {
     }
 
     return (
-      <div className={S.container} ref={(el) => { this.ripangaContainer = el; }}>
-        <div className={S.headContainer} ref={(el) => { this.headContainer = el; }}>
-          <table className={S.head} ref={(el) => { this.headTable = el; }}>
+      <div className={styles.container} ref={(el) => { this.ripangaContainer = el; }}>
+        <div className={styles.headContainer} ref={(el) => { this.headContainer = el; }}>
+          <table className={styles.head} ref={(el) => { this.headTable = el; }}>
             { RipangaHeadRow({
-              checkedIds,
+              allCollapsed,
               columnDefinitions,
               globalKey,
               idKey,
-              showCheckboxes,
-              tableData
+              isGrouped,
+              onCollapseAll: this.onCollapseAll,
+              styles
             }) }
           </table>
         </div>
 
-        <div className={S.bodyContainer} ref={(el) => { this.bodyContainer = el; }}>
-          <table className={S.body} ref={(el) => { this.bodyTable = el; }}>
+        <div className={styles.bodyContainer} ref={(el) => { this.bodyContainer = el; }}>
+          <table className={styles.body} ref={(el) => { this.bodyTable = el; }}>
             { RipangaBodyRows({
               checkedIds,
-              collapsedGroups,
+              collapsedIds,
               columnDefinitions,
               globalKey,
               idKey,
+              isGrouped,
+              onCollapse: this.onCollapse,
               renderBodyRow,
               showCheckboxes,
+              styles,
               tableData
             }) }
           </table>
         </div>
 
-        <div className={S.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
+        {/* <div className={styles.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
           { RipangaStickyCells({
-            collapsedGroups,
+            collapsedIds,
             idKey,
             renderBodyStickyCell,
+            styles,
             tableData
           }) }
-        </div>
+        </div> */}
 
-        <div className={S.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
+        {/* <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
           <Range
-            className={S.horizontalScroller}
+            className={styles.horizontalScroller}
             max='50'
             min='0'
             onChange={this.scrollSlider}
@@ -478,7 +504,7 @@ export default class Ripanga extends React.Component {
             type='range'
             value={sliderValue}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

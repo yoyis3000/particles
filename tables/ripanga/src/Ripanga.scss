@@ -1,5 +1,165 @@
-// @import 'RipangaSlider';
+@import 'RipangaSlider';
 // @import "./variables";
+
+$bodyZ: 1;
+$headZ: 2;
+$stickyZ: 3;
+
+.container {
+  // overflow: hidden;
+  position: relative;
+}
+
+.headContainer {
+  background: salmon;
+  border: solid gray;
+  border-width: 1px 0 1px 1px;
+  cursor: default;
+  left: 0;
+  overflow: hidden;
+  // position: absolute;
+  top: 0;
+  z-index: $headZ;
+}
+
+.bodyContainer {
+  background: aqua;
+  border: solid gray;
+  border-width: 0 0 0 1px;
+  overflow: auto;
+  z-index: $bodyZ;
+}
+
+.head {
+  background: palette(gray, light);
+  font-size: 11px;
+  table-layout: fixed;
+
+  th {
+    border-right: 1px solid palette(gray, base);
+    font-weight: bold;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .columnSort {
+    white-space: normal;
+  }
+
+  .sortable {
+    cursor: pointer;
+  }
+
+  .label {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+.body {
+  position: relative;
+
+  td {
+    border-right: 1px solid palette(gray, base);
+    border-bottom: 1px solid palette(gray, base);
+    font-size: 11px;
+    padding: 10px;
+    position: relative;
+  }
+}
+
+.groupRow {
+  background: palette(gray, xlight);
+
+  .controls {
+    display: inline-block;
+    padding: 0 10px;
+  }
+
+  .title {
+    display: inline-block;
+  }
+
+  td {
+    padding: 0;
+    vertical-align: middle;
+  }
+}
+
+.caret {
+  color: palette(gray, xdark);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  width: 20px;
+
+  &.closed,
+  &.disabled {
+    transform: rotate(-180deg);
+  }
+
+  &.disabled {
+    color: palette(gray, base);
+    cursor: not-allowed;
+  }
+}
+
+.stickyCell {
+  background: forestgreen;
+  border: solid gray;
+  border-width: 0 1px 1px;
+  text-align: center;
+}
+
+.stickyCellGroup {
+  background: violet;
+  composes: stickyCell;
+  padding: 0;
+  text-align: right;
+}
+
+.stickyCellHead {
+  background: bisque;
+  composes: stickyCell;
+  border-top: 1px solid gray;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-align: center;
+  z-index: $stickyZ;
+
+  .horizontalScroller {
+    height: 14px;
+    left: 50%;
+    margin-left: -40px;
+    margin-top: -7px;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    width: 80px;
+  }
+}
+
+.stickyContainer {
+  background: #fff;
+  border-top: 1px solid palette(gray, base);
+  position: absolute;
+  overflow: hidden;
+  right: 0;
+  top: 0;
+  width: 110px;
+}
+
+// @import 'slider';
+// @import "../../../assets/styles/variables";
 //
 // $headHex: palette(gray, light);
 // $groupHex: palette(gray, xlight);
@@ -9,12 +169,20 @@
 // $headZ: 2;
 // $stickyZ: 3;
 //
-// .container {
+// $caretW: 20px;
+// $checkboxW: 15px;
+// $pad: 10px;
+//
+// .taflan-container {
 //   overflow: hidden;
 //   position: relative;
 // }
 //
-// .headContainer {
+// .taflan-checkbox {
+//   width: 1%;
+// }
+//
+// .taflan-head-container {
 //   border: solid palette(gray, base);
 //   border-width:1px 0 1px 1px;
 //   cursor: default;
@@ -25,14 +193,14 @@
 //   z-index: $headZ;
 // }
 //
-// .bodyContainer {
+// .taflan-body-container {
 //   border: solid palette(gray, base);
 //   border-width: 0 0 0 1px;
 //   overflow: auto;
 //   z-index: $bodyZ;
 // }
 //
-// .head {
+// .taflan-head {
 //   background: palette(gray, light);
 //
 //   font-size: 11px;
@@ -43,12 +211,12 @@
 //     font-weight: bold;
 //     line-height: 20px;
 //     overflow: hidden;
-//     padding: 10px;
+//     padding: $pad;
 //     text-overflow: ellipsis;
 //     white-space: nowrap;
 //   }
 //
-//   .columnSort {
+//   .column-sort {
 //     white-space: normal;
 //   }
 //
@@ -62,7 +230,7 @@
 //   }
 // }
 //
-// .body {
+// .taflan-body {
 //   position: relative;
 //
 //   td {
@@ -74,13 +242,8 @@
 //   }
 // }
 //
-// .groupRow {
+// .taflan-group-row {
 //   background: palette(gray, xlight);
-//
-//   .controls {
-//     display: inline-block;
-//     padding: 0 10px;
-//   }
 //
 //   .title {
 //     display: inline-block;
@@ -92,20 +255,64 @@
 //   }
 // }
 //
-// .caret {
+// .taflan-head-row-controls {
+//   max-width: $caretW + $checkboxW + 2 * $pad + 8;
+//   min-width: $caretW + $checkboxW + 2 * $pad + 8;
+//   text-align: center;
+//   width: $caretW + $checkboxW + 2 * $pad + 8;
+//
+//   [type=checkbox] {
+//     font-size: 11px;
+//     width: $checkboxW;
+//   }
+// }
+//
+// .taflan-body-row-controls {
+//   max-width: $caretW + $checkboxW + 2 * $pad + 8;
+//   min-width: $caretW + $checkboxW + 2 * $pad + 8;
+//   text-align: center;
+//   white-space: nowrap;
+//   width: $caretW + $checkboxW + 2 * $pad + 8;
+//
+//   [type=checkbox] {
+//     width: $checkboxW;
+//   }
+//
+//   .caret-spacer {
+//     display: inline-block;
+//     font-size: 11px;
+//     height: 20px;
+//     line-height: 20px;
+//     width: $caretW;
+//   }
+// }
+//
+// .taflan-group-row-controls {
+//   display: inline-block;
+//   padding: 10px;
+//   text-align: center;
+//   white-space: nowrap;
+//   width: $caretW + $checkboxW + 2 * $pad + 8;
+//
+//   [type=checkbox] {
+//     width: $checkboxW;
+//   }
+// }
+//
+// .taflan-caret {
 //   color: palette(gray, xdark);
 //   cursor: pointer;
 //   display: inline-block;
-//   font-size:11px;
+//   font-size: 11px;
 //   height: 20px;
 //   line-height: 20px;
 //   text-align: center;
 //   transition: transform 0.2s ease;
-//   width: 20px;
+//   width: $caretW;
 //
 //   &.closed,
 //   &.disabled {
-//     transform:rotate(-180deg);
+//     transform:rotate(-90deg);
 //   }
 //
 //   &.disabled {
@@ -114,7 +321,7 @@
 //   }
 // }
 //
-// .groupPane {
+// .taflan-group-pane {
 //   .inside {
 //     height: 300px;
 //     max-height: 300px;
@@ -127,21 +334,21 @@
 //   }
 // }
 //
-// .stickyCell {
+// .taflan-sticky-cell {
 //   border: solid palette(gray, base);
 //   border-width: 0 1px 1px 1px;
 //   text-align:center;
 // }
 //
-// .stickyCellGroup {
-//   composes: stickyCell;
+// .taflan-sticky-cell-group {
+//   composes: taflan-sticky-cell;
 //   background: palette(gray, xlight);
 //   padding: 0;
 //   text-align:right;
 // }
 //
-// .stickyCellHead {
-//   composes: stickyCell;
+// .taflan-sticky-cell-head {
+//   composes: taflan-sticky-cell;
 //   background: palette(gray, light);
 //   border-top: 1px solid palette(gray, base);
 //   padding: 0;
@@ -151,7 +358,7 @@
 //   text-align: center;
 //   z-index:$stickyZ;
 //
-//   .horizontalScroller {
+//   .horizontal-scroller {
 //     height: 14px;
 //     left: 50%;
 //     margin-left: -40px;
@@ -163,12 +370,12 @@
 //   }
 // }
 //
-// .stickyCellPane {
+// .taflan-sticky-cell-pane {
 //   border: solid palette(gray, base);
 //   border-width: 0 0 0 1px;
 // }
 //
-// .stickyContainer {
+// .taflan-sticky-container {
 //   background: #fff;
 //   border-top: 1px solid palette(gray, base);
 //   position: absolute;
@@ -177,230 +384,3 @@
 //   top: 0;
 //   width: 110px;
 // }
-//
-// // @import 'slider';
-// // @import "../../../assets/styles/variables";
-// //
-// // $headHex: palette(gray, light);
-// // $groupHex: palette(gray, xlight);
-// // $borderHex: palette(gray, base);
-// //
-// // $bodyZ: 1;
-// // $headZ: 2;
-// // $stickyZ: 3;
-// //
-// // $caretW: 20px;
-// // $checkboxW: 15px;
-// // $pad: 10px;
-// //
-// // .taflan-container {
-// //   overflow: hidden;
-// //   position: relative;
-// // }
-// //
-// // .taflan-checkbox {
-// //   width: 1%;
-// // }
-// //
-// // .taflan-head-container {
-// //   border: solid palette(gray, base);
-// //   border-width:1px 0 1px 1px;
-// //   cursor: default;
-// //   left: 0;
-// //   overflow: hidden;
-// //   position: absolute;
-// //   top: 0;
-// //   z-index: $headZ;
-// // }
-// //
-// // .taflan-body-container {
-// //   border: solid palette(gray, base);
-// //   border-width: 0 0 0 1px;
-// //   overflow: auto;
-// //   z-index: $bodyZ;
-// // }
-// //
-// // .taflan-head {
-// //   background: palette(gray, light);
-// //
-// //   font-size: 11px;
-// //   table-layout: fixed;
-// //
-// //   th {
-// //     border-right: 1px solid palette(gray, base);
-// //     font-weight: bold;
-// //     line-height: 20px;
-// //     overflow: hidden;
-// //     padding: $pad;
-// //     text-overflow: ellipsis;
-// //     white-space: nowrap;
-// //   }
-// //
-// //   .column-sort {
-// //     white-space: normal;
-// //   }
-// //
-// //   .sortable {
-// //     cursor: pointer;
-// //   }
-// //
-// //   .label {
-// //     display: inline-block;
-// //     margin-right: 5px;
-// //   }
-// // }
-// //
-// // .taflan-body {
-// //   position: relative;
-// //
-// //   td {
-// //     border-right: 1px solid palette(gray, base);
-// //     border-bottom: 1px solid palette(gray, base);
-// //     font-size: 11px;
-// //     padding: 10px;
-// //     position: relative;
-// //   }
-// // }
-// //
-// // .taflan-group-row {
-// //   background: palette(gray, xlight);
-// //
-// //   .title {
-// //     display: inline-block;
-// //   }
-// //
-// //   td {
-// //     padding: 0;
-// //     vertical-align:middle;
-// //   }
-// // }
-// //
-// // .taflan-head-row-controls {
-// //   max-width: $caretW + $checkboxW + 2 * $pad + 8;
-// //   min-width: $caretW + $checkboxW + 2 * $pad + 8;
-// //   text-align: center;
-// //   width: $caretW + $checkboxW + 2 * $pad + 8;
-// //
-// //   [type=checkbox] {
-// //     font-size: 11px;
-// //     width: $checkboxW;
-// //   }
-// // }
-// //
-// // .taflan-body-row-controls {
-// //   max-width: $caretW + $checkboxW + 2 * $pad + 8;
-// //   min-width: $caretW + $checkboxW + 2 * $pad + 8;
-// //   text-align: center;
-// //   white-space: nowrap;
-// //   width: $caretW + $checkboxW + 2 * $pad + 8;
-// //
-// //   [type=checkbox] {
-// //     width: $checkboxW;
-// //   }
-// //
-// //   .caret-spacer {
-// //     display: inline-block;
-// //     font-size: 11px;
-// //     height: 20px;
-// //     line-height: 20px;
-// //     width: $caretW;
-// //   }
-// // }
-// //
-// // .taflan-group-row-controls {
-// //   display: inline-block;
-// //   padding: 10px;
-// //   text-align: center;
-// //   white-space: nowrap;
-// //   width: $caretW + $checkboxW + 2 * $pad + 8;
-// //
-// //   [type=checkbox] {
-// //     width: $checkboxW;
-// //   }
-// // }
-// //
-// // .taflan-caret {
-// //   color: palette(gray, xdark);
-// //   cursor: pointer;
-// //   display: inline-block;
-// //   font-size: 11px;
-// //   height: 20px;
-// //   line-height: 20px;
-// //   text-align: center;
-// //   transition: transform 0.2s ease;
-// //   width: $caretW;
-// //
-// //   &.closed,
-// //   &.disabled {
-// //     transform:rotate(-90deg);
-// //   }
-// //
-// //   &.disabled {
-// //     color: palette(gray, base);
-// //     pointer: not-allowed;
-// //   }
-// // }
-// //
-// // .taflan-group-pane {
-// //   .inside {
-// //     height: 300px;
-// //     max-height: 300px;
-// //     transition: all 0.5s ease;
-// //   }
-// //
-// //   .hidden {
-// //     max-height: 0px;
-// //     overflow: hidden;
-// //   }
-// // }
-// //
-// // .taflan-sticky-cell {
-// //   border: solid palette(gray, base);
-// //   border-width: 0 1px 1px 1px;
-// //   text-align:center;
-// // }
-// //
-// // .taflan-sticky-cell-group {
-// //   composes: taflan-sticky-cell;
-// //   background: palette(gray, xlight);
-// //   padding: 0;
-// //   text-align:right;
-// // }
-// //
-// // .taflan-sticky-cell-head {
-// //   composes: taflan-sticky-cell;
-// //   background: palette(gray, light);
-// //   border-top: 1px solid palette(gray, base);
-// //   padding: 0;
-// //   position: absolute;
-// //   right: 0;
-// //   top: 0;
-// //   text-align: center;
-// //   z-index:$stickyZ;
-// //
-// //   .horizontal-scroller {
-// //     height: 14px;
-// //     left: 50%;
-// //     margin-left: -40px;
-// //     margin-top: -7px;
-// //     padding: 0;
-// //     position: absolute;
-// //     top: 50%;
-// //     width:80px;
-// //   }
-// // }
-// //
-// // .taflan-sticky-cell-pane {
-// //   border: solid palette(gray, base);
-// //   border-width: 0 0 0 1px;
-// // }
-// //
-// // .taflan-sticky-container {
-// //   background: #fff;
-// //   border-top: 1px solid palette(gray, base);
-// //   position: absolute;
-// //   overflow: hidden;
-// //   right: 0;
-// //   top: 0;
-// //   width: 110px;
-// // }

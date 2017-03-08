@@ -66,11 +66,7 @@ const RipangaHeadCell = ({
 RipangaHeadCell.propTypes = {
   def: PropTypes.shape().isRequired,
   globalKey: PropTypes.string.isRequired,
-  onSort: PropTypes.func
-};
-
-RipangaHeadCell.defaultProps = {
-  onSort: null
+  onSort: PropTypes.func.isRequired
 };
 
 export default RipangaHeadCell;

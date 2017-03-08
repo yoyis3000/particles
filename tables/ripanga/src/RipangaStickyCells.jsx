@@ -2,23 +2,23 @@ import React, { PropTypes } from 'react';
 import styles from './Ripanga.scss';
 
 const RipangaStickyCells = ({
-  collapsedGroups,
-  idKey = 'id',
+  collapsedIds,
+  idKey,
   renderBodyStickyCell,
   renderGroupStickyCell = () => null,
   tableData
 }) => {
-  const renderBodyStickyCells = (data, groupIndex = 0) => {
-    if (collapsedGroups[groupIndex] === true) {
+  const renderBodyStickyCells = (group) => {
+    if (group.key && collapsedIds[group.key.name] === true) {
       return [];
     }
 
-    if (data[0][idKey] === undefined) {
+    if (group.data[0][idKey] === undefined) {
       console.error(`Sticky cell renderer aborted: ID key '${idKey}' not found in row data.`); // eslint-disable-line
       return [];
     }
 
-    return data.map(obj => (<div
+    return group.data.map(obj => (<div
       className={styles.stickyCell}
       key={`sticky-cell-${obj[idKey]}`}
     >
@@ -30,9 +30,9 @@ const RipangaStickyCells = ({
   const renderGroupStickyCells = () => {
     const cells = [];
 
-    tableData.forEach((group, index) => {
-      cells.push(renderGroupStickyCell(group.data, index));
-      cells.push(renderBodyStickyCells(group.data, index));
+    tableData.forEach((group) => {
+      cells.push(renderGroupStickyCell(group));
+      cells.push(renderBodyStickyCells(group));
     });
 
     return cells;
@@ -46,7 +46,7 @@ const RipangaStickyCells = ({
 };
 
 RipangaStickyCells.propTypes = {
-  collapsedGroups: PropTypes.arrayOf(PropTypes.any).isRequired,
+  collapsedIds: PropTypes.arrayOf(PropTypes.any).isRequired,
   idKey: PropTypes.string,
   renderBodyStickyCell: PropTypes.func.isRequired,
   renderGroupStickyCell: PropTypes.func,

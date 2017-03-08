@@ -5,41 +5,28 @@ import styles from './Ripanga.scss';
 
 const RipangaGroupRow = ({
   colSpan,
-  globalKey,
   groupData,
-  // isChecked,
+  isChecked,
   isCollapsed,
   isDisabled,
+  onCheck,
   onCollapse,
   showCheckboxes,
   titleElement
 }) => {
-  // const indices = groupData.data.map(v => v.id);
-  //
-  // const checkedCount = indices.reduce((acc, i) => {
-  //   if (checkedIds[i]) {
-  //     return acc + 1;
-  //   }
-  //
-  //   return acc;
-  // }, 0);
-
-  const onChange = (evt) => {
-    // evt.target.checked
-    //   ? setChecked({ ids: indices, globalKey })
-    //   : setUnchecked({ ids: indices, globalKey });
-  };
-
   const onCaretClick = () => {
     if (isDisabled === false) {
       onCollapse(groupData.key.name);
     }
   };
 
-  // const checkbox = (showCheckboxes
-  //   ? <input type='checkbox' checked={indices.length === checkedCount} onChange={onChange} />
-  //   : null);
-  const checkbox = null;
+  const onChange = () => {
+    onCheck(groupData.key.name);
+  };
+
+  const checkbox = (showCheckboxes
+    ? <input type='checkbox' checked={isChecked} onChange={onChange} />
+    : null);
 
   const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
 
@@ -47,8 +34,8 @@ const RipangaGroupRow = ({
     <tr className={styles.groupRow} key={`group-${groupData.key.name}`}>
       <td colSpan={colSpan}>
         <div className={styles.controls}>
-          {checkbox}
           {caret}
+          {checkbox}
         </div>
         <span className={styles.title}>{titleElement}</span>
       </td>
@@ -56,25 +43,17 @@ const RipangaGroupRow = ({
   );
 };
 
+/* eslint-disable react/require-default-props */
 RipangaGroupRow.propTypes = {
   onCollapse: PropTypes.func.isRequired,
   colSpan: PropTypes.number.isRequired,
-  globalKey: PropTypes.string.isRequired,
   groupData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  isChecked: PropTypes.bool,
   isCollapsed: PropTypes.bool,
   isDisabled: PropTypes.bool,
+  onCheck: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   titleElement: PropTypes.element
-};
-
-RipangaGroupRow.defaultProps = {
-  checkedIds: PropTypes.shape(),
-  idKey: 'id',
-  isCollapsed: false,
-  isDisabled: false,
-  renderBodyRow: null,
-  renderGroupTitle: null,
-  titleElement: null
 };
 
 export default RipangaGroupRow;

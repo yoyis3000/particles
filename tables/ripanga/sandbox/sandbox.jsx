@@ -83,9 +83,21 @@ const grouped = (<Ripanga
   }}
 />);
 
+const groupedWithCheckboxes = (<Ripanga
+  globalKey='ripanga-sandbox-grouped'
+  idKey='key'
+  showCheckboxes
+  tableData={tableDataGrouped}
+  {...{
+    columnDefinitions,
+    renderBodyRow,
+    renderBodyStickyCell
+  }}
+/>);
+
 render(
   <div>
-    {grouped}
+    {groupedWithCheckboxes}
   </div>,
   document.getElementById('root'),
 );

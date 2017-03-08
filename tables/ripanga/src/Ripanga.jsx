@@ -17,18 +17,17 @@ const i18n = {
 };
 
 // TODO configurable columns
-// TODO remove immutable and 'actions' property
 // TODO remove pane positioning
+// TODO move sort saving from head cell to god class, remove global key
 // TODO observable to resize: Cannot read property 'getBoundingClientRect' of undefined
-// TODO expand all / collapse all to ripanga
 // TODO finalize utils style stuff - getDefinitions(), groupingProps()
 // TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
 // TODO ben joseph's changes ???
-// TODO will-change: transform ???
-// TODO pass group parameter ANDY
 // TODO throttle slider  ANDY
-// TODO andy's single table solution ANDY
-// TODO two tables, grouped/ungrouped?
+// TODO andy's single table solution + compose it
+// TODO two tables, grouped/ungrouped
+// TODO allow all checkboxes to clear - pass in initialState
+// TODO URL update, controlled?
 
 export default class Ripanga extends React.Component {
   static propTypes = {
@@ -70,21 +69,26 @@ export default class Ripanga extends React.Component {
     const collapsedIds = props.tableData.reduce(
       (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.name]: false })), {});
 
-    // TODO
+    const checkedIds = props.tableData
+      .reduce((tableAcc, group) => Object.assign(tableAcc, group.data
+        .reduce((groupAcc, row) => Object.assign(groupAcc, { [row[props.idKey]]: false })
+        , {}))
+      , {});
+
     const allChecked = false;
     const allCollapsed = false;
 
     this.state = {
       allChecked,
       allCollapsed,
-      // checkedIds,
+      checkedIds,
       collapsedIds,
       sliderValue: 0
     };
   }
 
   componentDidMount() {
-    // TODO
+    // TODO storage / url persistence
     // const {
     //   globalKey
     // } = this.props;
@@ -137,24 +141,35 @@ export default class Ripanga extends React.Component {
     this.setState({ allCollapsed, collapsedIds });
   }
 
-  setChecked = (ids, globalKey, onCheck) => {
-    // const checkedIds = ids.reduce((acc, id) => acc.set(id, true), this.state.checkedIds);
-    // this.storeCheckedStates();
-    // this.setState({ checkedIds });
-    //
-    // if (onCheck) {
-    //   onCheck(checkedIds);
-    // }
+  onRowCheck = (id) => {
+    const { checkedIds } = this.state;
+    checkedIds[id] = !checkedIds[id];
+
+    const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ allChecked, checkedIds });
   }
 
-  setUnchecked = (ids, globalKey, onCheck) => {
-    // const checkedIds = ids.reduce((acc, id) => acc.set(id, false), this.state.checkedIds);
-    // this.storeCheckedStates(checkedIds, globalKey);
-    // this.setState({ checkedIds });
-    //
-    // if (onCheck) {
-    //   onCheck(checkedIds);
-    // }
+  onGroupCheck = (groupId) => {
+    const groupIds = this.props.tableData.find(d => d.key.name === groupId)
+      .data
+      .reduce((acc, row) => acc.concat(row[this.props.idKey]), []);
+
+    const { checkedIds } = this.state;
+    const groupIsChecked = groupIds.reduce((acc, id) => acc && checkedIds[id], true);
+    groupIds.forEach((id) => { checkedIds[id] = !groupIsChecked; });
+
+    const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ allChecked, checkedIds });
+  }
+
+  onCheckAll = () => {
+    const allChecked = !this.state.allChecked;
+    const checkedIds = Object.keys(this.state.checkedIds)
+      .reduce((acc, k) => Object.assign(acc, { [k]: allChecked }), {});
+
+    this.setState({ allChecked, checkedIds });
   }
 
   setHeadPosition = (value) => {
@@ -165,13 +180,6 @@ export default class Ripanga extends React.Component {
   trackSlider = () => {
     // dispatch(trackEvent('project_area.submittals.table_actions.horizontal_scroll'));
   }
-
-  // [SET_UNCHECKED]: (state, { payload: { ids, globalKey, onCheck } }) => {
-  //   const checkedIds = ids.reduce((acc, id) => acc.delete(id), state.get('checkedIds'));
-  //   onCheck ? onCheck(checkedIds) : null;
-  //   storeCheckedStates(checkedIds, globalKey);
-  //   return state.set('checkedIds', checkedIds);
-  // },
 
   applyStaticBounds = (side) => {
     this.setHeadPosition('absolute');
@@ -426,6 +434,7 @@ export default class Ripanga extends React.Component {
     } = this.props;
 
     const {
+      allChecked,
       allCollapsed,
       checkedIds,
       collapsedIds,
@@ -454,12 +463,15 @@ export default class Ripanga extends React.Component {
         <div className={styles.headContainer} ref={(el) => { this.headContainer = el; }}>
           <table className={styles.head} ref={(el) => { this.headTable = el; }}>
             { RipangaHeadRow({
+              allChecked,
               allCollapsed,
               columnDefinitions,
               globalKey,
               idKey,
               isGrouped,
+              onCheckAll: this.onCheckAll,
               onCollapseAll: this.onCollapseAll,
+              showCheckboxes,
               styles
             }) }
           </table>
@@ -471,10 +483,11 @@ export default class Ripanga extends React.Component {
               checkedIds,
               collapsedIds,
               columnDefinitions,
-              globalKey,
               idKey,
               isGrouped,
+              onRowCheck: this.onRowCheck,
               onCollapse: this.onCollapse,
+              onGroupCheck: this.onGroupCheck,
               renderBodyRow,
               showCheckboxes,
               styles,
@@ -483,7 +496,7 @@ export default class Ripanga extends React.Component {
           </table>
         </div>
 
-        {/* <div className={styles.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
+        <div className={styles.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
           { RipangaStickyCells({
             collapsedIds,
             idKey,
@@ -491,9 +504,9 @@ export default class Ripanga extends React.Component {
             styles,
             tableData
           }) }
-        </div> */}
+        </div>
 
-        {/* <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
+        <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
           <Range
             className={styles.horizontalScroller}
             max='50'
@@ -504,7 +517,7 @@ export default class Ripanga extends React.Component {
             type='range'
             value={sliderValue}
           />
-        </div> */}
+        </div>
       </div>
     );
   }

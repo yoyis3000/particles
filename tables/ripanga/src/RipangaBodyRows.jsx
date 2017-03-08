@@ -5,64 +5,66 @@ import RipangaGroupRow from './RipangaGroupRow';
 import RipangaBodyRow from './RipangaBodyRow';
 
 const RipangaBodyRows = ({
-  // checkedIds,
+  checkedIds,
   collapsedIds,
   columnDefinitions,
-  globalKey,
   idKey,
   isGrouped,
-  // onCheck,
   onCollapse,
+  onGroupCheck,
+  onRowCheck,
   renderBodyRow,
   renderGroupTitle,
+  showCheckboxes,
   tableData
 }) => {
-  const renderBodyRows = (groupData) => {
-    if (groupData.key && collapsedIds[groupData.key.name] === true) {
+  const renderBodyRows = (group) => {
+    if (group.key && collapsedIds[group.key.name] === true) {
       return [];
     }
 
-    return groupData.data.map(rowData => (RipangaBodyRow({
+    return group.data.map(rowData => (RipangaBodyRow({
       columnDefinitions,
-      globalKey,
       idKey,
-      // isChecked: checkedIds[rowData[idKey]],
-      // onCheck,
+      isChecked: checkedIds[rowData[idKey]],
+      onCheck: onRowCheck,
       renderBodyRow,
-      rowData
+      rowData,
+      showCheckboxes
     })));
   };
 
-  const renderGroupRow = (groupData) => {
-    // const initialVal = (showCheckboxes ? 1 : 0);
-    const initialVal = 0;
+  const renderGroupRow = (group) => {
+    const initialColspan = (showCheckboxes ? 1 : 0);
 
     const colSpan = columnDefinitions
-      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), initialVal);
+      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), initialColspan);
 
     const titleElement = (renderGroupTitle === undefined
-      ? (<span className={styles.title}>{groupData.key.name}</span>)
-      : renderGroupTitle(groupData, groupIndex));
+      ? (<span className={styles.title}>{group.key.name}</span>)
+      : renderGroupTitle(group));
+
+    const isChecked = group.data.reduce(
+      (acc, rowData) => acc && (checkedIds[rowData[idKey]] || false), true);
 
     return (RipangaGroupRow({
-      // checkedIds,
-      // showCheckboxes,
       colSpan,
-      globalKey,
-      groupData,
-      isCollapsed: collapsedIds[groupData.key.name],
-      isDisabled: groupData.data.length === 0,
-      key: `group-row-${groupData.key.name}`,
+      groupData: group,
+      isChecked,
+      isCollapsed: collapsedIds[group.key.name],
+      isDisabled: group.data.length === 0,
       onCollapse,
+      onCheck: onGroupCheck,
+      showCheckboxes,
       titleElement
     }));
   };
 
   const renderBodyGroups = () => {
     const groups = [];
-    tableData.forEach((groupData) => {
-      groups.push(renderGroupRow(groupData));
-      groups.push(...renderBodyRows(groupData));
+    tableData.forEach((group) => {
+      groups.push(renderGroupRow(group));
+      groups.push(...renderBodyRows(group));
     });
 
     return groups;
@@ -75,15 +77,17 @@ const RipangaBodyRows = ({
 
 /* eslint-disable react/require-default-props */
 RipangaBodyRows.propTypes = {
-  // checkedIds: PropTypes.shape(),
+  checkedIds: PropTypes.shape(),
   columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   onCollapse: PropTypes.func,
   collapsedIds: PropTypes.arrayOf(PropTypes.any).isRequired,
-  globalKey: PropTypes.string.isRequired,
   idKey: PropTypes.string,
-  // onCheck: PropTypes.func,
+  isGrouped: PropTypes.bool,
+  onGroupCheck: PropTypes.func,
+  onRowCheck: PropTypes.func,
   renderBodyRow: PropTypes.func,
   renderGroupTitle: PropTypes.func,
+  showCheckboxes: PropTypes.bool,
   tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 

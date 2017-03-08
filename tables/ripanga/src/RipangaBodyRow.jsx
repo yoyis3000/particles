@@ -1,23 +1,14 @@
 import React, { PropTypes } from 'react';
 
 const RipangaBodyRow = ({
-  checkedIds,
   columnDefinitions,
-  globalKey,
   idKey,
+  isChecked,
   onCheck,
   renderBodyRow,
   rowData,
-  setChecked,
-  setUnchecked, // TODO why oncheck, setchecked, setunchecked
   showCheckboxes
 }) => {
-  const onChange = (evt) => {
-    // evt.target.checked
-    //   ? setChecked({ ids: [rowData[idKey]], globalKey, onCheck })
-    //   : setUnchecked({ ids: [rowData[idKey]], globalKey, onCheck });
-  };
-
   const cells = columnDefinitions.map((def, i) => {
     if (def.hidden === true) {
       return null;
@@ -26,11 +17,15 @@ const RipangaBodyRow = ({
     return def.renderer(rowData, i);
   });
 
+  const onChange = () => {
+    onCheck(rowData[idKey]);
+  };
+
   if (showCheckboxes) {
     cells.unshift(<td key={`${rowData[idKey]}-checkboxes`}>
       <input
         type='checkbox'
-        checked={checkedIds[rowData[idKey]]}
+        checked={isChecked}
         onChange={onChange}
       />
     </td>);
@@ -48,8 +43,6 @@ RipangaBodyRow.propTypes = {
   onCheck: PropTypes.func,
   renderBodyRow: PropTypes.func.isRequired,
   rowData: PropTypes.shape().isRequired,
-  setChecked: PropTypes.func,
-  setUnchecked: PropTypes.func,
   showCheckboxes: PropTypes.bool
 };
 

@@ -14,13 +14,11 @@ $defaultSpacing: 5px;
 }
 
 .container {
-  background: pink; // TODO: Take out
   display: flex;
   flex-direction: column;
 }
 
 .fields {
-  background: crimson; // TODO: Take out
   display: flex;
   flex: 7;
 }
@@ -34,7 +32,6 @@ $defaultSpacing: 5px;
 }
 
 .fieldsContainer {
-  background: skyblue; // TODO: Take out
   display: flex;
   flex-direction: column;
   margin-left: $defaultSpacing;
@@ -53,7 +50,6 @@ $defaultSpacing: 5px;
 }
 
 .itemsContainer {
-  background: lightgreen; // TODO: Take out
   height: 100%;
   margin-right: $defaultSpacing;
   min-height: 250px;

@@ -1,17 +1,25 @@
 import React, { PropTypes } from 'react';
 import styles from './BulkEditor.scss';
 
-const BulkEditor = ({ items, itemsTitle }) =>
+const keyGen = (item, valueField) => {
+  if (typeof item === 'object') {
+    return item[valueField];
+  }
+
+  return item;
+};
+
+const BulkEditor = ({ children, itemFormatter, items, itemsTitle, valueField }) =>
   <div className={styles.container}>
     <span className={styles.itemsTitle}>{itemsTitle}</span>
 
     <div className={styles.subContainer}>
       <div className={styles.selectedItems}>
-        <div className={`${styles.container} ${styles.itemsContainerSpacing}`}>
+        <div className={`${styles.container} ${styles.itemsContainer}`}>
           {items.map(item =>
-            <div>
+            <div className={styles.itemContainer} key={`bulk-editor-item-${keyGen(item, valueField)}`}>
               <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={() => {}} />
-              {item}: {item}
+              {itemFormatter(item)}
             </div>
           )}
         </div>
@@ -19,20 +27,26 @@ const BulkEditor = ({ items, itemsTitle }) =>
 
       <div className={styles.fields}>
         <div className={styles.fieldsSpacing}>
-          Some Nick Pickers here
+          {children}
         </div>
       </div>
     </div>
   </div>;
 
 BulkEditor.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape()),
-  itemsTitle: PropTypes.string
+  children: PropTypes.oneOfType([PropTypes.any]),
+  itemFormatter: PropTypes.func,
+  items: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.any])),
+  itemsTitle: PropTypes.string,
+  valueField: PropTypes.string
 };
 
 BulkEditor.defaultProps = {
+  children: [],
+  itemFormatter: item => item,
   items: [],
-  itemsTitle: 'Selected Items: '
+  itemsTitle: 'Selected Items: ',
+  valueField: 'value'
 };
 
 export default BulkEditor;

@@ -19,13 +19,17 @@ $defaultSpacing: 5px;
   margin-left: $defaultSpacing;
 }
 
+.itemContainer {
+  margin-bottom: 5px;
+}
+
 .itemsTitle {
   background: salmon;
   display: flex;
   flex-direction: row;
 }
 
-.itemsContainerSpacing {
+.itemsContainer {
   background: deepskyblue;
   height: 100%;
   margin-right: $defaultSpacing;

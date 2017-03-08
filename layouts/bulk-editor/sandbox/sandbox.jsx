@@ -7,7 +7,9 @@ const items = ['Item1', 'Item2'];
 
 render(
   <div style={{ margin: '10px' }}>
-    <BulkEditor {...{ items }} />
+    <BulkEditor {...{ items }}>
+      Some inner children
+    </BulkEditor>
   </div>,
   window.document.getElementById('root')
 );

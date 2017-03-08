@@ -9,13 +9,13 @@ const RipangaBodyRows = ({
   collapsedIds,
   columnDefinitions,
   idKey,
-  isGrouped,
   onCollapse,
   onGroupCheck,
   onRowCheck,
   renderBodyRow,
   renderGroupTitle,
   showCheckboxes,
+  showGroups,
   tableData
 }) => {
   const renderBodyRows = (group) => {
@@ -70,9 +70,9 @@ const RipangaBodyRows = ({
     return groups;
   };
 
-  const rows = (isGrouped ? renderBodyGroups() : renderBodyRows(tableData[0]));
+  const rows = (showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]));
 
-  return (<tbody>{rows}</tbody>);
+  return (<tbody className={styles.tableBody}>{rows}</tbody>);
 };
 
 /* eslint-disable react/require-default-props */
@@ -82,12 +82,12 @@ RipangaBodyRows.propTypes = {
   onCollapse: PropTypes.func,
   collapsedIds: PropTypes.arrayOf(PropTypes.any).isRequired,
   idKey: PropTypes.string,
-  isGrouped: PropTypes.bool,
   onGroupCheck: PropTypes.func,
   onRowCheck: PropTypes.func,
   renderBodyRow: PropTypes.func,
   renderGroupTitle: PropTypes.func,
   showCheckboxes: PropTypes.bool,
+  showGroups: PropTypes.bool,
   tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 

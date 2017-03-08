@@ -6,18 +6,17 @@ const RipangaHeadRow = ({
   allChecked,
   allCollapsed,
   columnDefinitions,
-  globalKey,
   idKey,
-  isGrouped,
   onCheckAll,
   onCollapseAll,
   onSort,
   showCheckboxes,
+  showGroups,
   styles
 }) => {
   const cells = columnDefinitions.reduce((acc, def) => {
     if (def.hidden !== true) {
-      acc.push(RipangaHeadCell({ def, globalKey, idKey, onSort }));
+      acc.push(RipangaHeadCell({ def, idKey, onSort }));
     }
 
     return acc;
@@ -27,11 +26,11 @@ const RipangaHeadRow = ({
     ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
     : null);
 
-  const caret = (isGrouped ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll }) : null);
+  const caret = (showGroups ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll }) : null);
 
   if (checkbox || caret) {
     cells.unshift(
-      <th key={'head-controls'} className={styles.headControls}>
+      <th key={'head-controls'} className={styles.tableHeadControls}>
         {caret}
         {checkbox}
       </th>
@@ -39,7 +38,7 @@ const RipangaHeadRow = ({
   }
 
   return (
-    <thead>
+    <thead className={styles.tableHead}>
       <tr>
         {cells}
       </tr>
@@ -51,13 +50,12 @@ RipangaHeadRow.propTypes = {
   allChecked: PropTypes.bool.isRequired,
   allCollapsed: PropTypes.bool.isRequired,
   columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  globalKey: PropTypes.string.isRequired,
   idKey: PropTypes.string.isRequired,
-  isGrouped: PropTypes.bool.isRequired,
   onCheckAll: PropTypes.func.isRequired,
   onCollapseAll: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   showCheckboxes: PropTypes.bool.isRequired,
+  showGroups: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired
 };
 

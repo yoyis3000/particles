@@ -8,7 +8,6 @@ const DIRECTION = { ASC: 'asc', DESC: 'desc' };
 
 const RipangaHeadCell = ({
   def,
-  globalKey,
   onSort
 }) => {
   const url = window.location.href.split('?');
@@ -18,23 +17,6 @@ const RipangaHeadCell = ({
     if (def.sortable === false) {
       return;
     }
-
-    const attribute = def.sortKey;
-    const direction = (params.sort.attribute === attribute
-      && params.sort.direction === DIRECTION.ASC
-      ? DIRECTION.DESC
-      : DIRECTION.ASC);
-
-    params.sort = { attribute, direction };
-    params.page = 1;
-
-    sessionStorage.setItem(`${globalKey}/SORT`, JSON.stringify(params.sort));
-
-    history.pushState(
-      history.state,
-      '',
-      `${url[0]}?${qs.stringify(params, { arrayFormat: 'brackets' })}`,
-    );
 
     onSort();
   };
@@ -65,7 +47,6 @@ const RipangaHeadCell = ({
 
 RipangaHeadCell.propTypes = {
   def: PropTypes.shape().isRequired,
-  globalKey: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired
 };
 

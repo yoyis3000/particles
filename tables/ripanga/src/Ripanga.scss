@@ -1,162 +1,187 @@
-@import 'RipangaSlider';
+.container {
+
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background: navajowhite;
+}
+
+.tableBody {
+  background: lightgreen;
+}
+
+.tableHeadControls {
+  background: powderblue;
+}
+
+
+
+
+
+
+// @import 'RipangaSlider';
 // @import "./variables";
 
-$bodyZ: 1;
-$headZ: 2;
-$stickyZ: 3;
-
-.container {
-  // overflow: hidden;
-  position: relative;
-}
-
-.headContainer {
-  background: salmon;
-  border: solid gray;
-  border-width: 1px 0 1px 1px;
-  cursor: default;
-  left: 0;
-  overflow: hidden;
-  // position: absolute;
-  top: 0;
-  z-index: $headZ;
-}
-
-.bodyContainer {
-  background: aqua;
-  border: solid gray;
-  border-width: 0 0 0 1px;
-  overflow: auto;
-  z-index: $bodyZ;
-}
-
-.head {
-  background: palette(gray, light);
-  font-size: 11px;
-  table-layout: fixed;
-
-  th {
-    border-right: 1px solid palette(gray, base);
-    font-weight: bold;
-    line-height: 20px;
-    overflow: hidden;
-    padding: 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .columnSort {
-    white-space: normal;
-  }
-
-  .sortable {
-    cursor: pointer;
-  }
-
-  .label {
-    display: inline-block;
-    margin-right: 5px;
-  }
-}
-
-.body {
-  position: relative;
-
-  td {
-    border-right: 1px solid palette(gray, base);
-    border-bottom: 1px solid palette(gray, base);
-    font-size: 11px;
-    padding: 10px;
-    position: relative;
-  }
-}
-
-.groupRow {
-  background: palette(gray, xlight);
-
-  .controls {
-    display: inline-block;
-    padding: 0 10px;
-  }
-
-  .title {
-    display: inline-block;
-  }
-
-  td {
-    padding: 0;
-    vertical-align: middle;
-  }
-}
-
-.caret {
-  color: palette(gray, xdark);
-  cursor: pointer;
-  display: inline-block;
-  font-size: 11px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  transition: transform 0.2s ease;
-  width: 20px;
-
-  &.closed,
-  &.disabled {
-    transform: rotate(-180deg);
-  }
-
-  &.disabled {
-    color: palette(gray, base);
-    cursor: not-allowed;
-  }
-}
-
-.stickyCell {
-  background: forestgreen;
-  border: solid gray;
-  border-width: 0 1px 1px;
-  text-align: center;
-}
-
-.stickyCellGroup {
-  background: violet;
-  composes: stickyCell;
-  padding: 0;
-  text-align: right;
-}
-
-.stickyCellHead {
-  background: bisque;
-  composes: stickyCell;
-  border-top: 1px solid gray;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  text-align: center;
-  z-index: $stickyZ;
-
-  .horizontalScroller {
-    height: 14px;
-    left: 50%;
-    margin-left: -40px;
-    margin-top: -7px;
-    padding: 0;
-    position: absolute;
-    top: 50%;
-    width: 80px;
-  }
-}
-
-.stickyContainer {
-  background: #fff;
-  border-top: 1px solid palette(gray, base);
-  position: absolute;
-  overflow: hidden;
-  right: 0;
-  top: 0;
-  width: 110px;
-}
+// $bodyZ: 1;
+// $headZ: 2;
+// $stickyZ: 3;
+//
+// .container {
+//   // overflow: hidden;
+//   position: relative;
+// }
+//
+// .headContainer {
+//   background: salmon;
+//   border: solid gray;
+//   border-width: 1px 0 1px 1px;
+//   cursor: default;
+//   left: 0;
+//   overflow: hidden;
+//   // position: absolute;
+//   top: 0;
+//   z-index: $headZ;
+// }
+//
+// .bodyContainer {
+//   background: aqua;
+//   border: solid gray;
+//   border-width: 0 0 0 1px;
+//   overflow: auto;
+//   z-index: $bodyZ;
+// }
+//
+// .head {
+//   background: palette(gray, light);
+//   font-size: 11px;
+//   table-layout: fixed;
+//
+//   th {
+//     border-right: 1px solid palette(gray, base);
+//     font-weight: bold;
+//     line-height: 20px;
+//     overflow: hidden;
+//     padding: 10px;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//   }
+//
+//   .columnSort {
+//     white-space: normal;
+//   }
+//
+//   .sortable {
+//     cursor: pointer;
+//   }
+//
+//   .label {
+//     display: inline-block;
+//     margin-right: 5px;
+//   }
+// }
+//
+// .body {
+//   position: relative;
+//
+//   td {
+//     border-right: 1px solid palette(gray, base);
+//     border-bottom: 1px solid palette(gray, base);
+//     font-size: 11px;
+//     padding: 10px;
+//     position: relative;
+//   }
+// }
+//
+// .groupRow {
+//   background: palette(gray, xlight);
+//
+//   .controls {
+//     display: inline-block;
+//     padding: 0 10px;
+//   }
+//
+//   .title {
+//     display: inline-block;
+//   }
+//
+//   td {
+//     padding: 0;
+//     vertical-align: middle;
+//   }
+// }
+//
+// .caret {
+//   color: palette(gray, xdark);
+//   cursor: pointer;
+//   display: inline-block;
+//   font-size: 11px;
+//   height: 20px;
+//   line-height: 20px;
+//   text-align: center;
+//   transition: transform 0.2s ease;
+//   width: 20px;
+//
+//   &.closed,
+//   &.disabled {
+//     transform: rotate(-180deg);
+//   }
+//
+//   &.disabled {
+//     color: palette(gray, base);
+//     cursor: not-allowed;
+//   }
+// }
+//
+// .stickyCell {
+//   background: forestgreen;
+//   border: solid gray;
+//   border-width: 0 1px 1px;
+//   text-align: center;
+// }
+//
+// .stickyCellGroup {
+//   background: violet;
+//   composes: stickyCell;
+//   padding: 0;
+//   text-align: right;
+// }
+//
+// .stickyCellHead {
+//   background: bisque;
+//   composes: stickyCell;
+//   border-top: 1px solid gray;
+//   padding: 0;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   text-align: center;
+//   z-index: $stickyZ;
+//
+//   .horizontalScroller {
+//     height: 14px;
+//     left: 50%;
+//     margin-left: -40px;
+//     margin-top: -7px;
+//     padding: 0;
+//     position: absolute;
+//     top: 50%;
+//     width: 80px;
+//   }
+// }
+//
+// .stickyContainer {
+//   background: #fff;
+//   border-top: 1px solid palette(gray, base);
+//   position: absolute;
+//   overflow: hidden;
+//   right: 0;
+//   top: 0;
+//   width: 110px;
+// }
 
 // @import 'slider';
 // @import "../../../assets/styles/variables";

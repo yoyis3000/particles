@@ -58,13 +58,14 @@ $defaultSpacing: 5px;
 .removeButton {
   background: none;
   border: none;
-  margin-left: $defaultSpacing;
+  cursor: pointer;
   margin-right: $defaultSpacing;
-  margin-top: $defaultSpacing;
-  transition: color 0.3s ease;
+  padding: $defaultSpacing;
+  transition: background 0.3s ease;
 
   &:hover {
-    color: red;
+    background: orange;
+    color: white;
   }
 }
 

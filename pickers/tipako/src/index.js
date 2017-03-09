@@ -1,3 +1,7 @@
 import Tipako from './Tipako';
+import TipakoSingle from './TipakoSingle';
 
-export default Tipako;
+export {
+ Tipako as default,
+ TipakoSingle
+};

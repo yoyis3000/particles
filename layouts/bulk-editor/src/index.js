@@ -1,3 +1,7 @@
 import BulkEditor from './BulkEditor';
+import { Select } from './inputs';
 
-export default BulkEditor;
+export {
+  BulkEditor as default,
+  Select
+};

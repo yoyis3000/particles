@@ -1,7 +1,7 @@
 import { render } from 'react-dom';
 import React from 'react';
 
-import Tipako from '../src';
+import Tipako, { TipakoSingle } from '../src';
 
 import defaultStyles from '../src/TipakoDefault.scss';
 import sandboxStyles from './sandbox.scss';
@@ -89,22 +89,33 @@ const stylesheets = [
 ];
 
 render(
-  <Tipako
-    {...{
-      addGroupTokens,
-      data,
-      groupIcon,
-      itemIcon,
-      maxResults,
-      msgEmpty,
-      msgPlaceholder,
-      onFetch,
-      onSelect,
-      renderTokens,
-      stylesheets
-    }}
-
-    className={sandboxStyles.sandbox}
-  />,
+  <div className={sandboxStyles.sandbox}>
+    <Tipako
+      {...{
+        addGroupTokens,
+        data,
+        groupIcon,
+        itemIcon,
+        maxResults,
+        msgEmpty,
+        msgPlaceholder,
+        onFetch,
+        onSelect,
+        renderTokens,
+        stylesheets
+      }}
+    />
+    <TipakoSingle
+      {...{
+        data,
+        groupIcon,
+        itemIcon,
+        msgEmpty,
+        onSelect,
+        stylesheets
+      }}
+    />
+  </div>
+  ,
   window.document.getElementById('root')
 );

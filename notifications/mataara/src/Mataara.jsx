@@ -10,11 +10,11 @@ let styles = {};
 const TYPES = {
   ERROR: 'error',
   INFO: 'info',
-  SUCCESS: 'success',
+  SUCCESS: 'success'
 };
 
 const Mataara = ({ title, body, type, onCancel, noDismiss, stylesheets }) => {
-  styles = composeStyles(baseStyles, stylesheets);
+  styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
   return (
     <div
@@ -23,7 +23,7 @@ const Mataara = ({ title, body, type, onCancel, noDismiss, stylesheets }) => {
         {
           [styles.alertError]: type === TYPES.ERROR,
           [styles.alertInfo]: type === TYPES.INFO,
-          [styles.alertSuccess]: type === TYPES.SUCCESS,
+          [styles.alertSuccess]: type === TYPES.SUCCESS
         },
       )}
     >
@@ -40,19 +40,19 @@ const Mataara = ({ title, body, type, onCancel, noDismiss, stylesheets }) => {
 };
 
 Mataara.propTypes = {
-  body: React.PropTypes.string.isRequired,
+  body: React.PropTypes.oneOf(PropTypes.string, PropTypes.object).isRequired,
   noDismiss: React.PropTypes.bool,
   onCancel: React.PropTypes.func,
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   title: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string,
+  type: React.PropTypes.string
 };
 
 Mataara.defaultProps = {
   noDismiss: false,
   onCancel: null,
-  stylesheets: [ defaultStyles ],
-  type: TYPES.INFO,
+  stylesheets: [],
+  type: TYPES.INFO
 };
 
 export { TYPES };

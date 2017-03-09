@@ -3,6 +3,12 @@
 A `<select>` dropdown to manage downloads.
 
 # Change Log
+##### 2.3.0
+- Changed "placeholder" prop to "title"
+- Stylesheet composition update
+- Minor style changes
+- Changed click elements from buttons to divs
+
 ##### 2.2.0
 - Removed React widgets dependency
 

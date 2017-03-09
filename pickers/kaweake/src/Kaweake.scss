@@ -1,7 +1,7 @@
 @import "../../../shared/reset";
 
-$h: 36px;
-$delay: 0.5s;
+$h: 32px;
+$delay: 0.4s;
 
 .container {
   border: 1px solid #ccc;
@@ -18,13 +18,10 @@ $delay: 0.5s;
 
 .head {
   align-items: center;
-  background: 0;
-  border: 0;
   cursor: pointer;
   display: flex;
   flex-direction: row;
   height: $h;
-  text-align: left;
   width: 100%;
 
   &:hover {
@@ -37,6 +34,7 @@ $delay: 0.5s;
 }
 
 .icon {
+  cursor: pointer;
   display: flex;
   height: 20px;
   margin: 0 10px;
@@ -44,15 +42,17 @@ $delay: 0.5s;
 }
 
 .title {
+  cursor: pointer;
   display: flex;
-  margin: 0 auto 0 5px;
+  margin: 0 5px;
 }
 
 .caret {
+  cursor: pointer;
   display: block;
   font-size: 16px;
   margin: 0 10px 0 auto;
-  transition: all 0.3s ease;
+  transition: all $delay ease;
 
   &.expanded {
     transform: rotate(180deg);
@@ -64,12 +64,9 @@ $delay: 0.5s;
 }
 
 .option {
-  background: 0;
-  border: 0;
   cursor: pointer;
   display: block;
   padding: 5px;
-  text-align: left;
   width: 100%;
 
   &:hover {

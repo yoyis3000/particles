@@ -24,13 +24,13 @@ class Ripa extends React.Component {
     onChange: null,
     selectedKey: null,
     slot: null,
-    stylesheets: [defaultStyles],
+    stylesheets: [],
     title: null
   };
 
   constructor(props) {
     super(props);
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
   }
 
   componentWillMount() {
@@ -39,9 +39,9 @@ class Ripa extends React.Component {
     this.state = { selectedIndex };
   }
 
-  onButtonClick = ({ k, v, index }) => () => {
+  onClickButton = ({ k, v, index }) => () => {
     this.setSelected({ k, v, index });
-  };
+  }
 
   setSelected({ k, v, index }) {
     const { selectedIndex } = this.state;
@@ -61,13 +61,13 @@ class Ripa extends React.Component {
     const { selectedIndex } = this.state;
 
     const tabs = labels.map(({ k, v }, index) => (
-      <button
+      <div
         className={`${styles.tab} ${selectedIndex === index ? styles.active : null}`}
         key={`${k}-tab`}
-        onClick={this.onButtonClick({ k, v, index })}
+        onClick={this.onClickButton({ k, v, index })}
       >
         {v}
-      </button>
+      </div>
     ));
 
     return (

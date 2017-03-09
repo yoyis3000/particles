@@ -41,7 +41,9 @@
   }
 
   &:focus {
-    outline: none;
+    :focus {
+      outline: none;
+    }
   }
 }
 

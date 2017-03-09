@@ -4,12 +4,16 @@ import { TipakoSingle as Tipako } from 'tipako';
 class Select extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape()),
-    onChange: PropTypes.func
+    emptyMsg: PropTypes.string,
+    onChange: PropTypes.func,
+    valueField: PropTypes.string
   }
 
   static defaultProps = {
     data: [],
-    onChange: () => {}
+    emptyMsg: 'Select or Search...',
+    onChange: () => {},
+    valueField: 'value'
   }
 
   onChange(value) {
@@ -20,8 +24,8 @@ class Select extends Component {
   render() {
     return (
       <div>
-        <Tipako data={this.props.data} />
-        <select type='hidden' value={this.state.value} />
+        <Tipako data={this.props.data} msgEmpty={this.props.emptyMsg} />
+        <select type='hidden' value={this.state.value[this.props.valueField]} />
       </div>
     );
   }

@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+#### 2.0.3, 2.0.4
+- Linting.
+
 ##### 2.0.2
 - Stylesheet composition
 

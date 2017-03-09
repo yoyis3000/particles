@@ -10,33 +10,37 @@ class Ripa extends React.Component {
     labels: PropTypes.arrayOf(
       PropTypes.shape({
         k: PropTypes.string,
-        v: PropTypes.string,
+        v: PropTypes.string
       }),
     ).isRequired,
     onChange: PropTypes.func,
     selectedKey: PropTypes.string,
     slot: PropTypes.node,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    title: PropTypes.string,
+    title: PropTypes.string
   };
 
   static defaultProps = {
     onChange: null,
     selectedKey: null,
     slot: null,
-    stylesheets: [defaultStyles],
-    title: null,
+    stylesheets: [],
+    title: null
   };
 
   constructor(props) {
     super(props);
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
   }
 
   componentWillMount() {
     const { selectedKey, labels } = this.props;
     const selectedIndex = labels.findIndex(l => l.k === selectedKey);
     this.state = { selectedIndex };
+  }
+
+  onClickButton = ({ k, v, index }) => () => {
+    this.setSelected({ k, v, index });
   }
 
   setSelected({ k, v, index }) {
@@ -47,27 +51,23 @@ class Ripa extends React.Component {
     }
   }
 
-  _onClickButton = ({ k, v, index }) => () => {
-    this.setSelected({ k, v, index });
-  };
-
   render() {
     const {
       labels,
       slot,
-      title,
+      title
     } = this.props;
 
     const { selectedIndex } = this.state;
 
     const tabs = labels.map(({ k, v }, index) => (
-      <button
+      <div
         className={`${styles.tab} ${selectedIndex === index ? styles.active : null}`}
         key={`${k}-tab`}
-        onClick={this._onClickButton({ k, v, index })}
+        onClick={this.onClickButton({ k, v, index })}
       >
         {v}
-      </button>
+      </div>
     ));
 
     return (

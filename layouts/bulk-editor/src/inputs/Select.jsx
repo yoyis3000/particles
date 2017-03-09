@@ -1,11 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { TipakoSingle as SelectComponent } from 'tipako';
+import defaultStyles from './Select.scss';
+
+import composeStyles from '../../../../shared/stylesheetComposer';
+
+let styles = {};
 
 class Select extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape()),
     emptyMsg: PropTypes.string,
+    inputName: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape),
     valueField: PropTypes.string
   }
 
@@ -13,7 +20,15 @@ class Select extends Component {
     data: [],
     emptyMsg: 'Select or Search...',
     onChange: () => {},
+    stylesheets: [],
     valueField: 'value'
+  }
+
+  constructor(props) {
+    super(props);
+
+    styles = composeStyles(defaultStyles, props.stylesheets);
+    this.state = { value: {} };
   }
 
   onChange(value) {
@@ -22,10 +37,17 @@ class Select extends Component {
   }
 
   render() {
+    const {
+      data,
+      emptyMsg,
+      inputName,
+      valueField
+    } = this.props;
+
     return (
       <div>
-        <SelectComponent data={this.props.data} msgEmpty={this.props.emptyMsg} />
-        <select type='hidden' value={this.state.value[this.props.valueField]} />
+        <SelectComponent data={data} placeholder={emptyMsg} stylesheets={[styles]} />
+        <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );
   }

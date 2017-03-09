@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { TipakoSingle as Tipako } from 'tipako';
+import { TipakoSingle as SelectComponent } from 'tipako';
 
 class Select extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ class Select extends Component {
   render() {
     return (
       <div>
-        <Tipako data={this.props.data} msgEmpty={this.props.emptyMsg} />
+        <SelectComponent data={this.props.data} msgEmpty={this.props.emptyMsg} />
         <select type='hidden' value={this.state.value[this.props.valueField]} />
       </div>
     );

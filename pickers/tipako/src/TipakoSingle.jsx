@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 
-import composeStyles from '../../../shared/stylesheetComposer';
 import baseStyles from './Tipako.scss';
+import defaultStyles from './TipakoDefault.scss';
+
+import composeStyles from '../../../shared/stylesheetComposer';
 
 let timer = null;
 let styles = {};
@@ -42,7 +44,7 @@ export default class TipakoSingle extends Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     this.state = {
       data: props.data,

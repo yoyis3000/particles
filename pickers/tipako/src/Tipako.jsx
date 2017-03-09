@@ -73,7 +73,7 @@ export default class Tipako extends React.Component {
 
     if (this.props.onFetch === Tipako.defaultProps.onFetch) {
       const data = this.props.data.reduce((acc, val) => {
-        const matchText = val.text.toLowerCase().indexOf(str) !== -1;
+        const matchText = val.text.toLowerCase().indexOf(str.toLowerCase()) !== -1;
 
         const matchChild = val.children &&
           val.children.reduce((result, child) =>

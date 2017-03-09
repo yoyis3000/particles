@@ -71,8 +71,7 @@ export default class TipakoSingle extends Component {
 
     if (this.props.onFetch === TipakoSingle.defaultProps.onFetch) {
       const data = this.props.data.reduce((acc, val) => {
-        const matchText = val[this.props.textField].toLowerCase().indexOf(str) !== -1;
-
+        const matchText = val[this.props.textField].toLowerCase().indexOf(str.toLowerCase()) !== -1;
         const matchChild = val.children &&
           val.children.reduce((result, child) =>
             result || (child[this.props.textField].toLowerCase().indexOf(str) !== -1), false);
@@ -167,6 +166,7 @@ export default class TipakoSingle extends Component {
 
       const ungrouped = (
         <button
+          onClick={(evt) => { this.onChildClick(evt, v); }}
           className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
           key={`item-${v.id}`}
         >

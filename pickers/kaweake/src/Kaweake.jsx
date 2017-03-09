@@ -11,7 +11,7 @@ export default class Kaweake extends React.Component {
     icon: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
     data: PropTypes.arrayOf(PropTypes.object),
-    placeholder: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     textField: PropTypes.string,
     valueField: PropTypes.string
@@ -20,14 +20,14 @@ export default class Kaweake extends React.Component {
   static defaultProps = {
     icon: null,
     data: [],
-    stylesheets: [defaultStyles],
+    stylesheets: [],
     textField: 'text',
     valueField: 'value'
   };
 
   constructor(props) {
     super(props);
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     this.state = { expanded: false };
   }
 
@@ -53,30 +53,30 @@ export default class Kaweake extends React.Component {
       ? <img alt='' src={this.props.icon} className={styles.icon} />
       : null;
 
-    const options = this.props.data.map(obj => (<button
+    const options = this.props.data.map(obj => (<div
       key={`option-${obj[this.props.valueField]}`}
       className={styles.option}
       data-value={obj[this.props.valueField]}
       onClick={this.onClick}
     >
       {obj[this.props.textField]}
-    </button>));
+    </div>));
 
     const title = (<span className={styles.title}>
-      {this.props.placeholder}
+      {this.props.title}
     </span>);
 
-    const caret = <div
+    const caret = (<div
       className={cx(styles.caret, 'fa', 'fa-caret-down',
       { [styles.expanded]: this.state.expanded })}
-    />;
+    />);
 
     return (<div className={cx(styles.container, { [styles.expanded]: this.state.expanded })}>
-      <button className={styles.head} onClick={this.onFocus}>
+      <div className={styles.head} onClick={this.onFocus}>
         {img}
         {title}
         {caret}
-      </button>
+      </div>
       <div className={styles.body}>
         {options}
       </div>

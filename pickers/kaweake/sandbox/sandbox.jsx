@@ -18,7 +18,7 @@ const onSelect = (value) => {
   console.warn(`Selected '${value}'.`); // eslint-disable-line no-console
 };
 
-const placeholder = 'Export';
+const title = 'Export';
 
 const stylesheets = [
   defaultStyles,
@@ -31,7 +31,7 @@ render(
       data,
       icon,
       onSelect,
-      placeholder,
+      title,
       stylesheets
     }}
   />,

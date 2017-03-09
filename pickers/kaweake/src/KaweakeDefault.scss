@@ -1,23 +1,21 @@
 @import "../../../shared/variables";
 
-$h: 36px;
-$delay: 0.5s;
-
 .container {
-  background: palette(gray, light);
-  border-radius: 5px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.head {
+  padding: 0 2px;
 }
 
 .title {
   font-size: 14px;
+  margin-right: 20px;
 }
 
 .caret {
   color: #7b7b7b;
-}
-
-.body {
-  background: palette(gray, light);
 }
 
 .option {

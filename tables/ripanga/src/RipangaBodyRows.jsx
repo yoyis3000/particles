@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import styles from './Ripanga.scss';
 
 import RipangaGroupRow from './RipangaGroupRow';
 import RipangaBodyRow from './RipangaBodyRow';
@@ -13,9 +12,11 @@ const RipangaBodyRows = ({
   onGroupCheck,
   onRowCheck,
   renderBodyRow,
+  renderBodyStickyCell,
   renderGroupTitle,
   showCheckboxes,
   showGroups,
+  styles,
   tableData
 }) => {
   const renderBodyRows = (group) => {
@@ -29,13 +30,15 @@ const RipangaBodyRows = ({
       isChecked: checkedIds[rowData[idKey]],
       onCheck: onRowCheck,
       renderBodyRow,
+      renderBodyStickyCell,
       rowData,
-      showCheckboxes
+      showCheckboxes,
+      styles
     })));
   };
 
   const renderGroupRow = (group) => {
-    const initialColspan = (showCheckboxes ? 1 : 0);
+    const initialColspan = (showCheckboxes ? 2 : 1);
 
     const colSpan = columnDefinitions
       .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), initialColspan);
@@ -56,6 +59,7 @@ const RipangaBodyRows = ({
       onCollapse,
       onCheck: onGroupCheck,
       showCheckboxes,
+      styles,
       titleElement
     }));
   };
@@ -85,9 +89,11 @@ RipangaBodyRows.propTypes = {
   onGroupCheck: PropTypes.func,
   onRowCheck: PropTypes.func,
   renderBodyRow: PropTypes.func,
+  renderBodyStickyCell: PropTypes.func,
   renderGroupTitle: PropTypes.func,
   showCheckboxes: PropTypes.bool,
   showGroups: PropTypes.bool,
+  styles: PropTypes.shape().isRequired,
   tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 

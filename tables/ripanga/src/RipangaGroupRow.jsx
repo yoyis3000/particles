@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 import RipangaCaret from './RipangaCaret';
-import styles from './Ripanga.scss';
 
 const RipangaGroupRow = ({
   colSpan,
@@ -12,6 +11,7 @@ const RipangaGroupRow = ({
   onCheck,
   onCollapse,
   showCheckboxes,
+  styles,
   titleElement
 }) => {
   const onCaretClick = () => {
@@ -53,6 +53,7 @@ RipangaGroupRow.propTypes = {
   isDisabled: PropTypes.bool,
   onCheck: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
+  styles: PropTypes.shape().isRequired,
   titleElement: PropTypes.element
 };
 

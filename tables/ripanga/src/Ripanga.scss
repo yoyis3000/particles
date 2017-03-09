@@ -1,23 +1,45 @@
+@import '../../shared/reset';
+
 .container {
 
 }
 
 .table {
-  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .tableHead {
   background: navajowhite;
+
+  th {
+    border: 1px solid #aaa;
+    height: 50px;
+    transform-style: preserve-3d;
+    width: 600px;
+  }
 }
 
 .tableBody {
   background: lightgreen;
+
+  td {
+    border: 1px solid #aaa;
+    height: 50px;
+    transform-style: preserve-3d;
+    width: 600px;
+  }
 }
 
 .tableHeadControls {
   background: powderblue;
 }
 
+.sticky {
+  background: deeppink;
+  width: 100px;
+}
 
 
 

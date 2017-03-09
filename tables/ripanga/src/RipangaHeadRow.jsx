@@ -22,6 +22,9 @@ const RipangaHeadRow = ({
     return acc;
   }, []);
 
+  cells.push(<td className={styles.sticky} key='head-sticky'>Sticky</td>);
+  // <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}></div>
+
   const checkbox = (showCheckboxes
     ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
     : null);

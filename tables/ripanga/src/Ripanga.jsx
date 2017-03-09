@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
-import Range from 'react-range';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
-import RipangaStickyCells from './RipangaStickyCells';
 
 import baseStyles from './Ripanga.scss';
 import defaultStyles from './RipangaDefault.scss';
@@ -11,24 +9,48 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 let showGroups = false;
+
 let headerTop = 0;
 let headerIsFixed = false;
-let renderingAnimationFrame = false;
+
+let sidebarLeft = 0;
+let sidebarIsFixed = false;
+let sidebarCells = [];
 
 const i18n = {
   NO_RESULTS: 'No results found'
 };
 
 const moveHeader = (el, y) => {
-  if (!renderingAnimationFrame) {
-    renderingAnimationFrame = true;
-    window.requestAnimationFrame(() => {
-      el.style.transform = `translate3d(0, ${y}px, 1px)`;  // eslint-disable-line no-param-reassign
-      renderingAnimationFrame = false;
-    });
-  }
+  window.requestAnimationFrame(() => {
+    el.style.transform = `translate3d(0, ${y}px, 0)`;  // eslint-disable-line no-param-reassign
+  });
 };
 
+const restoreHeader = (el) => {
+  el.style.transform = ''; // eslint-disable-line no-param-reassign
+};
+
+const moveSidebar = (els, x) => {
+  window.requestAnimationFrame(() => {
+    els.forEach((el) => {
+      el.style.transform = `translate3d(${x}px, 0, 0)`;  // eslint-disable-line no-param-reassign
+    });
+  });
+};
+
+const restoreSidebar = (els) => {
+  els.forEach((el) => {
+    el.style.transform = '';  // eslint-disable-line no-param-reassign
+  });
+};
+
+// TODO configurable columns
+// TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
+// TODO throttle slider  ANDY
+// TODO two tables, grouped/ungrouped
+// TODO allow all checkboxes to clear - pass in initialState
+// TODO URL manager, storage manager
 
 export default class Ripanga extends React.Component {
   static propTypes = {
@@ -59,7 +81,7 @@ export default class Ripanga extends React.Component {
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
 
     window.addEventListener('scroll', this.onScrollWindow);
-    // window.addEventListener('resize', this.onResize.bind(this));
+    window.addEventListener('resize', this.onResize);
 
     const collapsedIds = props.tableData.reduce(
       (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.name]: false })), {});
@@ -80,7 +102,9 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
+    sidebarCells = document.querySelectorAll('td:last-child');
     this.onResize();
+    this.onScrollWindow();
 
 
     // TODO storage / url persistence
@@ -106,20 +130,34 @@ export default class Ripanga extends React.Component {
   // }
 
   onScrollWindow = () => {
-    const diff = window.scrollY - headerTop;
+    const diffX = window.scrollX - sidebarLeft;
+    const diffY = window.scrollY - headerTop;
 
-    if (diff > 0) {
+    if (diffY > 0) {
       headerIsFixed = true;
-      moveHeader(this.table.tHead, diff);
-    } else if (headerIsFixed) {
+      moveHeader(this.table.tHead, diffY);
+    } else {
+    // if (headerIsFixed) {
       headerIsFixed = false;
-      this.table.tHead.style.transform = '';
+      restoreHeader(this.table.tHead);
+    }
+
+    if (diffX < 0) {
+      sidebarIsFixed = true;
+      moveSidebar(sidebarCells, diffX);
+    } else  {
+    // if (sidebarIsFixed) {
+      sidebarIsFixed = false;
+      restoreSidebar(sidebarCells);
     }
   }
 
-  onResize() {
+  onResize = () => {
     headerTop = this.table.tHead.getBoundingClientRect().top
                 - document.body.getBoundingClientRect().top;
+
+    sidebarLeft = this.table.getBoundingClientRect().right
+                - document.body.getBoundingClientRect().width;
   }
 
   onCollapse = (id) => {
@@ -303,35 +341,13 @@ export default class Ripanga extends React.Component {
             onCollapse: this.onCollapse,
             onGroupCheck: this.onGroupCheck,
             renderBodyRow,
+            renderBodyStickyCell,
             showGroups,
             showCheckboxes,
             styles,
             tableData
           }) }
         </table>
-
-        {/* <div className={styles.stickyContainer} ref={(el) => { this.stickyContainer = el; }}>
-          { RipangaStickyCells({
-            collapsedIds,
-            idKey,
-            renderBodyStickyCell,
-            styles,
-            tableData
-          }) }
-        </div>
-
-        <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}>
-          <Range
-            className={styles.horizontalScroller}
-            max='50'
-            min='0'
-            onChange={this.scrollSlider}
-            onClick={this.trackSlider}
-            ref={(el) => { this.slider = el; }}
-            type='range'
-            value={sliderValue}
-          />
-        </div> */}
       </div>
     );
   }

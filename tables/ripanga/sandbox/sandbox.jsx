@@ -2,6 +2,9 @@ import React from 'react';
 import { render } from 'react-dom'; // eslint-disable-line
 import Ripanga from '../src';
 
+import defaultStyles from '../src/RipangaDefault.scss';
+import sandboxStyles from './sandbox.scss';
+
 const def = {
   editable: false,
   hidden: false,
@@ -13,7 +16,7 @@ const def = {
 
 const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
 const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
-const renderBodyStickyCell = rowData => <div key={`sticky-${rowData.key}`}>Sticky {rowData.text}</div>;
+const renderBodyStickyCell = rowData => <td key={`sticky-${rowData.key}`} className={sandboxStyles.sticky}>Sticky {rowData.text}</td>;
 
 const tableDataUngrouped = [{
   key: undefined,
@@ -54,6 +57,11 @@ const columnDefinitions = [
   Object.assign({ def, renderer: renderCell }, { label: 'Col C', sortKey: 'colC' })
 ];
 
+const stylesheets = [
+  defaultStyles,
+  sandboxStyles
+];
+
 // TODO examples: WITH and WITHOUT
 // grouping
 // checkboxes
@@ -68,7 +76,8 @@ const ungrouped = (<Ripanga
   {...{
     columnDefinitions,
     renderBodyRow,
-    renderBodyStickyCell
+    renderBodyStickyCell,
+    stylesheets
   }}
 />);
 
@@ -79,7 +88,8 @@ const grouped = (<Ripanga
   {...{
     columnDefinitions,
     renderBodyRow,
-    renderBodyStickyCell
+    renderBodyStickyCell,
+    stylesheets
   }}
 />);
 
@@ -91,7 +101,8 @@ const groupedWithCheckboxes = (<Ripanga
   {...{
     columnDefinitions,
     renderBodyRow,
-    renderBodyStickyCell
+    renderBodyStickyCell,
+    stylesheets
   }}
 />);
 

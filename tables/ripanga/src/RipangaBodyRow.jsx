@@ -6,6 +6,7 @@ const RipangaBodyRow = ({
   isChecked,
   onCheck,
   renderBodyRow,
+  renderBodyStickyCell,
   rowData,
   showCheckboxes
 }) => {
@@ -16,6 +17,8 @@ const RipangaBodyRow = ({
 
     return def.renderer(rowData, i);
   });
+
+  cells.push(renderBodyStickyCell(rowData));
 
   const onChange = () => {
     onCheck(rowData[idKey]);
@@ -51,7 +54,8 @@ RipangaBodyRow.defaultProps = {
   checkedIds: PropTypes.shape(),
   idKey: PropTypes.string,
   onCheck: PropTypes.func,
-  showCheckboxes: PropTypes.bool
+  showCheckboxes: PropTypes.bool,
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaBodyRow;

@@ -14,7 +14,6 @@ momentLocalizer(Moment);
 
 export default class DatePicker extends Component {
   static propTypes = {
-    label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   }
@@ -33,11 +32,8 @@ export default class DatePicker extends Component {
 
   render() {
     return (
-      <div>
-        <label>{this.props.label}</label>
-        <div className={styles.rwOverrides}>
-          <DateTimePicker placeholder={this.props.placeholder} time={false} />
-        </div>
+      <div className={styles.rwOverrides}>
+        <DateTimePicker placeholder={this.props.placeholder} time={false} />
       </div>
     );
   }

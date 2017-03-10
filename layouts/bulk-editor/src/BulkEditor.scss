@@ -1,4 +1,5 @@
 @import "../../shared/reset.scss";
+@import '../../../shared/variables.scss';
 
 $defaultSpacing: 5px;
 
@@ -64,7 +65,7 @@ $defaultSpacing: 5px;
   transition: background 0.3s ease;
 
   &:hover {
-    background: orange;
+    background: palette(orange);
     color: white;
   }
 }

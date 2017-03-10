@@ -1,6 +1,8 @@
 @import '../../../../shared/variables.scss';
 
 .rwOverrides {
+  position: relative;
+
   :global .rw-btn-calendar::before {
     content: "\f073";
     font-family: FontAwesome;
@@ -19,25 +21,29 @@
 
       :global .rw-btn-calendar {
         background: white;
-        border: 1px solid darkgray;
+        border: 1px solid palette(gray, dark);
         border-left: none;
         height: 30px;
         transition: background 0.3s ease;
         width: 30px;
 
         &:hover {
-          background: orange;
+          background: palette(orange);
           color: white;
         }
       }
     }
   }
 
+  :global .rw-footer {
+    display: none;
+  }
+
   :global .rw-input {
     height: 30px;
     width: 100%;
     width: 170px;
-    border: 1px solid darkgray;
+    border: 1px solid palette(gray, dark);
     border-right: none;
 
     &:focus {
@@ -47,5 +53,123 @@
     &:placeholder-shown {
       padding-left: 5px;
     }
+  }
+
+  :global .rw-calendar {
+    background-color: #fff;
+  }
+
+  :global .rw-calendar thead > tr {
+    border-bottom: 2px solid palette(gray);
+  }
+
+  :global .rw-calendar .rw-header {
+    padding-bottom: 5px;
+  }
+
+  :global .rw-calendar .rw-header .rw-btn-left,
+  :global .rw-calendar .rw-header .rw-btn-right {
+    background: white;
+    border: 0;
+    cursor: pointer;
+    height: 25px;
+    transition: background 0.3s ease;
+    width: 12.5%;
+
+    &:hover {
+      background: palette(orange);
+      color: white;
+    }
+  }
+
+  :global .rw-calendar .rw-header .rw-btn-left::before {
+    content: "\f0d9";
+    font-family: FontAwesome;
+  }
+
+  :global .rw-calendar .rw-header .rw-btn-right::before {
+    content: "\f0da";
+    font-family: FontAwesome;
+  }
+
+  :global .rw-calendar .rw-header .rw-btn-view {
+    background-color: white;
+    border: none;
+    height: 25px;
+    transition: background 0.3s ease;
+    width: 75%;
+
+    &:hover {
+      background: palette(orange);
+      color: white;
+    }
+  }
+
+  :global .rw-calendar .rw-header .rw-btn-view[disabled] {
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  :global .rw-calendar .rw-footer {
+    border-top: 1px solid palette(gray, dark);
+  }
+
+  :global .rw-calendar .rw-footer .rw-btn {
+    width: 100%;
+    white-space: normal;
+  }
+
+  :global .rw-calendar .rw-footer .rw-btn:hover {
+    background-color: palette(gray, light);
+  }
+
+  :global .rw-calendar .rw-footer .rw-btn[disabled] {
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  :global .rw-calendar .rw-state-selected {
+    background-color: palette(blue, light); // TODO: Pick a better color
+  }
+
+  :global .rw-calendar-grid {
+    height: 14.28571429em;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  :global .rw-calendar-grid th {
+    text-align: right;
+    padding: 0 0.4em 0 0.1em;
+  }
+
+  :global .rw-calendar-grid .rw-btn {
+    width: 100%;
+    text-align: right;
+  }
+
+  :global .rw-calendar-grid td .rw-btn {
+    border-radius: 4px;
+    outline: 0;
+    transition: background-color 0.3s ease;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+
+    &:hover {
+      background-color: skyblue; // TODO: Pick a better color
+    }
+  }
+
+  :global .rw-calendar-grid td .rw-btn.rw-off-range {
+    color: #b3b3b3;
+  }
+
+  :global .rw-calendar-grid.rw-nav-view .rw-btn {
+    display: flex;
+    overflow: hidden;
+    text-align: center;
+    white-space: normal;
+    align-items: center;
   }
 }

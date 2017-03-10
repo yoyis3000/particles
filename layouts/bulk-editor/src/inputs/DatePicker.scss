@@ -1,6 +1,13 @@
 @import '../../../../shared/variables.scss';
 
 .rwOverrides {
+  *,
+  * * {
+    &:focus {
+      outline: none;
+    }
+  }
+
   position: relative;
 
   :global .rw-btn-calendar::before {
@@ -45,10 +52,6 @@
     width: 170px;
     border: 1px solid palette(gray, dark);
     border-right: none;
-
-    &:focus {
-      outline: none;
-    }
 
     &:placeholder-shown {
       padding-left: 5px;

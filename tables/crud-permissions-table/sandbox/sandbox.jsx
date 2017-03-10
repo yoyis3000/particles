@@ -43,6 +43,12 @@ const bodyData = [
 const stylesheets = [sandboxStyles];
 
 render(
-  <CrudPermissionsTable {...{ bodyData, headData, onCheck, stylesheets }} />,
+
+  <div>
+    <div className={[sandboxStyles.sectionTitle]}>Financials</div>
+    <CrudPermissionsTable {...{ bodyData, headData, onCheck, stylesheets }} />
+    <div className={[sandboxStyles.sectionTitle]}>Project Management</div>
+    <CrudPermissionsTable {...{ bodyData, headData, onCheck, stylesheets }} />
+  </div>,
   window.document.getElementById('root')
 );

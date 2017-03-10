@@ -4,6 +4,12 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.4.2
+- Restoring all items after "clear all" action
+
+##### 2.4.0, 2.4.1
+- Leaving body expanded after selection
+
 ##### 2.3.1
 - Fixing cursor for item children.
 

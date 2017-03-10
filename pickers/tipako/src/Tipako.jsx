@@ -101,7 +101,9 @@ export default class Tipako extends React.Component {
     this.setState({ value: str });
   }
 
-  onChildClick = (child) => {
+  onChildClick = (evt, child) => {
+    evt.stopPropagation();
+
     if (child.disabled) {
       return;
     }
@@ -113,10 +115,12 @@ export default class Tipako extends React.Component {
 
     this.props.onSelect(tokens);
     this.searchInput.focus();
-    this.setState({ tokens, expanded: false });
+    this.setState({ tokens });
   }
 
-  onGroupClick = (group) => {
+  onGroupClick = (evt, group) => {
+    evt.stopPropagation();
+
     if (group.disabled) {
       return;
     }
@@ -145,10 +149,12 @@ export default class Tipako extends React.Component {
 
     this.props.onSelect(tokens);
     this.searchInput.focus();
-    this.setState({ tokens, expanded: false });
+    this.setState({ tokens });
   }
 
-  onUngroupedClick = (ungrouped) => {
+  onUngroupedClick = (evt, ungrouped) => {
+    evt.stopPropagation();
+
     if (ungrouped.disabled) {
       return;
     }
@@ -159,7 +165,7 @@ export default class Tipako extends React.Component {
 
     this.props.onSelect(tokens);
     this.searchInput.focus();
-    this.setState({ tokens, expanded: false });
+    this.setState({ tokens });
   }
 
   onTokenClick = (obj) => {
@@ -210,6 +216,7 @@ export default class Tipako extends React.Component {
 
   onClearAll = () => {
     this.props.onSelect([]);
+    Object.keys(tokensMemo).forEach((k) => { delete tokensMemo[k]; });
     this.setState({ tokens: [], expanded: false });
   }
 
@@ -235,7 +242,7 @@ export default class Tipako extends React.Component {
           }
 
           return result.concat(<button
-            onClick={() => { this.onChildClick(vv); }}
+            onClick={(evt) => { this.onChildClick(evt, vv); }}
             className={cx(styles.item, styles.childItem, { [styles.disabled]: vv.disabled })}
             key={`item-${vv.id}`}
           >
@@ -253,7 +260,7 @@ export default class Tipako extends React.Component {
         }
 
         const group = (<button
-          onClick={() => { this.onGroupClick(v); }}
+          onClick={(evt) => { this.onGroupClick(evt, v); }}
           className={cx(styles.item, styles.groupItem, { [styles.disabled]: v.disabled })}
           key={`item-${v.id}`}
         >
@@ -270,7 +277,7 @@ export default class Tipako extends React.Component {
       }
 
       const ungrouped = (<button
-        onClick={() => { this.onUngroupedClick(v); }}
+        onClick={(evt) => { this.onUngroupedClick(evt, v); }}
         className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
         key={`item-${v.id}`}
       >

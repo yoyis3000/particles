@@ -1,8 +1,101 @@
 @import "../../../shared/reset";
-@import "../../../shared/variables";
+
+$border: #e7e7e7;
+$hover: #ddd;
+$rowH: 40px;
+$triangleH: 5px;
+$triangleW: 7px;
+
+.container {
+  border: 1px solid $border;
+  border-radius: 2px;
+  font-family: sans-serif;
+  font-size: 14px;
+  width: 100%;
+}
+
+.headRow {
+  background: $border;
+  display: flex;
+  font-weight: bold;
+}
+
+.groupTitleRow {
+  background: #f9f9f9;
+  border-bottom: 1px solid $border;
+  display: flex;
+  font-weight: bold;
+  position: relative;
+}
+
+.bodyRow {
+  border-bottom: 1px solid $border;
+  display: flex;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.cell0 {
+  height: $rowH;
+  line-height: $rowH;
+  margin-right: auto;
+  padding-left: 45px;
+}
+
+.cell1,
+.cell2,
+.cell3 {
+  cursor: pointer;
+  display: block;
+  height: $rowH;
+  line-height: $rowH;
+  text-align: center;
+  transition: background 0.3s ease;
+  width: 70px;
+
+  [type=checkbox] {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background: $hover;
+  }
+}
 
 .caret {
-  background: lightskyblue;
-  height: 30px;
-  width: 30px;
+  cursor: pointer;
+  height: $rowH;
+  line-height: $rowH;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transition: background 0.3s ease;
+  width: $rowH;
+
+  .triangle {
+    border-top: $triangleW solid #676767;
+    border-bottom: 0;
+    border-left: $triangleH solid transparent;
+    border-right: $triangleH solid transparent;
+    cursor: pointer;
+    height: $triangleH;
+    margin: ($rowH - $triangleH) / 2 auto 0 auto;
+    transition: border 0.3s ease, transform 0.2s ease-out;
+    width: $triangleW;
+
+    &.collapsed {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:hover {
+    background: $hover;
+
+    .triangle {
+      border-top-color: #fff;
+    }
+  }
 }

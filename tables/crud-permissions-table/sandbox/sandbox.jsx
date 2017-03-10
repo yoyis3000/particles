@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import CrudPermissionsTable from '../src';
+import sandboxStyles from './sandbox.scss';
 
 const onCheck = () => {
   console.warn('A checkbox has been selected.'); // eslint-disable-line
@@ -39,7 +40,9 @@ const bodyData = [
   }
 ];
 
+const stylesheets = [sandboxStyles];
+
 render(
-  <CrudPermissionsTable {...{ bodyData, headData, onCheck }} />,
+  <CrudPermissionsTable {...{ bodyData, headData, onCheck, stylesheets }} />,
   window.document.getElementById('root')
 );

@@ -19,10 +19,14 @@ export default class CrudPermissionsTable extends React.Component {
     stylesheets: []
   };
 
-  static renderHeadCells = headData => headData.map((obj, i) =>
+  static renderHeadCells = (headData) => {
+    const headCells = headData.map((obj, i) =>
     (<div className={cx(styles.headCell, styles[`cell${i}`])} key={`cell-${obj.id}`}>
       {obj.label}
     </div>));
+
+    return <div className={styles.headRow}>{headCells}</div>;
+  }
 
   static renderGroupRow = ({ isChecked, isCollapsed, key, onChange, onCollapse }) => (
     <div className={styles.groupTitleRow} key={`group-${key.id}`}>
@@ -30,33 +34,34 @@ export default class CrudPermissionsTable extends React.Component {
         className={styles.caret}
         data-group-id={key.id}
         onClick={onCollapse}
-        {...{ isCollapsed }}
-      />
-      <div className={styles.groupTitle}>{key.id}</div>
-      <div className={styles.cell1}>
-        <input type='checkbox' checked={isChecked.create} {...{ onChange }} />
+      >
+        <div className={cx(styles.triangle, { [styles.collapsed]: isCollapsed })} />
       </div>
-      <div className={styles.cell2}>
-        <input type='checkbox' checked={isChecked.modify} {...{ onChange }} />
-      </div>
-      <div className={styles.cell3}>
-        <input type='checkbox' checked={isChecked.delete} {...{ onChange }} />
-      </div>
+      <div className={cx(styles.groupTitle, styles.cell0)}>{key.label}</div>
+      <label className={styles.cell1} checked={isChecked.create} {...{ onChange }}>
+        <input type='checkbox' />
+      </label>
+      <label className={styles.cell2} checked={isChecked.modify} {...{ onChange }}>
+        <input type='checkbox' />
+      </label>
+      <label className={styles.cell3} checked={isChecked.delete} {...{ onChange }}>
+        <input type='checkbox' />
+      </label>
     </div>
   );
 
   static renderBodyRows = ({ data, onChange }) => data.map(row =>
     (<div className={styles.bodyRow} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
-      <div className={styles.cell1}>
+      <label className={styles.cell1}>
         <input type='checkbox' checked={row.create} {...{ onChange }} />
-      </div>
-      <div className={styles.cell2}>
+      </label>
+      <label className={styles.cell2}>
         <input type='checkbox' checked={row.modify} {...{ onChange }} />
-      </div>
-      <div className={styles.cell3}>
+      </label>
+      <label className={styles.cell3}>
         <input type='checkbox' checked={row.delete} {...{ onChange }} />
-      </div>
+      </label>
     </div>));
 
   constructor(props) {
@@ -81,18 +86,20 @@ export default class CrudPermissionsTable extends React.Component {
   }
 
   onGroupCollapse = (evt) => {
-    const id = evt.target.dataset.groupId;
+    const id = evt.currentTarget.dataset.groupId;
     const { collapsedGroupIds } = this.state;
     collapsedGroupIds[id] = !collapsedGroupIds[id];
     this.setState({ collapsedGroupIds });
   }
 
   onGroupCheck = () => {
+    console.warn("GROUP CHECKED")
     const checkedGroupIds = this.updateGroupCheckboxes(this.state.bodyData);
     this.setState({ checkedGroupIds });
   }
 
   onRowCheck = () => {
+    console.warn("ROW CHECKED")
     const checkedGroupIds = this.updateGroupCheckboxes(this.state.bodyData);
     this.setState({ checkedGroupIds });
   }

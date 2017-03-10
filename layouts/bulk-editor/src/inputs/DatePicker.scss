@@ -1,0 +1,51 @@
+@import '../../../../shared/variables.scss';
+
+.rwOverrides {
+  :global .rw-btn-calendar::before {
+    content: "\f073";
+    font-family: FontAwesome;
+  }
+
+  :global .rw-datetimepicker {
+    max-width: 200px;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+
+    :global .rw-select {
+      position: absolute;
+      height: 30px;
+      width: 30px;
+
+      :global .rw-btn-calendar {
+        background: white;
+        border: 1px solid darkgray;
+        border-left: none;
+        height: 30px;
+        transition: background 0.3s ease;
+        width: 30px;
+
+        &:hover {
+          background: orange;
+          color: white;
+        }
+      }
+    }
+  }
+
+  :global .rw-input {
+    height: 30px;
+    width: 100%;
+    width: 170px;
+    border: 1px solid darkgray;
+    border-right: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:placeholder-shown {
+      padding-left: 5px;
+    }
+  }
+}

@@ -11,6 +11,7 @@ class Select extends Component {
     data: PropTypes.arrayOf(PropTypes.shape()),
     emptyMsg: PropTypes.string,
     inputName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     stylesheets: PropTypes.arrayOf(PropTypes.shape),
     valueField: PropTypes.string
@@ -41,11 +42,13 @@ class Select extends Component {
       data,
       emptyMsg,
       inputName,
+      label,
       valueField
     } = this.props;
 
     return (
       <div>
+        <label>{label}</label>
         <SelectComponent data={data} placeholder={emptyMsg} stylesheets={[styles]} />
         <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>

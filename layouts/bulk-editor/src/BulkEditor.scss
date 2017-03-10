@@ -102,3 +102,7 @@ $defaultSpacing: 5px;
   display: flex;
   flex-direction: row;
 }
+
+input:placeholder-shown {
+  font-size: 12px;
+}

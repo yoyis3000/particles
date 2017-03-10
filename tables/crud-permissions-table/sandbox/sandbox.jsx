@@ -1,41 +1,45 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Mataara, { TYPES } from '../src';
+import CrudPermissionsTable from '../src';
 
-const onCancel = () => {
-  console.warn('The notification has been cancelled.'); // eslint-disable-line
+const onCheck = () => {
+  console.warn('A checkbox has been selected.'); // eslint-disable-line
 };
 
+const headData = [
+  { label: "Tools", id: 'tools' },
+  { label: "Create", id: 'create' },
+  { label: "Modify", id: 'modify' },
+  { label: "Delete", id: 'delete' }
+];
+
+const bodyData = [
+  {
+    key: { id: 'budget', label: 'Budget' },
+    data: [
+      { label: 'Budget Line Items', id: 0, create: true, modify: true, delete: true },
+      { label: 'Budget Modifications', id: 1, create: false, modify: true, delete: false }
+    ]
+  },
+
+  {
+    key: { id: 'change_events', label: 'Change Events' },
+    data: [
+      { label: 'Change Events', id: 2, create: true, modify: true, delete: true },
+      { label: 'Change Types', id: 3, create: true, modify: false, delete: false }
+    ]
+  },
+
+  {
+    key: { id: 'change_orders', label: 'Change Orders' },
+    data: [
+      { label: 'Change Order Foo', id: 4, create: true, modify: false, delete: true },
+      { label: 'Change Order Bar', id: 5, create: false, modify: true, delete: true }
+    ]
+  }
+];
+
 render(
-  <div>
-    <Mataara
-      onCancel={onCancel}
-      type={TYPES.SUCCESS}
-      title='Success'
-      body='This is a success notification.'
-    />
-    <Mataara
-      onCancel={onCancel}
-      type={TYPES.INFO}
-      title='Info'
-      body='This is a error notification.'
-    />
-    <Mataara
-      onCancel={onCancel}
-      type={TYPES.ERROR}
-      title='Error'
-      body='This is a error notification.'
-    />
-    <Mataara
-      title='Default'
-      body='This is a default notification.'
-    />
-    <Mataara
-      noDismiss
-      type={TYPES.ERROR}
-      title='Non-dismissable'
-      body="This is a notification that can't be dismissed."
-    />
-  </div>,
+  <CrudPermissionsTable {...{ bodyData, headData, onCheck }} />,
   window.document.getElementById('root')
 );

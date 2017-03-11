@@ -1,3 +1,4 @@
+@import "../../../../shared/reset.scss";
 @import '../../../../shared/variables.scss';
 
 .rwOverrides {
@@ -16,18 +17,21 @@
   }
 
   :global .rw-datetimepicker {
-    max-width: 200px;
-    margin: 0;
-    position: relative;
     display: inline-block;
+    margin: 0;
+    max-width: 200px;
+    position: relative;
+    width: 100%;
 
     :global .rw-select {
       position: absolute;
       height: 30px;
       width: 30px;
+      right: 0;
 
       :global .rw-btn-calendar {
-        background: white;
+        background: 0;
+        border-radius: 0 2px 2px 0;
         border: 1px solid palette(gray, dark);
         border-left: none;
         height: 30px;
@@ -47,11 +51,12 @@
   }
 
   :global .rw-input {
-    height: 30px;
-    width: 100%;
-    width: 170px;
+    border-radius: 2px;
     border: 1px solid palette(gray, dark);
-    border-right: none;
+    cursor: text;
+    height: 30px;
+    padding-right: 30px;
+    width: 100%;
 
     &:placeholder-shown {
       padding-left: 5px;
@@ -60,6 +65,7 @@
 
   :global .rw-calendar {
     background-color: #fff;
+    border: 1px solid palette(gray, dark);
   }
 
   :global .rw-calendar thead > tr {
@@ -153,14 +159,15 @@
 
   :global .rw-calendar-grid td .rw-btn {
     border-radius: 4px;
-    outline: 0;
-    transition: background-color 0.3s ease;
+    display: flex;
     height: 100%;
     justify-content: center;
-    display: flex;
+    outline: 0;
+    transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: skyblue; // TODO: Pick a better color
+      background-color: palette(orange);
+      color: white;
     }
   }
 
@@ -174,5 +181,9 @@
     text-align: center;
     white-space: normal;
     align-items: center;
+  }
+
+  :global .rw-calendar-popup.rw-popup-container {
+    position: absolute;
   }
 }

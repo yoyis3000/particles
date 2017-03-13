@@ -10,6 +10,7 @@ export default class Input extends Component {
     inputName: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    onRemove: PropTypes.func,
     placeholder: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.shape),
     type: PropTypes.string
@@ -17,6 +18,7 @@ export default class Input extends Component {
 
   static defaultProps = {
     onChange: () => {},
+    onRemove: () => {},
     placeholder: '',
     stylesheets: [],
     type: 'text'
@@ -27,14 +29,25 @@ export default class Input extends Component {
 
     styles = composeStyles(defaultStyles, [...props.stylesheets]);
     this.state = {
-      value: ''
+      value: null
     };
   }
 
-  onChange(value) {
-    this.props.onChange(value);
-    this.setState({ value });
+  onChange = (event) => {
+    this.props.onChange(event.target.value);
+    this.setState({ value: event.target.value });
   }
+
+  onRemove = () => {
+    this.props.onRemove();
+    this.setState({ value: null });
+  }
+
+  removeButton = value => (
+    value
+    ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
+    : null
+  )
 
   render() {
     const {
@@ -47,13 +60,17 @@ export default class Input extends Component {
     return (
       <div className={styles.colFlex}>
         <label>{label}</label>
-        <input
-          {...this.props}
-          className={styles.input}
-          onChange={this.onChange}
-          placeholder={placeholder}
-          type={type}
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            {...this.props}
+            className={styles.input}
+            onChange={this.onChange}
+            placeholder={placeholder}
+            type={type}
+            value={this.state.value}
+          />
+          {this.removeButton(this.state.value)}
+        </div>
         <input name={inputName} type='hidden' value={this.state.value} />
       </div>
     );

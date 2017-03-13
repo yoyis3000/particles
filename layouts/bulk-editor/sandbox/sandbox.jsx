@@ -10,13 +10,11 @@ const stylesheets = [sandboxStyles];
 render(
   <div style={{ margin: '10px' }}>
     <BulkEditor {...{ items, stylesheets }}>
-      <div>
-        <Select label='First' inputName='select1' />
-        <Select label='Second' inputName='select2' />
-        <Input label='Third' inputName='input1' />
-        <Input label='Fourth' inputName='input2' type='number' placeholder='In Days' />
-        <DatePicker label='Fifth' inputName='DatePicker1' placeholder='mm/dd/yy' />
-      </div>
+      <Select label='First' inputName='select1' />
+      <Select label='Second' inputName='select2' />
+      <Input label='Third' inputName='input1' />
+      <Input label='Fourth' inputName='input2' type='number' placeholder='In Days' />
+      <DatePicker label='Fifth' inputName='DatePicker1' placeholder='mm/dd/yy' />
     </BulkEditor>
   </div>,
   window.document.getElementById('root')

@@ -1,14 +1,23 @@
 @import '../../../../shared/variables.scss';
 
+$defaultMeasurement: 28px;
+
 .colFlex {
   display: flex;
   flex-direction: column;
 }
 
 .input {
+  border-radius: 2px;
+  border: 1px solid palette(gray, dark);
+  cursor: text;
   height: 30px;
   max-width: 200px;
-  cursor: text;
+  outline-width: 0;
+
+  &:placeholder-shown {
+    padding-left: 5px;
+  }
 }
 
 .input[type="number"]::-webkit-outer-spin-button,
@@ -21,12 +30,25 @@
   -moz-appearance: textfield;
 }
 
-.input {
-  border-radius: 2px;
-  border: 1px solid palette(gray, dark);
-  outline-width: 0;
+.inputWrapper {
+  composes: colFlex;
+  position: relative;
+}
 
-  &:placeholder-shown {
-    padding-left: 5px;
+.removeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: $defaultMeasurement;
+  left: 171px;
+  position: absolute;
+  top: 1px;
+  transition: background 0.3s ease;
+  vertical-align: middle;
+  width: $defaultMeasurement;
+
+  &:hover {
+    background: palette(orange);
+    color: white;
   }
 }

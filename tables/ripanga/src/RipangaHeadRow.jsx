@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import RipangaCaret from './RipangaCaret';
+import RipangaSlider from './RipangaSlider';
 import RipangaHeadCell from './RipangaHeadCell';
 
 const RipangaHeadRow = ({
@@ -9,7 +10,10 @@ const RipangaHeadRow = ({
   idKey,
   onCheckAll,
   onCollapseAll,
+  onScroll,
+  onScrollTrack,
   onSort,
+  scrollerValue,
   showCheckboxes,
   showGroups,
   styles
@@ -22,8 +26,19 @@ const RipangaHeadRow = ({
     return acc;
   }, []);
 
-  cells.push(<td className={styles.sticky} key='head-sticky'>Sticky</td>);
-  // <div className={styles.stickyCellHead} ref={(el) => { this.stickyHead = el; }}></div>
+  // <OrderedCheckboxSelect
+  //   componentClass="div"
+  //   onChange={columns =>
+  //     actions.updateColumns(
+  //       columnsModule.actions.updateColumns(columns)
+  //     )
+  //   }
+  //   options={columns.all}
+  // />
+
+  cells.push(<td className={styles.sticky} key='head-sticky'>
+    {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
+  </td>);
 
   const checkbox = (showCheckboxes
     ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
@@ -56,7 +71,10 @@ RipangaHeadRow.propTypes = {
   idKey: PropTypes.string.isRequired,
   onCheckAll: PropTypes.func.isRequired,
   onCollapseAll: PropTypes.func.isRequired,
+  onScroll: PropTypes.func.isRequired,
+  onScrollTrack: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
+  scrollerValue: PropTypes.number.isRequired,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired

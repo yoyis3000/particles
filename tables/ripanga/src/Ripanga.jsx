@@ -11,10 +11,7 @@ let styles = {};
 let showGroups = false;
 
 let headerTop = 0;
-let headerIsFixed = false;
-
 let sidebarLeft = 0;
-let sidebarIsFixed = false;
 let sidebarCells = [];
 
 const i18n = {
@@ -28,12 +25,14 @@ const moveHeader = (el, y) => {
 };
 
 const restoreHeader = (el) => {
-  el.style.transform = ''; // eslint-disable-line no-param-reassign
+  window.requestAnimationFrame(() => {
+    el.style.transform = ''; // eslint-disable-line no-param-reassign
+  });
 };
 
 const moveSidebar = (els, x) => {
-  window.requestAnimationFrame(() => {
-    els.forEach((el) => {
+  els.forEach((el) => {
+    window.requestAnimationFrame(() => {
       el.style.transform = `translate3d(${x}px, 0, 0)`;  // eslint-disable-line no-param-reassign
     });
   });
@@ -41,13 +40,15 @@ const moveSidebar = (els, x) => {
 
 const restoreSidebar = (els) => {
   els.forEach((el) => {
-    el.style.transform = '';  // eslint-disable-line no-param-reassign
+    window.requestAnimationFrame(() => {
+      el.style.transform = '';  // eslint-disable-line no-param-reassign
+    });
   });
 };
 
 // TODO configurable columns
-// TODO Strange thing if column definition name is not exactly correct ???  maybe RipangaHeadCell key={`head-${def.sortKey}-${i}`}
-// TODO throttle slider  ANDY
+// TODO throttle slider
+// TODO 3 lockable cols
 // TODO two tables, grouped/ungrouped
 // TODO allow all checkboxes to clear - pass in initialState
 // TODO URL manager, storage manager
@@ -97,7 +98,7 @@ export default class Ripanga extends React.Component {
       allCollapsed: false,
       checkedIds,
       collapsedIds,
-      sliderValue: 0
+      scrollerValue: 0
     };
   }
 
@@ -134,20 +135,14 @@ export default class Ripanga extends React.Component {
     const diffY = window.scrollY - headerTop;
 
     if (diffY > 0) {
-      headerIsFixed = true;
       moveHeader(this.table.tHead, diffY);
     } else {
-    // if (headerIsFixed) {
-      headerIsFixed = false;
       restoreHeader(this.table.tHead);
     }
 
     if (diffX < 0) {
-      sidebarIsFixed = true;
       moveSidebar(sidebarCells, diffX);
-    } else  {
-    // if (sidebarIsFixed) {
-      sidebarIsFixed = false;
+    } else {
       restoreSidebar(sidebarCells);
     }
   }
@@ -158,6 +153,8 @@ export default class Ripanga extends React.Component {
 
     sidebarLeft = this.table.getBoundingClientRect().right
                 - document.body.getBoundingClientRect().width;
+
+    this.onScrollWindow();
   }
 
   onCollapse = (id) => {
@@ -228,9 +225,17 @@ export default class Ripanga extends React.Component {
     // );
   }
 
-  // trackSlider = () => {
+  onScroll = (evt) => {
+    // const { value } = evt.target.value;
+    // const steps = (this.props.scrollParent.scrollWidth - this.props.scrollParent.offsetWidth) / 50;
+    //
+    // parent.scrollLeft = steps * value;
+  }
+
+  onScrollTrack = () => {
+    console.warn("Tracking scroller")
     // dispatch(trackEvent('project_area.submittals.table_actions.horizontal_scroll'));
-  // }
+  }
 
   // storeCheckedStates = () => {
   //   sessionStorage.setItem(`${this.props.globalKey}/CHECKED`, JSON.stringify(this.state.checkedIds));
@@ -245,7 +250,7 @@ export default class Ripanga extends React.Component {
   //   const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
   //   const delta = e.target.getAttribute('max') - e.target.getAttribute('min');
   //
-  //   this.setState({ sliderValue: parseInt(v, 0) });
+  //   this.setState({ scrollerValue: parseInt(v, 0) });
   //
   //   bodyContainer.scrollLeft = (scrollWidth * v) / delta;
   // }
@@ -263,9 +268,9 @@ export default class Ripanga extends React.Component {
   //
   //   const delta = slider.props.max - slider.props.min;
   //   const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-  //   const sliderValue = (bodyContainer.scrollLeft * delta) / scrollWidth;
+  //   const scrollerValue = (bodyContainer.scrollLeft * delta) / scrollWidth;
   //
-  //   this.setState({ sliderValue });
+  //   this.setState({ scrollerValue });
   // }
   //
   // scrollWindow = () => {
@@ -297,7 +302,7 @@ export default class Ripanga extends React.Component {
       allCollapsed,
       checkedIds,
       collapsedIds,
-      sliderValue
+      scrollerValue
     } = this.state;
 
     if (tableData.length === 0) {
@@ -327,6 +332,9 @@ export default class Ripanga extends React.Component {
             idKey,
             onCheckAll: this.onCheckAll,
             onCollapseAll: this.onCollapseAll,
+            onScroll: this.onScroll,
+            onScrollTrack: this.onScrollTrack,
+            scrollerValue,
             showGroups,
             showCheckboxes,
             styles

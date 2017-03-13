@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import Range from 'react-range';
 
 const RipangaSlider = ({
-  onClick,
   onScroll,
+  onScrollTrack,
   styles,
   value
 }) => (<Range
@@ -11,14 +11,14 @@ const RipangaSlider = ({
   max='50'
   min='0'
   onChange={onScroll}
-  onClick={onClick}
+  onClick={onScrollTrack}
   type='range'
   value={value}
 />);
 
 RipangaSlider.propTypes = {
-  onClick: PropTypes.func.isRequired,
   onScroll: PropTypes.func.isRequired,
+  onScrollTrack: PropTypes.func.isRequired,
   styles: PropTypes.shape().isRequired,
   value: PropTypes.number.isRequired
 };

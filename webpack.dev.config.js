@@ -42,6 +42,10 @@ const devConfig = (dir, options = {}) => {
           }, {
             loader: 'sass-loader'
           }]
+        },
+        {
+          test: /\.svg$/,
+          loader: 'file-loader'
         }
       ]
     },

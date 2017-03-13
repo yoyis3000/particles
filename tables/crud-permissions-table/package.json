@@ -1,6 +1,6 @@
 {
   "name": "crud-permissions-table",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A table to manage CRUD permissions.",
   "main": "index.js",
   "scripts": {

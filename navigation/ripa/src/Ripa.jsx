@@ -35,7 +35,14 @@ class Ripa extends React.Component {
 
   componentWillMount() {
     const { selectedKey, labels } = this.props;
-    const selectedIndex = labels.findIndex(l => l.k === selectedKey);
+    const selectedIndex = labels.reduce((acc, label, index) => {
+      if (label.k === selectedKey) {
+        return index;
+      }
+
+      return acc;
+    }, -1);
+
     this.state = { selectedIndex };
   }
 

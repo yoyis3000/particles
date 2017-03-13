@@ -47,6 +47,10 @@ $defaultMeasurement: 28px;
   vertical-align: middle;
   width: $defaultMeasurement;
 
+  &:focus {
+    outline: none;
+  }
+
   &:hover {
     background: palette(orange);
     color: white;

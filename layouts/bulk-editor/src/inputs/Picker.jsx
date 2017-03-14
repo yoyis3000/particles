@@ -9,18 +9,18 @@ let styles = {};
 export default class Picker extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape()),
-    emptyMsg: PropTypes.string,
     inputName: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.shape),
     valueField: PropTypes.string
   }
 
   static defaultProps = {
     data: [],
-    emptyMsg: 'Pick or Search...',
     onChange: () => {},
+    placeholder: 'Pick or Search...',
     stylesheets: [],
     valueField: 'value'
   }
@@ -40,16 +40,16 @@ export default class Picker extends Component {
   render() {
     const {
       data,
-      emptyMsg,
       inputName,
       label,
+      placeholder,
       valueField
     } = this.props;
 
     return (
       <div>
         <label>{label}</label>
-        <Select data={data} placeholder={emptyMsg} stylesheets={[styles]} />
+        <Select data={data} placeholder={placeholder} stylesheets={[styles]} />
         <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );

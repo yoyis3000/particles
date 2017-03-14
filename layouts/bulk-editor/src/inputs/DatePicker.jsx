@@ -4,18 +4,18 @@ import DateSelect from './DateSelect';
 export default class DatePicker extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape()),
-    emptyMsg: PropTypes.string,
     inputName: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
     styles: PropTypes.shape(),
     valueField: PropTypes.string
   }
 
   static defaultProps = {
     data: [],
-    emptyMsg: 'Pick or Search...',
     onChange: () => {},
+    placeholder: 'mm/dd/yy',
     styles: {},
     valueField: 'value'
   }
@@ -33,9 +33,9 @@ export default class DatePicker extends Component {
   render() {
     const {
       data,
-      emptyMsg,
       inputName,
       label,
+      placeholder,
       styles,
       valueField
     } = this.props;
@@ -43,7 +43,7 @@ export default class DatePicker extends Component {
     return (
       <div>
         <label>{label}</label>
-        <DateSelect data={data} placeholder={emptyMsg} stylesheets={[styles]} />
+        <DateSelect data={data} placeholder={placeholder} stylesheets={[styles]} />
         <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );

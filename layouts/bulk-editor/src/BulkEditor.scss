@@ -4,7 +4,7 @@
 $defaultSpacing: 5px;
 
 .cancel {
-  color: blue;
+  color: palette(blue, dark);
   cursor: pointer;
   margin-right: $defaultSpacing;
   transition: color 0.3s ease;
@@ -21,7 +21,7 @@ $defaultSpacing: 5px;
 
 .fields {
   display: flex;
-  flex: 7;
+  flex: 7; // This is to take up 70% of the width
 }
 
 .footer {
@@ -41,7 +41,7 @@ $defaultSpacing: 5px;
 }
 
 .itemContainer {
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 .itemsTitle {
@@ -84,18 +84,18 @@ $defaultSpacing: 5px;
 }
 
 .submitButton {
-  background: white;
+  background: palette(orange);
   border-radius: 2px;
-  border: 1px solid black;
+  border: 1px solid palette(orange);
+  color: white;
   cursor: pointer;
   margin-right: 5px;
   padding: 8px 15px;
   transition: background 0.3s ease;
 
   &:hover {
-    border: 1px solid orange;
-    color: white;
-    background: orange;
+    color: black;
+    background: white;
   }
 }
 

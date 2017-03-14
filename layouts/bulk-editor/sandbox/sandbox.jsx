@@ -41,14 +41,14 @@ const data = [
 
   { text: 'An empty group appears!', id: 19, children: [] },
 
-  { text: 'Magnetic', id: 20, disabled: true },
+  { text: 'Magnetic', id: 20 },
   { text: 'Guacamole', id: 21 },
   { text: 'Crankshaft', id: 22 },
   { text: 'Demographic', id: 23 },
   { text: 'Almond', id: 24 }
 ];
 
-const items = ['1: Item to Edit', '2: Item to Edit as well'];
+const items = ['1: Item to Edit', '2: Item to Edit as well', '3: Another Item to Edit'];
 const stylesheets = [sandboxStyles];
 
 render(

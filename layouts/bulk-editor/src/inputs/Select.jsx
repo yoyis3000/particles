@@ -91,14 +91,19 @@ export default class Select extends Component {
   }
 
   onSearch = (evt) => {
+    const {
+      data: itemData,
+      onFetch,
+      textField
+    } = this.props;
     const str = evt.target.value;
 
-    if (this.props.onFetch === Select.defaultProps.onFetch) {
-      const data = this.props.data.reduce((acc, val) => {
-        const matchText = val[this.props.textField].toLowerCase().indexOf(str.toLowerCase()) !== -1;
+    if (onFetch === Select.defaultProps.onFetch) {
+      const data = itemData.reduce((acc, val) => {
+        const matchText = val[textField].toLowerCase().indexOf(str.toLowerCase()) !== -1;
         const matchChild = val.children &&
           val.children.reduce((result, child) =>
-            result || (child[this.props.textField].toLowerCase().indexOf(str) !== -1), false);
+            result || (child[textField].toLowerCase().indexOf(str.toLowerCase()) !== -1), false);
 
         if (matchText || matchChild) {
           return acc.concat(val);

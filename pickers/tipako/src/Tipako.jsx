@@ -73,7 +73,7 @@ export default class Tipako extends React.Component {
 
     if (this.props.onFetch === Tipako.defaultProps.onFetch) {
       const data = this.props.data.reduce((acc, val) => {
-        const matchText = val.text.toLowerCase().indexOf(str.toLowerCase()) !== -1;
+        const matchText = val.text.toLowerCase().indexOf(str) !== -1;
 
         const matchChild = val.children &&
           val.children.reduce((result, child) =>
@@ -183,7 +183,7 @@ export default class Tipako extends React.Component {
 
   onCaretClick = (evt) => {
     evt.stopPropagation();
-    this.setState({ expanded: !this.state.expanded });
+    this.setState({ expanded: true });
   }
 
   onSelectAll = () => {
@@ -336,31 +336,35 @@ export default class Tipako extends React.Component {
       ? ''
       : 'This search is too general, so the results have been limited.';
 
-    return (
-      <div className={styles.picker} title={maxResultsWarningText}>
-        {tokens}
+    return (<div
+      className={styles.picker}
+      title={maxResultsWarningText}
+    >
+      {tokens}
 
-        <div className={cx(styles.inputContainer)}>
-          <input
-            className={styles.input}
-            type='text'
-            placeholder={this.props.msgPlaceholder}
-            value={this.state.value}
-            onChange={this.onSearch}
-            ref={(input) => { this.searchInput = input; }}
-          />
-          {caret}
-          {busy}
-          {maxResultsWarningIcon}
-        </div>
+      <div className={cx(styles.inputContainer)}>
+        <input
+          className={styles.input}
+          type='text'
+          placeholder={this.props.msgPlaceholder}
+          value={this.state.value}
+          onChange={this.onSearch}
+          ref={(input) => { this.searchInput = input; }}
+        />
+        {caret}
+        {busy}
+        {maxResultsWarningIcon}
+      </div>
 
-        <div className={styles.dropdownContainer}>
-          <div className={cx(styles.dropdown, { [styles.expanded]: this.state.expanded })}>
-            {items.length > 0 ? selectall : ''}
-            {items.length ? items : nomatch}
-          </div>
+      <div className={styles.dropdownContainer}>
+        <div
+          className={cx(styles.dropdown, {
+            [styles.expanded]: this.state.expanded })}
+        >
+          {items.length > 0 ? selectall : ''}
+          {items.length ? items : nomatch}
         </div>
       </div>
-    );
+    </div>);
   }
 }

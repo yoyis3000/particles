@@ -1,25 +1,8 @@
 @import "../../../../shared/reset.scss";
+@import "../../../../shared/variables.scss";
 
 $h: 30px;
 $p: 5px;
-
-.picker {
-  position: relative;
-}
-
-.inputContainer {
-  overflow: hidden;
-  position: relative;
-}
-
-.input {
-  display: block;
-  height: $h;
-  line-height: $h;
-  padding: 0 (2 * $h + 4) 0 4px;
-  width: 100%;
-  cursor: text;
-}
 
 .inputIcon {
   background: 0;
@@ -33,26 +16,6 @@ $p: 5px;
   text-align: center;
   top: 1px;
   width: $h - 2;
-}
-
-.caret {
-  composes: inputIcon;
-  cursor: pointer;
-  display: block;
-
-  .arrow {
-    cursor: pointer;
-    display: block;
-    transition: transform 0.3s ease;
-
-    &.expanded {
-      transform: rotate(180deg);
-    }
-  }
-
-  &:focus {
-    outline: 0;
-  }
 }
 
 .busy {
@@ -76,8 +39,28 @@ $p: 5px;
   background-size: 16px 16px;
 }
 
-.dropdownContainer {
-  position: relative;
+.caret {
+  composes: inputIcon;
+  cursor: pointer;
+  display: block;
+
+  .arrow {
+    cursor: pointer;
+    display: block;
+    transition: transform 0.3s ease;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.childItem {
+  padding: 2px ($p + 10);
 }
 
 .dropdown {
@@ -101,8 +84,22 @@ $p: 5px;
   }
 }
 
-.nomatch {
-  padding: 10px;
+.dropdownContainer {
+  position: relative;
+}
+
+.input {
+  display: block;
+  height: $h;
+  line-height: $h;
+  padding: 0 56px 0 4px;
+  width: 100%;
+  cursor: text;
+}
+
+.inputContainer {
+  overflow: hidden;
+  position: relative;
 }
 
 .item {
@@ -135,8 +132,34 @@ $p: 5px;
   width: $h;
 }
 
-.childItem {
-  padding: 2px ($p + 10);
+.nomatch {
+  padding: 10px;
+}
+
+.picker {
+  position: relative;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 28px;
+  left: 144px;
+  position: absolute;
+  top: 1px;
+  transition: background 0.3s ease;
+  vertical-align: middle;
+  width: 28px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: palette(orange);
+    color: white;
+  }
 }
 
 .ungroupedItem {

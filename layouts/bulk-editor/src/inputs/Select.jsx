@@ -20,6 +20,7 @@ export default class Select extends Component {
     itemIcon: PropTypes.string,
     msgEmpty: PropTypes.string,
     onFetch: PropTypes.func,
+    onRemove: PropTypes.func,
     onSelect: PropTypes.func,
     placeholder: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.any),
@@ -35,6 +36,7 @@ export default class Select extends Component {
     itemIcon: null,
     msgEmpty: 'No results!',
     onFetch: () => {},
+    onRemove: () => {},
     onSelect: () => {},
     placeholder: 'Search...',
     stylesheets: [],
@@ -50,7 +52,7 @@ export default class Select extends Component {
       data: props.data,
       expanded: props.expanded,
       fetching: props.fetching,
-      value: ''
+      value: null
     };
   }
 
@@ -67,6 +69,26 @@ export default class Select extends Component {
   }
 
   onBlur = () => { this.setState({ expanded: false }); }
+
+  onCaretClick = (evt) => {
+    evt.stopPropagation();
+    this.setState({ expanded: !this.state.expanded });
+  }
+
+  onChildClick = (evt, child) => {
+    evt.stopPropagation();
+
+    if (child.disabled) { return; }
+
+    this.props.onSelect(child);
+    this.searchInput.focus();
+    this.setState({ value: child[this.props.textField], expanded: false });
+  }
+
+  onRemove = () => {
+    this.props.onRemove();
+    this.setState({ value: null });
+  }
 
   onSearch = (evt) => {
     const str = evt.target.value;
@@ -100,33 +122,26 @@ export default class Select extends Component {
     this.setState({ value: str });
   }
 
-  onCaretClick = (evt) => {
-    evt.stopPropagation();
-    this.setState({ expanded: !this.state.expanded });
-  }
-
-  onChildClick = (evt, child) => {
-    evt.stopPropagation();
-
-    if (child.disabled) { return; }
-
-    this.props.onSelect(child);
-    this.searchInput.focus();
-    this.setState({ value: child[this.props.textField], expanded: false });
-  }
-
   render() {
-    const itemIcon = this.props.itemIcon
-      ? <img alt='Item' src={this.props.itemIcon} className={styles.itemIcon} />
-      : null;
+    const busy = this.state.fetching
+    ? <span className={styles.busy} />
+    : null;
+
+    const caret = this.state.fetching
+      ? null
+      : (
+        <button onClick={this.onCaretClick} className={styles.caret}>
+          <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
+        </button>
+      );
 
     const groupIcon = this.props.groupIcon
       ? <img alt='Group' src={this.props.groupIcon} className={styles.itemIcon} />
       : null;
 
-    const busy = this.state.fetching
-    ? <span className={styles.busy} />
-    : null;
+    const itemIcon = this.props.itemIcon
+      ? <img alt='Item' src={this.props.itemIcon} className={styles.itemIcon} />
+      : null;
 
     const items = this.state.data.reduce((acc, v) => {
       // Grouped
@@ -180,15 +195,12 @@ export default class Select extends Component {
       return acc.concat(ungrouped);
     }, []);
 
-    const caret = this.state.fetching
-      ? null
-      : (
-        <button onClick={this.onCaretClick} className={styles.caret}>
-          <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
-        </button>
-      );
-
     const nomatch = <div className={styles.nomatch}>{this.props.msgEmpty}</div>;
+
+    const removeButton =
+      this.state.value
+      ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
+      : null;
 
     return (
       <div className={styles.picker}>
@@ -201,6 +213,7 @@ export default class Select extends Component {
             type='text'
             value={this.state.value}
           />
+          {removeButton}
           {caret}
           {busy}
         </div>

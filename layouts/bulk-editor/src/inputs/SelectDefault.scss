@@ -1,0 +1,48 @@
+@import "../../../../shared/variables.scss";
+
+$h: 30px;
+$p: 5px;
+
+.input {
+  background-color: palette(white);
+  border-radius: 2px;
+  border: 1px solid palette(gray, dark);
+  color: palette(black);
+  font-size: 14px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.caret {
+  color: palette(gray);
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: palette(orange);
+    color: palette(white);
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.item {
+  &:hover {
+    background: palette(gray, light);
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.controlsButton {
+  color: #1e519f;
+
+  &:hover {
+    color: palette(orange);
+  }
+}

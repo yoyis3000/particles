@@ -1,9 +1,9 @@
-import Select from './Select';
-import Input from './Input';
 import DatePicker from './DatePicker';
+import Input from './Input';
+import Picker from './Picker';
 
 export {
   DatePicker,
   Input,
-  Select
+  Picker
 };

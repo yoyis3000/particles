@@ -55,10 +55,9 @@ render(
   <div style={{ margin: '10px' }}>
     <BulkEditor {...{ items, stylesheets }}>
       <Picker label='First' inputName='picker1' data={data} />
-      <Picker label='Second' inputName='picker2' data={data} />
-      <Input label='Third' inputName='input1' />
-      <Input label='Fourth' inputName='input2' type='number' placeholder='In Days' />
-      <DatePicker label='Fifth' inputName='DatePicker1' placeholder='mm/dd/yy' />
+      <Input label='Second' inputName='input1' />
+      <Input label='Third' inputName='input2' type='number' placeholder='In Days' />
+      <DatePicker label='Fourth' inputName='DatePicker1' placeholder='mm/dd/yy' />
     </BulkEditor>
   </div>,
   window.document.getElementById('root')

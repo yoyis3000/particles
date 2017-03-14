@@ -1,65 +1,50 @@
 import React, { Component, PropTypes } from 'react';
-import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import Moment from 'moment';
-
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
-
-import defaultStyles from './DatePicker.scss';
-
-import composeStyles from '../../../../shared/stylesheetComposer';
-
-let styles = {};
-
-momentLocalizer(Moment);
+import DateSelect from './DateSelect';
 
 export default class DatePicker extends Component {
   static propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape()),
+    emptyMsg: PropTypes.string,
+    inputName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
-    onRemove: PropTypes.func,
-    placeholder: PropTypes.string,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape())
+    styles: PropTypes.shape(),
+    valueField: PropTypes.string
   }
 
   static defaultProps = {
+    data: [],
+    emptyMsg: 'Pick or Search...',
     onChange: () => {},
-    onRemove: () => {},
-    placeholder: 'mm/dd/yy',
-    stylesheets: []
+    styles: {},
+    valueField: 'value'
   }
 
   constructor(props) {
     super(props);
-
-    styles = composeStyles(defaultStyles, props.stylesheets);
-    this.state = { value: null };
+    this.state = { value: {} };
   }
 
-  onChange = (value, prettyValue) => {
-    this.props.onChange({ value, prettyValue });
+  onChange(value) {
+    this.props.onChange(value);
     this.setState({ value });
   }
 
-  onRemove = () => {
-    this.props.onRemove();
-    this.setState({ value: null });
-  }
-
-  removeButton = value => (
-    value
-    ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
-    : null
-  )
-
   render() {
+    const {
+      data,
+      emptyMsg,
+      inputName,
+      label,
+      styles,
+      valueField
+    } = this.props;
+
     return (
-      <div className={styles.rwOverrides}>
-        <DateTimePicker
-          onChange={this.onChange}
-          placeholder={this.props.placeholder}
-          time={false}
-          value={this.state.value}
-        />
-        {this.removeButton(this.state.value)}
+      <div>
+        <label>{label}</label>
+        <DateSelect data={data} placeholder={emptyMsg} stylesheets={[styles]} />
+        <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );
   }

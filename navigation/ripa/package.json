@@ -1,6 +1,6 @@
 {
   "name": "ripa",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "description": "A header component with a title, tabs, and extra slot.",
   "main": "index.js",
   "scripts": {

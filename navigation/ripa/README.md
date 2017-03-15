@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+#### 2.1.0
+- Removing local storage persistence.
+
 #### 2.0.5
 - Fixing findIndex() IE11 bug.
 

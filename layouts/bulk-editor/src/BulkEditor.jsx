@@ -9,9 +9,27 @@ const keyGen = (item, valueField) => (
   valueField ? item[valueField] : item
 );
 
+const onSubmit = ({ items, valueField, callback }) => {
+  const ids = items.map(item => item[valueField]);
+
+  const inputValues = [];
+  Array.prototype.forEach.call(
+    document.querySelectorAll('#batch-editor-fields input[type="hidden"]'),
+    (input) => {
+      if (input.value.length > 0) {
+        inputValues[input.name] = input.value;
+      }
+    }
+  );
+
+  console.log("ids: ", ids, "field values: ", inputValues); // eslint-disable-line
+  callback({ ids, fields: inputValues });
+};
+
 // TODO: Button click handlers, will have to deal with table(?)
 
 const BulkEditor = ({
+  callback,
   cancelText,
   children,
   itemFormatter,
@@ -39,12 +57,12 @@ const BulkEditor = ({
           </div>
         </div>
 
-        <div className={styles.fields}>
+        <div className={styles.fields} id='batch-editor-fields'>
           <div className={styles.fieldsContainer}>
             {children}
             <span className={styles.footer}>
               <a className={styles.cancel}>{cancelText}</a>
-              <button type='button' className={styles.submitButton} onClick={() => {}}>
+              <button type='button' className={styles.submitButton} onClick={() => onSubmit({ callback, items, valueField })}>
                 {submitText}
               </button>
             </span>
@@ -56,6 +74,7 @@ const BulkEditor = ({
 };
 
 BulkEditor.propTypes = {
+  callback: PropTypes.func,
   cancelText: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.any]),
   itemFormatter: PropTypes.func,
@@ -67,6 +86,7 @@ BulkEditor.propTypes = {
 };
 
 BulkEditor.defaultProps = {
+  callback: () => {},
   cancelText: 'Cancel',
   children: [],
   itemFormatter: item => item,

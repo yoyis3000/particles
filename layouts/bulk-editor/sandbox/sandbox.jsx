@@ -48,12 +48,20 @@ const data = [
   { text: 'Almond', id: 24 }
 ];
 
-const items = ['1: Item to Edit', '2: Item to Edit as well', '3: Another Item to Edit'];
+const items = [
+  { id: 1, text: 'Item to Edit' },
+  { id: 2, text: 'Item to Edit as well' },
+  { id: 3, text: 'Another Item to Edit' }
+];
+
+const itemFormatter = item => item.text;
+const valueField = 'id';
+
 const stylesheets = [sandboxStyles];
 
 render(
   <div style={{ margin: '10px' }}>
-    <BulkEditor {...{ items, stylesheets }}>
+    <BulkEditor {...{ items, stylesheets, itemFormatter, valueField }}>
       <Picker label='Picker' inputName='picker' data={data} placeholder='This is a picker' />
       <Input label='Normal Input' inputName='input1' placeholder='This is an input' />
       <Input label='Number Input' inputName='input2' type='number' placeholder='This is a number input' />

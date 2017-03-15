@@ -34,6 +34,7 @@ const BulkEditor = ({
   itemFormatter,
   items,
   itemsTitle,
+  onRemove,
   stylesheets,
   submitText,
   valueField
@@ -49,7 +50,7 @@ const BulkEditor = ({
           <div className={`${styles.container} ${styles.itemsContainer}`}>
             {items.map(item =>
               <div className={styles.itemContainer} key={`bulk-editor-item-${keyGen(item, valueField)}`}>
-                <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={() => {}} />
+                <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={() => onRemove(item)} />
                 {itemFormatter(item)}
               </div>
             )}
@@ -79,6 +80,7 @@ BulkEditor.propTypes = {
   itemFormatter: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.any])),
   itemsTitle: PropTypes.string,
+  onRemove: PropTypes.func,
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   submitText: PropTypes.string,
   valueField: PropTypes.string
@@ -91,6 +93,7 @@ BulkEditor.defaultProps = {
   itemFormatter: item => item,
   items: [],
   itemsTitle: 'Selected Items: ',
+  onRemove: () => {},
   stylesheets: [],
   submitText: 'Update',
   valueField: null

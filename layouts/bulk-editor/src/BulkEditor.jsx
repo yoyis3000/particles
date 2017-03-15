@@ -22,7 +22,6 @@ const onSubmit = ({ items, valueField, callback }) => {
     }
   );
 
-  console.log("ids: ", ids, "field values: ", inputValues); // eslint-disable-line
   callback({ ids, fields: inputValues });
 };
 

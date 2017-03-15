@@ -56,12 +56,13 @@ const items = [
 
 const itemFormatter = item => item.text;
 const valueField = 'id';
+const callback = ({ ids, fields }) => console.log("ids: ", ids, "field values: ", fields); // eslint-disable-line
 
 const stylesheets = [sandboxStyles];
 
 render(
   <div style={{ margin: '10px' }}>
-    <BulkEditor {...{ items, stylesheets, itemFormatter, valueField }}>
+    <BulkEditor {...{ callback, items, stylesheets, itemFormatter, valueField }}>
       <Picker label='Picker' inputName='picker' data={data} placeholder='This is a picker' />
       <Input label='Normal Input' inputName='input1' placeholder='This is an input' />
       <Input label='Number Input' inputName='input2' type='number' placeholder='This is a number input' />

@@ -6,6 +6,10 @@ const { mergeDeep } = require('./shared/mergeDeep');
 
 const devConfig = (dir, options = {}) => {
   const common = {
+    devServer: {
+      host: '0.0.0.0'
+    },
+
     entry: './src/index.js',
 
     module: {
@@ -42,6 +46,10 @@ const devConfig = (dir, options = {}) => {
           }, {
             loader: 'sass-loader'
           }]
+        },
+        {
+          test: /\.svg$/,
+          loader: 'file-loader'
         }
       ]
     },

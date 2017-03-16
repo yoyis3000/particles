@@ -4,6 +4,11 @@ An (optionally) dismissable notification bar.
 
 # Change Log
 
+##### 1.2.1 - 1.2.4
+- (Unintentional minor bump)
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 1.1.0
 - Enumerated types
 - Stylesheet composition

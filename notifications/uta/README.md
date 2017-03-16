@@ -4,6 +4,11 @@ A loading spinner which wraps around content.
 
 # Change Log
 
+##### 1.2.0 - 1.2.4
+- (Unintentional minor bump)
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 1.1.1, 1.1.2
 - Stylesheet composition.
 

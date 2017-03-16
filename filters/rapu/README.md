@@ -4,6 +4,13 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.3 - 2.0.6
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
+##### 2.0.2
+- Dev dependencies pulled out
+
 ##### 2.0.1
 - Stylesheet composition
 

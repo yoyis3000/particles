@@ -39,13 +39,13 @@ export default class Tipako extends React.Component {
     msgPlaceholder: 'Search...',
     onFetch: null,
     renderTokens: null,
-    stylesheets: [defaultStyles]
+    stylesheets: []
   }
 
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     this.state = {
       data: this.props.data || [],

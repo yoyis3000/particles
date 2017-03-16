@@ -13,15 +13,15 @@ export default class Wharangi extends React.Component {
     perPage: PropTypes.number,
     pagesToShow: PropTypes.number,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    totalRecords: PropTypes.number,
+    totalRecords: PropTypes.number
   };
 
   static defaultProps = {
     onSelect: null,
     perPage: 150,
     pagesToShow: 3,
-    stylesheets: [defaultStyles],
-    totalRecords: 0,
+    stylesheets: [],
+    totalRecords: 0
   };
 
   static updateUrl(newParams) {
@@ -36,7 +36,7 @@ export default class Wharangi extends React.Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     const totalPages = Math.ceil(props.totalRecords / props.perPage);
 

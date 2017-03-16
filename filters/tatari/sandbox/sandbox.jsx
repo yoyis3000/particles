@@ -1,9 +1,8 @@
-import { render } from 'react-dom';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter'; // eslint-disable-line
 import React from 'react';
+import { render } from 'react-dom'; // eslint-disable-line
+import axios from 'axios'; // eslint-disable-line
+import MockAdapter from 'axios-mock-adapter'; // eslint-disable-line
 import Tatari from '../src';
-import defaultStyles from '../src/TatariDefault.scss';
 import sandboxStyles from './sandbox.scss';
 
 const mockApi = new MockAdapter(axios);
@@ -56,10 +55,7 @@ const onComplete = () => {
   console.warn("Called external population function.");  // eslint-disable-line
 };
 
-const stylesheets = [
-  defaultStyles,
-  sandboxStyles
-];
+const stylesheets = [sandboxStyles];
 
 render(
   <Tatari {...{ urls, onComplete, stylesheets }} />,

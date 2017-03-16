@@ -19,6 +19,11 @@
   },
   "homepage": "https://github.com/chrisarevir/component-library#readme",
   "dependencies": {
+    "classnames": "^2.2.5",
+    "qs": "^6.4.0",
+    "react": "^0.14.3"
+  },
+  "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
@@ -27,10 +32,8 @@
     "babel-preset-latest": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "classnames": "^2.2.5",
     "css-loader": "^0.21.0",
     "node-sass": "^3.8.0",
-    "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",

@@ -9,11 +9,8 @@ const RipangaHeadRow = ({
   idKey,
   onCheckAll,
   onCollapseAll,
-  onScroll,
-  onScrollTrack,
   onSort,
   renderHeadStickyCell,
-  scrollerValue,
   showCheckboxes,
   showGroups,
   styles
@@ -26,15 +23,13 @@ const RipangaHeadRow = ({
     return acc;
   }, []);
 
-  // cells.push(<td className={styles.sticky} key='head-sticky'>
-  //   {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
-  // </td>);
-
   const checkbox = (showCheckboxes
     ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
     : null);
 
-  const caret = (showGroups ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll }) : null);
+  const caret = (showGroups
+    ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll })
+    : null);
 
   if (checkbox || caret) {
     cells.unshift(
@@ -48,7 +43,7 @@ const RipangaHeadRow = ({
   if (renderHeadStickyCell) {
     cells.push(renderHeadStickyCell());
   } else {
-    cells.push(<th></th>);
+    cells.push(<th key='sticky-head' />);
   }
 
   return (
@@ -67,13 +62,15 @@ RipangaHeadRow.propTypes = {
   idKey: PropTypes.string.isRequired,
   onCheckAll: PropTypes.func.isRequired,
   onCollapseAll: PropTypes.func.isRequired,
-  onScroll: PropTypes.func.isRequired,
-  onScrollTrack: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
-  scrollerValue: PropTypes.number.isRequired,
+  renderHeadStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired
+};
+
+RipangaHeadRow.defaultProps = {
+  renderHeadStickyCell: null
 };
 
 export default RipangaHeadRow;

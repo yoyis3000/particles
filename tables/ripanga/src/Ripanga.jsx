@@ -54,6 +54,10 @@ const restoreSidebar = (els) => {
 // TODO URL manager, storage manager
 // TODO no required URL defaults
 
+// cells.push(<td className={styles.sticky} key='head-sticky'>
+//   {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
+// </td>);
+
 export default class Ripanga extends React.Component {
   static propTypes = {
     columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,

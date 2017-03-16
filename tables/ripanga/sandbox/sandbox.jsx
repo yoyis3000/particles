@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom'; // eslint-disable-line
 import Ripanga from '../src';
-// import Tiwae from 'tiwae';
+import Tiwae from 'tiwae';
 
 import defaultStyles from '../src/RipangaDefault.scss';
 import sandboxStyles from './sandbox.scss';
@@ -14,10 +14,6 @@ const def = {
   sortable: false,
   sortKey: ''
 };
-
-const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
-const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
-const renderBodyStickyCell = rowData => <td key={`sticky-${rowData.key}`} className={sandboxStyles.sticky}>Sticky {rowData.text}</td>;
 
 const tableDataUngrouped = [{
   key: undefined,
@@ -52,11 +48,17 @@ const tableDataGrouped = [
   }
 ];
 
+const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
+const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
+const renderBodyStickyCell = rowData => <td key={`sticky-${rowData.key}`} className={sandboxStyles.sticky}>Sticky {rowData.text}</td>;
+
 const columnDefinitions = [
   Object.assign({ def, renderer: renderCell }, { label: 'Col A', sortKey: 'colA' }),
   Object.assign({ def, renderer: renderCell }, { label: 'Col B', sortKey: 'colB' }),
   Object.assign({ def, renderer: renderCell }, { label: 'Col C', sortKey: 'colC' })
 ];
+
+const renderHeadStickyCell = () => <Tiwae options={columnDefinitions} onChange={() => { console.info("Ripanga sandbox"); }} />;
 
 const stylesheets = [
   defaultStyles,
@@ -90,6 +92,7 @@ const grouped = (<Ripanga
     columnDefinitions,
     renderBodyRow,
     renderBodyStickyCell,
+    renderHeadStickyCell,
     stylesheets
   }}
 />);
@@ -103,6 +106,7 @@ const groupedWithCheckboxes = (<Ripanga
     columnDefinitions,
     renderBodyRow,
     renderBodyStickyCell,
+    renderHeadStickyCell,
     stylesheets
   }}
 />);

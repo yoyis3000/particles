@@ -38,6 +38,7 @@
     "react-dom": "^0.14.3",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
+    "tiwae": "^1.0.2",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   }

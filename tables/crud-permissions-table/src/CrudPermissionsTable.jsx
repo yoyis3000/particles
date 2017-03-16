@@ -12,6 +12,7 @@ export default class CrudPermissionsTable extends React.Component {
     bodyData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     headData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     onCheck: PropTypes.func.isRequired,
+    onGroupCheck: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
@@ -103,7 +104,8 @@ export default class CrudPermissionsTable extends React.Component {
           bodyData[groupIndex].data[rowIndex][crudType] = !isChecked;
         });
 
-        this.props.onCheck();
+        this.props.onGroupCheck(bodyData[groupIndex].data.reduce((acc, curr) =>
+          [...acc, { id: curr.id, type: crudType, value: curr[crudType] }], []));
       }
     });
 
@@ -120,7 +122,11 @@ export default class CrudPermissionsTable extends React.Component {
         if (row.id.toString() === rowId) {
           bodyData[groupIndex].data[rowIndex][crudType] =
             !bodyData[groupIndex].data[rowIndex][crudType];
-          this.props.onCheck();
+          this.props.onCheck({
+            id: rowId,
+            type: crudType,
+            value: bodyData[groupIndex].data[rowIndex][crudType]
+          });
         }
       });
     });

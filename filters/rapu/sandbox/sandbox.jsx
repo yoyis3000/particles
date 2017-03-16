@@ -1,7 +1,6 @@
-import { render } from 'react-dom';
+import { render } from 'react-dom'; // eslint-disable-line
 import React from 'react';
 
-import defaultStyles from '../src/RapuDefault.scss';
 import sandboxStyles from './sandbox.scss';
 
 import Rapu from '../src';
@@ -10,10 +9,7 @@ const onSubmit = () => {
   console.warn('Submitted.'); // eslint-disable-line
 };
 
-const stylesheets = [
-  defaultStyles,
-  sandboxStyles
-];
+const stylesheets = [sandboxStyles];
 
 render(
   <Rapu {...{ onSubmit, stylesheets }} />,

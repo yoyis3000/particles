@@ -4,6 +4,11 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.4.3 - 2.4.7
+- (Unintentional minor bump)
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 2.4.2
 - Restoring all items after "clear all" action
 

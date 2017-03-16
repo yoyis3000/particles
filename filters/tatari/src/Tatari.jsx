@@ -22,13 +22,13 @@ export default class Tatari extends React.Component {
   }
 
   static defaultProps = {
-    stylesheets: [defaultStyles]
+    stylesheets: []
   }
 
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     this.state = {
       activeFilters: [],

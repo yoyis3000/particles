@@ -4,6 +4,10 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.0.1 - 2.0.5
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 2.0.0
 - Removed Immutable and Redux deps, now 90% smaller (770kb -> 66kb)
 - Various styling upgrades for default component parity

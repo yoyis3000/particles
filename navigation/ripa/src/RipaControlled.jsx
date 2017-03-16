@@ -2,22 +2,6 @@ import React, { PropTypes } from 'react';
 import qs from 'qs';
 import Ripa from './Ripa';
 
-const RipaControlled = ({
-  onChange,
-  scope,
-  ...props
-}) => {
-  onRipaLoad(scope);
-
-  return (
-    <Ripa
-      {...props}
-      onChange={onRipaChange(scope, onChange)}
-      selectedKey={getCurrentViewFromBrowser(scope)}
-    />
-  );
-};
-
 const onRipaLoad = (scope) => {
   const view = localStorage.getItem(`${scope}/VIEW`);
 
@@ -56,8 +40,29 @@ const getCurrentViewFromBrowser = (scope) => {
   return params.view || localStorage.getItem(`${scope}/VIEW`);
 };
 
-RipaControlled.propTypes = {...Ripa.propTypes,
+const RipaControlled = ({
+  onChange,
+  scope,
+  ...props
+}) => {
+  onRipaLoad(scope);
+
+  return (
+    <Ripa
+      {...props}
+      onChange={onRipaChange(scope, onChange)}
+      selectedKey={getCurrentViewFromBrowser(scope)}
+    />
+  );
+};
+
+RipaControlled.propTypes = {
+  ...Ripa.propTypes,
   scope: PropTypes.string
+};
+
+RipaControlled.defaultProps = {
+  scope: 'ripa'
 };
 
 export default RipaControlled;

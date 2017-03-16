@@ -16,7 +16,7 @@ const Uta = (props) => {
     titleText
   } = props;
 
-  styles = composeStyles(baseStyles, stylesheets);
+  styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
   const classes = cx(
     className,
@@ -47,7 +47,7 @@ Uta.defaultProps = {
   className: null,
   Component: 'div',
   isLoading: false,
-  stylesheets: [defaultStyles],
+  stylesheets: [],
   titleText: 'Loading'
 };
 

@@ -18,13 +18,13 @@ export default class Rapu extends React.Component {
   };
 
   static defaultProps = {
-    stylesheets: [defaultStyles]
+    stylesheets: []
   };
 
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     const url = window.location.href.split('?');
     const params = qs.parse(url[1]);

@@ -3,6 +3,12 @@
 A `<select>` dropdown to manage downloads.
 
 # Change Log
+
+##### 2.4.0 - 2.4.4
+- (Unintentional minor bump)
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 2.3.0
 - Changed "placeholder" prop to "title"
 - Stylesheet composition update

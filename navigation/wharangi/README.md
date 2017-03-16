@@ -4,6 +4,11 @@ A pagination component.
 
 # Change Log
 
+##### 2.0.3 - 2.1.3
+- (Unintentional minor bump)
+- Adding Lerna publishing management
+- Splitting out dev dependencies
+
 ##### 2.0.0, 2.0.1, 2.0.2
 - Stylesheet composition
 - Bootstrap dependency removed

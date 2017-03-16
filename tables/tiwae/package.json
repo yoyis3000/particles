@@ -1,6 +1,6 @@
 {
   "name": "tiwae",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manages column definition arrays to configure columns.",
   "main": "index.js",
   "scripts": {

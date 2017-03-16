@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import RipangaCaret from './RipangaCaret';
-import RipangaSlider from './RipangaSlider';
 import RipangaHeadCell from './RipangaHeadCell';
 
 const RipangaHeadRow = ({
@@ -13,6 +12,7 @@ const RipangaHeadRow = ({
   onScroll,
   onScrollTrack,
   onSort,
+  renderHeadStickyCell,
   scrollerValue,
   showCheckboxes,
   showGroups,
@@ -26,19 +26,9 @@ const RipangaHeadRow = ({
     return acc;
   }, []);
 
-  // <OrderedCheckboxSelect
-  //   componentClass="div"
-  //   onChange={columns =>
-  //     actions.updateColumns(
-  //       columnsModule.actions.updateColumns(columns)
-  //     )
-  //   }
-  //   options={columns.all}
-  // />
-
-  cells.push(<td className={styles.sticky} key='head-sticky'>
-    {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
-  </td>);
+  // cells.push(<td className={styles.sticky} key='head-sticky'>
+  //   {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
+  // </td>);
 
   const checkbox = (showCheckboxes
     ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
@@ -53,6 +43,12 @@ const RipangaHeadRow = ({
         {checkbox}
       </th>
     );
+  }
+
+  if (renderHeadStickyCell) {
+    cells.push(renderHeadStickyCell());
+  } else {
+    cells.push(<th></th>);
   }
 
   return (

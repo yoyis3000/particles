@@ -52,6 +52,7 @@ const restoreSidebar = (els) => {
 // TODO two tables, grouped/ungrouped
 // TODO allow all checkboxes to clear - pass in initialState
 // TODO URL manager, storage manager
+// TODO no required URL defaults
 
 export default class Ripanga extends React.Component {
   static propTypes = {
@@ -292,6 +293,7 @@ export default class Ripanga extends React.Component {
       idKey,
       renderBodyRow,
       renderBodyStickyCell,
+      renderHeadStickyCell,
       renderEmpty,
       showCheckboxes,
       tableData
@@ -334,6 +336,7 @@ export default class Ripanga extends React.Component {
             onCollapseAll: this.onCollapseAll,
             onScroll: this.onScroll,
             onScrollTrack: this.onScrollTrack,
+            renderHeadStickyCell,
             scrollerValue,
             showGroups,
             showCheckboxes,

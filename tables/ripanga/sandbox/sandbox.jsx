@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom'; // eslint-disable-line
 import Ripanga from '../src';
+// import Tiwae from 'tiwae';
 
 import defaultStyles from '../src/RipangaDefault.scss';
 import sandboxStyles from './sandbox.scss';

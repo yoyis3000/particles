@@ -3833,6 +3833,12 @@ timers-browserify@^2.0.2:
   dependencies:
     setimmediate "^1.0.4"
 
+tiwae@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/tiwae/-/tiwae-1.0.1.tgz#5abcdbb5baabb4e271d1732a50e8980dcaf8cee8"
+  dependencies:
+    react "^0.14.3"
+
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"

@@ -9,7 +9,7 @@ const def = {
   editable: false,
   hidden: false,
   label: '',
-  name: '',
+  key: '',
   sortable: false,
   sortKey: ''
 };
@@ -17,15 +17,15 @@ const def = {
 const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
 
 const columnDefinitions = [
-  Object.assign({ def, renderer: renderCell }, { label: 'Col A', name: 'colA' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col B', name: 'colB' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col C', name: 'colC' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col D', name: 'colD' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col E', name: 'colE' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col F', name: 'colF' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col G with a very long name that will probably wrap if given the chance', name: 'colG' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col H', name: 'colH' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col I', name: 'colI' })
+  Object.assign({ def, renderer: renderCell }, { label: 'Col A', key: 'colA' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col B', key: 'colB' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col C', key: 'colC' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col D', key: 'colD' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col E', key: 'colE' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col F', key: 'colF' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col G with a very long name that will probably wrap if given the chance', key: 'colG' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col H', key: 'colH' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col I', key: 'colI' })
 ];
 
 const onChange = (newColumnDefinitions) => {

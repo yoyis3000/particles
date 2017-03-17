@@ -29,7 +29,7 @@ export default class Tiwae extends React.Component {
     }));
 
     this.state = {
-      expanded: true,
+      expanded: false,
       ghostIndex: -1,
       options,
       startIndex: -1
@@ -42,8 +42,7 @@ export default class Tiwae extends React.Component {
 
   onDragStart = (evt) => {
     if (evt.dataTransfer) {
-      evt.dataTransfer.dropEffect = "move"; // eslint-disable-line
-      evt.dataTransfer.setData('text/plain', 'placeholder-data'); // eslint-disable-line
+      evt.dataTransfer.setData('text', 'placeholder-data'); // eslint-disable-line
     }
     this.setState({ startIndex: evt.currentTarget.dataset.index });
   }
@@ -76,6 +75,7 @@ export default class Tiwae extends React.Component {
     }
 
     this.setState({ ghostIndex: -1, startIndex: -1, options });
+    this.props.onChange(this.state.options);
   }
 
   onCheck = (evt) => {
@@ -121,6 +121,7 @@ export default class Tiwae extends React.Component {
     }));
 
     this.setState({ ghostIndex: -1, options, startIndex: -1 });
+    this.props.onChange(this.state.options);
   }
 
   onItemClick = (evt) => {
@@ -159,7 +160,7 @@ export default class Tiwae extends React.Component {
         className={`${styles.item} ${option.locked ? styles.locked : ''} ${(startIndex * 1) === index ? styles.grab : ''}`}
         data-index={index}
         draggable={!option.locked}
-        key={`item-${option.name}`}
+        key={`item-${option.key}`}
         onClick={this.onItemClick}
         onDragOver={this.onDragOverElement}
         onDragStart={this.onDragStart}

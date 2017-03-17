@@ -7,7 +7,7 @@ const Caret = ({
   disabled,
   onClick
 }) => (<div
-  className={cx(styles.caret, { [styles.closed]: closed, [styles.disabled]: disabled })}
+  className={cx(styles.controlCaret, { [styles.closed]: closed, [styles.disabled]: disabled })}
   onClick={onClick}
 >
   <i className='fa fa-chevron-down' />

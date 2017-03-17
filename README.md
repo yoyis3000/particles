@@ -37,24 +37,23 @@
 
 `Wait, that's awesome` - Most people
 
-## How do I get started then?
-If you have yarn already installed, do `yarn` at the root, otherwise run `npm install` at the root of this repo.  From this point on, `yarn` will be used exclusively.
+## How do I get started?
+If you already have `yarn`, run `yarn` at the root, otherwise run `npm install` at the root of this repo.  
 
 This will install:
 - [yarn](https://yarnpkg.com/en/)
 - [lerna](https://lernajs.io/)
-- Packages needed for sandbox, dev, and prod builds
 - Code style preferences for Javascript and CSS
 
-# Development
+Then, run `lerna boostrap` at the root. It will install all dependencies for all components.
 
-Start by running `lerna boostrap` at the root. It will install all dependencies for all components.
+# Development
 
 To develop a component `FOO`, all you need is these commands:
 
 ### yarn sandbox
 
-Spins up `FOO` and serves it up on `http://localhost:8080` for you to play around with in a standalone environment. The sandbox files are usually minimal implementation examples for the component, so keep them up to date!
+Spins up `FOO` and serves it up on `http://localhost:8080` (or `http://ude.8080`) for you to play around with in a standalone environment. The sandbox files are usually minimal implementation examples for the component, so keep them up to date!
 
 ### yarn dev
 

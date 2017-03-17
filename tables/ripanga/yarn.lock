@@ -3833,9 +3833,9 @@ timers-browserify@^2.0.2:
   dependencies:
     setimmediate "^1.0.4"
 
-tiwae@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tiwae/-/tiwae-1.0.3.tgz#4f2a5644404bba5e14ec78cd7110b7a388767339"
+tiwae@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tiwae/-/tiwae-1.1.0.tgz#3f21b70afc8eb3ecc84dea60cf386861c32bc27e"
   dependencies:
     react "^0.14.3"
 

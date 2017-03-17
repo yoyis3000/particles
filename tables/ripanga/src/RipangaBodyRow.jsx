@@ -8,7 +8,8 @@ const RipangaBodyRow = ({
   renderBodyRow,
   renderBodyStickyCell,
   rowData,
-  showCheckboxes
+  showCheckboxes,
+  styles
 }) => {
   const cells = columnDefinitions.map((def, i) => {
     if (def.hidden === true) {
@@ -18,23 +19,28 @@ const RipangaBodyRow = ({
     return def.renderer(rowData, i);
   });
 
-  cells.push(renderBodyStickyCell(rowData));
+  renderBodyStickyCell
+    ? cells.push(<td key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{renderBodyStickyCell(rowData)}</td>)
+    : cells.push(<td className={styles.stickyCell} />);
 
   const onChange = () => {
     onCheck(rowData[idKey]);
   };
 
   if (showCheckboxes) {
-    cells.unshift(<td key={`${rowData[idKey]}-checkboxes`}>
-      <input
-        type='checkbox'
-        checked={isChecked}
-        onChange={onChange}
-      />
+    cells.unshift(<td key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
+      <div className={styles.controlPlaceholder} />
+      <label className={styles.controlCheckbox}>
+        <input
+          type='checkbox'
+          checked={isChecked}
+          onChange={onChange}
+        />
+      </label>
     </td>);
   }
 
-  return renderBodyRow(rowData, cells);
+  return <tr key={`row-${rowData.key}`} className={styles.bodyRow}>{cells}</tr>;
 };
 
 RipangaBodyRow.propTypes = {
@@ -44,9 +50,10 @@ RipangaBodyRow.propTypes = {
   globalKey: PropTypes.string.isRequired,
   idKey: PropTypes.string,
   onCheck: PropTypes.func,
-  renderBodyRow: PropTypes.func.isRequired,
+  renderBodyStickyCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
-  showCheckboxes: PropTypes.bool
+  showCheckboxes: PropTypes.bool,
+  styles: PropTypes.shape().isRequired
 };
 
 RipangaBodyRow.defaultProps = {

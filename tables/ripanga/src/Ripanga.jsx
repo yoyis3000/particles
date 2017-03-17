@@ -47,11 +47,8 @@ const restoreSidebar = (els) => {
 };
 
 // TODO throttle slider
-// TODO 3 lockable cols
-// TODO two tables, grouped/ungrouped
 // TODO allow all checkboxes to clear - pass in initialState
 // TODO URL manager, storage manager
-// TODO no required URL defaults
 
 // cells.push(<td className={styles.sticky} key='head-sticky'>
 //   {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
@@ -62,8 +59,9 @@ export default class Ripanga extends React.Component {
     columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     globalKey: PropTypes.string.isRequired,
     idKey: PropTypes.string,
-    renderBodyRow: PropTypes.func,
     renderBodyStickyCell: PropTypes.func,
+    renderHeadStickyCell: PropTypes.func,
+    renderGroupStickyCell: PropTypes.func,
     renderEmpty: PropTypes.func,
     showCheckboxes: PropTypes.bool,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
@@ -72,17 +70,18 @@ export default class Ripanga extends React.Component {
 
   static defaultProps = {
     idKey: 'id',
-    renderBodyRow: null,
     renderBodyStickyCell: null,
+    renderHeadStickyCell: null,
+    renderGroupStickyCell: null,
     renderEmpty: null,
     showCheckboxes: false,
-    stylesheets: [defaultStyles]
+    stylesheets: []
   }
 
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, props.stylesheets);
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
 
     window.addEventListener('scroll', this.onScrollWindow);
@@ -107,7 +106,7 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
-    sidebarCells = document.querySelectorAll('td:last-child');
+    sidebarCells = document.querySelectorAll(`.${styles.stickyCell}`);
     this.onResize();
     this.onScrollWindow();
 
@@ -153,7 +152,6 @@ export default class Ripanga extends React.Component {
 
   onResize = () => {
     headerTop = this.table.tHead.getBoundingClientRect().top
-                - document.body.getBoundingClientRect().top;
 
     sidebarLeft = this.table.getBoundingClientRect().right
                 - document.body.getBoundingClientRect().width;
@@ -294,9 +292,9 @@ export default class Ripanga extends React.Component {
     const {
       columnDefinitions,
       idKey,
-      renderBodyRow,
       renderBodyStickyCell,
       renderHeadStickyCell,
+      renderGroupStickyCell,
       renderEmpty,
       showCheckboxes,
       tableData
@@ -354,8 +352,8 @@ export default class Ripanga extends React.Component {
             onRowCheck: this.onRowCheck,
             onCollapse: this.onCollapse,
             onGroupCheck: this.onGroupCheck,
-            renderBodyRow,
             renderBodyStickyCell,
+            renderGroupStickyCell,
             showGroups,
             showCheckboxes,
             styles,

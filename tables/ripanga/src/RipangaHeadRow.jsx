@@ -24,7 +24,9 @@ const RipangaHeadRow = ({
   }, []);
 
   const checkbox = (showCheckboxes
-    ? (<input type='checkbox' checked={allChecked} onChange={onCheckAll} />)
+    ? (<label className={styles.controlCheckbox}>
+      <input type='checkbox' checked={allChecked} onChange={onCheckAll} />
+    </label>)
     : null);
 
   const caret = (showGroups
@@ -33,7 +35,7 @@ const RipangaHeadRow = ({
 
   if (checkbox || caret) {
     cells.unshift(
-      <th key={'head-controls'} className={styles.tableHeadControls}>
+      <th key={'head-controls'} className={styles.controlCell}>
         {caret}
         {checkbox}
       </th>
@@ -43,7 +45,7 @@ const RipangaHeadRow = ({
   if (renderHeadStickyCell) {
     cells.push(renderHeadStickyCell());
   } else {
-    cells.push(<th key='sticky-head' />);
+    cells.push(<th key='sticky-head' className={styles.stickyCell} />);
   }
 
   return (

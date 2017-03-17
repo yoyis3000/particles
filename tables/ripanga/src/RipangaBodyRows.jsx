@@ -13,6 +13,7 @@ const RipangaBodyRows = ({
   onRowCheck,
   renderBodyRow,
   renderBodyStickyCell,
+  renderGroupStickyCell,
   renderGroupTitle,
   showCheckboxes,
   showGroups,
@@ -38,10 +39,10 @@ const RipangaBodyRows = ({
   };
 
   const renderGroupRow = (group) => {
-    const initialColspan = (showCheckboxes ? 2 : 1);
+    // const initialColspan = (showCheckboxes ? 1 : 0);
 
     const colSpan = columnDefinitions
-      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), initialColspan);
+      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), 0);
 
     const titleElement = (renderGroupTitle === undefined
       ? (<span className={styles.title}>{group.key.name}</span>)
@@ -58,6 +59,7 @@ const RipangaBodyRows = ({
       isDisabled: group.data.length === 0,
       onCollapse,
       onCheck: onGroupCheck,
+      renderGroupStickyCell,
       showCheckboxes,
       styles,
       titleElement

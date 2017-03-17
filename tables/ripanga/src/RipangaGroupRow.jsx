@@ -10,6 +10,7 @@ const RipangaGroupRow = ({
   isDisabled,
   onCheck,
   onCollapse,
+  renderGroupStickyCell,
   showCheckboxes,
   styles,
   titleElement
@@ -25,19 +26,26 @@ const RipangaGroupRow = ({
   };
 
   const checkbox = (showCheckboxes
-    ? <input type='checkbox' checked={isChecked} onChange={onChange} />
+    ? <label className={styles.controlCheckbox}><input type='checkbox' checked={isChecked} onChange={onChange} /></label>
     : null);
 
   const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
 
+  const sticky = (renderGroupStickyCell
+    ? renderGroupStickyCell(groupData)
+    : null);
+
   return (
-    <tr className={styles.groupRow} key={`group-${groupData.key.name}`}>
-      <td colSpan={colSpan}>
-        <div className={styles.controls}>
-          {caret}
-          {checkbox}
-        </div>
-        <span className={styles.title}>{titleElement}</span>
+    <tr className={styles.groupRow} key={`group-${groupData.key.key}`}>
+      <td className={styles.controlCell}>
+        {caret}
+        {checkbox}
+      </td>
+      <td colSpan={colSpan} className={styles.groupCell}>
+        {titleElement}
+      </td>
+      <td className={styles.stickyCell}>
+        {sticky}
       </td>
     </tr>
   );
@@ -52,6 +60,7 @@ RipangaGroupRow.propTypes = {
   isCollapsed: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onCheck: PropTypes.func,
+  renderGroupStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired,
   titleElement: PropTypes.element

@@ -12,6 +12,8 @@ const RipangaGroupRow = ({
   onCollapse,
   renderGroupStickyCell,
   showCheckboxes,
+  showGroups,
+  showSticky,
   styles,
   titleElement
 }) => {
@@ -25,28 +27,35 @@ const RipangaGroupRow = ({
     onCheck(groupData.key.name);
   };
 
-  const checkbox = (showCheckboxes
-    ? <label className={styles.controlCheckbox}><input type='checkbox' checked={isChecked} onChange={onChange} /></label>
-    : null);
+  const cells = [];
 
-  const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
+  if (showCheckboxes || showGroups) {
+    const checkbox = (showCheckboxes
+      ? (<label className={styles.controlCheckbox}>
+        <input type='checkbox' checked={isChecked} onChange={onChange} />
+      </label>)
+      : null);
 
-  const sticky = (renderGroupStickyCell
-    ? renderGroupStickyCell(groupData)
-    : null);
+    const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
+
+    cells.push(<td className={styles.controlCell}>
+      {caret}
+      {checkbox}
+    </td>);
+  }
+
+  cells.push(<td colSpan={colSpan} className={styles.groupCell}>
+    {titleElement}
+  </td>);
+
+  if (showSticky) {
+    const sticky = (renderGroupStickyCell ? renderGroupStickyCell(groupData) : null);
+    cells.push(<td className={styles.stickyCell}>{sticky}</td>);
+  }
 
   return (
     <tr className={styles.groupRow} key={`group-${groupData.key.key}`}>
-      <td className={styles.controlCell}>
-        {caret}
-        {checkbox}
-      </td>
-      <td colSpan={colSpan} className={styles.groupCell}>
-        {titleElement}
-      </td>
-      <td className={styles.stickyCell}>
-        {sticky}
-      </td>
+      {cells}
     </tr>
   );
 };
@@ -62,6 +71,7 @@ RipangaGroupRow.propTypes = {
   onCheck: PropTypes.func,
   renderGroupStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
+  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired,
   titleElement: PropTypes.element
 };

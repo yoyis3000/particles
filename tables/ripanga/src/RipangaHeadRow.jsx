@@ -13,6 +13,7 @@ const RipangaHeadRow = ({
   renderHeadStickyCell,
   showCheckboxes,
   showGroups,
+  showSticky,
   styles
 }) => {
   const cells = columnDefinitions.reduce((acc, def) => {
@@ -23,17 +24,17 @@ const RipangaHeadRow = ({
     return acc;
   }, []);
 
-  const checkbox = (showCheckboxes
-    ? (<label className={styles.controlCheckbox}>
-      <input type='checkbox' checked={allChecked} onChange={onCheckAll} />
-    </label>)
-    : null);
+  if (showCheckboxes || showGroups) {
+    const checkbox = (showCheckboxes
+      ? (<label className={styles.controlCheckbox}>
+        <input type='checkbox' checked={allChecked} onChange={onCheckAll} />
+      </label>)
+      : null);
 
-  const caret = (showGroups
-    ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll })
-    : null);
+    const caret = (showGroups
+      ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll })
+      : null);
 
-  if (checkbox || caret) {
     cells.unshift(
       <th key={'head-controls'} className={styles.controlCell}>
         {caret}
@@ -42,10 +43,9 @@ const RipangaHeadRow = ({
     );
   }
 
-  if (renderHeadStickyCell) {
-    cells.push(renderHeadStickyCell());
-  } else {
-    cells.push(<th key='sticky-head' className={styles.stickyCell} />);
+  if (showSticky) {
+    const sticky = (renderHeadStickyCell ? renderHeadStickyCell() : null);
+    cells.push(<th key='sticky-head' className={styles.stickyCell}>{sticky}</th>);
   }
 
   return (
@@ -57,6 +57,7 @@ const RipangaHeadRow = ({
   );
 };
 
+/* eslint react/require-default-props: 0 */
 RipangaHeadRow.propTypes = {
   allChecked: PropTypes.bool.isRequired,
   allCollapsed: PropTypes.bool.isRequired,
@@ -68,11 +69,8 @@ RipangaHeadRow.propTypes = {
   renderHeadStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
+  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired
-};
-
-RipangaHeadRow.defaultProps = {
-  renderHeadStickyCell: null
 };
 
 export default RipangaHeadRow;

@@ -9,6 +9,7 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 let showGroups = false;
+let showSticky = false;
 
 let headerTop = 0;
 let sidebarLeft = 0;
@@ -83,6 +84,9 @@ export default class Ripanga extends React.Component {
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
+    showSticky = (props.renderHeadStickyCell !== null
+      || props.renderGroupStickyCell !== null
+      || props.renderBodyStickyCell !== null);
 
     window.addEventListener('scroll', this.onScrollWindow);
     window.addEventListener('resize', this.onResize);
@@ -341,6 +345,7 @@ export default class Ripanga extends React.Component {
             scrollerValue,
             showGroups,
             showCheckboxes,
+            showSticky,
             styles
           }) }
 
@@ -356,6 +361,7 @@ export default class Ripanga extends React.Component {
             renderGroupStickyCell,
             showGroups,
             showCheckboxes,
+            showSticky,
             styles,
             tableData
           }) }

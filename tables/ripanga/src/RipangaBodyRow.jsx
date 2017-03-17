@@ -5,10 +5,11 @@ const RipangaBodyRow = ({
   idKey,
   isChecked,
   onCheck,
-  renderBodyRow,
   renderBodyStickyCell,
   rowData,
   showCheckboxes,
+  showGroups,
+  showSticky,
   styles
 }) => {
   const cells = columnDefinitions.map((def, i) => {
@@ -19,9 +20,13 @@ const RipangaBodyRow = ({
     return def.renderer(rowData, i);
   });
 
-  renderBodyStickyCell
-    ? cells.push(<td key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{renderBodyStickyCell(rowData)}</td>)
-    : cells.push(<td className={styles.stickyCell} />);
+  if (showSticky) {
+    const sticky = (renderBodyStickyCell
+      ? renderBodyStickyCell(rowData)
+      : null);
+
+    cells.push(<td key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{sticky}</td>);
+  }
 
   const onChange = () => {
     onCheck(rowData[idKey]);
@@ -40,28 +45,21 @@ const RipangaBodyRow = ({
     </td>);
   }
 
-  return <tr key={`row-${rowData.key}`} className={styles.bodyRow}>{cells}</tr>;
+  return (<tr key={`row-${rowData.key}`} className={styles.bodyRow}>
+    {cells}
+  </tr>);
 };
 
+/* eslint react/require-default-props: 0 */
 RipangaBodyRow.propTypes = {
-  actions: PropTypes.shape(),
-  checkedIds: PropTypes.shape(),
   columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  globalKey: PropTypes.string.isRequired,
   idKey: PropTypes.string,
+  isChecked: PropTypes.bool,
   onCheck: PropTypes.func,
   renderBodyStickyCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
   showCheckboxes: PropTypes.bool,
-  styles: PropTypes.shape().isRequired
-};
-
-RipangaBodyRow.defaultProps = {
-  actions: PropTypes.shape(),
-  checkedIds: PropTypes.shape(),
-  idKey: PropTypes.string,
-  onCheck: PropTypes.func,
-  showCheckboxes: PropTypes.bool,
+  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired
 };
 

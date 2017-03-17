@@ -46,7 +46,6 @@ const restoreSidebar = (els) => {
   });
 };
 
-// TODO configurable columns
 // TODO throttle slider
 // TODO 3 lockable cols
 // TODO two tables, grouped/ungrouped

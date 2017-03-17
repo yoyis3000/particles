@@ -28,15 +28,15 @@ const RipangaHeadCell = ({
       : <i className='fa fa-long-arrow-up' />);
   }
 
-  if (!def.sortKey) {
+  if (!def.key) {
     // eslint-disable-next-line
-    console.error(`Column definition for "${def.label}" has no sortKey property which causes the error below.`);
+    console.error(`Column definition for "${def.label}" has no 'key' property which causes the error below.`);
   }
 
   return (
     <th
       className={cx(styles.sortArrow, { [styles.sortable]: def.sortable })}
-      key={`head-${def.sortKey}`}
+      key={`head-${def.key}`}
       onClick={onClick}
     >
       <span className={styles.label}>{def.label}</span>

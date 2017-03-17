@@ -5,12 +5,13 @@ import Tiwae from 'tiwae';
 
 import defaultStyles from '../src/RipangaDefault.scss';
 import sandboxStyles from './sandbox.scss';
+import tiwaeOverrides from './TiwaeOverrides.scss';
 
 const def = {
   editable: false,
   hidden: false,
   label: '',
-  name: '',
+  key: '',
   sortable: false,
   sortKey: ''
 };
@@ -53,12 +54,39 @@ const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}
 const renderBodyStickyCell = rowData => <td key={`sticky-${rowData.key}`} className={sandboxStyles.sticky}>Sticky {rowData.text}</td>;
 
 const columnDefinitions = [
-  Object.assign({ def, renderer: renderCell }, { label: 'Col A', sortKey: 'colA' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col B', sortKey: 'colB' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col C', sortKey: 'colC' })
+  Object.assign({ def, renderer: renderCell }, { label: 'Col A', key: 'colA' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col B', key: 'colB' }),
+  Object.assign({ def, renderer: renderCell }, { label: 'Col C', key: 'colC' })
 ];
 
-const renderHeadStickyCell = () => <Tiwae options={columnDefinitions} onChange={() => { console.info("Ripanga sandbox"); }} />;
+const onChange = (newDefs) => {
+  console.warn(newDefs)
+
+  const test = (<Ripanga
+    globalKey='ripanga-sandbox-grouped'
+    idKey='key'
+    showCheckboxes
+    tableData={tableDataGrouped}
+    {...{
+      columnDefinitions: newDefs,
+      renderBodyRow,
+      renderBodyStickyCell,
+      renderHeadStickyCell,
+      stylesheets
+    }}
+  />);
+
+  render(
+    <div>
+      {test}
+    </div>,
+    document.getElementById('root'),
+  );
+}
+
+const renderHeadStickyCell = (def) => (<th className={sandboxStyles.sticky} key='sticky-head'>
+  <Tiwae options={columnDefinitions} onChange={onChange} stylesheets={[tiwaeOverrides]} />
+</th>);
 
 const stylesheets = [
   defaultStyles,

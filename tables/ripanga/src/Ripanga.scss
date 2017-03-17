@@ -1,7 +1,7 @@
 @import '../../shared/reset';
 
 .container {
-
+  width: inherit;
 }
 
 .table {
@@ -15,7 +15,9 @@
 
   th {
     border: 1px solid #aaa;
+    position: relative;
     transform-style: preserve-3d;
+    z-index: 100;
   }
 }
 

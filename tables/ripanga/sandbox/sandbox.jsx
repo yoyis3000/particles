@@ -76,6 +76,13 @@ const groupedWithCheckboxes = (<Ripanga
 
 render(
   <div>
+    <button
+      className={sandboxStyles.btnUncheck}
+      onClick={() => { window.dispatchEvent(new CustomEvent('uncheck')); }}
+    >
+      Uncheck All
+    </button>
+
     {groupedWithCheckboxes}
   </div>,
   document.getElementById('root'),

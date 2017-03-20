@@ -47,18 +47,9 @@ const restoreSidebar = (els) => {
   });
 };
 
-// TODO throttle slider
-// TODO allow all checkboxes to clear - pass in initialState
-// TODO URL manager, storage manager
-
-// cells.push(<td className={styles.sticky} key='head-sticky'>
-//   {RipangaSlider({ onScroll, onScrollTrack, styles, value: scrollerValue })}
-// </td>);
-
 export default class Ripanga extends React.Component {
   static propTypes = {
     columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    globalKey: PropTypes.string.isRequired,
     idKey: PropTypes.string,
     renderBodyStickyCell: PropTypes.func,
     renderHeadStickyCell: PropTypes.func,
@@ -113,29 +104,8 @@ export default class Ripanga extends React.Component {
     sidebarCells = document.querySelectorAll(`.${styles.stickyCell}`);
     this.onResize();
     this.onScrollWindow();
-
-
-    // TODO storage / url persistence
-    // const {
-    //   globalKey
-    // } = this.props;
-    //
-    // const storedRecords = localStorage.getItem(`${globalKey}/CHECKED`);
-    // const obj = (storedRecords ? JSON.parse(storedRecords) : {});
-    // const ids = [];
-    //
-    // for (let i in obj) {
-    //   ids.push(parseInt(i, 10));
-    // }
-    //
-    // this.setChecked(ids, globalKey);
+    window.addEventListener('uncheck', this.onExternalUncheckAll);
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (JSON.stringify(this.props.tableData) !== JSON.stringify(nextProps.tableData)) {
-  //     this.clearCollapsedGroups();
-  //   }
-  // }
 
   onScrollWindow = () => {
     const diffX = window.scrollX - sidebarLeft;
@@ -155,7 +125,7 @@ export default class Ripanga extends React.Component {
   }
 
   onResize = () => {
-    headerTop = this.table.tHead.getBoundingClientRect().top
+    headerTop = this.table.tHead.getBoundingClientRect().top;
 
     sidebarLeft = this.table.getBoundingClientRect().right
                 - document.body.getBoundingClientRect().width;
@@ -212,85 +182,12 @@ export default class Ripanga extends React.Component {
     this.setState({ allChecked, checkedIds });
   }
 
-  onSort = () => {
-    // const attribute = def.sortKey;
-    // const direction = (params.sort.attribute === attribute
-    //   && params.sort.direction === DIRECTION.ASC
-    //   ? DIRECTION.DESC
-    //   : DIRECTION.ASC);
-    //
-    // params.sort = { attribute, direction };
-    // params.page = 1;
-    //
-    // sessionStorage.setItem(`${globalKey}/SORT`, JSON.stringify(params.sort));
-    //
-    // history.pushState(
-    //   history.state,
-    //   '',
-    //   `${url[0]}?${qs.stringify(params, { arrayFormat: 'brackets' })}`,
-    // );
+  onExternalUncheckAll = () => {
+    const checkedIds = Object.keys(this.state.checkedIds)
+      .reduce((acc, k) => Object.assign(acc, { [k]: false }), {});
+
+    this.setState({ allChecked: false, checkedIds });
   }
-
-  onScroll = (evt) => {
-    // const { value } = evt.target.value;
-    // const steps = (this.props.scrollParent.scrollWidth - this.props.scrollParent.offsetWidth) / 50;
-    //
-    // parent.scrollLeft = steps * value;
-  }
-
-  onScrollTrack = () => {
-    console.warn("Tracking scroller")
-    // dispatch(trackEvent('project_area.submittals.table_actions.horizontal_scroll'));
-  }
-
-  // storeCheckedStates = () => {
-  //   sessionStorage.setItem(`${this.props.globalKey}/CHECKED`, JSON.stringify(this.state.checkedIds));
-  // };
-
-  // scrollSlider = (e) => {
-  //   const {
-  //     bodyContainer
-  //   } = this;
-  //
-  //   const v = e.target.value;
-  //   const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-  //   const delta = e.target.getAttribute('max') - e.target.getAttribute('min');
-  //
-  //   this.setState({ scrollerValue: parseInt(v, 0) });
-  //
-  //   bodyContainer.scrollLeft = (scrollWidth * v) / delta;
-  // }
-  //
-  // scrollBody = () => {
-  //   const {
-  //     bodyContainer,
-  //     headContainer,
-  //     slider,
-  //     stickyContainer
-  //   } = this;
-  //
-  //   headContainer.scrollLeft = bodyContainer.scrollLeft;
-  //   stickyContainer.scrollTop = bodyContainer.scrollTop;
-  //
-  //   const delta = slider.props.max - slider.props.min;
-  //   const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-  //   const scrollerValue = (bodyContainer.scrollLeft * delta) / scrollWidth;
-  //
-  //   this.setState({ scrollerValue });
-  // }
-  //
-  // scrollWindow = () => {
-  //   if (this.ripangaContainer === undefined) {
-  //     return;
-  //   }
-  //
-  //   this.recalculateSticky();
-  // }
-  //
-  // stickyHeaderActive = () => {
-  //   const ripangaBounds = this.ripangaContainer.getBoundingClientRect();
-  //   return ripangaBounds.top < 0;
-  // }
 
   render() {
     const {

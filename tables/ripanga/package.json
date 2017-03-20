@@ -21,7 +21,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "qs": "^6.4.0",
-    "react": "^0.14.3",
+    "react": "^15.4.2",
     "react-range": "^0.0.7"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.21.0",
     "node-sass": "^3.8.0",
-    "react-dom": "^0.14.3",
+    "react-dom": "^15.4.2",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
     "tiwae": "^1.1.0",

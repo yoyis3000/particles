@@ -67,9 +67,9 @@ const groupedWithCheckboxes = (<Ripanga
   {...{
     columnDefinitions,
     renderBodyRow,
-    // renderBodyStickyCell,
-    // renderGroupStickyCell,
-    // renderHeadStickyCell,
+    renderBodyStickyCell,
+    renderGroupStickyCell,
+    renderHeadStickyCell,
     stylesheets
   }}
 />);

@@ -61,11 +61,16 @@ $padding: 10px;
   display: inline-block;
   height: 20px;
   text-align: center;
+  transition: transform 0.3s ease;
   vertical-align: middle;
   width: 20px;
 
   :global .fa {
     cursor: pointer;
+  }
+
+  &.closed {
+    transform: rotate(180deg);
   }
 }
 

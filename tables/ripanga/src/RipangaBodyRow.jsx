@@ -5,10 +5,11 @@ const RipangaBodyRow = ({
   idKey,
   isChecked,
   onCheck,
+  renderBodyCell,
+  renderBodyRow,
   renderBodyStickyCell,
   rowData,
   showCheckboxes,
-  showGroups,
   showSticky,
   styles
 }) => {
@@ -17,7 +18,7 @@ const RipangaBodyRow = ({
       return null;
     }
 
-    return def.renderer(rowData, i);
+    return renderBodyCell(rowData, def);
   });
 
   if (showSticky) {
@@ -45,7 +46,11 @@ const RipangaBodyRow = ({
     </td>);
   }
 
-  return (<tr key={`row-${rowData.key}`} className={styles.bodyRow}>
+  if (renderBodyRow) {
+    return renderBodyRow(rowData, cells);
+  }
+
+  return (<tr key={`row-${rowData[idKey]}`} className={styles.bodyRow}>
     {cells}
   </tr>);
 };
@@ -56,6 +61,7 @@ RipangaBodyRow.propTypes = {
   idKey: PropTypes.string,
   isChecked: PropTypes.bool,
   onCheck: PropTypes.func,
+  renderBodyRow: PropTypes.func,
   renderBodyStickyCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
   showCheckboxes: PropTypes.bool,

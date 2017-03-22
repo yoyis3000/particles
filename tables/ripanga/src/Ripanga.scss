@@ -3,13 +3,14 @@
 $padding: 10px;
 
 .container {
+  overflow-x: auto;
   width: inherit;
 }
 
 .table {
-  border-right: 1px solid #c3c2c2;
+  border-left: 1px solid #c3c2c2;
+  // border-collapse: collapse;
   border-spacing: 0;
-  table-layout: fixed;
   width: 100%;
 }
 
@@ -18,18 +19,23 @@ $padding: 10px;
 
   th {
     border: 1px solid #c3c2c2;
-    border-width: 1px 0 1px 1px;
+    border-width: 1px 1px 1px 0;
     padding: $padding;
     position: relative;
     // transform-style: preserve-3d;
     z-index: 100;
+  }
+
+  :global .fa {
+    font-size: 12px;
+    margin-left: 5px;
   }
 }
 
 .tableBody {
   td {
     border: 1px solid #c3c2c2;
-    border-width: 0 0 1px 1px;
+    border-width: 0 1px 1px 0;
     padding: $padding;
     // transform-style: preserve-3d;
   }
@@ -100,5 +106,6 @@ $padding: 10px;
 
 .stickyCell {
   // background: #78c679;
+  border-left: 1px solid #c3c2c2;
   position: relative;
 }

@@ -11,6 +11,7 @@ const RipangaBodyRows = ({
   onCollapse,
   onGroupCheck,
   onRowCheck,
+  renderBodyCell,
   renderBodyRow,
   renderBodyStickyCell,
   renderGroupStickyCell,
@@ -31,6 +32,7 @@ const RipangaBodyRows = ({
       idKey,
       isChecked: checkedIds[rowData[idKey]],
       onCheck: onRowCheck,
+      renderBodyCell,
       renderBodyRow,
       renderBodyStickyCell,
       rowData,
@@ -46,7 +48,7 @@ const RipangaBodyRows = ({
       .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), 0);
 
     const titleElement = (renderGroupTitle === undefined
-      ? (<span className={styles.title}>{group.key.name}</span>)
+      ? (<span className={styles.title}>{group.key.label}</span>)
       : renderGroupTitle(group));
 
     const isChecked = group.data.reduce(
@@ -93,6 +95,7 @@ RipangaBodyRows.propTypes = {
   idKey: PropTypes.string,
   onGroupCheck: PropTypes.func,
   onRowCheck: PropTypes.func,
+  renderBodyCell: PropTypes.func,
   renderBodyRow: PropTypes.func,
   renderBodyStickyCell: PropTypes.func,
   renderGroupStickyCell: PropTypes.func,

@@ -49,12 +49,15 @@ const restoreSidebar = (els) => {
 
 export default class Ripanga extends React.Component {
   static propTypes = {
-    columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     idKey: PropTypes.string,
+    renderBodyCell: PropTypes.func.isRequired,
+    renderBodyRow: PropTypes.func,
     renderBodyStickyCell: PropTypes.func,
     renderHeadStickyCell: PropTypes.func,
     renderGroupStickyCell: PropTypes.func,
     renderEmpty: PropTypes.func,
+    onSort: PropTypes.func,
     showCheckboxes: PropTypes.bool,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
@@ -62,6 +65,8 @@ export default class Ripanga extends React.Component {
 
   static defaultProps = {
     idKey: 'id',
+    onSort: null,
+    renderBodyRow: null,
     renderBodyStickyCell: null,
     renderHeadStickyCell: null,
     renderGroupStickyCell: null,
@@ -108,6 +113,10 @@ export default class Ripanga extends React.Component {
   }
 
   onScrollWindow = () => {
+    if (this.table === undefined) {
+      return;
+    }
+
     const diffX = window.scrollX - sidebarLeft;
     const diffY = window.scrollY - headerTop;
 
@@ -125,12 +134,21 @@ export default class Ripanga extends React.Component {
   }
 
   onResize = () => {
+    if (this.table === undefined) {
+      return;
+    }
+
     headerTop = this.table.tHead.getBoundingClientRect().top;
 
-    sidebarLeft = this.table.getBoundingClientRect().right
-                - document.body.getBoundingClientRect().width;
+    sidebarLeft = this.table.getBoundingClientRect().right - document.body.getBoundingClientRect().width;
 
     this.onScrollWindow();
+  }
+
+  onSort = () => {
+    if (this.props.onSort) {
+      this.props.onSort();
+    }
   }
 
   onCollapse = (id) => {
@@ -193,6 +211,8 @@ export default class Ripanga extends React.Component {
     const {
       columnDefinitions,
       idKey,
+      renderBodyCell,
+      renderBodyRow,
       renderBodyStickyCell,
       renderHeadStickyCell,
       renderGroupStickyCell,
@@ -238,6 +258,7 @@ export default class Ripanga extends React.Component {
             onCollapseAll: this.onCollapseAll,
             onScroll: this.onScroll,
             onScrollTrack: this.onScrollTrack,
+            onSort: this.onSort,
             renderHeadStickyCell,
             scrollerValue,
             showGroups,
@@ -254,6 +275,8 @@ export default class Ripanga extends React.Component {
             onRowCheck: this.onRowCheck,
             onCollapse: this.onCollapse,
             onGroupCheck: this.onGroupCheck,
+            renderBodyCell,
+            renderBodyRow,
             renderBodyStickyCell,
             renderGroupStickyCell,
             showGroups,

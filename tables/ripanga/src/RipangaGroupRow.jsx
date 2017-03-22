@@ -38,19 +38,19 @@ const RipangaGroupRow = ({
 
     const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
 
-    cells.push(<td className={styles.controlCell}>
+    cells.push(<td key={`group-control-${groupData.key.key}`} className={styles.controlCell}>
       {caret}
       {checkbox}
     </td>);
   }
 
-  cells.push(<td colSpan={colSpan} className={styles.groupCell}>
+  cells.push(<td key={`group-title-${groupData.key.key}`} colSpan={colSpan} className={styles.groupCell}>
     {titleElement}
   </td>);
 
   if (showSticky) {
     const sticky = (renderGroupStickyCell ? renderGroupStickyCell(groupData) : null);
-    cells.push(<td className={styles.stickyCell}>{sticky}</td>);
+    cells.push(<td key={`group-sticky-${groupData.key.key}`} className={styles.stickyCell}>{sticky}</td>);
   }
 
   return (

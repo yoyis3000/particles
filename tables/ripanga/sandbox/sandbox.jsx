@@ -12,6 +12,8 @@ const def = {
   sortKey: ''
 };
 
+const onSort = () => { console.warn("Column was sorted."); };
+
 const tableDataUngrouped = [{
   key: undefined,
   data: [
@@ -22,20 +24,20 @@ const tableDataUngrouped = [{
 ];
 
 const tableDataGrouped = [
-  { key: { key: 'groupA', name: 'groupA' },
+  { key: { key: 'groupA', label: 'groupA' },
     data: [
       { text: 'rowA', key: 'rowA' },
       { text: 'rowB', key: 'rowB' },
       { text: 'rowC', key: 'rowC' }
     ]
-  }, { key: { key: 'groupB', name: 'groupB' },
+  }, { key: { key: 'groupB', label: 'groupB' },
     data: [
       { text: 'rowD', key: 'rowD' },
       { text: 'rowE', key: 'rowE' },
       { text: 'rowF', key: 'rowF' },
       { text: 'rowG', key: 'rowG' }
     ]
-  }, { key: { key: 'groupC', name: 'groupC' },
+  }, { key: { key: 'groupC', label: 'groupC' },
     data: [
       { text: 'rowH', key: 'rowH' },
       { text: 'rowI has too much text. Why would there be multiple lines of text in a table cell? Surely there is a good reason.', key: 'rowI' },
@@ -66,6 +68,7 @@ const groupedWithCheckboxes = (<Ripanga
   tableData={tableDataGrouped}
   {...{
     columnDefinitions,
+    onSort,
     renderBodyRow,
     renderBodyStickyCell,
     renderGroupStickyCell,

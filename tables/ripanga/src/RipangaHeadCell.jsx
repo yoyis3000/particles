@@ -35,7 +35,7 @@ const RipangaHeadCell = ({
 
   return (
     <th
-      className={cx(styles.sortArrow, { [styles.sortable]: def.sortable })}
+      className={styles.sortArrow}
       key={`head-${def.key}`}
       onClick={onClick}
     >

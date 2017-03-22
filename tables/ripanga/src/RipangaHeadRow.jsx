@@ -45,7 +45,7 @@ const RipangaHeadRow = ({
 
   if (showSticky) {
     const sticky = (renderHeadStickyCell ? renderHeadStickyCell() : null);
-    cells.push(<th key='sticky-head' className={styles.stickyCell}>{sticky}</th>);
+    cells.push(<th key='sticky-head' className={styles.stickyCellHead}>{sticky}</th>);
   }
 
   return (

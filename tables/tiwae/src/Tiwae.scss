@@ -53,7 +53,6 @@ $itemH: 24px;
   border-radius: 2px;
   color: #888;
   cursor: pointer;
-  font-size: 20px;
   height: 24px;
   line-height: 24px;
   position: absolute;
@@ -101,7 +100,6 @@ $itemH: 24px;
   &:hover {
     background: url('./gripper.svg') no-repeat 3px center #f8f8f8;
     background-size: 14px 20px;
-    box-shadow: 0 2px 4px 0 #939393;
   }
 
   &.locked {

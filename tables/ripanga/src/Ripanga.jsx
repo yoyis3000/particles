@@ -21,7 +21,7 @@ const i18n = {
 
 const moveHeader = (el, y) => {
   window.requestAnimationFrame(() => {
-    el.style.transform = `translate3d(0, ${y}px, 0)`;  // eslint-disable-line no-param-reassign
+    el.style.transform = `translate3d(0, ${y}px, 1px)`;  // eslint-disable-line no-param-reassign
   });
 };
 
@@ -34,7 +34,7 @@ const restoreHeader = (el) => {
 const moveSidebar = (els, x) => {
   els.forEach((el) => {
     window.requestAnimationFrame(() => {
-      el.style.transform = `translate3d(${x}px, 0, 0)`;  // eslint-disable-line no-param-reassign
+      el.style.transform = `translate3d(${x}px, 0, 1px)`;  // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -106,10 +106,13 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
-    sidebarCells = document.querySelectorAll(`.${styles.stickyCell}`);
     this.onResize();
     this.onScrollWindow();
     window.addEventListener('uncheck', this.onExternalUncheckAll);
+  }
+
+  componentDidUpdate() {
+    this.onResize();
   }
 
   onScrollWindow = () => {
@@ -138,9 +141,25 @@ export default class Ripanga extends React.Component {
       return;
     }
 
-    headerTop = this.table.tHead.getBoundingClientRect().top;
+    let hScrollParent = this.table;
+    let vScrollParent = this.table;
 
-    sidebarLeft = this.table.getBoundingClientRect().right - document.body.getBoundingClientRect().width;
+    while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
+      hScrollParent = hScrollParent.parentNode;
+    }
+
+    while (vScrollParent !== document.body && vScrollParent.scrollHeight <= vScrollParent.clientHeight) {
+      vScrollParent = vScrollParent.parentNode;
+    }
+
+    vScrollParent.style.border = '1px solid red';
+
+    // sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
+
+
+    // headerTop = vScrollParent.getBoundingClientRect().top + this.table.offsetTop;
+
+    // sidebarLeft = hScrollParent.getBoundingClientRect().right + this.table.offsetTop;
 
     this.onScrollWindow();
   }

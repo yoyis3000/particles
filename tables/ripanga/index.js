@@ -1576,7 +1576,7 @@ var i18n = {
 
 var moveHeader = function moveHeader(el, y) {
   window.requestAnimationFrame(function () {
-    el.style.transform = 'translate3d(0, ' + y + 'px, 0)'; // eslint-disable-line no-param-reassign
+    el.style.transform = 'translate3d(0, ' + y + 'px, 1px)'; // eslint-disable-line no-param-reassign
   });
 };
 
@@ -1589,7 +1589,7 @@ var restoreHeader = function restoreHeader(el) {
 var moveSidebar = function moveSidebar(els, x) {
   els.forEach(function (el) {
     window.requestAnimationFrame(function () {
-      el.style.transform = 'translate3d(' + x + 'px, 0, 0)'; // eslint-disable-line no-param-reassign
+      el.style.transform = 'translate3d(' + x + 'px, 0, 1px)'; // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -1642,10 +1642,14 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   (0, _createClass3.default)(Ripanga, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      sidebarCells = document.querySelectorAll('.' + styles.stickyCell);
       this.onResize();
       this.onScrollWindow();
       window.addEventListener('uncheck', this.onExternalUncheckAll);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.onResize();
     }
   }, {
     key: 'render',
@@ -1792,9 +1796,25 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       return;
     }
 
-    headerTop = _this3.table.tHead.getBoundingClientRect().top;
+    var hScrollParent = _this3.table;
+    var vScrollParent = _this3.table;
 
-    sidebarLeft = _this3.table.getBoundingClientRect().right - document.body.getBoundingClientRect().width;
+    while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
+      hScrollParent = hScrollParent.parentNode;
+    }
+
+    while (vScrollParent !== document.body && vScrollParent.scrollHeight <= vScrollParent.clientHeight) {
+      vScrollParent = vScrollParent.parentNode;
+    }
+
+    vScrollParent.style.border = '1px solid red';
+
+    // sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
+
+
+    // headerTop = vScrollParent.getBoundingClientRect().top + this.table.offsetTop;
+
+    // sidebarLeft = hScrollParent.getBoundingClientRect().right + this.table.offsetTop;
 
     _this3.onScrollWindow();
   };
@@ -2405,7 +2425,7 @@ var RipangaHeadRow = function RipangaHeadRow(_ref) {
     var sticky = renderHeadStickyCell ? renderHeadStickyCell() : null;
     cells.push(_react2.default.createElement(
       'th',
-      { key: 'sticky-head', className: styles.stickyCell },
+      { key: 'sticky-head', className: styles.stickyCellHead },
       sticky
     ));
   }
@@ -3584,7 +3604,7 @@ exports = module.exports = __webpack_require__(52)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.container__src-Ripanga__Ofnqz {\n  overflow-x: auto;\n  width: inherit; }\n\n.table__src-Ripanga__1_H6Y {\n  border-left: 1px solid #c3c2c2;\n  border-spacing: 0;\n  width: 100%; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  background: #e7e7e7; }\n  .tableHead__src-Ripanga__1Ij9q th {\n    border: 1px solid #c3c2c2;\n    border-width: 1px 1px 1px 0;\n    padding: 10px;\n    position: relative;\n    z-index: 100; }\n  .tableHead__src-Ripanga__1Ij9q .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.tableBody__src-Ripanga__1J3be td {\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 0;\n  padding: 10px; }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC {\n  font-family: inherit; }\n\n.bodyRow__src-Ripanga__eUPMO {\n  font-family: inherit; }\n\n.controlCell__src-Ripanga__MKVfs {\n  text-align: center;\n  width: 62px; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.stickyCell__src-Ripanga__1_K6i {\n  border-left: 1px solid #c3c2c2;\n  position: relative; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.container__src-Ripanga__Ofnqz {\n  overflow-x: auto;\n  width: inherit; }\n\n.table__src-Ripanga__1_H6Y {\n  border-left: 1px solid #c3c2c2;\n  border-spacing: 0;\n  width: 100%; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  background: #e7e7e7; }\n  .tableHead__src-Ripanga__1Ij9q th {\n    border: 1px solid #c3c2c2;\n    border-width: 1px 1px 1px 0;\n    padding: 10px;\n    position: relative;\n    transform-style: preserve-3d;\n    z-index: 1000; }\n  .tableHead__src-Ripanga__1Ij9q .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.tableBody__src-Ripanga__1J3be td {\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 0;\n  padding: 10px; }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC {\n  font-family: inherit; }\n\n.bodyRow__src-Ripanga__eUPMO {\n  font-family: inherit; }\n\n.controlCell__src-Ripanga__MKVfs {\n  text-align: center;\n  width: 62px; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.stickyCell__src-Ripanga__1_K6i {\n  border-left: 1px solid #c3c2c2;\n  position: relative; }\n\n.stickyCellHead__src-Ripanga__1ekVw { }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3600,7 +3620,8 @@ exports.locals = {
 	"closed": "closed__src-Ripanga__3xJMU",
 	"controlPlaceholder": "controlPlaceholder__src-Ripanga__3pKUb",
 	"controlCheckbox": "controlCheckbox__src-Ripanga__EbqGm",
-	"stickyCell": "stickyCell__src-Ripanga__1_K6i"
+	"stickyCell": "stickyCell__src-Ripanga__1_K6i",
+	"stickyCellHead": "stickyCellHead__src-Ripanga__1ekVw stickyCell__src-Ripanga__1_K6i"
 };
 
 /***/ }),

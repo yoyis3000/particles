@@ -22,8 +22,8 @@ $padding: 10px;
     border-width: 1px 1px 1px 0;
     padding: $padding;
     position: relative;
-    // transform-style: preserve-3d;
-    z-index: 100;
+    transform-style: preserve-3d;
+    z-index: 1000;
   }
 
   :global .fa {
@@ -108,4 +108,9 @@ $padding: 10px;
   // background: #78c679;
   border-left: 1px solid #c3c2c2;
   position: relative;
+}
+
+.stickyCellHead {
+  composes: stickyCell;
+  // background: #78c679;
 }

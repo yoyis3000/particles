@@ -332,7 +332,7 @@ export default class Tipako extends React.Component {
       : <span className={`fa fa-exclamation-triangle ${styles.maxResults}`} />;
 
     const maxResultsWarningText =
-      (this.state.fetching || items.length < this.props.maxResults)
+      (this.state.fetching || this.state.data.length < this.props.maxResults)
       ? ''
       : 'This search is too general, so the results have been limited.';
 

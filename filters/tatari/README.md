@@ -4,6 +4,21 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.3
+- Removing sans-serif default on star selector
+
+##### 2.1.2
+- Fixed select all to respect search
+
+##### 2.1.1
+- Fixed restoring checkboxes regardless of data type
+
+##### 2.1.0
+- Fixed focus/click on inline search
+- Styling updates
+- Resetting "hidden" state during population
+- Improved empty state handling
+
 ##### 2.0.1 - 2.0.5
 - Adding Lerna publishing management
 - Splitting out dev dependencies

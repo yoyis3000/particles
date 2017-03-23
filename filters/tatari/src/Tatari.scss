@@ -3,7 +3,7 @@
 $h: 30px;
 $p: 10px;
 $delay: 0.2s;
-$searchH: 20px;
+$searchH: 26px;
 
 .filterContainer {
   display: flex;
@@ -27,14 +27,7 @@ $searchH: 20px;
   margin-right: 10px;
   line-height: $h;
   opacity: 1;
-  // transition: all 0.2s ease;
   width: 200px;
-
-  // &.hiding {
-  //   margin-right: 0;
-  //   opacity: 0;
-  //   width: 0;
-  // }
 }
 
 .dropdownHead {
@@ -86,6 +79,7 @@ $searchH: 20px;
   transition: all 0.3s ease;
 
   .arrow {
+    cursor: pointer;
     display: block;
     height: $h;
     line-height: $h;
@@ -137,6 +131,10 @@ $searchH: 20px;
   }
 }
 
+.emptyMessage {
+  padding: 10px;
+}
+
 .activeCount {
   margin: 0 5px;
 }
@@ -167,6 +165,7 @@ $searchH: 20px;
 }
 
 .activeInput {
+  cursor: text;
   display: block;
   height: $searchH;
   padding-right: $searchH;
@@ -234,6 +233,10 @@ $searchH: 20px;
 .activeCheckbox {
   cursor: pointer;
   margin-right: 15px;
+}
+
+.activeText {
+  cursor: pointer;
 }
 
 @keyframes spin {

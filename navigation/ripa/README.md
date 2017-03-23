@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 2.1.2
+- San serif default removed
+
 ##### 2.1.0 - 2.1.1
 - Removing local storage persistence, then adding it again.
 

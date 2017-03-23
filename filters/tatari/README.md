@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.3
+- Removing sans-serif default on star selector
+
 ##### 2.1.2
 - Fixed select all to respect search
 

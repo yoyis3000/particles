@@ -193,16 +193,18 @@ export default class Tipako extends React.Component {
       const result = acc;
 
       if (obj.children) {
-        if (addGroupTokens) {
+        if (addGroupTokens && !obj.disabled) {
           tokensMemo[obj.id] = result.length;
           result.push(obj);
         }
 
         obj.children.forEach((child) => {
-          tokensMemo[child.id] = result.length;
-          result.push(child);
+          if (!child.disabled) {
+            tokensMemo[child.id] = result.length;
+            result.push(child);
+          }
         });
-      } else {
+      } else if (!obj.disabled) {
         tokensMemo[obj.id] = result.length;
         result.push(obj);
       }
@@ -288,14 +290,22 @@ export default class Tipako extends React.Component {
       return acc.concat(ungrouped);
     }, []);
 
-    const selectall = (<div className={styles.controls}>
-      <button
+    const selectAll = items.length > 0
+      ? (<button
         className={styles.controlsButton}
         onClick={this.onSelectAll}
       >
          Select All
-      </button>
-      <div className={styles.controlsSpacer}>/</div>
+      </button>)
+      : null;
+
+    const spacer = items.length > 0
+      ? <div className={styles.controlsSpacer}>/</div>
+      : null;
+
+    const controls = (<div className={styles.controls}>
+      {selectAll}
+      {spacer}
       <button
         className={styles.controlsButton}
         onClick={this.onClearAll}
@@ -316,7 +326,7 @@ export default class Tipako extends React.Component {
 
     const nomatch = <div className={styles.nomatch}>{this.props.msgEmpty}</div>;
 
-    const caret = (this.state.fetching || items.length === 0)
+    const caret = (this.state.fetching)
       ? null
       : (<button onClick={this.onCaretClick} className={styles.caret}>
         <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
@@ -361,7 +371,7 @@ export default class Tipako extends React.Component {
           className={cx(styles.dropdown, {
             [styles.expanded]: this.state.expanded })}
         >
-          {items.length > 0 ? selectall : ''}
+          {controls}
           {items.length ? items : nomatch}
         </div>
       </div>

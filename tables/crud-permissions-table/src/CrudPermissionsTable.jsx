@@ -67,23 +67,15 @@ export default class CrudPermissionsTable extends React.Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {};
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.refreshState(props.bodyData);
+  }
 
-    const { bodyData } = props;
-
-    const checkedGroupIds = this.updateGroupCheckboxes(bodyData);
-
-    const collapsedGroupIds = bodyData
-      .reduce((acc, group) => Object.assign(acc,
-        { [group.key.id]: false })
-        , {});
-
-    this.state = {
-      checkedGroupIds,
-      collapsedGroupIds,
-      bodyData
-    };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.bodyData !== this.props.bodyData) {
+      this.refreshState(nextProps.bodyData);
+    }
   }
 
   onGroupCollapse = (evt) => {
@@ -133,6 +125,21 @@ export default class CrudPermissionsTable extends React.Component {
 
     const checkedGroupIds = this.updateGroupCheckboxes(bodyData);
     this.setState({ bodyData, checkedGroupIds });
+  }
+
+  refreshState = (bodyData) => {
+    const checkedGroupIds = this.updateGroupCheckboxes(bodyData);
+
+    const collapsedGroupIds = bodyData
+      .reduce((acc, group) => Object.assign(acc,
+        { [group.key.id]: false })
+        , {});
+
+    this.setState({
+      checkedGroupIds,
+      collapsedGroupIds,
+      bodyData
+    });
   }
 
   updateGroupCheckboxes = bodyData => bodyData.reduce((acc, group) => {

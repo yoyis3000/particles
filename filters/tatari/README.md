@@ -4,6 +4,12 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.0
+- Fixed focus/click on inline search
+- Styling updates
+- Resetting "hidden" state during population
+- Improved empty state handling
+
 ##### 2.0.1 - 2.0.5
 - Adding Lerna publishing management
 - Splitting out dev dependencies

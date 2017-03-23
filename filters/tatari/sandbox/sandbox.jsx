@@ -21,6 +21,11 @@ mockApi
       endpoint: '/filterB',
       key: 'assignee',
       value: 'Assignee'
+    },
+    {
+      endpoint: '/filterC',
+      key: 'emptyfilter',
+      value: 'An Empty Filter'
     }
   ])
 .onGet('/filterA')
@@ -42,6 +47,8 @@ mockApi
       { key: 1202938, value: 'Ultimate Test' },
       { key: 1133776, value: 'California Towhee' }
   ])
+.onGet('/filterC')
+  .reply(200, [])
 .onPatch('/patch_filters')
   .reply(200);
 

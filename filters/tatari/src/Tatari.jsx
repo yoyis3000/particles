@@ -172,7 +172,7 @@ export default class Tatari extends React.Component {
   saveOptions = () => {
     const payload = { filters: this.createPayload() };
 
-    Object.keys(payload.filters).length === 0
+    Object.keys(payload.filters).length > 0
       ? patch(this.props.urls.patch, payload).then(this.props.onComplete)
       : this.props.onComplete();
   }
@@ -244,7 +244,7 @@ export default class Tatari extends React.Component {
     };
 
     retrieveOptions().then(({ data }) => {
-      options[key] = data.map(d => Object.assign(d, { checked: false }));
+      options[key] = data.map(d => Object.assign(d, { checked: false, hidden: false }));
       const newLoading = this.state.loading;
       newLoading[key] = false;
 
@@ -271,6 +271,9 @@ export default class Tatari extends React.Component {
     inactiveFilters.sort((a, b) => (a.index - b.index));
 
     this.setState({ inactiveFilters, activeFilters });
+
+    this.updateUrl();
+    this.saveOptions();
   }
 
   removeAllActive = () => {
@@ -279,6 +282,9 @@ export default class Tatari extends React.Component {
       .sort((a, b) => (a.index - b.index));
 
     this.setState({ inactiveFilters: inactive, activeFilters: [] }, this.updateUrl);
+
+    this.updateUrl();
+    this.saveOptions();
   }
 
   removeEmptyActive = () => {

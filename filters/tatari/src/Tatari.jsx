@@ -206,8 +206,13 @@ export default class Tatari extends React.Component {
     const key = evt.target.dataset.key;
     const { options } = this.state;
 
-    options[key].reduce((acc, option) =>
-      acc.concat(Object.assign(option, { checked: true })), []);
+    options[key].reduce((acc, option) => {
+      if (option.hidden === true) {
+        return acc;
+      }
+
+      return acc.concat(Object.assign(option, { checked: true }));
+    }, []);
 
     this.setState({ options });
   }

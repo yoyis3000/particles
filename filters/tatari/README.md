@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.1
+- Fixed restoring checkboxes regardless of data type
+
 ##### 2.1.0
 - Fixed focus/click on inline search
 - Styling updates

@@ -53,7 +53,7 @@ export default class Tatari extends React.Component {
       const previousFilters = params.filters || saved;
 
       const activeFilters = availableFilters.reduce((acc, filter, index) => {
-        if (previousFilters[filter.key] !== undefined) {
+        if (previousFilters[filter.key] !== undefined && previousFilters[filter.key] !== null) {
           acc.push(Object.assign(filter, { index }));
         }
 
@@ -61,7 +61,7 @@ export default class Tatari extends React.Component {
       }, []);
 
       const inactiveFilters = availableFilters.reduce((acc, filter, index) => {
-        if (previousFilters[filter.key] === undefined) {
+        if (previousFilters[filter.key] === undefined || previousFilters[filter.key] === null) {
           acc.push(Object.assign(filter, { index }));
         }
 
@@ -79,8 +79,10 @@ export default class Tatari extends React.Component {
           const options = activeFilters.reduce((acc, filter, index) => {
             const { data } = values[index];
 
-            const setChecked = d => Object.assign(d,
-              { checked: (previousFilters[filter.key].indexOf(d.key.toString()) > -1) });
+            const setChecked = d => Object.assign(d, { checked:
+              (previousFilters[filter.key].filter(
+                v => v.toString() === d.key.toString()).length > 0)
+            });
 
             return Object.assign(acc, { [filter.key]: data.map(setChecked) });
           }, {});

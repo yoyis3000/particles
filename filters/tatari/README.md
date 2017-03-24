@@ -4,6 +4,10 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.4
+- Fixing wrapping
+- Changing filter width to responsive, not fixed
+
 ##### 2.1.3
 - Removing sans-serif default on star selector
 

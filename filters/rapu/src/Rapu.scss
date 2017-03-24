@@ -11,9 +11,11 @@ $side: 30px;
 .input {
   border: 1px solid #444;
   box-sizing: border-box;
+  cursor: text;
   font-size: 13px;
   height: $side;
   margin: 0;
+  min-width: 150px;
   padding: 2px 2 * $side 2px 5px;
   position: relative;
   width: 100%;

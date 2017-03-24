@@ -4,7 +4,7 @@ A dynamically populated filter component.
 
 # Change Log
 
-##### 2.1.4
+##### 2.1.4, 2.1.5
 - Fixing wrapping
 - Changing filter width to responsive, not fixed
 

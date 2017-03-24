@@ -105,6 +105,7 @@ export default class Ripanga extends React.Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.onVScroll);
+    window.addEventListener('resize', this.onResize);
     window.addEventListener('uncheck', this.onExternalUncheckAll);
   }
 
@@ -122,7 +123,6 @@ export default class Ripanga extends React.Component {
 
   onHScroll = () => {
     // TODO initial state
-    // TODO borders
 
     if (sidebarInitial < 0) {
       moveSidebar(sidebarCells, hScrollParent.scrollLeft + sidebarInitial);
@@ -132,9 +132,11 @@ export default class Ripanga extends React.Component {
   }
 
   onVScroll = () => {
-    // TODO initial state
-    // TODO borders
-    // TODO z-index
+    // TODO can't hover on upper rows
+
+    if (!this.table) {
+      return;
+    }
 
     if (document.body.scrollTop > headerInitial) {
       moveHeader(this.table.tHead, document.body.scrollTop - headerInitial);
@@ -153,7 +155,9 @@ export default class Ripanga extends React.Component {
     hScrollParent.removeEventListener('scroll', this.onHScroll);
     hScrollParent.addEventListener('scroll', this.onHScroll);
 
-    headerInitial = this.table.getBoundingClientRect().top;
+    headerInitial = this.table.getBoundingClientRect().top + document.body.scrollTop;
+
+    console.warn( hScrollParent.scrollLeft)
     sidebarInitial = hScrollParent.getBoundingClientRect().right - sidebarCells[0].getBoundingClientRect().right;
   }
 

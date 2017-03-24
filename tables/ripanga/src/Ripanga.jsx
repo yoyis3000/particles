@@ -11,9 +11,10 @@ let styles = {};
 let showGroups = false;
 let showSticky = false;
 
-let headerTop = 0;
-let sidebarLeft = 0;
+let headerInitial = 0;
+let sidebarInitial = 0;
 let sidebarCells = [];
+let hScrollParent;
 
 const i18n = {
   NO_RESULTS: 'No results found'
@@ -84,9 +85,6 @@ export default class Ripanga extends React.Component {
       || props.renderGroupStickyCell !== null
       || props.renderBodyStickyCell !== null);
 
-    window.addEventListener('scroll', this.onScrollWindow);
-    window.addEventListener('resize', this.onResize);
-
     const collapsedIds = props.tableData.reduce(
       (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.name]: false })), {});
 
@@ -106,62 +104,57 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
-    this.onResize();
-    this.onScrollWindow();
+    window.addEventListener('scroll', this.onVScroll);
     window.addEventListener('uncheck', this.onExternalUncheckAll);
   }
 
   componentDidUpdate() {
-    this.onResize();
-  }
-
-  onScrollWindow = () => {
     if (this.table === undefined) {
       return;
     }
 
-    const diffX = window.scrollX - sidebarLeft;
-    const diffY = window.scrollY - headerTop;
+    sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
 
-    if (diffY > 0) {
-      moveHeader(this.table.tHead, diffY);
-    } else {
-      restoreHeader(this.table.tHead);
-    }
+    this.onResize();
+    this.onHScroll();
+    this.onVScroll();
+  }
 
-    if (diffX < 0) {
-      moveSidebar(sidebarCells, diffX);
+  onHScroll = () => {
+    // TODO initial state
+    // TODO borders
+
+    if (sidebarInitial < 0) {
+      moveSidebar(sidebarCells, hScrollParent.scrollLeft + sidebarInitial);
     } else {
       restoreSidebar(sidebarCells);
     }
   }
 
-  onResize = () => {
-    if (this.table === undefined) {
-      return;
-    }
+  onVScroll = () => {
+    // TODO initial state
+    // TODO borders
+    // TODO z-index
 
-    let hScrollParent = this.table;
-    let vScrollParent = this.table;
+    if (document.body.scrollTop > headerInitial) {
+      moveHeader(this.table.tHead, document.body.scrollTop - headerInitial);
+    } else {
+      restoreHeader(this.table.tHead);
+    }
+  }
+
+  onResize = () => {
+    hScrollParent = this.table;
 
     while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
       hScrollParent = hScrollParent.parentNode;
     }
 
-    while (vScrollParent !== document.body && vScrollParent.scrollHeight <= vScrollParent.clientHeight) {
-      vScrollParent = vScrollParent.parentNode;
-    }
+    hScrollParent.removeEventListener('scroll', this.onHScroll);
+    hScrollParent.addEventListener('scroll', this.onHScroll);
 
-    vScrollParent.style.border = '1px solid red';
-
-    // sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
-
-
-    // headerTop = vScrollParent.getBoundingClientRect().top + this.table.offsetTop;
-
-    // sidebarLeft = hScrollParent.getBoundingClientRect().right + this.table.offsetTop;
-
-    this.onScrollWindow();
+    headerInitial = this.table.getBoundingClientRect().top;
+    sidebarInitial = hScrollParent.getBoundingClientRect().right - sidebarCells[0].getBoundingClientRect().right;
   }
 
   onSort = () => {

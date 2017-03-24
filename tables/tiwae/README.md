@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 1.1.1
+- Sans serif star selector solve
+
 ##### 1.1.0
 - Changing ID attribute from "name" to "key"
 - Fixing IE data transfer bug

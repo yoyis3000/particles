@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import RipangaCaret from './RipangaCaret';
 import RipangaHeadCell from './RipangaHeadCell';
+import cx from 'classnames';
 
 const RipangaHeadRow = ({
   allChecked,
@@ -45,7 +46,7 @@ const RipangaHeadRow = ({
 
   if (showSticky) {
     const sticky = (renderHeadStickyCell ? renderHeadStickyCell() : null);
-    cells.push(<th key='sticky-head' className={styles.stickyCellHead}>{sticky}</th>);
+    cells.push(<th key='sticky-head' className={cx(styles.stickyCell, styles.stickyCellHead)}>{sticky}</th>);
   }
 
   return (

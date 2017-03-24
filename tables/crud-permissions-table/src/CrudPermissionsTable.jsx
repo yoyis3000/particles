@@ -40,13 +40,13 @@ export default class CrudPermissionsTable extends React.Component {
       </div>
       <div className={cx(styles.groupTitle, styles.cell0)}>{key.label}</div>
       <label className={styles.cell1}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='create' checked={isChecked.create} {...{ onChange }} />
+        <input type='checkbox' data-group-id={key.id} data-crud-type='create' checked={!!isChecked.create} {...{ onChange }} />
       </label>
       <label className={styles.cell2}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='update' checked={isChecked.update} {...{ onChange }} />
+        <input type='checkbox' data-group-id={key.id} data-crud-type='update' checked={!!isChecked.update} {...{ onChange }} />
       </label>
       <label className={styles.cell3}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='delete' checked={isChecked.delete} {...{ onChange }} />
+        <input type='checkbox' data-group-id={key.id} data-crud-type='delete' checked={!!isChecked.delete} {...{ onChange }} />
       </label>
     </div>
   );
@@ -55,13 +55,13 @@ export default class CrudPermissionsTable extends React.Component {
     (<div className={styles.bodyRow} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
       <label className={styles.cell1}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='create' checked={row.create} {...{ onChange }} />
+        <input type='checkbox' data-row-id={row.id} data-crud-type='create' checked={!!row.create} {...{ onChange }} />
       </label>
       <label className={styles.cell2}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='update' checked={row.update} {...{ onChange }} />
+        <input type='checkbox' data-row-id={row.id} data-crud-type='update' checked={!!row.update} {...{ onChange }} />
       </label>
       <label className={styles.cell3}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='delete' checked={row.delete} {...{ onChange }} />
+        <input type='checkbox' data-row-id={row.id} data-crud-type='delete' checked={!!row.delete} {...{ onChange }} />
       </label>
     </div>));
 
@@ -69,7 +69,10 @@ export default class CrudPermissionsTable extends React.Component {
     super(props);
     this.state = {};
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
-    this.refreshState(props.bodyData);
+  }
+
+  componentWillMount() {
+    this.refreshState(this.props.bodyData);
   }
 
   componentWillReceiveProps(nextProps) {

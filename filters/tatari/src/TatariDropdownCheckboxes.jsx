@@ -15,7 +15,7 @@ const TatariDropdownCheckboxes = ({
   styles
 }) => {
   const count = options.reduce((acc, option) => (option.checked ? acc + 1 : acc), 0);
-  const adjustedCount = (count ? `(${count})` : null);
+  const adjustedCount = (count ? <div className={styles.activeCount}>({count})</div> : null);
 
   function onClick(evt) {
     evt.stopPropagation();

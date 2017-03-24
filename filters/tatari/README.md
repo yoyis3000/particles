@@ -4,6 +4,11 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.6
+- Fixed border handling
+- Fixed truncation for long filter names
+- Added padding so count doesn't bump against caret
+
 ##### 2.1.4, 2.1.5
 - Fixing wrapping
 - Changing filter width to responsive, not fixed

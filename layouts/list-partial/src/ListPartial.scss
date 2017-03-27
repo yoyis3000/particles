@@ -15,6 +15,7 @@
 }
 
 .filterComponent {
+  flex: 1; // ie11
   flex-grow: 1;
 }
 

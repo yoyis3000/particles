@@ -30,7 +30,7 @@ mockApi
   ])
 .onGet('/filterA')
   .reply(200, [
-      { key: 1309646, value: 'Test A With Another Very Long Name That Shoud Wrap' },
+      { key: 1309646, value: 'Test A With Another Very Long Name That Should Wrap' },
       { key: 1228193, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
       { key: 1188710, value: 'Test Add' },
       { key: 1273550, value: 'Full Admin' },

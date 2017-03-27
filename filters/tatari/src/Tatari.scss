@@ -27,7 +27,6 @@ $searchH: 26px;
   box-sizing: border-box;
   margin-bottom: 5px;
   margin-right: 10px;
-  line-height: $h;
   opacity: 1;
 }
 
@@ -35,6 +34,7 @@ $searchH: 26px;
   border: 1px solid #ccc;
   cursor: pointer;
   display: flex;
+  line-height: $h;
   max-width: 200px;
   padding-left: 10px;
   text-overflow: ellipsis;
@@ -90,7 +90,6 @@ $searchH: 26px;
     display: block;
     height: $h;
     line-height: $h;
-    transition: transform 0.3s ease;
 
     &.expanded {
       transform: rotate(180deg);
@@ -131,7 +130,7 @@ $searchH: 26px;
 
 .inactiveItem {
   cursor: pointer;
-  padding: 0 $p;
+  padding: 5px $p;
 
   &:hover {
     background: #e7e7e7;
@@ -234,7 +233,7 @@ $searchH: 26px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  padding: 0 $p;
+  padding: 5px $p;
 
   &:hover {
     background: #e7e7e7;
@@ -243,7 +242,7 @@ $searchH: 26px;
 
 .activeCheckbox {
   cursor: pointer;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .activeText {

@@ -4,6 +4,10 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.7
+- Text wrapping update
+- Removing default hover and rotate on arrow
+
 ##### 2.1.6
 - Fixed border handling
 - Fixed truncation for long filter names

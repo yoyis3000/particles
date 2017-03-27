@@ -4,7 +4,7 @@ A dynamically populated filter component.
 
 # Change Log
 
-##### 2.1.7
+##### 2.1.7, 2.1.8
 - Text wrapping update
 - Removing default hover and rotate on arrow
 

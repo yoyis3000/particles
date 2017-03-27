@@ -117,15 +117,11 @@ export default class Ripanga extends React.Component {
     sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
 
     this.onResize();
-    this.onHScroll();
-    this.onVScroll();
   }
 
   onHScroll = () => {
-    // TODO initial state
-
     if (sidebarInitial < 0) {
-      moveSidebar(sidebarCells, hScrollParent.scrollLeft + sidebarInitial);
+      moveSidebar(sidebarCells, sidebarInitial - hScrollParent.scrollLeft);
     } else {
       restoreSidebar(sidebarCells);
     }
@@ -157,8 +153,11 @@ export default class Ripanga extends React.Component {
 
     headerInitial = this.table.getBoundingClientRect().top + document.body.scrollTop;
 
-    console.warn( hScrollParent.scrollLeft)
-    sidebarInitial = hScrollParent.getBoundingClientRect().right - sidebarCells[0].getBoundingClientRect().right;
+    sidebarInitial = hScrollParent.scrollWidth - hScrollParent.clientWidth;
+    console.warn(sidebarInitial)
+
+    this.onHScroll();
+    this.onVScroll();
   }
 
   onSort = () => {

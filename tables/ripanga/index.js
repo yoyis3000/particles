@@ -1732,16 +1732,14 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   var _this3 = this;
 
   this.onHScroll = function () {
-    if (sidebarInitial < 0) {
-      moveSidebar(sidebarCells, sidebarInitial - hScrollParent.scrollLeft);
+    if (sidebarInitial > 0) {
+      moveSidebar(sidebarCells, hScrollParent.scrollLeft - sidebarInitial);
     } else {
       restoreSidebar(sidebarCells);
     }
   };
 
   this.onVScroll = function () {
-    // TODO can't hover on upper rows
-
     if (!_this3.table) {
       return;
     }
@@ -1766,7 +1764,6 @@ var Ripanga = (_temp = _class = function (_React$Component) {
     headerInitial = _this3.table.getBoundingClientRect().top + document.body.scrollTop;
 
     sidebarInitial = hScrollParent.scrollWidth - hScrollParent.clientWidth;
-    console.warn(sidebarInitial);
 
     _this3.onHScroll();
     _this3.onVScroll();

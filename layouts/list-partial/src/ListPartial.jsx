@@ -7,7 +7,6 @@ import composeStyles from '../../../shared/stylesheetComposer';
 let styles = {};
 
 const ListPartial = ({
-  batchDropdown,
   exportComponent,
   filterComponent,
   headerComponent,
@@ -30,9 +29,6 @@ const ListPartial = ({
     </div>
     <div>
       <div className={styles.toolControls}>
-        <div className={styles.batchDropdown}>
-          { batchDropdown && batchDropdown }
-        </div>
         <div className={styles.searchComponent}>
           { searchComponent && searchComponent }
         </div>
@@ -55,7 +51,6 @@ const ListPartial = ({
 };
 
 ListPartial.propTypes = {
-  batchDropdown: PropTypes.shape(),
   exportComponent: PropTypes.shape(),
   filterComponent: PropTypes.shape(),
   headerComponent: PropTypes.shape(),
@@ -68,7 +63,6 @@ ListPartial.propTypes = {
 };
 
 ListPartial.defaultProps = {
-  batchDropdown: null,
   exportComponent: null,
   filterComponent: null,
   headerComponent: null,
@@ -76,7 +70,7 @@ ListPartial.defaultProps = {
   notifications: null,
   paginationComponent: null,
   searchComponent: null,
-  stylesheets: [defaultStyles],
+  stylesheets: [],
   tableComponent: null
 };
 

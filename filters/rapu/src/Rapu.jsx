@@ -98,12 +98,12 @@ export default class Rapu extends React.Component {
         />
 
         <div
-          className={cx(styles['btn-submit'], 'fa', 'fa-search')}
+          className={cx(styles.btnSubmit, 'fa', 'fa-search')}
           onClick={this.handleSubmit}
         />
 
         <div
-          className={cx(styles['btn-clear'], 'fa', 'fa-times',
+          className={cx(styles.btnClear, 'fa', 'fa-times',
             { [styles.hidden]: this.state.value.length === 0 })}
           onClick={this.handleClear}
         />

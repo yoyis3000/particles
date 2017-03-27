@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Uta from 'uta';
-import cx from 'classnames';
 import baseStyles from './ListPartial.scss';
 import defaultStyles from './ListPartialDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
@@ -8,6 +7,7 @@ import composeStyles from '../../../shared/stylesheetComposer';
 let styles = {};
 
 const ListPartial = ({
+  batchDropdown,
   exportComponent,
   filterComponent,
   headerComponent,
@@ -16,7 +16,7 @@ const ListPartial = ({
   paginationComponent,
   searchComponent,
   stylesheets,
-  tableComponent,
+  tableComponent
 }) => {
   styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
@@ -30,6 +30,9 @@ const ListPartial = ({
     </div>
     <div>
       <div className={styles.toolControls}>
+        <div className={styles.batchDropdown}>
+          { batchDropdown && batchDropdown }
+        </div>
         <div className={styles.searchComponent}>
           { searchComponent && searchComponent }
         </div>
@@ -52,6 +55,7 @@ const ListPartial = ({
 };
 
 ListPartial.propTypes = {
+  batchDropdown: PropTypes.shape(),
   exportComponent: PropTypes.shape(),
   filterComponent: PropTypes.shape(),
   headerComponent: PropTypes.shape(),
@@ -60,10 +64,11 @@ ListPartial.propTypes = {
   paginationComponent: PropTypes.shape(),
   searchComponent: PropTypes.shape(),
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-  tableComponent: PropTypes.shape(),
+  tableComponent: PropTypes.shape()
 };
 
 ListPartial.defaultProps = {
+  batchDropdown: null,
   exportComponent: null,
   filterComponent: null,
   headerComponent: null,
@@ -72,7 +77,7 @@ ListPartial.defaultProps = {
   paginationComponent: null,
   searchComponent: null,
   stylesheets: [defaultStyles],
-  tableComponent: null,
+  tableComponent: null
 };
 
 export default ListPartial;

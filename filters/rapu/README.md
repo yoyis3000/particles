@@ -4,6 +4,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.7, 2.0.8, 2.0.9
+- Adding min width
+
 ##### 2.0.3 - 2.0.6
 - Adding Lerna publishing management
 - Splitting out dev dependencies

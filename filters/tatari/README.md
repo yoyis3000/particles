@@ -4,6 +4,19 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.7, 2.1.8
+- Text wrapping update
+- Removing default hover and rotate on arrow
+
+##### 2.1.6
+- Fixed border handling
+- Fixed truncation for long filter names
+- Added padding so count doesn't bump against caret
+
+##### 2.1.4, 2.1.5
+- Fixing wrapping
+- Changing filter width to responsive, not fixed
+
 ##### 2.1.3
 - Removing sans-serif default on star selector
 

@@ -4,6 +4,7 @@ $side: 30px;
 
 .search {
   display: block;
+  min-width: 150px;
   position: relative;
   vertical-align: top;
 }
@@ -11,6 +12,7 @@ $side: 30px;
 .input {
   border: 1px solid #444;
   box-sizing: border-box;
+  cursor: text;
   font-size: 13px;
   height: $side;
   margin: 0;
@@ -27,7 +29,7 @@ $side: 30px;
   }
 }
 
-.btn-base {
+.btnBase {
   cursor: pointer;
   height: $side - 2;
   line-height: $side - 2;
@@ -46,15 +48,15 @@ $side: 30px;
   }
 }
 
-.btn-submit {
-  composes: btn-base;
+.btnSubmit {
+  composes: btnBase;
   border: solid #444;
   border-width: 0 0 0 1px;
   right: 1px;
 }
 
-.btn-clear {
-  composes: btn-base;
+.btnClear {
+  composes: btnBase;
   right: $side + 1;
 }
 

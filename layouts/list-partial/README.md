@@ -4,6 +4,10 @@ A template partial for showing list presentations.
 
 # Change Log
 
+##### 1.3.14
+- IE11 flex wrapping fix
+- Removed export component slot
+
 ##### 1.3.9 - 1.3.13
 - Adding Lerna publishing management
 - Splitting out dev dependencies

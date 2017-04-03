@@ -6,6 +6,7 @@ Manages column definition arrays to configure columns.
 
 ##### 1.1.1
 - Sans serif star selector solve
+- Improving collapse/expand animation
 
 ##### 1.1.0
 - Changing ID attribute from "name" to "key"

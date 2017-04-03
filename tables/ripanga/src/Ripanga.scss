@@ -3,15 +3,20 @@
 $padding: 10px;
 
 .container {
-  overflow-x: auto;
-  width: inherit;
+  // overflow-x: auto;
+  // overflow-y: hidden;
+  // width: inherit;
+  width: 100%;
 }
 
 .table {
   border-collapse: separate;
+  // border-collapse: collapse;
   border-spacing: 0;
+  // table-layout: fixed;
+  overflow-x: auto;
   transform-style: preserve-3d;
-  width: 100%;
+  // width: 100%;
 }
 
 .tableHead {

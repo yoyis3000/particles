@@ -10,18 +10,19 @@ $padding: 10px;
 .table {
   border-collapse: separate;
   border-spacing: 0;
+  transform-style: preserve-3d;
   width: 100%;
 }
 
 .tableHead {
   background: #e7e7e7;
+  position: relative;
+  transform: translate3d(0, 200px, 1px);
 
   th {
     border: 1px solid #c3c2c2;
     border-width: 1px 0 1px 1px;
     padding: $padding;
-    position: relative;
-    z-index: 1;
 
     &:last-child {
       border-right-width: 1px;
@@ -35,12 +36,12 @@ $padding: 10px;
 }
 
 .tableBody {
+  transform: translate3d(0, 0, 0);
+
   td {
     border: 1px solid #c3c2c2;
     border-width: 0 0 1px 1px;
     padding: $padding;
-    position: relative;
-    z-index: -1;
 
     &:last-child {
       border-right-width: 1px;

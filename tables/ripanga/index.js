@@ -1540,14 +1540,14 @@ var moveHeader = function moveHeader(el, y) {
 
 var restoreHeader = function restoreHeader(el) {
   window.requestAnimationFrame(function () {
-    el.style.transform = ''; // eslint-disable-line no-param-reassign
+    el.style.transform = 'translate3d(0, 0, 1px)'; // eslint-disable-line no-param-reassign
   });
 };
 
 var moveSidebar = function moveSidebar(els, x) {
   els.forEach(function (el) {
     window.requestAnimationFrame(function () {
-      el.style.transform = 'translate3d(' + x + 'px, 0, 1px)'; // eslint-disable-line no-param-reassign
+      el.style.transform = 'translate3d(' + x + 'px, 0, 0)'; // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -1555,7 +1555,7 @@ var moveSidebar = function moveSidebar(els, x) {
 var restoreSidebar = function restoreSidebar(els) {
   els.forEach(function (el) {
     window.requestAnimationFrame(function () {
-      el.style.transform = ''; // eslint-disable-line no-param-reassign
+      el.style.transform = 'translate3d(0, 0, 0)'; // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -1752,6 +1752,10 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   };
 
   this.onResize = function () {
+    if (!_this3.table) {
+      return;
+    }
+
     hScrollParent = _this3.table;
 
     while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
@@ -3558,7 +3562,7 @@ exports = module.exports = __webpack_require__(52)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.container__src-Ripanga__Ofnqz {\n  overflow-x: auto;\n  width: inherit; }\n\n.table__src-Ripanga__1_H6Y {\n  border-collapse: separate;\n  border-spacing: 0;\n  width: 100%; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  background: #e7e7e7; }\n  .tableHead__src-Ripanga__1Ij9q th {\n    border: 1px solid #c3c2c2;\n    border-width: 1px 0 1px 1px;\n    padding: 10px;\n    position: relative;\n    z-index: 1; }\n    .tableHead__src-Ripanga__1Ij9q th:last-child {\n      border-right-width: 1px; }\n  .tableHead__src-Ripanga__1Ij9q .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.tableBody__src-Ripanga__1J3be td {\n  border: 1px solid #c3c2c2;\n  border-width: 0 0 1px 1px;\n  padding: 10px;\n  position: relative;\n  z-index: -1; }\n  .tableBody__src-Ripanga__1J3be td:last-child {\n    border-right-width: 1px; }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC {\n  font-family: inherit; }\n\n.bodyRow__src-Ripanga__eUPMO {\n  font-family: inherit; }\n\n.controlCell__src-Ripanga__MKVfs {\n  text-align: center;\n  width: 62px; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.stickyCell__src-Ripanga__1_K6i {\n  border-left: 1px solid #c3c2c2;\n  border-right: 1px solid #c3c2c2;\n  position: relative; }\n\n.stickyCellHead__src-Ripanga__1ekVw {\n  background: #e7e7e7;\n  border-left: 1px solid #c3c2c2;\n  border-right: 1px solid #c3c2c2;\n  font-family: inherit; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.container__src-Ripanga__Ofnqz {\n  overflow-x: auto;\n  width: inherit; }\n\n.table__src-Ripanga__1_H6Y {\n  border-collapse: separate;\n  border-spacing: 0;\n  transform-style: preserve-3d;\n  width: 100%; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  background: #e7e7e7;\n  position: relative;\n  transform: translate3d(0, 200px, 1px); }\n  .tableHead__src-Ripanga__1Ij9q th {\n    border: 1px solid #c3c2c2;\n    border-width: 1px 0 1px 1px;\n    padding: 10px; }\n    .tableHead__src-Ripanga__1Ij9q th:last-child {\n      border-right-width: 1px; }\n  .tableHead__src-Ripanga__1Ij9q .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.tableBody__src-Ripanga__1J3be {\n  transform: translate3d(0, 0, 0); }\n  .tableBody__src-Ripanga__1J3be td {\n    border: 1px solid #c3c2c2;\n    border-width: 0 0 1px 1px;\n    padding: 10px; }\n    .tableBody__src-Ripanga__1J3be td:last-child {\n      border-right-width: 1px; }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC {\n  font-family: inherit; }\n\n.bodyRow__src-Ripanga__eUPMO {\n  font-family: inherit; }\n\n.controlCell__src-Ripanga__MKVfs {\n  text-align: center;\n  width: 62px; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.stickyCell__src-Ripanga__1_K6i {\n  border-left: 1px solid #c3c2c2;\n  border-right: 1px solid #c3c2c2;\n  position: relative; }\n\n.stickyCellHead__src-Ripanga__1ekVw {\n  background: #e7e7e7;\n  border-left: 1px solid #c3c2c2;\n  border-right: 1px solid #c3c2c2;\n  font-family: inherit; }\n", ""]);
 
 // exports
 exports.locals = {

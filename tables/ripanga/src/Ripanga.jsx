@@ -28,14 +28,14 @@ const moveHeader = (el, y) => {
 
 const restoreHeader = (el) => {
   window.requestAnimationFrame(() => {
-    el.style.transform = ''; // eslint-disable-line no-param-reassign
+    el.style.transform = `translate3d(0, 0, 1px)`; // eslint-disable-line no-param-reassign
   });
 };
 
 const moveSidebar = (els, x) => {
   els.forEach((el) => {
     window.requestAnimationFrame(() => {
-      el.style.transform = `translate3d(${x}px, 0, 1px)`;  // eslint-disable-line no-param-reassign
+      el.style.transform = `translate3d(${x}px, 0, 0)`;  // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -43,7 +43,7 @@ const moveSidebar = (els, x) => {
 const restoreSidebar = (els) => {
   els.forEach((el) => {
     window.requestAnimationFrame(() => {
-      el.style.transform = '';  // eslint-disable-line no-param-reassign
+      el.style.transform = 'translate3d(0, 0, 0)';  // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -140,6 +140,10 @@ export default class Ripanga extends React.Component {
   }
 
   onResize = () => {
+    if (!this.table) {
+      return;
+    }
+
     hScrollParent = this.table;
 
     while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {

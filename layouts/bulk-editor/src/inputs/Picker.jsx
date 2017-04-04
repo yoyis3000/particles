@@ -28,7 +28,7 @@ export default class Picker extends Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(defaultStyles, [...props.stylesheets]);
+    styles = composeStyles(defaultStyles, props.stylesheets);
     this.state = { value: {} };
   }
 

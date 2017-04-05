@@ -8,7 +8,7 @@ export default class DatePicker extends Component {
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
-    styles: PropTypes.shape(),
+    stylesheets: PropTypes.shape(),
     valueField: PropTypes.string
   }
 
@@ -16,7 +16,7 @@ export default class DatePicker extends Component {
     data: [],
     onChange: () => {},
     placeholder: 'mm/dd/yy',
-    styles: {},
+    stylesheets: [],
     valueField: 'value'
   }
 
@@ -36,14 +36,14 @@ export default class DatePicker extends Component {
       inputName,
       label,
       placeholder,
-      styles,
+      stylesheets,
       valueField
     } = this.props;
 
     return (
       <div>
         <label>{label}</label>
-        <DateSelect data={data} placeholder={placeholder} stylesheets={[styles]} />
+        <DateSelect data={data} placeholder={placeholder} stylesheets={stylesheets} />
         <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );

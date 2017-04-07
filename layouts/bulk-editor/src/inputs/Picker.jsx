@@ -43,13 +43,14 @@ export default class Picker extends Component {
       inputName,
       label,
       placeholder,
+      stylesheets,
       valueField
     } = this.props;
 
     return (
       <div>
         <label>{label}</label>
-        <Select data={data} placeholder={placeholder} stylesheets={[styles]} />
+        <Select data={data} placeholder={placeholder} stylesheets={stylesheets} />
         <input type='hidden' value={this.state.value[valueField]} name={inputName} />
       </div>
     );

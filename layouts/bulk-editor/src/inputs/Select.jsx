@@ -66,6 +66,10 @@ export default class Select extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onBlur);
+  }
+
   onBlur = () => { this.setState({ expanded: false }); }
 
   onCaretClick = (evt) => {

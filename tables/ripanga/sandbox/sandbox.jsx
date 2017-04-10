@@ -9,7 +9,8 @@ const def = {
   label: '',
   key: '',
   sortable: false,
-  sortKey: ''
+  sortKey: '',
+  width: 100
 };
 
 const onSort = () => { console.warn("Column was sorted."); };
@@ -47,16 +48,17 @@ const tableDataGrouped = [
   }
 ];
 
-const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
-const renderBodyRow = (rowData, cells) => <tr key={`row-${rowData.key}`}>{cells}</tr>;
+const renderBodyCell = (rowData, i) => <div key={`cell-${rowData.key}-${i}`}>{rowData.text}</div>;
+
+const renderBodyRow = (rowData, cells) => <div key={`row-${rowData.key}`}>{cells}</div>;
 const renderBodyStickyCell = rowData => <div>Sticky {rowData.text}</div>;
 const renderGroupStickyCell = groupData => <div>Sticky Group {groupData.key.name}</div>;
 const renderHeadStickyCell = () => <div>Sticky Head</div>;
 
 const columnDefinitions = [
-  Object.assign({ def, renderer: renderCell }, { label: 'Col A', key: 'colA' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col B', key: 'colB' }),
-  Object.assign({ def, renderer: renderCell }, { label: 'Col C', key: 'colC' })
+  Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 150 }),
+  Object.assign({ ...def }, { label: 'Col B', key: 'colB', width: 200 }),
+  Object.assign({ ...def }, { label: 'Col C', key: 'colC' })
 ];
 
 const stylesheets = [sandboxStyles];
@@ -70,6 +72,7 @@ const groupedWithCheckboxes = (<Ripanga
     columnDefinitions,
     onSort,
     renderBodyRow,
+    renderBodyCell,
     renderBodyStickyCell,
     renderGroupStickyCell,
     renderHeadStickyCell,

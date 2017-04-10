@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 const RipangaBodyRow = ({
   columnDefinitions,
@@ -18,23 +19,20 @@ const RipangaBodyRow = ({
       return null;
     }
 
-    return renderBodyCell(rowData, def);
+    return (<div
+      key={`cell-${rowData[idKey]}-${i}`}
+      className={cx(styles.tableCell, styles[`w${def.width}px`])}
+    >
+      {renderBodyCell(rowData, i)}
+    </div>);
   });
-
-  if (showSticky) {
-    const sticky = (renderBodyStickyCell
-      ? renderBodyStickyCell(rowData)
-      : null);
-
-    cells.push(<td key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{sticky}</td>);
-  }
 
   const onChange = () => {
     onCheck(rowData[idKey]);
   };
 
   if (showCheckboxes) {
-    cells.unshift(<td key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
+    cells.unshift(<div key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
       <div className={styles.controlPlaceholder} />
       <label className={styles.controlCheckbox}>
         <input
@@ -43,16 +41,20 @@ const RipangaBodyRow = ({
           onChange={onChange}
         />
       </label>
-    </td>);
+    </div>);
   }
 
-  if (renderBodyRow) {
-    return renderBodyRow(rowData, cells);
+  if (showSticky) {
+    const sticky = (renderBodyStickyCell
+      ? renderBodyStickyCell(rowData)
+      : null);
+
+    cells.push(<div key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{sticky}</div>);
   }
 
-  return (<tr key={`row-${rowData[idKey]}`} className={styles.bodyRow}>
+  return (<div key={`row-${rowData[idKey]}`} className={styles.tableRow}>
     {cells}
-  </tr>);
+  </div>);
 };
 
 /* eslint react/require-default-props: 0 */
@@ -61,11 +63,12 @@ RipangaBodyRow.propTypes = {
   idKey: PropTypes.string,
   isChecked: PropTypes.bool,
   onCheck: PropTypes.func,
+  renderBodyCell: PropTypes.func,
   renderBodyRow: PropTypes.func,
   renderBodyStickyCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
   showCheckboxes: PropTypes.bool,
-  showSticky: PropTypes.bool.isRequired,
+  showSticky: PropTypes.bool,
   styles: PropTypes.shape().isRequired
 };
 

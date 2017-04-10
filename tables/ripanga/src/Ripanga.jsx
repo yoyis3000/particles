@@ -11,10 +11,9 @@ let styles = {};
 let showGroups = false;
 let showSticky = false;
 
-let headerInitial = 0;
-let sidebarInitial = 0;
+let headerInitialTop = {};
+let sidebarIsOffset = 0;
 let sidebarCells = [];
-let hScrollParent;
 
 const i18n = {
   NO_RESULTS: 'No results found'
@@ -22,20 +21,20 @@ const i18n = {
 
 const moveHeader = (el, y) => {
   window.requestAnimationFrame(() => {
-    el.style.transform = `translate3d(0, ${y}px, 1px)`;  // eslint-disable-line no-param-reassign
+    el.style.top = `${y}px`; // eslint-disable-line no-param-reassign
   });
 };
 
 const restoreHeader = (el) => {
   window.requestAnimationFrame(() => {
-    el.style.transform = `translate3d(0, 0, 1px)`; // eslint-disable-line no-param-reassign
+    el.style.top = 0; // eslint-disable-line no-param-reassign
   });
 };
 
 const moveSidebar = (els, x) => {
-  els.forEach((el) => {
+  Array.prototype.forEach.call(els, (el) => {
     window.requestAnimationFrame(() => {
-      el.style.transform = `translate3d(${x}px, 0, 0)`;  // eslint-disable-line no-param-reassign
+      el.style.right = `${x}px`;  // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -86,7 +85,7 @@ export default class Ripanga extends React.Component {
       || props.renderBodyStickyCell !== null);
 
     const collapsedIds = props.tableData.reduce(
-      (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.name]: false })), {});
+      (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.key]: false })), {});
 
     const checkedIds = props.tableData
       .reduce((tableAcc, group) => Object.assign(tableAcc, group.data
@@ -107,12 +106,8 @@ export default class Ripanga extends React.Component {
     window.addEventListener('scroll', this.onVScroll);
     window.addEventListener('resize', this.onResize);
     window.addEventListener('uncheck', this.onExternalUncheckAll);
-  }
 
-  componentDidUpdate() {
-    if (this.table === undefined) {
-      return;
-    }
+    this.container.addEventListener('scroll', this.onHScroll);
 
     sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
 
@@ -120,42 +115,38 @@ export default class Ripanga extends React.Component {
   }
 
   onHScroll = () => {
-    if (sidebarInitial > 0) {
-      moveSidebar(sidebarCells, hScrollParent.scrollLeft - sidebarInitial);
+    if (sidebarIsOffset) {
+      moveSidebar(sidebarCells, -1 * this.container.scrollLeft);
     } else {
       restoreSidebar(sidebarCells);
     }
   }
 
   onVScroll = () => {
-    if (!this.table) {
-      return;
-    }
+    // if (!this.header) {
+    //   return;
+    // }
 
-    if (document.body.scrollTop > headerInitial) {
-      moveHeader(this.table.tHead, document.body.scrollTop - headerInitial);
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
+
+    if (scrollTop > headerInitialTop) {
+      moveHeader(this.header, scrollTop - headerInitialTop);
     } else {
-      restoreHeader(this.table.tHead);
+      restoreHeader(this.header);
     }
   }
 
   onResize = () => {
-    if (!this.table) {
-      return;
-    }
+    // if (!this.header) {
+    //   return;
+    // }
 
-    hScrollParent = this.table;
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
 
-    while (hScrollParent !== document.body && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
-      hScrollParent = hScrollParent.parentNode;
-    }
-
-    hScrollParent.removeEventListener('scroll', this.onHScroll);
-    hScrollParent.addEventListener('scroll', this.onHScroll);
-
-    headerInitial = this.table.getBoundingClientRect().top + document.body.scrollTop;
-
-    sidebarInitial = hScrollParent.scrollWidth - hScrollParent.clientWidth;
+    headerInitialTop = this.container.getBoundingClientRect().top + scrollTop;
+    sidebarIsOffset = (this.container.scrollWidth - this.container.offsetWidth) > 0;
 
     this.onHScroll();
     this.onVScroll();
@@ -169,6 +160,7 @@ export default class Ripanga extends React.Component {
 
   onCollapse = (id) => {
     const { collapsedIds } = this.state;
+
     collapsedIds[id] = !collapsedIds[id];
 
     const allCollapsed = Object.values(collapsedIds).reduce((acc, v) => acc && v, true);
@@ -262,26 +254,36 @@ export default class Ripanga extends React.Component {
       );
     }
 
+    // if (renderBodyRow) {
+    //   return renderBodyRow(rowData, cells);
+    // }
+
+    // TODO
+    // Animate group collapse
+    // Animate column collapse
+
     return (
-      <div className={styles.container}>
-        <table className={styles.table} ref={(el) => { this.table = el; }}>
-          { RipangaHeadRow({
-            allChecked,
-            allCollapsed,
-            columnDefinitions,
-            idKey,
-            onCheckAll: this.onCheckAll,
-            onCollapseAll: this.onCollapseAll,
-            onScroll: this.onScroll,
-            onScrollTrack: this.onScrollTrack,
-            onSort: this.onSort,
-            renderHeadStickyCell,
-            scrollerValue,
-            showGroups,
-            showCheckboxes,
-            showSticky,
-            styles
-          }) }
+      <div className={styles.container} ref={(el) => { this.container = el; }}>
+        <div className={styles.table}>
+          <div className={styles.headRow} ref={(el) => { this.header = el; }}>
+            { RipangaHeadRow({
+              allChecked,
+              allCollapsed,
+              columnDefinitions,
+              idKey,
+              onCheckAll: this.onCheckAll,
+              onCollapseAll: this.onCollapseAll,
+              onScroll: this.onScroll,
+              onScrollTrack: this.onScrollTrack,
+              onSort: this.onSort,
+              renderHeadStickyCell,
+              scrollerValue,
+              showGroups,
+              showCheckboxes,
+              showSticky,
+              styles
+            }) }
+          </div>
 
           { RipangaBodyRows({
             checkedIds,
@@ -301,7 +303,7 @@ export default class Ripanga extends React.Component {
             styles,
             tableData
           }) }
-        </table>
+        </div>
       </div>
     );
   }

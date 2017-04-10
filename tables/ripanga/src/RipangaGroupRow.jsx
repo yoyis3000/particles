@@ -3,7 +3,6 @@ import React, { PropTypes } from 'react';
 import RipangaCaret from './RipangaCaret';
 
 const RipangaGroupRow = ({
-  colSpan,
   groupData,
   isChecked,
   isCollapsed,
@@ -19,12 +18,12 @@ const RipangaGroupRow = ({
 }) => {
   const onCaretClick = () => {
     if (isDisabled === false) {
-      onCollapse(groupData.key.name);
+      onCollapse(groupData.key.key);
     }
   };
 
   const onChange = () => {
-    onCheck(groupData.key.name);
+    onCheck(groupData.key.key);
   };
 
   const cells = [];
@@ -36,34 +35,37 @@ const RipangaGroupRow = ({
       </label>)
       : null);
 
-    const caret = RipangaCaret({ disabled: isDisabled, closed: isCollapsed, onClick: onCaretClick });
+    const caret = RipangaCaret({
+      closed: isCollapsed,
+      disabled: isDisabled,
+      onClick: onCaretClick
+    });
 
-    cells.push(<td key={`group-control-${groupData.key.key}`} className={styles.controlCell}>
+    cells.push(<div key={`group-control-${groupData.key.key}`} className={styles.controlCell}>
       {caret}
       {checkbox}
-    </td>);
+    </div>);
   }
 
-  cells.push(<td key={`group-title-${groupData.key.key}`} colSpan={colSpan} className={styles.groupCell}>
+  cells.push(<div key={`group-title-${groupData.key.key}`} className={styles.groupCell}>
     {titleElement}
-  </td>);
+  </div>);
 
   if (showSticky) {
     const sticky = (renderGroupStickyCell ? renderGroupStickyCell(groupData) : null);
-    cells.push(<td key={`group-sticky-${groupData.key.key}`} className={styles.stickyCell}>{sticky}</td>);
+    cells.push(<div key={`group-sticky-${groupData.key.key}`} className={styles.groupStickyCell}>{sticky}</div>);
   }
 
   return (
-    <tr className={styles.groupRow} key={`group-${groupData.key.key}`}>
+    <div className={styles.groupRow} key={`group-${groupData.key.key}`}>
       {cells}
-    </tr>
+    </div>
   );
 };
 
 /* eslint-disable react/require-default-props */
 RipangaGroupRow.propTypes = {
   onCollapse: PropTypes.func.isRequired,
-  colSpan: PropTypes.number.isRequired,
   groupData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   isChecked: PropTypes.bool,
   isCollapsed: PropTypes.bool,
@@ -71,6 +73,7 @@ RipangaGroupRow.propTypes = {
   onCheck: PropTypes.func,
   renderGroupStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
+  showGroups: PropTypes.bool.isRequired,
   showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired,
   titleElement: PropTypes.element

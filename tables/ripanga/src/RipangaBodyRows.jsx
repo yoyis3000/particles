@@ -23,7 +23,7 @@ const RipangaBodyRows = ({
   tableData
 }) => {
   const renderBodyRows = (group) => {
-    if (group.key && collapsedIds[group.key.name] === true) {
+    if (group.key && collapsedIds[group.key.key] === true) {
       return [];
     }
 
@@ -58,7 +58,7 @@ const RipangaBodyRows = ({
       colSpan,
       groupData: group,
       isChecked,
-      isCollapsed: collapsedIds[group.key.name],
+      isCollapsed: collapsedIds[group.key.key],
       isDisabled: group.data.length === 0,
       onCollapse,
       onCheck: onGroupCheck,
@@ -83,7 +83,7 @@ const RipangaBodyRows = ({
 
   const rows = (showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]));
 
-  return (<tbody className={styles.tableBody}>{rows}</tbody>);
+  return (<div className={styles.tableBody}>{rows}</div>);
 };
 
 /* eslint-disable react/require-default-props */

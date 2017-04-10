@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
 import RipangaCaret from './RipangaCaret';
 import RipangaHeadCell from './RipangaHeadCell';
-import cx from 'classnames';
 
 const RipangaHeadRow = ({
   allChecked,
   allCollapsed,
   columnDefinitions,
-  idKey,
   onCheckAll,
   onCollapseAll,
   onSort,
@@ -19,7 +17,7 @@ const RipangaHeadRow = ({
 }) => {
   const cells = columnDefinitions.reduce((acc, def) => {
     if (def.hidden !== true) {
-      acc.push(RipangaHeadCell({ def, idKey, onSort }));
+      acc.push(RipangaHeadCell({ def, onSort, styles }));
     }
 
     return acc;
@@ -37,25 +35,19 @@ const RipangaHeadRow = ({
       : null);
 
     cells.unshift(
-      <th key={'head-controls'} className={styles.controlCell}>
+      <div key='head-controls' className={styles.controlCell}>
         {caret}
         {checkbox}
-      </th>
+      </div>
     );
   }
 
   if (showSticky) {
     const sticky = (renderHeadStickyCell ? renderHeadStickyCell() : null);
-    cells.push(<th key='sticky-head' className={cx(styles.stickyCell, styles.stickyCellHead)}>{sticky}</th>);
+    cells.push(<div key='sticky-head' className={styles.headStickyCell}>{sticky}</div>);
   }
 
-  return (
-    <thead className={styles.tableHead}>
-      <tr>
-        {cells}
-      </tr>
-    </thead>
-  );
+  return cells;
 };
 
 /* eslint react/require-default-props: 0 */
@@ -63,7 +55,6 @@ RipangaHeadRow.propTypes = {
   allChecked: PropTypes.bool.isRequired,
   allCollapsed: PropTypes.bool.isRequired,
   columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  idKey: PropTypes.string.isRequired,
   onCheckAll: PropTypes.func.isRequired,
   onCollapseAll: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,

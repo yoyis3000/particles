@@ -3,36 +3,60 @@
 $padding: 10px;
 
 .container {
-  // overflow-x: auto;
-  // overflow-y: hidden;
-  // width: inherit;
+  background: lightgreen;
+  overflow-x: auto;
+  outline: 10px solid yellow;
+  // overflow-y: visible;
+  // padding-bottom: 250px;
   width: 100%;
 }
 
 .table {
-  border-collapse: separate;
-  // border-collapse: collapse;
-  border-spacing: 0;
-  // table-layout: fixed;
-  overflow-x: auto;
-  transform-style: preserve-3d;
-  // width: 100%;
+  border-bottom: 1px solid #c3c2c2;
+  padding-top: 45px;
+  position: relative;
 }
 
-.tableHead {
-  background: #e7e7e7;
+.tableRow {
+  background: #a1d99b;
+  display: flex;
+  padding-right: 100px;
   position: relative;
-  transform: translate3d(0, 200px, 1px);
+  z-index: 0;
+}
 
-  th {
-    border: 1px solid #c3c2c2;
-    border-width: 1px 0 1px 1px;
-    padding: $padding;
+.tableCell {
+  align-items: center;
+  background: #c7e9c0;
+  border: 1px solid #c3c2c2;
+  border-width: 1px 0 0 1px;
+  display: flex;
+  flex-grow: 1;
+  padding: $padding;
 
-    &:last-child {
-      border-right-width: 1px;
-    }
+  &:last-child {
+    border-right-width: 1px;
+    margin-left: auto;
   }
+}
+
+.stickyCell {
+  background: #238b45;
+  border: 1px solid #c3c2c2;
+  border-width: 1px 1px 0 1px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 100px;
+}
+
+.headRow {
+  composes: tableRow;
+  height: 45px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 
   :global .fa {
     font-size: 12px;
@@ -40,42 +64,40 @@ $padding: 10px;
   }
 }
 
-.tableBody {
-  transform: translate3d(0, 0, 0);
+.headCell {
+  composes: tableCell;
+  background: #e7e7e7;
+}
 
-  td {
-    border: 1px solid #c3c2c2;
-    border-width: 0 0 1px 1px;
-    padding: $padding;
-
-    &:last-child {
-      border-right-width: 1px;
-    }
-  }
+.headStickyCell {
+  composes: stickyCell;
+  background: #e7e7e7;
 }
 
 .groupRow {
+  composes: tableRow;
   background: #f2f2f2;
 }
 
 .groupCell {
-  // background: #ffc;
+  composes: tableCell;
+  background: #edf8e9;
   font-family: inherit;
 }
 
-.bodyRow {
-  // background: #d9f0a3;
-  font-family: inherit;
+.groupStickyCell {
+  composes: stickyCell;
+  background: #e7e7e7;
 }
 
 .controlCell {
-  // background: #addd8e;
+  composes: tableCell;
+  background: #41ab5d;
+  flex: 0 0 ((2 * 20) + (2 * $padding) + (2 * 1));
   text-align: center;
-  width: ((2 * 20) + (2 * $padding) + (2 * 1));
 }
 
 .controlCaret {
-  // background: #41ab5d;
   cursor: pointer;
   display: inline-block;
   height: 20px;
@@ -94,7 +116,6 @@ $padding: 10px;
 }
 
 .controlPlaceholder {
-  // background: #41ab5d;
   display: inline-block;
   height: 20px;
   vertical-align: middle;
@@ -102,7 +123,6 @@ $padding: 10px;
 }
 
 .controlCheckbox {
-  // background: #005a32;
   cursor: pointer;
   display: inline-block;
   height: 20px;
@@ -117,15 +137,34 @@ $padding: 10px;
   }
 }
 
-.stickyCell {
-  border-left: 1px solid #c3c2c2;
-  border-right: 1px solid #c3c2c2;
-  position: relative;
+.w50px {
+  width: 50px;
 }
 
-.stickyCellHead {
-  background: #e7e7e7;
-  border-left: 1px solid #c3c2c2;
-  border-right: 1px solid #c3c2c2;
-  font-family: inherit;
+.w75px {
+  width: 75px;
+}
+
+.w100px {
+  max-width: 100px;
+  min-width: 100px;
+}
+
+.w125px {
+  width: 125px;
+}
+
+.w150px {
+  flex: 0 0 150px;
+  // width: 150px;
+  // max-width: 150px;
+  // min-width: 150px;
+}
+
+.w175px {
+  width: 175px;
+}
+
+.w200px {
+  min-width: 200px;
 }

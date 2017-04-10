@@ -2,13 +2,12 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import qs from 'qs';
 
-import styles from './Ripanga.scss';
-
 const DIRECTION = { ASC: 'asc', DESC: 'desc' };
 
 const RipangaHeadCell = ({
   def,
-  onSort
+  onSort,
+  styles
 }) => {
   const url = window.location.href.split('?');
   const params = qs.parse(url[1]);
@@ -34,20 +33,21 @@ const RipangaHeadCell = ({
   }
 
   return (
-    <th
-      className={styles.sortArrow}
+    <div
+      className={cx(styles.headCell, styles[`w${def.width}px`])}
       key={`head-${def.key}`}
       onClick={onClick}
     >
       <span className={styles.label}>{def.label}</span>
       {arrow}
-    </th>
+    </div>
   );
 };
 
 RipangaHeadCell.propTypes = {
   def: PropTypes.shape().isRequired,
-  onSort: PropTypes.func.isRequired
+  onSort: PropTypes.func.isRequired,
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaHeadCell;

@@ -19,9 +19,8 @@ export default class Select extends Component {
     groupIcon: PropTypes.string,
     itemIcon: PropTypes.string,
     msgEmpty: PropTypes.string,
+    onChange: PropTypes.func,
     onFetch: PropTypes.func,
-    onRemove: PropTypes.func,
-    onSelect: PropTypes.func,
     placeholder: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.any),
     textField: PropTypes.string
@@ -35,9 +34,8 @@ export default class Select extends Component {
     groupIcon: null,
     itemIcon: null,
     msgEmpty: 'No results!',
+    onChange: () => {},
     onFetch: () => {},
-    onRemove: () => {},
-    onSelect: () => {},
     placeholder: 'Search...',
     stylesheets: [],
     textField: 'text'
@@ -80,13 +78,13 @@ export default class Select extends Component {
 
     if (child.disabled) { return; }
 
-    this.props.onSelect(child);
+    this.props.onChange(child);
     this.searchInput.focus();
     this.setState({ value: child[this.props.textField], expanded: false });
   }
 
   onRemove = () => {
-    this.props.onRemove();
+    this.props.onChange({ value: null });
     this.setState({ value: null });
   }
 

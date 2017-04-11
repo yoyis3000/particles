@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
+import RipangaSidebar from './RipangaSidebar';
 
 import baseStyles from './Ripanga.scss';
 import defaultStyles from './RipangaDefault.scss';
@@ -9,14 +10,23 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 let showGroups = false;
-let showSticky = false;
+let showSidebar = false;
 
+let hScrollParent = null;
 let headerInitialTop = {};
 let sidebarIsOffset = 0;
-let sidebarCells = [];
 
 const i18n = {
   NO_RESULTS: 'No results found'
+};
+
+const debounce = (fn, ms) => {
+  let timer = null;
+
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(fn, ms);
+  };
 };
 
 const moveHeader = (el, y) => {
@@ -42,7 +52,7 @@ const moveSidebar = (els, x) => {
 const restoreSidebar = (els) => {
   els.forEach((el) => {
     window.requestAnimationFrame(() => {
-      el.style.transform = 'translate3d(0, 0, 0)';  // eslint-disable-line no-param-reassign
+      el.style.right = 0;  // eslint-disable-line no-param-reassign
     });
   });
 };
@@ -80,7 +90,7 @@ export default class Ripanga extends React.Component {
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
-    showSticky = (props.renderHeadStickyCell !== null
+    showSidebar = (props.renderHeadStickyCell !== null
       || props.renderGroupStickyCell !== null
       || props.renderBodyStickyCell !== null);
 
@@ -104,28 +114,33 @@ export default class Ripanga extends React.Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.onVScroll);
-    window.addEventListener('resize', this.onResize);
+    window.addEventListener('resize', debounce(this.onResize, 100));
     window.addEventListener('uncheck', this.onExternalUncheckAll);
 
+    this.onResize();
+  }
+
+  componentDidUpdate() {
+    if (!this.container) {
+      return;
+    }
+
     this.container.addEventListener('scroll', this.onHScroll);
-
-    sidebarCells = document.querySelectorAll(`.${styles.stickyCell.split(' ').join('.')}`);
-
     this.onResize();
   }
 
   onHScroll = () => {
     if (sidebarIsOffset) {
-      moveSidebar(sidebarCells, -1 * this.container.scrollLeft);
+      // moveSidebar(sidebarCells, -1 * this.container.scrollLeft);
     } else {
-      restoreSidebar(sidebarCells);
+      // restoreSidebar(sidebarCells);
     }
   }
 
   onVScroll = () => {
-    // if (!this.header) {
-    //   return;
-    // }
+    if (!this.container) {
+      return;
+    }
 
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
@@ -138,9 +153,26 @@ export default class Ripanga extends React.Component {
   }
 
   onResize = () => {
-    // if (!this.header) {
-    //   return;
-    // }
+    if (!this.container) {
+      return;
+    }
+
+    const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
+    const controlCells = document.querySelectorAll(`.${styles.controlCell.split(' ').shift()}`);
+
+    controlCells.forEach((cell, i) => {
+      sidebarCells[i].style.height = `${cell.offsetHeight}px`;
+    });
+
+    hScrollParent = this.container;
+
+    while (hScrollParent !== document.body
+      && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
+      hScrollParent = hScrollParent.parentNode;
+    }
+
+    hScrollParent.removeEventListener('scroll', this.onHScroll);
+    hScrollParent.addEventListener('scroll', this.onHScroll);
 
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
@@ -261,6 +293,10 @@ export default class Ripanga extends React.Component {
     // TODO
     // Animate group collapse
     // Animate column collapse
+    // render body row
+    // few columns causes bad sidebar offset
+    // list select instead of dropdown
+    // scroller initial value
 
     return (
       <div className={styles.container} ref={(el) => { this.container = el; }}>
@@ -280,7 +316,7 @@ export default class Ripanga extends React.Component {
               scrollerValue,
               showGroups,
               showCheckboxes,
-              showSticky,
+              showSidebar,
               styles
             }) }
           </div>
@@ -295,14 +331,26 @@ export default class Ripanga extends React.Component {
             onGroupCheck: this.onGroupCheck,
             renderBodyCell,
             renderBodyRow,
-            renderBodyStickyCell,
-            renderGroupStickyCell,
             showGroups,
             showCheckboxes,
-            showSticky,
+            showSidebar,
             styles,
             tableData
           }) }
+        </div>
+
+        <div className={styles.sidebar}>
+          { showSidebar
+            ? RipangaSidebar({
+              idKey,
+              renderBodyStickyCell,
+              renderGroupStickyCell,
+              renderHeadStickyCell,
+              showGroups,
+              styles,
+              tableData
+            })
+            : null }
         </div>
       </div>
     );

@@ -13,12 +13,9 @@ const RipangaBodyRows = ({
   onRowCheck,
   renderBodyCell,
   renderBodyRow,
-  renderBodyStickyCell,
-  renderGroupStickyCell,
   renderGroupTitle,
   showCheckboxes,
   showGroups,
-  showSticky,
   styles,
   tableData
 }) => {
@@ -34,11 +31,9 @@ const RipangaBodyRows = ({
       onCheck: onRowCheck,
       renderBodyCell,
       renderBodyRow,
-      renderBodyStickyCell,
       rowData,
       showCheckboxes,
       showGroups,
-      showSticky,
       styles
     })));
   };
@@ -62,10 +57,8 @@ const RipangaBodyRows = ({
       isDisabled: group.data.length === 0,
       onCollapse,
       onCheck: onGroupCheck,
-      renderGroupStickyCell,
       showCheckboxes,
       showGroups,
-      showSticky,
       styles,
       titleElement
     }));
@@ -97,12 +90,9 @@ RipangaBodyRows.propTypes = {
   onRowCheck: PropTypes.func,
   renderBodyCell: PropTypes.func,
   renderBodyRow: PropTypes.func,
-  renderBodyStickyCell: PropTypes.func,
-  renderGroupStickyCell: PropTypes.func,
   renderGroupTitle: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
-  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired,
   tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };

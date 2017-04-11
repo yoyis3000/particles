@@ -8,22 +8,20 @@ const RipangaBodyRow = ({
   onCheck,
   renderBodyCell,
   renderBodyRow,
-  renderBodyStickyCell,
   rowData,
   showCheckboxes,
-  showSticky,
   styles
 }) => {
-  const cells = columnDefinitions.map((def, i) => {
+  const cells = columnDefinitions.map((def) => {
     if (def.hidden === true) {
       return null;
     }
 
     return (<div
-      key={`cell-${rowData[idKey]}-${i}`}
+      key={`cell-${rowData[idKey]}-${def.key}`}
       className={cx(styles.tableCell, styles[`w${def.width}px`])}
     >
-      {renderBodyCell(rowData, i)}
+      {renderBodyCell(rowData, def)}
     </div>);
   });
 
@@ -44,14 +42,6 @@ const RipangaBodyRow = ({
     </div>);
   }
 
-  if (showSticky) {
-    const sticky = (renderBodyStickyCell
-      ? renderBodyStickyCell(rowData)
-      : null);
-
-    cells.push(<div key={`${rowData[idKey]}-sticky`} className={styles.stickyCell}>{sticky}</div>);
-  }
-
   return (<div key={`row-${rowData[idKey]}`} className={styles.tableRow}>
     {cells}
   </div>);
@@ -65,10 +55,8 @@ RipangaBodyRow.propTypes = {
   onCheck: PropTypes.func,
   renderBodyCell: PropTypes.func,
   renderBodyRow: PropTypes.func,
-  renderBodyStickyCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
   showCheckboxes: PropTypes.bool,
-  showSticky: PropTypes.bool,
   styles: PropTypes.shape().isRequired
 };
 

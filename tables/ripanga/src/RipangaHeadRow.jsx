@@ -9,10 +9,8 @@ const RipangaHeadRow = ({
   onCheckAll,
   onCollapseAll,
   onSort,
-  renderHeadStickyCell,
   showCheckboxes,
   showGroups,
-  showSticky,
   styles
 }) => {
   const cells = columnDefinitions.reduce((acc, def) => {
@@ -42,11 +40,6 @@ const RipangaHeadRow = ({
     );
   }
 
-  if (showSticky) {
-    const sticky = (renderHeadStickyCell ? renderHeadStickyCell() : null);
-    cells.push(<div key='sticky-head' className={styles.headStickyCell}>{sticky}</div>);
-  }
-
   return cells;
 };
 
@@ -61,7 +54,6 @@ RipangaHeadRow.propTypes = {
   renderHeadStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
-  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired
 };
 

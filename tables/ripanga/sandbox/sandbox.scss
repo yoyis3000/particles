@@ -1,6 +1,8 @@
-.container {
+.tableContainer {
+  // border: 10px solid #663399;
   margin: 50px auto;
-  // width: 500px;
+  overflow: auto;
+  width: 90%;
 }
 
 .btnUncheck {
@@ -8,7 +10,10 @@
   padding: 4px;
 }
 
-.stickyCell {
-  // background: rgba(255, 0, 0, 0.05);
+.sidebarCell,
+.groupSidebarCell,
+.headSidebarCell {
+  // background: rgba(255, 0, 0, 0.05) !important;
   // border-left: 1px solid red;
+  font-size: 11px;
 }

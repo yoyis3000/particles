@@ -9,10 +9,8 @@ const RipangaGroupRow = ({
   isDisabled,
   onCheck,
   onCollapse,
-  renderGroupStickyCell,
   showCheckboxes,
   showGroups,
-  showSticky,
   styles,
   titleElement
 }) => {
@@ -51,11 +49,6 @@ const RipangaGroupRow = ({
     {titleElement}
   </div>);
 
-  if (showSticky) {
-    const sticky = (renderGroupStickyCell ? renderGroupStickyCell(groupData) : null);
-    cells.push(<div key={`group-sticky-${groupData.key.key}`} className={styles.groupStickyCell}>{sticky}</div>);
-  }
-
   return (
     <div className={styles.groupRow} key={`group-${groupData.key.key}`}>
       {cells}
@@ -71,10 +64,8 @@ RipangaGroupRow.propTypes = {
   isCollapsed: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onCheck: PropTypes.func,
-  renderGroupStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
-  showSticky: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired,
   titleElement: PropTypes.element
 };

@@ -48,7 +48,7 @@ const tableDataGrouped = [
   }
 ];
 
-const renderBodyCell = (rowData, i) => <div key={`cell-${rowData.key}-${i}`}>{rowData.text}</div>;
+const renderBodyCell = (rowData, def) => <div key={`cell-${rowData.key}-${def.key}`}>{rowData.text}</div>;
 
 const renderBodyRow = (rowData, cells) => <div key={`row-${rowData.key}`}>{cells}</div>;
 const renderBodyStickyCell = rowData => <div>Sticky {rowData.text}</div>;
@@ -56,12 +56,10 @@ const renderGroupStickyCell = groupData => <div>Sticky Group {groupData.key.name
 const renderHeadStickyCell = () => <div>Sticky Head</div>;
 
 const columnDefinitions = [
-  Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 150 }),
-  Object.assign({ ...def }, { label: 'Col B', key: 'colB', width: 200 }),
-  Object.assign({ ...def }, { label: 'Col C', key: 'colC' })
+  Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 200 }),
+  Object.assign({ ...def }, { label: 'Col B', key: 'colB' }),
+  Object.assign({ ...def }, { label: 'Col C', key: 'colC', width: 200 })
 ];
-
-const stylesheets = [sandboxStyles];
 
 const groupedWithCheckboxes = (<Ripanga
   globalKey='ripanga-sandbox-grouped'
@@ -76,12 +74,12 @@ const groupedWithCheckboxes = (<Ripanga
     renderBodyStickyCell,
     renderGroupStickyCell,
     renderHeadStickyCell,
-    stylesheets
+    stylesheets: [sandboxStyles]
   }}
 />);
 
 render(
-  <div>
+  <div className={sandboxStyles.tableContainer}>
     <button
       className={sandboxStyles.btnUncheck}
       onClick={() => { window.dispatchEvent(new CustomEvent('uncheck')); }}

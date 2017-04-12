@@ -87,7 +87,7 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(29)('wks')
+var store      = __webpack_require__(28)('wks')
   , uid        = __webpack_require__(18)
   , Symbol     = __webpack_require__(3).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
@@ -105,7 +105,7 @@ $exports.store = store;
 
 var global    = __webpack_require__(3)
   , core      = __webpack_require__(0)
-  , ctx       = __webpack_require__(21)
+  , ctx       = __webpack_require__(20)
   , hide      = __webpack_require__(12)
   , PROTOTYPE = 'prototype';
 
@@ -180,7 +180,7 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 var anObject       = __webpack_require__(10)
   , IE8_DOM_DEFINE = __webpack_require__(40)
-  , toPrimitive    = __webpack_require__(31)
+  , toPrimitive    = __webpack_require__(30)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(7) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -201,7 +201,7 @@ exports.f = __webpack_require__(7) ? Object.defineProperty : function defineProp
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(41)
-  , defined = __webpack_require__(22);
+  , defined = __webpack_require__(21);
 module.exports = function(it){
   return IObject(defined(it));
 };
@@ -236,7 +236,7 @@ module.exports = function(it, key){
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = __webpack_require__(46)
-  , enumBugKeys = __webpack_require__(23);
+  , enumBugKeys = __webpack_require__(22);
 
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
@@ -315,7 +315,7 @@ module.exports = function(bitmap, value){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(22);
+var defined = __webpack_require__(21);
 module.exports = function(it){
   return Object(defined(it));
 };
@@ -332,33 +332,6 @@ module.exports = function(key){
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _from = __webpack_require__(63);
-
-var _from2 = _interopRequireDefault(_from);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  } else {
-    return (0, _from2.default)(arr);
-  }
-};
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -368,7 +341,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
@@ -393,7 +366,7 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -403,7 +376,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -412,20 +385,20 @@ module.exports = (
 ).split(',');
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = true;
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(10)
   , dPs         = __webpack_require__(102)
-  , enumBugKeys = __webpack_require__(23)
-  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
+  , enumBugKeys = __webpack_require__(22)
+  , IE_PROTO    = __webpack_require__(27)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
 
@@ -465,13 +438,13 @@ module.exports = Object.create || function create(O, Properties){
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(4).f
@@ -483,17 +456,17 @@ module.exports = function(it, tag, stat){
 };
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(29)('keys')
+var shared = __webpack_require__(28)('keys')
   , uid    = __webpack_require__(18);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(3)
@@ -504,7 +477,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -515,7 +488,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -532,13 +505,13 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global         = __webpack_require__(3)
   , core           = __webpack_require__(0)
-  , LIBRARY        = __webpack_require__(24)
-  , wksExt         = __webpack_require__(33)
+  , LIBRARY        = __webpack_require__(23)
+  , wksExt         = __webpack_require__(32)
   , defineProperty = __webpack_require__(4).f;
 module.exports = function(name){
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -546,13 +519,13 @@ module.exports = function(name){
 };
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__(1);
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -607,7 +580,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -617,7 +590,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = __webpack_require__(37);
+var _defineProperty2 = __webpack_require__(36);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -625,7 +598,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(34);
+var _classnames = __webpack_require__(33);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -665,13 +638,13 @@ Caret.defaultProps = {
 exports.default = Caret;
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(79), __esModule: true };
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -679,7 +652,7 @@ module.exports = { "default": __webpack_require__(79), __esModule: true };
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(36);
+var _defineProperty = __webpack_require__(35);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -698,6 +671,33 @@ exports.default = function (obj, key, value) {
   }
 
   return obj;
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _from = __webpack_require__(63);
+
+var _from2 = _interopRequireDefault(_from);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  } else {
+    return (0, _from2.default)(arr);
+  }
 };
 
 /***/ }),
@@ -752,7 +752,7 @@ module.exports = !__webpack_require__(7) && !__webpack_require__(11)(function(){
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(20);
+var cof = __webpack_require__(19);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
@@ -763,14 +763,14 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(24)
+var LIBRARY        = __webpack_require__(23)
   , $export        = __webpack_require__(2)
   , redefine       = __webpack_require__(48)
   , hide           = __webpack_require__(12)
   , has            = __webpack_require__(8)
   , Iterators      = __webpack_require__(14)
   , $iterCreate    = __webpack_require__(96)
-  , setToStringTag = __webpack_require__(27)
+  , setToStringTag = __webpack_require__(26)
   , getPrototypeOf = __webpack_require__(45)
   , ITERATOR       = __webpack_require__(1)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
@@ -840,7 +840,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 var pIE            = __webpack_require__(15)
   , createDesc     = __webpack_require__(16)
   , toIObject      = __webpack_require__(5)
-  , toPrimitive    = __webpack_require__(31)
+  , toPrimitive    = __webpack_require__(30)
   , has            = __webpack_require__(8)
   , IE8_DOM_DEFINE = __webpack_require__(40)
   , gOPD           = Object.getOwnPropertyDescriptor;
@@ -860,7 +860,7 @@ exports.f = __webpack_require__(7) ? gOPD : function getOwnPropertyDescriptor(O,
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
 var $keys      = __webpack_require__(46)
-  , hiddenKeys = __webpack_require__(23).concat('length', 'prototype');
+  , hiddenKeys = __webpack_require__(22).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
   return $keys(O, hiddenKeys);
@@ -873,7 +873,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(8)
   , toObject    = __webpack_require__(17)
-  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
+  , IE_PROTO    = __webpack_require__(27)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function(O){
@@ -891,7 +891,7 @@ module.exports = Object.getPrototypeOf || function(O){
 var has          = __webpack_require__(8)
   , toIObject    = __webpack_require__(5)
   , arrayIndexOf = __webpack_require__(88)(false)
-  , IE_PROTO     = __webpack_require__(28)('IE_PROTO');
+  , IE_PROTO     = __webpack_require__(27)('IE_PROTO');
 
 module.exports = function(object, names){
   var O      = toIObject(object)
@@ -932,7 +932,7 @@ module.exports = __webpack_require__(12);
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(30)
+var toInteger = __webpack_require__(29)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -1459,7 +1459,7 @@ var _values = __webpack_require__(69);
 
 var _values2 = _interopRequireDefault(_values);
 
-var _defineProperty2 = __webpack_require__(37);
+var _defineProperty2 = __webpack_require__(36);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -1467,7 +1467,7 @@ var _assign = __webpack_require__(64);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _toConsumableArray2 = __webpack_require__(19);
+var _toConsumableArray2 = __webpack_require__(37);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -1505,6 +1505,10 @@ var _RipangaBodyRows = __webpack_require__(58);
 
 var _RipangaBodyRows2 = _interopRequireDefault(_RipangaBodyRows);
 
+var _RipangaSidebar = __webpack_require__(62);
+
+var _RipangaSidebar2 = _interopRequireDefault(_RipangaSidebar);
+
 var _Ripanga = __webpack_require__(54);
 
 var _Ripanga2 = _interopRequireDefault(_Ripanga);
@@ -1521,11 +1525,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var styles = {};
 var showGroups = false;
-var showSidebar = false;
 
-var hScrollParent = null;
-var headerInitialTop = {};
-var sidebarIsOffset = 0;
+var headerInitialTop = 0;
 
 var i18n = {
   NO_RESULTS: 'No results found'
@@ -1552,18 +1553,6 @@ var restoreHeader = function restoreHeader(el) {
   });
 };
 
-var moveSidebar = function moveSidebar(el, x) {
-  window.requestAnimationFrame(function () {
-    el.style.right = x + 'px'; // eslint-disable-line no-param-reassign
-  });
-};
-
-var restoreSidebar = function restoreSidebar(el) {
-  window.requestAnimationFrame(function () {
-    el.style.right = 0; // eslint-disable-line no-param-reassign
-  });
-};
-
 var Ripanga = (_temp = _class = function (_React$Component) {
   (0, _inherits3.default)(Ripanga, _React$Component);
 
@@ -1576,7 +1565,6 @@ var Ripanga = (_temp = _class = function (_React$Component) {
 
     styles = (0, _stylesheetComposer2.default)(_Ripanga2.default, [_RipangaDefault2.default].concat((0, _toConsumableArray3.default)(props.stylesheets)));
     showGroups = props.tableData.length > 0 && props.tableData[0].key !== undefined;
-    showSidebar = props.renderHeadStickyCell !== null || props.renderGroupStickyCell !== null || props.renderBodyStickyCell !== null;
 
     var collapsedIds = props.tableData.reduce(function (acc, v) {
       return v.key === undefined ? acc : (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, v.key.key, false));
@@ -1592,8 +1580,7 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       allChecked: false,
       allCollapsed: false,
       checkedIds: checkedIds,
-      collapsedIds: collapsedIds,
-      scrollerValue: 0
+      collapsedIds: collapsedIds
     };
     return _this;
   }
@@ -1601,7 +1588,7 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   (0, _createClass3.default)(Ripanga, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      window.addEventListener('scroll', this.onVScroll);
+      window.addEventListener('scroll', this.onScroll);
       window.addEventListener('resize', debounce(this.onResize, 100));
       window.addEventListener('uncheck', this.onExternalUncheckAll);
 
@@ -1614,7 +1601,6 @@ var Ripanga = (_temp = _class = function (_React$Component) {
         return;
       }
 
-      // this.container.addEventListener('scroll', this.onHScroll);
       this.onResize();
     }
   }, {
@@ -1625,12 +1611,12 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       var _props = this.props,
           columnDefinitions = _props.columnDefinitions,
           idKey = _props.idKey,
-          renderBodyCell = _props.renderBodyCell,
-          renderBodyRow = _props.renderBodyRow,
-          renderBodyStickyCell = _props.renderBodyStickyCell,
-          renderHeadStickyCell = _props.renderHeadStickyCell,
-          renderGroupStickyCell = _props.renderGroupStickyCell,
+          renderCell = _props.renderCell,
           renderEmpty = _props.renderEmpty,
+          renderGroupTitle = _props.renderGroupTitle,
+          renderSidebarBodyCell = _props.renderSidebarBodyCell,
+          renderSidebarHeadCell = _props.renderSidebarHeadCell,
+          renderSidebarGroupCell = _props.renderSidebarGroupCell,
           showCheckboxes = _props.showCheckboxes,
           tableData = _props.tableData;
       var _state = this.state,
@@ -1662,58 +1648,70 @@ var Ripanga = (_temp = _class = function (_React$Component) {
         );
       }
 
-      // if (renderBodyRow) {
-      //   return renderBodyRow(rowData, cells);
-      // }
-
       return _react2.default.createElement(
         'div',
-        { className: styles.table, ref: function ref(el) {
-            _this2.table = el;
-          } },
+        { className: styles.contentContainer },
+        _react2.default.createElement(_RipangaSidebar2.default, {
+          idKey: idKey,
+          renderSidebarBodyCell: renderSidebarBodyCell,
+          renderSidebarHeadCell: renderSidebarHeadCell,
+          renderSidebarGroupCell: renderSidebarGroupCell,
+          showGroups: showGroups,
+          styles: styles,
+          tableData: tableData
+        }),
         _react2.default.createElement(
           'div',
-          { className: styles.tableHead, ref: function ref(el) {
-              _this2.header = el;
+          { className: styles.tableContainer, ref: function ref(el) {
+              _this2.tableContainer = el;
             } },
           _react2.default.createElement(
             'div',
-            { className: styles.headRow },
-            (0, _RipangaHeadRow2.default)({
-              allChecked: allChecked,
-              allCollapsed: allCollapsed,
-              columnDefinitions: columnDefinitions,
-              idKey: idKey,
-              onCheckAll: this.onCheckAll,
-              onCollapseAll: this.onCollapseAll,
-              onScroll: this.onScroll,
-              onScrollTrack: this.onScrollTrack,
-              onSort: this.onSort,
-              renderHeadStickyCell: renderHeadStickyCell,
-              scrollerValue: scrollerValue,
-              showGroups: showGroups,
-              showCheckboxes: showCheckboxes,
-              showSidebar: showSidebar,
-              styles: styles
-            })
+            { className: styles.table, ref: function ref(el) {
+                _this2.table = el;
+              } },
+            _react2.default.createElement(
+              'div',
+              { className: styles.tableHead, ref: function ref(el) {
+                  _this2.header = el;
+                } },
+              (0, _RipangaHeadRow2.default)({
+                allChecked: allChecked,
+                allCollapsed: allCollapsed,
+                columnDefinitions: columnDefinitions,
+                idKey: idKey,
+                onCheckAll: this.onCheckAll,
+                onCollapseAll: this.onCollapseAll,
+                onScroll: this.onScroll,
+                onScrollTrack: this.onScrollTrack,
+                onSort: this.onSort,
+                scrollerValue: scrollerValue,
+                showGroups: showGroups,
+                showCheckboxes: showCheckboxes,
+                styles: styles
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: styles.tableBody },
+              (0, _RipangaBodyRows2.default)({
+                checkedIds: checkedIds,
+                collapsedIds: collapsedIds,
+                columnDefinitions: columnDefinitions,
+                idKey: idKey,
+                onRowCheck: this.onRowCheck,
+                onCollapse: this.onCollapse,
+                onGroupCheck: this.onGroupCheck,
+                renderCell: renderCell,
+                renderGroupTitle: renderGroupTitle,
+                showGroups: showGroups,
+                showCheckboxes: showCheckboxes,
+                styles: styles,
+                tableData: tableData
+              })
+            )
           )
-        ),
-        (0, _RipangaBodyRows2.default)({
-          checkedIds: checkedIds,
-          collapsedIds: collapsedIds,
-          columnDefinitions: columnDefinitions,
-          idKey: idKey,
-          onRowCheck: this.onRowCheck,
-          onCollapse: this.onCollapse,
-          onGroupCheck: this.onGroupCheck,
-          renderBodyCell: renderBodyCell,
-          renderBodyRow: renderBodyRow,
-          showGroups: showGroups,
-          showCheckboxes: showCheckboxes,
-          showSidebar: showSidebar,
-          styles: styles,
-          tableData: tableData
-        })
+        )
       );
     }
   }]);
@@ -1721,12 +1719,12 @@ var Ripanga = (_temp = _class = function (_React$Component) {
 }(_react2.default.Component), _class.propTypes = {
   columnDefinitions: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
   idKey: _react.PropTypes.string,
-  renderBodyCell: _react.PropTypes.func.isRequired,
-  renderBodyRow: _react.PropTypes.func,
-  renderBodyStickyCell: _react.PropTypes.func,
-  renderHeadStickyCell: _react.PropTypes.func,
-  renderGroupStickyCell: _react.PropTypes.func,
+  renderCell: _react.PropTypes.func.isRequired,
   renderEmpty: _react.PropTypes.func,
+  renderGroupTitle: _react.PropTypes.func,
+  renderSidebarBodyCell: _react.PropTypes.func,
+  renderSidebarHeadCell: _react.PropTypes.func,
+  renderSidebarGroupCell: _react.PropTypes.func,
   onSort: _react.PropTypes.func,
   showCheckboxes: _react.PropTypes.bool,
   stylesheets: _react.PropTypes.arrayOf(_react.PropTypes.shape()),
@@ -1734,25 +1732,17 @@ var Ripanga = (_temp = _class = function (_React$Component) {
 }, _class.defaultProps = {
   idKey: 'id',
   onSort: null,
-  renderBodyRow: null,
-  renderBodyStickyCell: null,
-  renderHeadStickyCell: null,
-  renderGroupStickyCell: null,
   renderEmpty: null,
+  renderGroupTitle: null,
+  renderSidebarBodyCell: null,
+  renderSidebarHeadCell: null,
+  renderSidebarGroupCell: null,
   showCheckboxes: false,
   stylesheets: []
 }, _initialiseProps = function _initialiseProps() {
   var _this3 = this;
 
-  this.onHScroll = function () {
-    // if (sidebarIsOffset) {
-    //   moveSidebar(this.sidebar, -1 * this.container.scrollLeft);
-    // } else {
-    //   restoreSidebar(this.sidebar);
-    // }
-  };
-
-  this.onVScroll = function () {
+  this.onScroll = function () {
     if (!_this3.table) {
       return;
     }
@@ -1771,6 +1761,15 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       return;
     }
 
+    // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
+    var sidebarCells = document.querySelectorAll('.' + styles.sidebarCell.split(' ').shift());
+    var tableRows = document.querySelectorAll('.' + styles.tableRow.split(' ').shift());
+    var len = tableRows.length;
+
+    for (var i = 0; i < len; i += 1) {
+      sidebarCells[i].style.height = tableRows[i].offsetHeight + 'px';
+    }
+
     // Required for <div> elements to maintain background color for full scroll width. Ben 170411
     var initialWidth = showGroups || _this3.props.showCheckboxes ? 62 : 2;
     var tableWidth = _this3.props.columnDefinitions.reduce(function (acc, def) {
@@ -1778,36 +1777,12 @@ var Ripanga = (_temp = _class = function (_React$Component) {
     }, initialWidth);
 
     _this3.table.style.minWidth = tableWidth + 'px';
-    // this.header.style.minWidth = `${tableWidth}px`;
 
-
-    // // Having each cell move individually is good for inheriting sizes but bad for perf! Ben 170411
-    // const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
-    // const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
-    // const len = tableRows.length;
-    //
-    // for (let i = 0; i < len; i += 1) {
-    //   sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
-    // }
-    //
-    // hScrollParent = this.container;
-    //
-    // while (hScrollParent !== document.body
-    //   && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
-    //   hScrollParent = hScrollParent.parentNode;
-    // }
-    //
-    // hScrollParent.removeEventListener('scroll', this.onHScroll);
-    // hScrollParent.addEventListener('scroll', this.onHScroll);
-    //
     var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
 
     headerInitialTop = _this3.header.getBoundingClientRect().top + scrollTop;
 
-    // sidebarIsOffset = (this.container.scrollWidth - this.container.offsetWidth) > 0;
-    //
-    // this.onHScroll();
-    _this3.onVScroll();
+    _this3.onScroll();
   };
 
   this.onSort = function () {
@@ -1939,7 +1914,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(34);
+var _classnames = __webpack_require__(33);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -1950,8 +1925,7 @@ var RipangaBodyRow = function RipangaBodyRow(_ref) {
       idKey = _ref.idKey,
       isChecked = _ref.isChecked,
       onCheck = _ref.onCheck,
-      renderBodyCell = _ref.renderBodyCell,
-      renderBodyRow = _ref.renderBodyRow,
+      renderCell = _ref.renderCell,
       rowData = _ref.rowData,
       showCheckboxes = _ref.showCheckboxes,
       styles = _ref.styles;
@@ -1967,7 +1941,7 @@ var RipangaBodyRow = function RipangaBodyRow(_ref) {
         key: 'cell-' + rowData[idKey] + '-' + def.key,
         className: (0, _classnames2.default)(styles.tableCell, styles['w' + def.width + 'px'])
       },
-      renderBodyCell(rowData, def)
+      renderCell(rowData, def)
     );
   });
 
@@ -2005,8 +1979,7 @@ RipangaBodyRow.propTypes = {
   idKey: _react.PropTypes.string,
   isChecked: _react.PropTypes.bool,
   onCheck: _react.PropTypes.func,
-  renderBodyCell: _react.PropTypes.func,
-  renderBodyRow: _react.PropTypes.func,
+  renderCell: _react.PropTypes.func,
   rowData: _react.PropTypes.shape().isRequired,
   showCheckboxes: _react.PropTypes.bool,
   styles: _react.PropTypes.shape().isRequired
@@ -2025,13 +1998,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(19);
+var _toConsumableArray2 = __webpack_require__(37);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
 
 var _RipangaGroupRow = __webpack_require__(59);
 
@@ -2051,8 +2022,7 @@ var RipangaBodyRows = function RipangaBodyRows(_ref) {
       onCollapse = _ref.onCollapse,
       onGroupCheck = _ref.onGroupCheck,
       onRowCheck = _ref.onRowCheck,
-      renderBodyCell = _ref.renderBodyCell,
-      renderBodyRow = _ref.renderBodyRow,
+      renderCell = _ref.renderCell,
       renderGroupTitle = _ref.renderGroupTitle,
       showCheckboxes = _ref.showCheckboxes,
       showGroups = _ref.showGroups,
@@ -2070,8 +2040,7 @@ var RipangaBodyRows = function RipangaBodyRows(_ref) {
         idKey: idKey,
         isChecked: checkedIds[rowData[idKey]],
         onCheck: onRowCheck,
-        renderBodyCell: renderBodyCell,
-        renderBodyRow: renderBodyRow,
+        renderCell: renderCell,
         rowData: rowData,
         showCheckboxes: showCheckboxes,
         showGroups: showGroups,
@@ -2081,32 +2050,21 @@ var RipangaBodyRows = function RipangaBodyRows(_ref) {
   };
 
   var renderGroupRow = function renderGroupRow(group) {
-    var colSpan = columnDefinitions.reduce(function (p, _, i, a) {
-      return !a[i].hidden ? p + 1 : p;
-    }, 0);
-
-    var titleElement = renderGroupTitle === undefined ? _react2.default.createElement(
-      'span',
-      { className: styles.title },
-      group.key.label
-    ) : renderGroupTitle(group);
-
     var isChecked = group.data.reduce(function (acc, rowData) {
       return acc && (checkedIds[rowData[idKey]] || false);
     }, true);
 
     return (0, _RipangaGroupRow2.default)({
-      colSpan: colSpan,
       groupData: group,
       isChecked: isChecked,
       isCollapsed: collapsedIds[group.key.key],
       isDisabled: group.data.length === 0,
       onCollapse: onCollapse,
       onCheck: onGroupCheck,
+      renderGroupTitle: renderGroupTitle,
       showCheckboxes: showCheckboxes,
       showGroups: showGroups,
-      styles: styles,
-      titleElement: titleElement
+      styles: styles
     });
   };
 
@@ -2120,13 +2078,7 @@ var RipangaBodyRows = function RipangaBodyRows(_ref) {
     return groups;
   };
 
-  var rows = showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]);
-
-  return _react2.default.createElement(
-    'div',
-    { className: styles.tableBody },
-    rows
-  );
+  return showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]);
 };
 
 /* eslint-disable react/require-default-props */
@@ -2138,8 +2090,7 @@ RipangaBodyRows.propTypes = {
   idKey: _react.PropTypes.string,
   onGroupCheck: _react.PropTypes.func,
   onRowCheck: _react.PropTypes.func,
-  renderBodyCell: _react.PropTypes.func,
-  renderBodyRow: _react.PropTypes.func,
+  renderCell: _react.PropTypes.func,
   renderGroupTitle: _react.PropTypes.func,
   showCheckboxes: _react.PropTypes.bool.isRequired,
   showGroups: _react.PropTypes.bool.isRequired,
@@ -2164,7 +2115,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _RipangaCaret = __webpack_require__(35);
+var _RipangaCaret = __webpack_require__(34);
 
 var _RipangaCaret2 = _interopRequireDefault(_RipangaCaret);
 
@@ -2177,10 +2128,10 @@ var RipangaGroupRow = function RipangaGroupRow(_ref) {
       isDisabled = _ref.isDisabled,
       onCheck = _ref.onCheck,
       onCollapse = _ref.onCollapse,
+      renderGroupTitle = _ref.renderGroupTitle,
       showCheckboxes = _ref.showCheckboxes,
       showGroups = _ref.showGroups,
-      styles = _ref.styles,
-      titleElement = _ref.titleElement;
+      styles = _ref.styles;
 
   var onCaretClick = function onCaretClick() {
     if (isDisabled === false) {
@@ -2191,6 +2142,12 @@ var RipangaGroupRow = function RipangaGroupRow(_ref) {
   var onChange = function onChange() {
     onCheck(groupData.key.key);
   };
+
+  var titleElement = renderGroupTitle ? renderGroupTitle(groupData) : _react2.default.createElement(
+    'span',
+    { className: styles.title },
+    groupData.key.label
+  );
 
   var cells = [];
 
@@ -2236,10 +2193,10 @@ RipangaGroupRow.propTypes = {
   isCollapsed: _react.PropTypes.bool,
   isDisabled: _react.PropTypes.bool,
   onCheck: _react.PropTypes.func,
+  renderGroupTitle: _react.PropTypes.func,
   showCheckboxes: _react.PropTypes.bool.isRequired,
   showGroups: _react.PropTypes.bool.isRequired,
-  styles: _react.PropTypes.shape().isRequired,
-  titleElement: _react.PropTypes.element
+  styles: _react.PropTypes.shape().isRequired
 };
 
 exports.default = RipangaGroupRow;
@@ -2259,7 +2216,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(34);
+var _classnames = __webpack_require__(33);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -2336,7 +2293,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _RipangaCaret = __webpack_require__(35);
+var _RipangaCaret = __webpack_require__(34);
 
 var _RipangaCaret2 = _interopRequireDefault(_RipangaCaret);
 
@@ -2382,7 +2339,11 @@ var RipangaHeadRow = function RipangaHeadRow(_ref) {
     ));
   }
 
-  return cells;
+  return _react2.default.createElement(
+    'div',
+    { className: styles.headRow },
+    cells
+  );
 };
 
 /* eslint react/require-default-props: 0 */
@@ -2393,7 +2354,6 @@ RipangaHeadRow.propTypes = {
   onCheckAll: _react.PropTypes.func.isRequired,
   onCollapseAll: _react.PropTypes.func.isRequired,
   onSort: _react.PropTypes.func.isRequired,
-  renderHeadStickyCell: _react.PropTypes.func,
   showCheckboxes: _react.PropTypes.bool.isRequired,
   showGroups: _react.PropTypes.bool.isRequired,
   styles: _react.PropTypes.shape().isRequired
@@ -2402,7 +2362,194 @@ RipangaHeadRow.propTypes = {
 exports.default = RipangaHeadRow;
 
 /***/ }),
-/* 62 */,
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _toConsumableArray2 = __webpack_require__(37);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _getPrototypeOf = __webpack_require__(66);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(72);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(73);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(75);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(74);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _class, _temp2;
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var headerInitialTop = 0;
+
+var debounce = function debounce(fn, ms) {
+  var timer = null;
+
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(fn, ms);
+  };
+};
+
+var moveHeader = function moveHeader(el, y) {
+  window.requestAnimationFrame(function () {
+    el.style.top = y + 'px'; // eslint-disable-line no-param-reassign
+  });
+};
+
+var restoreHeader = function restoreHeader(el) {
+  window.requestAnimationFrame(function () {
+    el.style.top = 0; // eslint-disable-line no-param-reassign
+  });
+};
+
+var RipangaSidebar = (_temp2 = _class = function (_React$Component) {
+  (0, _inherits3.default)(RipangaSidebar, _React$Component);
+
+  function RipangaSidebar() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    (0, _classCallCheck3.default)(this, RipangaSidebar);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RipangaSidebar.__proto__ || (0, _getPrototypeOf2.default)(RipangaSidebar)).call.apply(_ref, [this].concat(args))), _this), _this.onScroll = function () {
+      var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
+
+      if (scrollTop > headerInitialTop) {
+        moveHeader(_this.header, scrollTop - headerInitialTop);
+      } else {
+        restoreHeader(_this.header);
+      }
+    }, _this.onResize = function () {
+      var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
+
+      headerInitialTop = _this.header.getBoundingClientRect().top + scrollTop;
+
+      _this.onScroll();
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(RipangaSidebar, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      window.addEventListener('scroll', this.onScroll);
+      window.addEventListener('resize', debounce(this.onResize, 100));
+      this.onResize();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          idKey = _props.idKey,
+          renderSidebarBodyCell = _props.renderSidebarBodyCell,
+          renderSidebarGroupCell = _props.renderSidebarGroupCell,
+          renderSidebarHeadCell = _props.renderSidebarHeadCell,
+          showGroups = _props.showGroups,
+          styles = _props.styles,
+          tableData = _props.tableData;
+
+
+      var renderSidebarCell = function renderSidebarCell(group) {
+        return group.data.map(function (rowData) {
+          var cell = renderSidebarBodyCell ? renderSidebarBodyCell(rowData) : null;
+          return _react2.default.createElement(
+            'div',
+            { key: rowData[idKey] + '-sidebar', className: styles.sidebarCell },
+            cell
+          );
+        });
+      };
+
+      var renderGroupSidebarCell = function renderGroupSidebarCell(groupData) {
+        var cell = renderSidebarGroupCell ? renderSidebarGroupCell(groupData) : null;
+        return _react2.default.createElement(
+          'div',
+          { key: 'group-sidebar-' + groupData.key.key, className: styles.groupSidebarCell },
+          cell
+        );
+      };
+
+      var renderGroupSidebarCells = function renderGroupSidebarCells() {
+        var groups = [];
+        tableData.forEach(function (group) {
+          groups.push(renderGroupSidebarCell(group));
+          groups.push.apply(groups, (0, _toConsumableArray3.default)(renderSidebarCell(group)));
+        });
+
+        return groups;
+      };
+
+      var rows = showGroups ? renderGroupSidebarCells() : renderSidebarCell(tableData[0]);
+
+      var headCell = renderSidebarHeadCell ? renderSidebarHeadCell() : null;
+      rows.unshift(_react2.default.createElement(
+        'div',
+        {
+          key: 'sticky-head',
+          className: styles.headSidebarCell,
+          ref: function ref(el) {
+            _this2.header = el;
+          }
+        },
+        headCell
+      ));
+
+      return _react2.default.createElement(
+        'div',
+        { className: styles.sidebarContainer },
+        rows
+      );
+    }
+  }]);
+  return RipangaSidebar;
+}(_react2.default.Component), _class.propTypes = {
+  idKey: _react.PropTypes.string.isRequired,
+  renderSidebarBodyCell: _react.PropTypes.func,
+  renderSidebarHeadCell: _react.PropTypes.func,
+  renderSidebarGroupCell: _react.PropTypes.func,
+  showGroups: _react.PropTypes.bool.isRequired,
+  styles: _react.PropTypes.shape().isRequired,
+  tableData: _react.PropTypes.arrayOf(_react.PropTypes.shape()).isRequired
+}, _class.defaultProps = {
+  renderSidebarBodyCell: null,
+  renderSidebarHeadCell: null,
+  renderSidebarGroupCell: null
+}, _temp2);
+exports.default = RipangaSidebar;
+
+/***/ }),
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2480,7 +2627,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(36);
+var _defineProperty = __webpack_require__(35);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -2645,7 +2792,7 @@ module.exports = __webpack_require__(0).Symbol;
 
 __webpack_require__(50);
 __webpack_require__(122);
-module.exports = __webpack_require__(33).f('iterator');
+module.exports = __webpack_require__(32).f('iterator');
 
 /***/ }),
 /* 86 */
@@ -2693,7 +2840,7 @@ module.exports = function(IS_INCLUDES){
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(20)
+var cof = __webpack_require__(19)
   , TAG = __webpack_require__(1)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
@@ -2736,7 +2883,7 @@ module.exports = function(object, index, value){
 
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(9)
-  , gOPS    = __webpack_require__(26)
+  , gOPS    = __webpack_require__(25)
   , pIE     = __webpack_require__(15);
 module.exports = function(it){
   var result     = getKeys(it)
@@ -2774,7 +2921,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(20);
+var cof = __webpack_require__(19);
 module.exports = Array.isArray || function isArray(arg){
   return cof(arg) == 'Array';
 };
@@ -2802,9 +2949,9 @@ module.exports = function(iterator, fn, value, entries){
 
 "use strict";
 
-var create         = __webpack_require__(25)
+var create         = __webpack_require__(24)
   , descriptor     = __webpack_require__(16)
-  , setToStringTag = __webpack_require__(27)
+  , setToStringTag = __webpack_require__(26)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -2930,7 +3077,7 @@ var meta = module.exports = {
 
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys  = __webpack_require__(9)
-  , gOPS     = __webpack_require__(26)
+  , gOPS     = __webpack_require__(25)
   , pIE      = __webpack_require__(15)
   , toObject = __webpack_require__(17)
   , IObject  = __webpack_require__(41)
@@ -3041,7 +3188,7 @@ module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
     function(test, buggy, set){
       try {
-        set = __webpack_require__(21)(Function.call, __webpack_require__(43).f(Object.prototype, '__proto__').set, 2);
+        set = __webpack_require__(20)(Function.call, __webpack_require__(43).f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
       } catch(e){ buggy = true; }
@@ -3059,8 +3206,8 @@ module.exports = {
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(30)
-  , defined   = __webpack_require__(22);
+var toInteger = __webpack_require__(29)
+  , defined   = __webpack_require__(21);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function(TO_STRING){
@@ -3081,7 +3228,7 @@ module.exports = function(TO_STRING){
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(30)
+var toInteger = __webpack_require__(29)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -3108,7 +3255,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function(it){
 
 "use strict";
 
-var ctx            = __webpack_require__(21)
+var ctx            = __webpack_require__(20)
   , $export        = __webpack_require__(2)
   , toObject       = __webpack_require__(17)
   , call           = __webpack_require__(95)
@@ -3201,7 +3348,7 @@ $export($export.S + $export.F, 'Object', {assign: __webpack_require__(101)});
 
 var $export = __webpack_require__(2)
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', {create: __webpack_require__(25)});
+$export($export.S, 'Object', {create: __webpack_require__(24)});
 
 /***/ }),
 /* 113 */
@@ -3267,20 +3414,20 @@ var global         = __webpack_require__(3)
   , redefine       = __webpack_require__(48)
   , META           = __webpack_require__(100).KEY
   , $fails         = __webpack_require__(11)
-  , shared         = __webpack_require__(29)
-  , setToStringTag = __webpack_require__(27)
+  , shared         = __webpack_require__(28)
+  , setToStringTag = __webpack_require__(26)
   , uid            = __webpack_require__(18)
   , wks            = __webpack_require__(1)
-  , wksExt         = __webpack_require__(33)
-  , wksDefine      = __webpack_require__(32)
+  , wksExt         = __webpack_require__(32)
+  , wksDefine      = __webpack_require__(31)
   , keyOf          = __webpack_require__(99)
   , enumKeys       = __webpack_require__(91)
   , isArray        = __webpack_require__(94)
   , anObject       = __webpack_require__(10)
   , toIObject      = __webpack_require__(5)
-  , toPrimitive    = __webpack_require__(31)
+  , toPrimitive    = __webpack_require__(30)
   , createDesc     = __webpack_require__(16)
-  , _create        = __webpack_require__(25)
+  , _create        = __webpack_require__(24)
   , gOPNExt        = __webpack_require__(103)
   , $GOPD          = __webpack_require__(43)
   , $DP            = __webpack_require__(4)
@@ -3409,9 +3556,9 @@ if(!USE_NATIVE){
   $DP.f   = $defineProperty;
   __webpack_require__(44).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(15).f  = $propertyIsEnumerable;
-  __webpack_require__(26).f = $getOwnPropertySymbols;
+  __webpack_require__(25).f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !__webpack_require__(24)){
+  if(DESCRIPTORS && !__webpack_require__(23)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -3512,13 +3659,13 @@ $export($export.S, 'Object', {
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(32)('asyncIterator');
+__webpack_require__(31)('asyncIterator');
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(32)('observable');
+__webpack_require__(31)('observable');
 
 /***/ }),
 /* 122 */
@@ -3547,12 +3694,16 @@ exports = module.exports = __webpack_require__(51)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px;\n  position: relative;\n  overflow-x: auto; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 1; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  z-index: 0; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px;\n    display: block; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  -ms-flex: 0 0 62px;\n      flex: 0 0 62px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  display: inline-block;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.contentContainer__src-Ripanga__1GSK3 {\n  padding-right: 100px;\n  position: relative; }\n\n.tableContainer__src-Ripanga__2eRH0 {\n  overflow: auto;\n  position: relative;\n  z-index: 0; }\n\n.sidebarContainer__src-Ripanga__1ylI_ {\n  border-top: 1px solid #c3c2c2;\n  height: 100%;\n  position: absolute;\n  right: 0;\n  top: 0;\n  width: 100px;\n  z-index: 3; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px;\n  position: relative; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 1; }\n\n.tableBody__src-Ripanga__1J3be {\n  font-family: inherit; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  z-index: 0; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px;\n    display: block; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex: 0 0 62px;\n      flex: 0 0 62px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.sidebarCell__src-Ripanga__3XMIT {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 1px;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 10px;\n  position: relative;\n  width: 100px; }\n\n.headSidebarCell__src-Ripanga__2RQ8q {\n  background: #e7e7e7; }\n\n.groupSidebarCell__src-Ripanga__1ccHl {\n  background: #e7e7e7; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
 
 // exports
 exports.locals = {
+	"contentContainer": "contentContainer__src-Ripanga__1GSK3",
+	"tableContainer": "tableContainer__src-Ripanga__2eRH0",
+	"sidebarContainer": "sidebarContainer__src-Ripanga__1ylI_",
 	"table": "table__src-Ripanga__1_H6Y",
 	"tableHead": "tableHead__src-Ripanga__1Ij9q",
+	"tableBody": "tableBody__src-Ripanga__1J3be",
 	"tableRow": "tableRow__src-Ripanga__h4uzr",
 	"tableCell": "tableCell__src-Ripanga__2lGOY",
 	"headRow": "headRow__src-Ripanga__3uaGs tableRow__src-Ripanga__h4uzr",
@@ -3564,6 +3715,9 @@ exports.locals = {
 	"closed": "closed__src-Ripanga__3xJMU",
 	"controlPlaceholder": "controlPlaceholder__src-Ripanga__3pKUb",
 	"controlCheckbox": "controlCheckbox__src-Ripanga__EbqGm",
+	"sidebarCell": "sidebarCell__src-Ripanga__3XMIT",
+	"headSidebarCell": "headSidebarCell__src-Ripanga__2RQ8q sidebarCell__src-Ripanga__3XMIT",
+	"groupSidebarCell": "groupSidebarCell__src-Ripanga__1ccHl sidebarCell__src-Ripanga__3XMIT",
 	"w50px": "w50px__src-Ripanga__3KuPN",
 	"w75px": "w75px__src-Ripanga__36-1-",
 	"w100px": "w100px__src-Ripanga__15rYu",

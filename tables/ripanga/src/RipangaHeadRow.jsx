@@ -40,7 +40,7 @@ const RipangaHeadRow = ({
     );
   }
 
-  return cells;
+  return <div className={styles.headRow}>{cells}</div>;
 };
 
 /* eslint react/require-default-props: 0 */
@@ -51,7 +51,6 @@ RipangaHeadRow.propTypes = {
   onCheckAll: PropTypes.func.isRequired,
   onCollapseAll: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
-  renderHeadStickyCell: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
   styles: PropTypes.shape().isRequired

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
 
 import RipangaGroupRow from './RipangaGroupRow';
 import RipangaBodyRow from './RipangaBodyRow';

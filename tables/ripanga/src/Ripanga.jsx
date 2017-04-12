@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
+import RipangaSidebar from './RipangaSidebar';
 
 import baseStyles from './Ripanga.scss';
 import defaultStyles from './RipangaDefault.scss';
@@ -44,6 +45,9 @@ export default class Ripanga extends React.Component {
     renderCell: PropTypes.func.isRequired,
     renderEmpty: PropTypes.func,
     renderGroupTitle: PropTypes.func,
+    renderSidebarBodyCell: PropTypes.func,
+    renderSidebarHeadCell: PropTypes.func,
+    renderSidebarGroupCell: PropTypes.func,
     onSort: PropTypes.func,
     showCheckboxes: PropTypes.bool,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
@@ -55,6 +59,9 @@ export default class Ripanga extends React.Component {
     onSort: null,
     renderEmpty: null,
     renderGroupTitle: null,
+    renderSidebarBodyCell: null,
+    renderSidebarHeadCell: null,
+    renderSidebarGroupCell: null,
     showCheckboxes: false,
     stylesheets: []
   }
@@ -78,8 +85,7 @@ export default class Ripanga extends React.Component {
       allChecked: false,
       allCollapsed: false,
       checkedIds,
-      collapsedIds,
-      scrollerValue: 0
+      collapsedIds
     };
   }
 
@@ -117,6 +123,15 @@ export default class Ripanga extends React.Component {
   onResize = () => {
     if (!this.table) {
       return;
+    }
+
+    // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
+    const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
+    const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
+    const len = tableRows.length;
+
+    for (let i = 0; i < len; i += 1) {
+      sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
     }
 
     // Required for <div> elements to maintain background color for full scroll width. Ben 170411
@@ -204,6 +219,9 @@ export default class Ripanga extends React.Component {
       renderCell,
       renderEmpty,
       renderGroupTitle,
+      renderSidebarBodyCell,
+      renderSidebarHeadCell,
+      renderSidebarGroupCell,
       showCheckboxes,
       tableData
     } = this.props;
@@ -233,43 +251,53 @@ export default class Ripanga extends React.Component {
       );
     }
 
-    return (<div className={styles.table} ref={(el) => { this.table = el; }}>
-      <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
-        <div className={styles.headRow}>
-          { RipangaHeadRow({
-            allChecked,
-            allCollapsed,
-            columnDefinitions,
-            idKey,
-            onCheckAll: this.onCheckAll,
-            onCollapseAll: this.onCollapseAll,
-            onScroll: this.onScroll,
-            onScrollTrack: this.onScrollTrack,
-            onSort: this.onSort,
-            scrollerValue,
-            showGroups,
-            showCheckboxes,
-            styles
-          }) }
+    return (<div className={styles.contentContainer}>
+      <RipangaSidebar { ...{
+        idKey,
+        renderSidebarBodyCell,
+        renderSidebarHeadCell,
+        renderSidebarGroupCell,
+        showGroups,
+        styles,
+        tableData
+      } } />
+      <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
+        <div className={styles.table} ref={(el) => { this.table = el; }}>
+          <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
+            { RipangaHeadRow({
+              allChecked,
+              allCollapsed,
+              columnDefinitions,
+              idKey,
+              onCheckAll: this.onCheckAll,
+              onCollapseAll: this.onCollapseAll,
+              onScroll: this.onScroll,
+              onScrollTrack: this.onScrollTrack,
+              onSort: this.onSort,
+              scrollerValue,
+              showGroups,
+              showCheckboxes,
+              styles
+            }) }
+          </div>
+          <div className={styles.tableBody}>
+            { RipangaBodyRows({
+              checkedIds,
+              collapsedIds,
+              columnDefinitions,
+              idKey,
+              onRowCheck: this.onRowCheck,
+              onCollapse: this.onCollapse,
+              onGroupCheck: this.onGroupCheck,
+              renderCell,
+              renderGroupTitle,
+              showGroups,
+              showCheckboxes,
+              styles,
+              tableData
+            }) }
+          </div>
         </div>
-      </div>
-
-      <div className={styles.tableBody}>
-        { RipangaBodyRows({
-          checkedIds,
-          collapsedIds,
-          columnDefinitions,
-          idKey,
-          onRowCheck: this.onRowCheck,
-          onCollapse: this.onCollapse,
-          onGroupCheck: this.onGroupCheck,
-          renderCell,
-          renderGroupTitle,
-          showGroups,
-          showCheckboxes,
-          styles,
-          tableData
-        }) }
       </div>
     </div>);
   }

@@ -50,6 +50,9 @@ const tableDataGrouped = [
 
 const renderCell = (rowData, columnDef) => <div key={`cell-${rowData.key}-${columnDef.key}`}>{rowData.text}</div>;
 const renderGroupTitle = groupData => <div>{groupData.key.label}</div>;
+const renderSidebarBodyCell = () => <div>Sidebar body cell</div>
+const renderSidebarHeadCell = () => <div>Sidebar head cell</div>
+const renderSidebarGroupCell = group => <div>Sidebar {group.key.label} cell</div>;
 
 const columnDefinitions = [
   Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 200 }),
@@ -67,12 +70,15 @@ const groupedWithCheckboxes = (<Ripanga
     onSort,
     renderCell,
     renderGroupTitle,
+    renderSidebarBodyCell,
+    renderSidebarGroupCell,
+    renderSidebarHeadCell,
     stylesheets: [sandboxStyles]
   }}
 />);
 
 render(
-  <div className={sandboxStyles.tableContainer}>
+  <div className={sandboxStyles.sandboxContainer}>
     <button
       className={sandboxStyles.btnUncheck}
       onClick={() => { window.dispatchEvent(new CustomEvent('uncheck')); }}

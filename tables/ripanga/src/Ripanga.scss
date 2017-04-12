@@ -16,6 +16,10 @@ $padding: 10px;
   z-index: 1;
 }
 
+.tableBody {
+  font-family: inherit;
+}
+
 .tableRow {
   display: flex;
   position: relative;

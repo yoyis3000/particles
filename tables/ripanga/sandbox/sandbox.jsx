@@ -48,12 +48,8 @@ const tableDataGrouped = [
   }
 ];
 
-const renderBodyCell = (rowData, def) => <div key={`cell-${rowData.key}-${def.key}`}>{rowData.text}</div>;
-
-const renderBodyRow = (rowData, cells) => <div key={`row-${rowData.key}`}>{cells}</div>;
-const renderBodyStickyCell = rowData => <div>Sticky {rowData.text}</div>;
-const renderGroupStickyCell = groupData => <div>Sticky Group {groupData.key.name}</div>;
-const renderHeadStickyCell = () => <div>Sticky Head</div>;
+const renderCell = (rowData, columnDef) => <div key={`cell-${rowData.key}-${columnDef.key}`}>{rowData.text}</div>;
+const renderGroupTitle = groupData => <div>{groupData.key.label}</div>;
 
 const columnDefinitions = [
   Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 200 }),
@@ -69,11 +65,8 @@ const groupedWithCheckboxes = (<Ripanga
   {...{
     columnDefinitions,
     onSort,
-    renderBodyRow,
-    renderBodyCell,
-    renderBodyStickyCell,
-    renderGroupStickyCell,
-    renderHeadStickyCell,
+    renderCell,
+    renderGroupTitle,
     stylesheets: [sandboxStyles]
   }}
 />);

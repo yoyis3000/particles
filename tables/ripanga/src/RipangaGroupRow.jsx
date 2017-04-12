@@ -9,10 +9,10 @@ const RipangaGroupRow = ({
   isDisabled,
   onCheck,
   onCollapse,
+  renderGroupTitle,
   showCheckboxes,
   showGroups,
-  styles,
-  titleElement
+  styles
 }) => {
   const onCaretClick = () => {
     if (isDisabled === false) {
@@ -23,6 +23,10 @@ const RipangaGroupRow = ({
   const onChange = () => {
     onCheck(groupData.key.key);
   };
+
+  const titleElement = (renderGroupTitle
+    ? renderGroupTitle(groupData)
+    : (<span className={styles.title}>{groupData.key.label}</span>));
 
   const cells = [];
 
@@ -64,10 +68,10 @@ RipangaGroupRow.propTypes = {
   isCollapsed: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onCheck: PropTypes.func,
+  renderGroupTitle: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
-  styles: PropTypes.shape().isRequired,
-  titleElement: PropTypes.element
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaGroupRow;

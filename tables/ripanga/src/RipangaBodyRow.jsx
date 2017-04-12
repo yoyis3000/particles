@@ -6,8 +6,7 @@ const RipangaBodyRow = ({
   idKey,
   isChecked,
   onCheck,
-  renderBodyCell,
-  renderBodyRow,
+  renderCell,
   rowData,
   showCheckboxes,
   styles
@@ -21,7 +20,7 @@ const RipangaBodyRow = ({
       key={`cell-${rowData[idKey]}-${def.key}`}
       className={cx(styles.tableCell, styles[`w${def.width}px`])}
     >
-      {renderBodyCell(rowData, def)}
+      {renderCell(rowData, def)}
     </div>);
   });
 
@@ -53,8 +52,7 @@ RipangaBodyRow.propTypes = {
   idKey: PropTypes.string,
   isChecked: PropTypes.bool,
   onCheck: PropTypes.func,
-  renderBodyCell: PropTypes.func,
-  renderBodyRow: PropTypes.func,
+  renderCell: PropTypes.func,
   rowData: PropTypes.shape().isRequired,
   showCheckboxes: PropTypes.bool,
   styles: PropTypes.shape().isRequired

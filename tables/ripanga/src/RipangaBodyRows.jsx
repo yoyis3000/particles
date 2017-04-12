@@ -11,8 +11,7 @@ const RipangaBodyRows = ({
   onCollapse,
   onGroupCheck,
   onRowCheck,
-  renderBodyCell,
-  renderBodyRow,
+  renderCell,
   renderGroupTitle,
   showCheckboxes,
   showGroups,
@@ -29,8 +28,7 @@ const RipangaBodyRows = ({
       idKey,
       isChecked: checkedIds[rowData[idKey]],
       onCheck: onRowCheck,
-      renderBodyCell,
-      renderBodyRow,
+      renderCell,
       rowData,
       showCheckboxes,
       showGroups,
@@ -39,28 +37,20 @@ const RipangaBodyRows = ({
   };
 
   const renderGroupRow = (group) => {
-    const colSpan = columnDefinitions
-      .reduce((p, _, i, a) => (!a[i].hidden ? p + 1 : p), 0);
-
-    const titleElement = (renderGroupTitle === undefined
-      ? (<span className={styles.title}>{group.key.label}</span>)
-      : renderGroupTitle(group));
-
     const isChecked = group.data.reduce(
       (acc, rowData) => acc && (checkedIds[rowData[idKey]] || false), true);
 
     return (RipangaGroupRow({
-      colSpan,
       groupData: group,
       isChecked,
       isCollapsed: collapsedIds[group.key.key],
       isDisabled: group.data.length === 0,
       onCollapse,
       onCheck: onGroupCheck,
+      renderGroupTitle,
       showCheckboxes,
       showGroups,
-      styles,
-      titleElement
+      styles
     }));
   };
 
@@ -74,9 +64,7 @@ const RipangaBodyRows = ({
     return groups;
   };
 
-  const rows = (showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]));
-
-  return (<div className={styles.tableBody}>{rows}</div>);
+  return (showGroups ? renderBodyGroups() : renderBodyRows(tableData[0]));
 };
 
 /* eslint-disable react/require-default-props */
@@ -88,8 +76,7 @@ RipangaBodyRows.propTypes = {
   idKey: PropTypes.string,
   onGroupCheck: PropTypes.func,
   onRowCheck: PropTypes.func,
-  renderBodyCell: PropTypes.func,
-  renderBodyRow: PropTypes.func,
+  renderCell: PropTypes.func,
   renderGroupTitle: PropTypes.func,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,

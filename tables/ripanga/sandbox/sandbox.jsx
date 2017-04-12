@@ -57,8 +57,8 @@ const renderHeadStickyCell = () => <div>Sticky Head</div>;
 
 const columnDefinitions = [
   Object.assign({ ...def }, { label: 'Col A', key: 'colA', width: 200 }),
-  Object.assign({ ...def }, { label: 'Col B', key: 'colB' }),
-  Object.assign({ ...def }, { label: 'Col C', key: 'colC', width: 200 })
+  Object.assign({ ...def }, { label: 'Col B', key: 'colB', width: 200 }),
+  Object.assign({ ...def }, { label: 'Col C', key: 'colC' })
 ];
 
 const groupedWithCheckboxes = (<Ripanga

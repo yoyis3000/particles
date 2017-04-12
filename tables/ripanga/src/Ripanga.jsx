@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
-import RipangaSidebar from './RipangaSidebar';
 
 import baseStyles from './Ripanga.scss';
 import defaultStyles from './RipangaDefault.scss';
@@ -41,19 +40,15 @@ const restoreHeader = (el) => {
   });
 };
 
-const moveSidebar = (els, x) => {
-  Array.prototype.forEach.call(els, (el) => {
-    window.requestAnimationFrame(() => {
-      el.style.right = `${x}px`;  // eslint-disable-line no-param-reassign
-    });
+const moveSidebar = (el, x) => {
+  window.requestAnimationFrame(() => {
+    el.style.right = `${x}px`;  // eslint-disable-line no-param-reassign
   });
 };
 
-const restoreSidebar = (els) => {
-  els.forEach((el) => {
-    window.requestAnimationFrame(() => {
-      el.style.right = 0;  // eslint-disable-line no-param-reassign
-    });
+const restoreSidebar = (el) => {
+  window.requestAnimationFrame(() => {
+    el.style.right = 0;  // eslint-disable-line no-param-reassign
   });
 };
 
@@ -121,26 +116,27 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.container) {
+    if (!this.table) {
       return;
     }
 
-    this.container.addEventListener('scroll', this.onHScroll);
+    // this.container.addEventListener('scroll', this.onHScroll);
     this.onResize();
   }
 
   onHScroll = () => {
-    if (sidebarIsOffset) {
-      // moveSidebar(sidebarCells, -1 * this.container.scrollLeft);
-    } else {
-      // restoreSidebar(sidebarCells);
-    }
+    // if (sidebarIsOffset) {
+    //   moveSidebar(this.sidebar, -1 * this.container.scrollLeft);
+    // } else {
+    //   restoreSidebar(this.sidebar);
+    // }
   }
 
   onVScroll = () => {
-    if (!this.container) {
+    if (!this.table) {
       return;
     }
+
 
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
@@ -153,34 +149,45 @@ export default class Ripanga extends React.Component {
   }
 
   onResize = () => {
-    if (!this.container) {
+    if (!this.table) {
       return;
     }
 
-    const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
-    const controlCells = document.querySelectorAll(`.${styles.controlCell.split(' ').shift()}`);
+    // Required for <div> elements to maintain background color for full scroll width. Ben 170411
+    const initialWidth = (showGroups || this.props.showCheckboxes) ? 62 : 2;
+    const tableWidth = this.props.columnDefinitions.reduce((acc, def) => (acc + def.width), initialWidth);
 
-    controlCells.forEach((cell, i) => {
-      sidebarCells[i].style.height = `${cell.offsetHeight}px`;
-    });
+    this.table.style.minWidth = `${tableWidth}px`;
+    // this.header.style.minWidth = `${tableWidth}px`;
 
-    hScrollParent = this.container;
 
-    while (hScrollParent !== document.body
-      && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
-      hScrollParent = hScrollParent.parentNode;
-    }
-
-    hScrollParent.removeEventListener('scroll', this.onHScroll);
-    hScrollParent.addEventListener('scroll', this.onHScroll);
-
+    // // Having each cell move individually is good for inheriting sizes but bad for perf! Ben 170411
+    // const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
+    // const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
+    // const len = tableRows.length;
+    //
+    // for (let i = 0; i < len; i += 1) {
+    //   sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
+    // }
+    //
+    // hScrollParent = this.container;
+    //
+    // while (hScrollParent !== document.body
+    //   && hScrollParent.scrollWidth <= hScrollParent.clientWidth) {
+    //   hScrollParent = hScrollParent.parentNode;
+    // }
+    //
+    // hScrollParent.removeEventListener('scroll', this.onHScroll);
+    // hScrollParent.addEventListener('scroll', this.onHScroll);
+    //
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
 
-    headerInitialTop = this.container.getBoundingClientRect().top + scrollTop;
-    sidebarIsOffset = (this.container.scrollWidth - this.container.offsetWidth) > 0;
+    headerInitialTop = this.header.getBoundingClientRect().top + scrollTop;
 
-    this.onHScroll();
+    // sidebarIsOffset = (this.container.scrollWidth - this.container.offsetWidth) > 0;
+    //
+    // this.onHScroll();
     this.onVScroll();
   }
 
@@ -290,18 +297,9 @@ export default class Ripanga extends React.Component {
     //   return renderBodyRow(rowData, cells);
     // }
 
-    // TODO
-    // Animate group collapse
-    // Animate column collapse
-    // render body row
-    // few columns causes bad sidebar offset
-    // list select instead of dropdown
-    // scroller initial value
-
-    return (
-      <div className={styles.container} ref={(el) => { this.container = el; }}>
-        <div className={styles.table}>
-          <div className={styles.headRow} ref={(el) => { this.header = el; }}>
+    return (<div className={styles.table} ref={(el) => { this.table = el; }}>
+        <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
+          <div className={styles.headRow}>
             { RipangaHeadRow({
               allChecked,
               allCollapsed,
@@ -320,39 +318,24 @@ export default class Ripanga extends React.Component {
               styles
             }) }
           </div>
-
-          { RipangaBodyRows({
-            checkedIds,
-            collapsedIds,
-            columnDefinitions,
-            idKey,
-            onRowCheck: this.onRowCheck,
-            onCollapse: this.onCollapse,
-            onGroupCheck: this.onGroupCheck,
-            renderBodyCell,
-            renderBodyRow,
-            showGroups,
-            showCheckboxes,
-            showSidebar,
-            styles,
-            tableData
-          }) }
         </div>
 
-        <div className={styles.sidebar}>
-          { showSidebar
-            ? RipangaSidebar({
-              idKey,
-              renderBodyStickyCell,
-              renderGroupStickyCell,
-              renderHeadStickyCell,
-              showGroups,
-              styles,
-              tableData
-            })
-            : null }
-        </div>
-      </div>
-    );
+        { RipangaBodyRows({
+          checkedIds,
+          collapsedIds,
+          columnDefinitions,
+          idKey,
+          onRowCheck: this.onRowCheck,
+          onCollapse: this.onCollapse,
+          onGroupCheck: this.onGroupCheck,
+          renderBodyCell,
+          renderBodyRow,
+          showGroups,
+          showCheckboxes,
+          showSidebar,
+          styles,
+          tableData
+        }) }
+    </div>);
   }
 }

@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Select from './Select';
-import defaultStyles from './Picker.scss';
-
-import composeStyles from '../../../../shared/stylesheetComposer';
 
 export default class Picker extends Component {
   static propTypes = {

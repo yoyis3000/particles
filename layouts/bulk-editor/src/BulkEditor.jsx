@@ -34,6 +34,7 @@ const BulkEditor = ({
   itemFormatter,
   items,
   itemsTitle,
+  onCancel,
   onRemove,
   stylesheets,
   submitText,
@@ -61,7 +62,7 @@ const BulkEditor = ({
           <div className={styles.fieldsContainer}>
             {children}
             <span className={styles.footer}>
-              <a className={styles.cancel}>{cancelText}</a>
+              <a className={styles.cancel} onClick={onCancel}>{cancelText}</a>
               <button type='button' className={styles.submitButton} onClick={() => onSubmit({ callback, items, valueField })}>
                 {submitText}
               </button>
@@ -80,6 +81,7 @@ BulkEditor.propTypes = {
   itemFormatter: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.any])),
   itemsTitle: PropTypes.string,
+  onCancel: PropTypes.func,
   onRemove: PropTypes.func,
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   submitText: PropTypes.string,
@@ -87,13 +89,14 @@ BulkEditor.propTypes = {
 };
 
 BulkEditor.defaultProps = {
-  callback: () => {},
+  callback: () => console.log('No callback was passed to Bulk Editor'), // eslint-disable-line
   cancelText: 'Cancel',
   children: [],
   itemFormatter: item => item,
   items: [],
   itemsTitle: 'Selected Items: ',
-  onRemove: () => {},
+  onCancel: () => console.log('No onCancel was passed to BulkEditor'), // eslint-disable-line
+  onRemove: () => console.log('No on Remove was passed to BulkEditor'), // eslint-disable-line
   stylesheets: [],
   submitText: 'Update',
   valueField: null

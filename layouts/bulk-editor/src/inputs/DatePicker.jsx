@@ -8,7 +8,7 @@ export default class DatePicker extends Component {
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
-    stylesheets: PropTypes.shape(),
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     valueField: PropTypes.string
   }
 

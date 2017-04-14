@@ -53,10 +53,10 @@ $padding: 10px;
   display: flex;
   flex-grow: 1;
   padding: $padding;
+  z-index: 0;
 
   &:last-child {
     border-right-width: 1px;
-    display: block;
   }
 }
 
@@ -140,12 +140,13 @@ $padding: 10px;
   display: flex;
   padding: 10px;
   position: relative;
-  width: 100px;
+  z-index: 0;
 }
 
 .headSidebarCell {
   composes: sidebarCell;
   background: #e7e7e7;
+  z-index: 1;
 }
 
 .groupSidebarCell {

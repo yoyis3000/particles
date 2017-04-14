@@ -137,7 +137,7 @@ export default class Ripanga extends React.Component {
     // Required for <div> elements to maintain background color for full scroll width. Ben 170411
     const initialWidth = (showGroups || this.props.showCheckboxes) ? 62 : 2;
     const tableWidth = this.props.columnDefinitions
-      .reduce((acc, def) => (acc + def.width), initialWidth);
+      .reduce((acc, def) => def.hidden ? acc : acc + def.width, initialWidth);
 
     this.table.style.minWidth = `${tableWidth}px`;
 
@@ -230,8 +230,7 @@ export default class Ripanga extends React.Component {
       allChecked,
       allCollapsed,
       checkedIds,
-      collapsedIds,
-      scrollerValue
+      collapsedIds
     } = this.state;
 
     if (tableData.length === 0) {
@@ -252,15 +251,19 @@ export default class Ripanga extends React.Component {
     }
 
     return (<div className={styles.contentContainer}>
-      <RipangaSidebar { ...{
-        idKey,
-        renderSidebarBodyCell,
-        renderSidebarHeadCell,
-        renderSidebarGroupCell,
-        showGroups,
-        styles,
-        tableData
-      } } />
+      <RipangaSidebar
+        {
+          ...{
+            idKey,
+            renderSidebarBodyCell,
+            renderSidebarHeadCell,
+            renderSidebarGroupCell,
+            showGroups,
+            styles,
+            tableData
+          }
+        }
+      />
       <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
         <div className={styles.table} ref={(el) => { this.table = el; }}>
           <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
@@ -274,7 +277,6 @@ export default class Ripanga extends React.Component {
               onScroll: this.onScroll,
               onScrollTrack: this.onScrollTrack,
               onSort: this.onSort,
-              scrollerValue,
               showGroups,
               showCheckboxes,
               styles

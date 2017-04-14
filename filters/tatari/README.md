@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.10
+- If empty, DELETE not PATCH.
+
 ##### 2.1.9
 - Persisting text search even if no results
 

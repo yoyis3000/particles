@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import qs from 'qs';
-import { get, patch } from './TatariApi';
+import { get, patch, destroy } from './TatariApi';
 import TatariDropdownPlain from './TatariDropdownPlain';
 import TatariDropdownCheckboxes from './TatariDropdownCheckboxes';
 
@@ -17,7 +17,8 @@ export default class Tatari extends React.Component {
     urls: PropTypes.shape({
       available: PropTypes.string.isRequired,
       patch: PropTypes.string,
-      saved: PropTypes.string
+      saved: PropTypes.string,
+      delete: PropTypes.string
     }).isRequired
   }
 
@@ -174,9 +175,11 @@ export default class Tatari extends React.Component {
   saveOptions = () => {
     const payload = { filters: this.createPayload() };
 
-    Object.keys(payload.filters).length > 0
-      ? patch(this.props.urls.patch, payload).then(this.props.onComplete)
-      : this.props.onComplete();
+    if (Object.keys(payload.filters).length) {
+      patch(this.props.urls.patch, payload).then(this.props.onComplete);
+    } else {
+      destroy(this.props.urls.delete);
+    }
   }
 
   checkOne = (evt) => {
@@ -277,10 +280,10 @@ export default class Tatari extends React.Component {
     inactiveFilters.push(item);
     inactiveFilters.sort((a, b) => (a.index - b.index));
 
-    this.setState({ inactiveFilters, activeFilters });
-
-    this.updateUrl();
-    this.saveOptions();
+    this.setState({ inactiveFilters, activeFilters }, () => {
+      this.updateUrl();
+      this.saveOptions();
+    });
   }
 
   removeAllActive = () => {
@@ -288,10 +291,10 @@ export default class Tatari extends React.Component {
     const inactive = inactiveFilters.concat(activeFilters)
       .sort((a, b) => (a.index - b.index));
 
-    this.setState({ inactiveFilters: inactive, activeFilters: [] }, this.updateUrl);
-
-    this.updateUrl();
-    this.saveOptions();
+    this.setState({ inactiveFilters: inactive, activeFilters: [] }, () => {
+      this.updateUrl();
+      this.saveOptions();
+    });
   }
 
   removeEmptyActive = () => {

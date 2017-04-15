@@ -173,6 +173,11 @@ export default class Tatari extends React.Component {
   }
 
   saveOptions = () => {
+    if (!this.props.urls.patch) {
+      this.props.onComplete();
+      return;
+    }
+
     const payload = { filters: this.createPayload() };
 
     if (Object.keys(payload.filters).length) {

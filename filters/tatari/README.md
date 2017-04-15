@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.1.11
+- Added graceful handling if no PATCH endpoint provided
+
 ##### 2.1.10
 - If empty, DELETE not PATCH.
 

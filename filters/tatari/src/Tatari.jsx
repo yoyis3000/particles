@@ -183,7 +183,7 @@ export default class Tatari extends React.Component {
     if (Object.keys(payload.filters).length) {
       patch(this.props.urls.patch, payload).then(this.props.onComplete);
     } else {
-      destroy(this.props.urls.delete);
+      destroy(this.props.urls.delete).then(this.props.onComplete);
     }
   }
 

@@ -9,7 +9,7 @@ const keyGen = (item, valueField) => (
   valueField ? item[valueField] : item
 );
 
-const onSubmit = ({ items, valueField, callback }) => {
+const submit = ({ callback, items, valueField }) => {
   const ids = items.map(item => item[valueField]);
 
   const inputValues = [];
@@ -28,7 +28,6 @@ const onSubmit = ({ items, valueField, callback }) => {
 // TODO: Button click handlers, will have to deal with table(?)
 
 const BulkEditor = ({
-  callback,
   cancelText,
   children,
   itemFormatter,
@@ -36,6 +35,7 @@ const BulkEditor = ({
   itemsTitle,
   onCancel,
   onRemove,
+  onSubmit,
   stylesheets,
   submitText,
   valueField
@@ -63,7 +63,7 @@ const BulkEditor = ({
             {children}
             <span className={styles.footer}>
               <a className={styles.cancel} onClick={onCancel}>{cancelText}</a>
-              <button type='button' className={styles.submitButton} onClick={() => onSubmit({ callback, items, valueField })}>
+              <button type='button' className={styles.submitButton} onClick={() => submit({ callback: onSubmit, items, valueField })}>
                 {submitText}
               </button>
             </span>
@@ -75,7 +75,6 @@ const BulkEditor = ({
 };
 
 BulkEditor.propTypes = {
-  callback: PropTypes.func,
   cancelText: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.any]),
   itemFormatter: PropTypes.func,
@@ -83,13 +82,13 @@ BulkEditor.propTypes = {
   itemsTitle: PropTypes.string,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
+  onSubmit: PropTypes.func,
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),
   submitText: PropTypes.string,
   valueField: PropTypes.string
 };
 
 BulkEditor.defaultProps = {
-  callback: () => console.log('No callback was passed to Bulk Editor'), // eslint-disable-line
   cancelText: 'Cancel',
   children: [],
   itemFormatter: item => item,
@@ -97,6 +96,7 @@ BulkEditor.defaultProps = {
   itemsTitle: 'Selected Items: ',
   onCancel: () => console.log('No onCancel was passed to BulkEditor'), // eslint-disable-line
   onRemove: () => console.log('No on Remove was passed to BulkEditor'), // eslint-disable-line
+  onSubmit: () => console.log('No onSubmit was passed to Bulk Editor'), // eslint-disable-line
   stylesheets: [],
   submitText: 'Update',
   valueField: null

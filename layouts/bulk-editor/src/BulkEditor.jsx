@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import qs from 'query-string';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 import baseStyles from './BulkEditor.scss';
@@ -12,17 +13,21 @@ const keyGen = (item, valueField) => (
 const submit = ({ callback, items, valueField }) => {
   const ids = items.map(item => item[valueField]);
 
-  const inputValues = [];
+  let inputValues = '';
   Array.prototype.forEach.call(
     document.querySelectorAll('#batch-editor-fields input[type="hidden"]'),
     (input) => {
       if (input.value.length > 0) {
-        inputValues[input.name] = input.value;
+        if (inputValues.length > 0) {
+          inputValues += '&';
+        }
+
+        inputValues += qs.stringify({ [input.name]: input.value }, { encode: false });
       }
     }
   );
 
-  callback({ ids, fields: inputValues });
+  callback({ ids, fields: qs.parse(inputValues) });
 };
 
 // TODO: Button click handlers, will have to deal with table(?)

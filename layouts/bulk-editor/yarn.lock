@@ -3240,6 +3240,13 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
+query-string@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.3.tgz#91c90ff7173d9acd9e088b3cc223f9b437865692"
+  dependencies:
+    object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
+
 querystring-es3@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"

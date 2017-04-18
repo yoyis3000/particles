@@ -1644,6 +1644,8 @@ var showGroups = false;
 
 var headerInitialTop = 0;
 
+var debouncedResize = null;
+
 var i18n = {
   NO_RESULTS: 'No results found'
 };
@@ -1681,6 +1683,7 @@ var Ripanga = (_temp = _class = function (_React$Component) {
 
     styles = (0, _stylesheetComposer2.default)(_Ripanga2.default, [_RipangaDefault2.default].concat((0, _toConsumableArray3.default)(props.stylesheets)));
     showGroups = props.tableData.length > 0 && props.tableData[0].key !== undefined;
+    debouncedResize = debounce(_this.onResize, 100);
 
     var collapsedIds = props.tableData.reduce(function (acc, v) {
       return v.key === undefined ? acc : (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, v.key.key, false));
@@ -1705,7 +1708,7 @@ var Ripanga = (_temp = _class = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       window.addEventListener('scroll', this.onScroll);
-      window.addEventListener('resize', debounce(this.onResize, 100));
+      window.addEventListener('resize', debouncedResize);
       window.addEventListener('uncheck', this.onExternalUncheckAll);
 
       this.onResize();
@@ -1718,6 +1721,15 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       }
 
       this.onResize();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('scroll', this.onScroll);
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('uncheck', this.onExternalUncheckAll);
+
+      this.table.removeChild(overflowTetherContainer);
     }
   }, {
     key: 'render',
@@ -1785,6 +1797,11 @@ var Ripanga = (_temp = _class = function (_React$Component) {
             { className: styles.table, ref: function ref(el) {
                 _this2.table = el;
               } },
+            _react2.default.createElement(
+              'div',
+              { className: styles.overflowTetherContainer },
+              'OVERFLOW TETHER CONTAINER'
+            ),
             _react2.default.createElement(
               'div',
               { className: styles.tableHead, ref: function ref(el) {
@@ -3692,7 +3709,7 @@ exports = module.exports = __webpack_require__(56)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.contentContainer__src-Ripanga__1GSK3 {\n  padding-right: 100px;\n  position: relative; }\n\n.tableContainer__src-Ripanga__2eRH0 {\n  overflow: auto;\n  position: relative;\n  z-index: 0; }\n\n.sidebarContainer__src-Ripanga__1ylI_ {\n  border-top: 1px solid #c3c2c2;\n  height: 100%;\n  position: absolute;\n  right: 0;\n  top: 0;\n  width: 100px;\n  z-index: 3; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px;\n  position: relative; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 1; }\n\n.tableBody__src-Ripanga__1J3be {\n  font-family: inherit; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  z-index: 0; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px;\n  z-index: 0; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex: 0 0 62px;\n      flex: 0 0 62px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.sidebarCell__src-Ripanga__3XMIT {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 1px;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 10px;\n  position: relative;\n  z-index: 0; }\n\n.headSidebarCell__src-Ripanga__2RQ8q {\n  background: #e7e7e7;\n  z-index: 1; }\n\n.groupSidebarCell__src-Ripanga__1ccHl {\n  background: #e7e7e7; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.contentContainer__src-Ripanga__1GSK3 {\n  padding-right: 100px; }\n\n.tableContainer__src-Ripanga__2eRH0 {\n  overflow: auto;\n  position: relative;\n  z-index: 0; }\n\n.sidebarContainer__src-Ripanga__1ylI_ {\n  border-top: 1px solid #c3c2c2;\n  height: 100%;\n  position: absolute;\n  right: 0;\n  top: 0;\n  width: 100px;\n  z-index: 3; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 2; }\n\n.tableBody__src-Ripanga__1J3be {\n  font-family: inherit; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex: 0 0 62px;\n      flex: 0 0 62px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.sidebarCell__src-Ripanga__3XMIT {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 1px;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 10px;\n  position: relative;\n  z-index: 0; }\n\n.headSidebarCell__src-Ripanga__2RQ8q {\n  background: #e7e7e7;\n  z-index: 1; }\n\n.groupSidebarCell__src-Ripanga__1ccHl {\n  background: #e7e7e7; }\n\n.overflowTetherContainer__src-Ripanga__2ePJi {\n  background-color: darkturquoise !important;\n  left: 100px;\n  position: fixed;\n  top: 100px;\n  z-index: 1; }\n\n.overflowChildFocus__src-Ripanga__1IO0X {\n  visibility: hidden; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3716,6 +3733,8 @@ exports.locals = {
 	"sidebarCell": "sidebarCell__src-Ripanga__3XMIT",
 	"headSidebarCell": "headSidebarCell__src-Ripanga__2RQ8q sidebarCell__src-Ripanga__3XMIT",
 	"groupSidebarCell": "groupSidebarCell__src-Ripanga__1ccHl sidebarCell__src-Ripanga__3XMIT",
+	"overflowTetherContainer": "overflowTetherContainer__src-Ripanga__2ePJi",
+	"overflowChildFocus": "overflowChildFocus__src-Ripanga__1IO0X",
 	"w50px": "w50px__src-Ripanga__3KuPN",
 	"w75px": "w75px__src-Ripanga__36-1-",
 	"w100px": "w100px__src-Ripanga__15rYu",
@@ -4111,14 +4130,170 @@ if(false) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.OverflowCell = exports.default = undefined;
 
 var _Ripanga = __webpack_require__(60);
 
 var _Ripanga2 = _interopRequireDefault(_Ripanga);
 
+var _RipangaOverflowCell = __webpack_require__(130);
+
+var _RipangaOverflowCell2 = _interopRequireDefault(_RipangaOverflowCell);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _Ripanga2.default;
+exports.OverflowCell = _RipangaOverflowCell2.default;
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _defineProperty2 = __webpack_require__(40);
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _getPrototypeOf = __webpack_require__(37);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(38);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(39);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(42);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(41);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(34);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _Ripanga = __webpack_require__(59);
+
+var _Ripanga2 = _interopRequireDefault(_Ripanga);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function throttleAndDebounce(fn, ms) {
+  var debounceTimer = null;
+  var throttleExecute = true;
+
+  return function (evt) {
+    evt.persist && evt.persist();
+
+    if (throttleExecute) {
+      fn(evt);
+      throttleExecute = false;
+      setTimeout(function () {
+        throttleExecute = true;
+      }, ms);
+    }
+
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(fn.bind(null, evt), ms);
+  };
+}
+
+var scrollTop = function scrollTop() {
+  return document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
+};
+
+var bounds = {};
+var container = null;
+
+var RipangaOverflowCell = function (_React$Component) {
+  (0, _inherits3.default)(RipangaOverflowCell, _React$Component);
+
+  // static propTypes = {
+  //   def: PropTypes.shape().isRequired,
+  //   styles: PropTypes.shape().isRequired
+  // };
+
+  function RipangaOverflowCell(props) {
+    (0, _classCallCheck3.default)(this, RipangaOverflowCell);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (RipangaOverflowCell.__proto__ || (0, _getPrototypeOf2.default)(RipangaOverflowCell)).call(this, props));
+
+    _this.onFocus = function () {
+      bounds = _this.overflowContainer.getBoundingClientRect();
+
+      container.style.top = bounds.top + 'px';
+      container.style.width = bounds.width + 'px';
+      container.style.left = bounds.left + 'px';
+      container.style.height = bounds.height + 'px';
+
+      _this.setState({ isFocused: true });
+    };
+
+    _this.onBlur = function () {
+      _this.setState({ isFocused: false });
+    };
+
+    _this.onScroll = function () {
+      container.style.top = bounds.top - scrollTop() + 'px';
+    };
+
+    window.addEventListener('scroll', _this.onScroll);
+
+    _this.state = { isFocused: false };
+    return _this;
+  }
+
+  (0, _createClass3.default)(RipangaOverflowCell, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      container = document.querySelector('.' + _Ripanga2.default.overflowTetherContainer);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('scroll', this.onScroll);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'button',
+        {
+          onFocus: this.onFocus,
+          onBlur: this.onBlur,
+          className: (0, _classnames2.default)(_Ripanga2.default.overflowFocusContainer, (0, _defineProperty3.default)({}, _Ripanga2.default.overflowChildFocus, this.state.isFocused)),
+          ref: function ref(el) {
+            _this2.overflowContainer = el;
+          }
+        },
+        this.props.children
+      );
+    }
+  }]);
+  return RipangaOverflowCell;
+}(_react2.default.Component);
+
+exports.default = RipangaOverflowCell;
+;
 
 /***/ })
 /******/ ]);

@@ -1,16 +1,19 @@
 @import '../../shared/reset';
 
 $padding: 10px;
+$sidebarZ: 3;
+$headerZ: 2;
+$overflowZ: 1;
+$tableZ: 0;
 
 .contentContainer {
   padding-right: 100px;
-  position: relative;
 }
 
 .tableContainer {
   overflow: auto;
   position: relative;
-  z-index: 0;
+  z-index: $tableZ;
 }
 
 .sidebarContainer {
@@ -20,20 +23,19 @@ $padding: 10px;
   right: 0;
   top: 0;
   width: 100px;
-  z-index: 3;
+  z-index: $sidebarZ;
 }
 
 .table {
   border-bottom: 1px solid #c3c2c2;
   padding-top: 45px;
-  position: relative;
 }
 
 .tableHead {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: $headerZ;
 }
 
 .tableBody {
@@ -42,8 +44,6 @@ $padding: 10px;
 
 .tableRow {
   display: flex;
-  position: relative;
-  z-index: 0;
 }
 
 .tableCell {
@@ -53,7 +53,6 @@ $padding: 10px;
   display: flex;
   flex-grow: 1;
   padding: $padding;
-  z-index: 0;
 
   &:last-child {
     border-right-width: 1px;
@@ -152,6 +151,22 @@ $padding: 10px;
 .groupSidebarCell {
   composes: sidebarCell;
   background: #e7e7e7;
+}
+
+.overflowFocusContainer {
+
+}
+
+.overflowTetherContainer {
+  background-color: darkturquoise !important;
+  left: 100px;
+  position: fixed;
+  top: 100px;
+  z-index: 1;
+}
+
+.overflowChildFocus {
+  visibility: hidden;
 }
 
 .w50px {

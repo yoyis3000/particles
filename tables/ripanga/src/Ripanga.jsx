@@ -13,6 +13,8 @@ let showGroups = false;
 
 let headerInitialTop = 0;
 
+let debouncedResize = null;
+
 const i18n = {
   NO_RESULTS: 'No results found'
 };
@@ -71,6 +73,7 @@ export default class Ripanga extends React.Component {
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
+    debouncedResize = debounce(this.onResize, 100);
 
     const collapsedIds = props.tableData.reduce(
       (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.key]: false })), {});
@@ -91,7 +94,7 @@ export default class Ripanga extends React.Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.onScroll);
-    window.addEventListener('resize', debounce(this.onResize, 100));
+    window.addEventListener('resize', debouncedResize);
     window.addEventListener('uncheck', this.onExternalUncheckAll);
 
     this.onResize();
@@ -103,6 +106,14 @@ export default class Ripanga extends React.Component {
     }
 
     this.onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', debouncedResize);
+    window.removeEventListener('uncheck', this.onExternalUncheckAll);
+
+    this.table.removeChild(overflowTetherContainer);
   }
 
   onScroll = () => {
@@ -266,6 +277,8 @@ export default class Ripanga extends React.Component {
       />
       <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
         <div className={styles.table} ref={(el) => { this.table = el; }}>
+          <div className={styles.overflowTetherContainer}>OVERFLOW TETHER CONTAINER</div>
+
           <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
             { RipangaHeadRow({
               allChecked,

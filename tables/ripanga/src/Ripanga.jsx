@@ -1,6 +1,7 @@
 /* eslint-disable react/no-string-refs */
 import React, { PropTypes } from 'react';
 import Range from 'react-range';
+import qs from 'qs';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
@@ -17,15 +18,49 @@ export default class Ripanga extends React.Component {
   static propTypes = {
     actions: PropTypes.shape(),
     globalKey: PropTypes.bool,
-    sliderValue: PropTypes.number,
-    tableData: PropTypes.arrayOf(PropTypes.shape()),
     panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
+    sliderValue: PropTypes.number,
+    sorting: PropTypes.shape({ direction: PropTypes.func, change: PropTypes.func }),
+    tableData: PropTypes.arrayOf(PropTypes.shape()),
   };
 
   static defaultProps = {
     idKey: 'id',
     panelPosition: 'right',
     showCheckboxes: false,
+    sorting: {
+      change: ({ sortable, sortKey }) => {
+        const url = window.location.href.split('?');
+        const params = qs.parse(url[1]);
+
+        if (sortable === false) {
+          return;
+        }
+
+        const attribute = sortKey;
+        const direction = (params.sort.attribute === attribute
+          && params.sort.direction === DIRECTION.ASC
+          ? DIRECTION.DESC
+          : DIRECTION.ASC);
+
+        params.sort = { attribute, direction };
+        params.page = 1;
+
+        sessionStorage.setItem(`${globalKey}/SORT`, JSON.stringify(params.sort));
+
+        history.pushState(
+          history.state,
+          '',
+          `${url[0]}?${qs.stringify(params, { arrayFormat: 'brackets' })}`,
+        );
+      },
+      direction: ({ sortable, sortKey }) => {
+        const url = window.location.href.split('?');
+        const params = qs.parse(url[1]);
+
+        return sortable && params.sort.attribute === sortKey && params.sort.direction;
+      }
+    }
   }
 
   constructor(props) {

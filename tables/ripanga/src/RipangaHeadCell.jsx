@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import qs from 'qs';
 
 import styles from './Ripanga.scss';
 
@@ -13,45 +12,21 @@ const RipangaHeadCell = ({
   def,
   globalKey,
   onSort,
+  change,
+  direction
 }) => {
-  const url = window.location.href.split('?');
-  const params = qs.parse(url[1]);
-
-  const _onSort = () => {
-    if (def.sortable === false) {
-      return;
-    }
-
-    const attribute = def.sortKey;
-    const direction = (params.sort.attribute === attribute
-      && params.sort.direction === DIRECTION.ASC
-      ? DIRECTION.DESC
-      : DIRECTION.ASC);
-
-    params.sort = { attribute, direction };
-    params.page = 1;
-
-    sessionStorage.setItem(`${globalKey}/SORT`, JSON.stringify(params.sort));
-
-    history.pushState(
-      history.state,
-      '',
-      `${url[0]}?${qs.stringify(params, { arrayFormat: 'brackets' })}`,
-    );
-
-    onSort();
-  };
 
   let arrow = null;
-  if (def.sortable === true && def.sortKey === params.sort.attribute) {
-    arrow = (params.sort.direction === DIRECTION.DESC
-      ? <i className="fa fa-long-arrow-down" />
-      : <i className="fa fa-long-arrow-up" />);
+  const sort = direction(def);
+
+  if (sort) {
+    const isDesc = sort === DIRECTION.DESC;
+    arrow = <i className={cx({ fa: true, 'fa-long-arrow-down': isDesc, 'fa-long-arrow-up': !isDesc })} />
   }
 
   return (
     <th
-      onClick={_onSort}
+      onClick={() => change(def)}
       className={cx(styles.sortArrow, {[styles.sortable]: def.sortable })}
     >
       <span className={styles.label}>{def.label}</span>
@@ -63,7 +38,13 @@ const RipangaHeadCell = ({
 RipangaHeadCell.propTypes = {
   def: PropTypes.shape(),
   globalKey: PropTypes.string,
-  onSort: PropTypes.func,
+  change: PropTypes.func,
+  direction: PropTypes.func
+};
+
+RipangaHeadCell.defaultProps = {
+  change: () => {},
+  direction: () => {}
 };
 
 export default RipangaHeadCell;

@@ -12,6 +12,7 @@ const RipangaHeadRow = ({
   renderHeadCell,
   showCheckboxes,
   tableData,
+  sorting,
 }) => {
   const indices = tableData.reduce((acc, group) => {
     return acc.concat(group.data.map(v => v[idKey]));
@@ -35,7 +36,7 @@ const RipangaHeadRow = ({
     return (
       <RipangaHeadCell
         key={`head-${def.sortKey}-${i}`}
-        {...{def, globalKey, onSort }}
+        {...{...sorting, def, globalKey }}
       />
     );
   };
@@ -81,7 +82,12 @@ RipangaHeadRow.propTypes = {
   onSort: PropTypes.func,
   renderHeadCell: PropTypes.func,
   showCheckboxes: PropTypes.bool,
-  tableData: PropTypes.arrayOf(PropTypes.object),
+  sorting: PropTypes.shape({ direction: PropTypes.func, change: PropTypes.func }),
+  tableData: PropTypes.arrayOf(PropTypes.object)
+};
+
+RipangaHeadRow.defaultProps = {
+  sorting: {},
 };
 
 export default RipangaHeadRow;

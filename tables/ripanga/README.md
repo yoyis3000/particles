@@ -4,7 +4,18 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 1.2.0
+- Configure sorting features through props
+```
+<Table
+  sorting: {
+    direction: (columnDefintion) => 'desc' | 'asc' | false,
+    change: (columDefinition) => return void
+  }
+/>
+```
 ##### 1.0.8, 1.0.9
+
 - Implemented prod builds
 
 ##### 1.0.7

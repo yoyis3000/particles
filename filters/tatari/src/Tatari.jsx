@@ -13,6 +13,7 @@ let styles = {};
 export default class Tatari extends React.Component {
   static propTypes = {
     onComplete: PropTypes.func.isRequired,
+    filterOptions: PropTypes.func,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     urls: PropTypes.shape({
       available: PropTypes.string.isRequired,
@@ -23,6 +24,7 @@ export default class Tatari extends React.Component {
   }
 
   static defaultProps = {
+    filterOptions: item => item,
     stylesheets: []
   }
 
@@ -48,10 +50,11 @@ export default class Tatari extends React.Component {
       get(this.props.urls.available),
       get(this.props.urls.saved)
     ])
-    .then(([{ data: availableFilters }, { data: saved }]) => {
+    .then(([{ data: filterData }, { data: saved }]) => {
       const url = window.location.href.split('?');
       const params = qs.parse(url[1]);
       const previousFilters = params.filters || saved;
+      const availableFilters = this.props.filterOptions(filterData);
 
       const activeFilters = availableFilters.reduce((acc, filter, index) => {
         if (previousFilters[filter.key] !== undefined && previousFilters[filter.key] !== null) {

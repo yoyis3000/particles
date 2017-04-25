@@ -62,9 +62,11 @@ const onComplete = () => {
   console.warn("Called external population function.");  // eslint-disable-line
 };
 
+const filterOptions = options => options.filter(obj => obj.key !== 'assignee');
+
 const stylesheets = [sandboxStyles];
 
 render(
-  <Tatari {...{ urls, onComplete, stylesheets }} />,
+  <Tatari {...{ urls, onComplete, stylesheets, filterOptions }} />,
   document.getElementById('root'),
 );

@@ -1,6 +1,6 @@
 @import "../../../shared/reset";
 
-$side: 30px;
+$side: 32px;
 
 .search {
   display: block;
@@ -10,7 +10,6 @@ $side: 30px;
 }
 
 .input {
-  border: 1px solid #444;
   box-sizing: border-box;
   cursor: text;
   font-size: 13px;
@@ -40,7 +39,8 @@ $side: 30px;
   width: $side;
 
   &:hover {
-    background-color: #ddd;
+    background-color: #f47e42;
+    color: #fff;
   }
 
   .fa {
@@ -50,7 +50,7 @@ $side: 30px;
 
 .btnSubmit {
   composes: btnBase;
-  border: solid #444;
+  border: solid #939393;
   border-width: 0 0 0 1px;
   right: 1px;
 }

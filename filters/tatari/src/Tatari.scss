@@ -60,12 +60,12 @@ $searchH: 26px;
   overflow-y: auto;
   position: absolute;
   transition: all $delay ease;
-  width: 200px;
+  width: 215px;
 
   &.expanded {
     border: 1px solid #ccc;
     height: auto;
-    max-height: 300px;
+    max-height: 310px;
   }
 }
 
@@ -195,10 +195,6 @@ $searchH: 26px;
   flex-direction: row;
   margin: 5px 0;
   padding: 0 $p;
-
-  &:hover {
-    background: #e7e7e7;
-  }
 }
 
 .activeControl {
@@ -210,10 +206,6 @@ $searchH: 26px;
   margin: 0 3px;
   padding: 0;
   vertical-align: top;
-
-  &:hover {
-    text-decoration: underline;
-  }
 
   &:focus {
     outline: 0;
@@ -233,7 +225,7 @@ $searchH: 26px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  padding: 0 $p;
+  padding: 5px $p;
 
   &:hover {
     background: #e7e7e7;
@@ -242,6 +234,7 @@ $searchH: 26px;
 
 .activeCheckbox {
   cursor: pointer;
+  flex-shrink: 0;
   margin-right: 10px;
 }
 

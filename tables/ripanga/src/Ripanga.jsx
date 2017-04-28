@@ -146,11 +146,11 @@ export default class Ripanga extends React.Component {
     }
 
     // Required for <div> elements to maintain background color for full scroll width. Ben 170411
-    const initialWidth = (showGroups || this.props.showCheckboxes) ? 62 : 2;
+    const initialWidth = (showGroups || this.props.showCheckboxes) ? 60 : 0;
     const tableWidth = this.props.columnDefinitions
       .reduce((acc, def) => def.hidden ? acc : acc + def.width, initialWidth);
 
-    this.table.style.minWidth = `${tableWidth}px`;
+    this.header.style.minWidth = `${tableWidth}px`;
 
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
@@ -277,8 +277,6 @@ export default class Ripanga extends React.Component {
       />
       <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
         <div className={styles.table} ref={(el) => { this.table = el; }}>
-          <div className={styles.overflowTetherContainer}>OVERFLOW TETHER CONTAINER</div>
-
           <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
             { RipangaHeadRow({
               allChecked,

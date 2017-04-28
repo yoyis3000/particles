@@ -25,7 +25,11 @@ const scrollTop = () =>
   document.body.scrollTop;
 
 let bounds = {};
-let container = null;
+let initialTop = 0;
+let computedStyle = {
+  paddingLeft: '0px',
+  paddingTop: '0px',
+};
 
 export default class RipangaOverflowCell extends React.Component {
   // static propTypes = {
@@ -36,46 +40,54 @@ export default class RipangaOverflowCell extends React.Component {
   constructor(props) {
     super(props);
 
-    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener('click', this.onBlur);
 
     this.state = { isFocused: false };
   }
 
-  componentDidMount() {
-    container = document.querySelector(`.${styles.overflowTetherContainer}`);
-  }
+  onFocus = (evt) => {
+    evt.stopPropagation();
 
-  componentWillUnmount() {
+    computedStyle = window.getComputedStyle(this.container.parentNode);
+    bounds = this.container.parentNode.getBoundingClientRect();
+
+    const T = parseInt(computedStyle.paddingTop.slice(0, -2));
+    const L = parseInt(computedStyle.paddingLeft.slice(0, -2));
+
+    this.container.style.top = (bounds.top + T + 2) + 'px';
+    this.container.style.width = (bounds.width - 2 * L) + 'px';
+    this.container.style.left = (bounds.left + L) + 'px';
+    // this.container.style.height = bounds.height + 'px';
+
+    initialTop = scrollTop() +  bounds.top + T + 2;
+
     window.removeEventListener('scroll', this.onScroll);
-  }
-
-  onFocus = () => {
-    bounds = this.overflowContainer.getBoundingClientRect();
-
-    container.style.top = bounds.top + 'px';
-    container.style.width = bounds.width + 'px';
-    container.style.left = bounds.left + 'px'
-    container.style.height = bounds.height + 'px';
+    window.addEventListener('scroll', this.onScroll);
 
     this.setState({ isFocused: true });
   }
 
   onBlur = () => {
+    this.container.style.top = 0;
+    this.container.style.left = 0;
+    window.removeEventListener('scroll', this.onScroll);
     this.setState({ isFocused: false });
   }
 
   onScroll = () => {
-    container.style.top = (bounds.top - scrollTop()) + 'px';
+    // this.container.style.top = (scrollTop() + bounds.top + parseInt(computedStyle.paddingTop.slice(0, -2))) + 'px';
+    this.container.style.top = (initialTop - scrollTop()) + 'px';
   }
 
   render() {
-    return (<button
-      onFocus={this.onFocus}
-      onBlur={this.onBlur}
-      className={cx(styles.overflowFocusContainer, { [styles.overflowChildFocus]: this.state.isFocused })}
-      ref={(el) => { this.overflowContainer = el }}
-    >
-      {this.props.children}
-    </button>);
+    return (<div
+      onClick={this.onFocus}
+      // onFocus={this.onFocus}
+      // onBlur={this.onBlur}
+      className={cx(styles.overflowContainer, { [styles.focused]: this.state.isFocused })}
+      ref={(el) => { this.container = el; }}
+      >
+        {this.props.children}
+      </div>);
   }
 };

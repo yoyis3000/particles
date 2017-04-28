@@ -8,6 +8,7 @@ $tableZ: 0;
 
 .contentContainer {
   padding-right: 100px;
+  position: relative;
 }
 
 .tableContainer {
@@ -17,6 +18,7 @@ $tableZ: 0;
 }
 
 .sidebarContainer {
+  background: #fff;
   border-top: 1px solid #c3c2c2;
   height: 100%;
   position: absolute;
@@ -153,20 +155,31 @@ $tableZ: 0;
   background: #e7e7e7;
 }
 
-.overflowFocusContainer {
-
+.overflowContainer {
+  height: 100%;
+  width: 100%;
 }
 
-.overflowTetherContainer {
-  background-color: darkturquoise !important;
-  left: 100px;
-  position: fixed;
-  top: 100px;
-  z-index: 1;
-}
+.overflowContainer {
+  background: 0 !important;
+  border: 0 !important;
+  left: 0;
+  outline: 0 !important;
+  padding: 0 !important;
+  position: relative;
+  text-align: left !important;
+  top: 0;
+  width: 100%;
+  z-index: 0;
 
-.overflowChildFocus {
-  visibility: hidden;
+  &.focused {
+    position: fixed;
+    z-index: 1;
+  }
+
+  &:active {
+    outline: 0 !important;
+  }
 }
 
 .w50px {

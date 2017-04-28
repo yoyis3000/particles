@@ -2031,6 +2031,8 @@ var _inherits2 = __webpack_require__(24);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _class, _temp;
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -2045,44 +2047,18 @@ var _Ripanga2 = _interopRequireDefault(_Ripanga);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function throttleAndDebounce(fn, ms) {
-  var debounceTimer = null;
-  var throttleExecute = true;
-
-  return function (evt) {
-    evt.persist && evt.persist();
-
-    if (throttleExecute) {
-      fn(evt);
-      throttleExecute = false;
-      setTimeout(function () {
-        throttleExecute = true;
-      }, ms);
-    }
-
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(fn.bind(null, evt), ms);
-  };
-}
-
 var scrollTop = function scrollTop() {
   return document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
 };
 
 var bounds = {};
+var table = null;
+
+var initialLeft = 0;
 var initialTop = 0;
-var computedStyle = {
-  paddingLeft: '0px',
-  paddingTop: '0px'
-};
 
-var RipangaOverflowCell = function (_React$Component) {
+var RipangaOverflowCell = (_temp = _class = function (_React$Component) {
   (0, _inherits3.default)(RipangaOverflowCell, _React$Component);
-
-  // static propTypes = {
-  //   def: PropTypes.shape().isRequired,
-  //   styles: PropTypes.shape().isRequired
-  // };
 
   function RipangaOverflowCell(props) {
     (0, _classCallCheck3.default)(this, RipangaOverflowCell);
@@ -2092,35 +2068,46 @@ var RipangaOverflowCell = function (_React$Component) {
     _this.onFocus = function (evt) {
       evt.stopPropagation();
 
-      computedStyle = window.getComputedStyle(_this.container.parentNode);
       bounds = _this.container.parentNode.getBoundingClientRect();
+      table = document.querySelector('.' + _Ripanga2.default.tableContainer.split(' ').slice(0, 1));
 
-      var T = parseInt(computedStyle.paddingTop.slice(0, -2));
-      var L = parseInt(computedStyle.paddingLeft.slice(0, -2));
+      var computedStyle = window.getComputedStyle(_this.container.parentNode);
+      var T = parseInt(computedStyle.paddingTop.slice(0, -2), 10);
+      var L = parseInt(computedStyle.paddingLeft.slice(0, -2), 10);
 
       _this.container.style.top = bounds.top + T + 2 + 'px';
-      _this.container.style.width = bounds.width - 2 * L + 'px';
       _this.container.style.left = bounds.left + L + 'px';
-      // this.container.style.height = bounds.height + 'px';
-
-      initialTop = scrollTop() + bounds.top + T + 2;
+      _this.container.style.width = bounds.width - 2 * L + 'px';
 
       window.removeEventListener('scroll', _this.onScroll);
       window.addEventListener('scroll', _this.onScroll);
+
+      table.removeEventListener('scroll', _this.onScroll);
+      table.addEventListener('scroll', _this.onScroll);
+
+      initialTop = scrollTop() + bounds.top + T + 2;
+      initialLeft = table.scrollLeft + bounds.left + L;
 
       _this.setState({ isFocused: true });
     };
 
     _this.onBlur = function () {
+      if (table === null) {
+        return;
+      }
+
       _this.container.style.top = 0;
       _this.container.style.left = 0;
+
+      table.removeEventListener('scroll', _this.onScroll);
       window.removeEventListener('scroll', _this.onScroll);
+
       _this.setState({ isFocused: false });
     };
 
     _this.onScroll = function () {
-      // this.container.style.top = (scrollTop() + bounds.top + parseInt(computedStyle.paddingTop.slice(0, -2))) + 'px';
       _this.container.style.top = initialTop - scrollTop() + 'px';
+      _this.container.style.left = initialLeft - table.scrollLeft + 'px';
     };
 
     window.addEventListener('click', _this.onBlur);
@@ -2137,10 +2124,8 @@ var RipangaOverflowCell = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         {
-          onClick: this.onFocus
-          // onFocus={this.onFocus}
-          // onBlur={this.onBlur}
-          , className: (0, _classnames2.default)(_Ripanga2.default.overflowContainer, (0, _defineProperty3.default)({}, _Ripanga2.default.focused, this.state.isFocused)),
+          onClick: this.onFocus,
+          className: (0, _classnames2.default)(_Ripanga2.default.overflowContainer, (0, _defineProperty3.default)({}, _Ripanga2.default.focused, this.state.isFocused)),
           ref: function ref(el) {
             _this2.container = el;
           }
@@ -2150,10 +2135,10 @@ var RipangaOverflowCell = function (_React$Component) {
     }
   }]);
   return RipangaOverflowCell;
-}(_react2.default.Component);
-
+}(_react2.default.Component), _class.propTypes = {
+  children: _react.PropTypes.shape().isRequired
+}, _temp);
 exports.default = RipangaOverflowCell;
-;
 
 /***/ }),
 /* 62 */

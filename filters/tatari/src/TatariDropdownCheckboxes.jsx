@@ -80,16 +80,17 @@ const TatariDropdownCheckboxes = ({
     </div>)
     : null;
 
-  const activeSearch = (<div className={styles.activeSearch}>
-    <input
-      autoFocus
-      className={styles.activeInput}
-      data-key={filter.key}
-      onChange={onSearch}
-      onClick={onClick}
-    />
-    <div className={cx('fa', 'fa-search', styles.activeIcon)} />
-  </div>);
+  const activeSearch = (
+    <div className={styles.activeSearch}>
+      <input
+        className={styles.activeInput}
+        data-key={filter.key}
+        onChange={onSearch}
+        onClick={onClick}
+      />
+      <div className={cx('fa', 'fa-search', styles.activeIcon)} />
+    </div>
+  );
 
   return (<div className={styles.dropdownContainer}>
     <div

@@ -83,6 +83,7 @@ const TatariDropdownCheckboxes = ({
   const activeSearch = (
     <div className={styles.activeSearch}>
       <input
+        autoFocus
         className={styles.activeInput}
         data-key={filter.key}
         onChange={onSearch}
@@ -106,10 +107,14 @@ const TatariDropdownCheckboxes = ({
     </div>
 
     <div className={cx(styles.dropdownBody, { [styles.expanded]: isExpanded })}>
-      {activeSearch}
-      {activeControls}
-      {items}
-      {emptyMessage}
+      <div>
+        {activeSearch}
+        {activeControls}
+      </div>
+      <div className={cx(styles.itemList)}>
+        {items}
+        {emptyMessage}
+      </div>
     </div>
   </div>);
 };

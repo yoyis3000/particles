@@ -54,10 +54,11 @@ $searchH: 26px;
 
 .dropdownBody {
   background: #fff;
+  display: flex;
+  flex-direction: column;
   max-height: 0;
   margin-top: -1px;
   overflow-x: hidden;
-  overflow-y: auto;
   position: absolute;
   transition: all $delay ease;
   width: 215px;
@@ -250,4 +251,8 @@ $searchH: 26px;
   to {
     transform: rotate(360deg);
   }
+}
+
+.itemList {
+  overflow-y: auto;
 }

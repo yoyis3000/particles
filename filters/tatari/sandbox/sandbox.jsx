@@ -35,7 +35,25 @@ mockApi
       { key: 1188710, value: 'Test Add' },
       { key: 1273550, value: 'Full Admin' },
       { key: 1390306, value: 'Blah Blah' },
-      { key: 1119508, value: 'Elizabeth Cannon' }
+      { key: 1119508, value: 'Elizabeth Cannon' },
+      { key: 1309641, value: 'Test A With Another Very Long Name That Should Wrap' },
+      { key: 1228492, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
+      { key: 1188713, value: 'Test Add' },
+      { key: 1273554, value: 'Full Admin' },
+      { key: 1390305, value: 'Blah Blah' },
+      { key: 1119506, value: 'Elizabeth Cannon' },
+      { key: 1309647, value: 'Test A With Another Very Long Name That Should Wrap' },
+      { key: 1228198, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
+      { key: 1188719, value: 'Test Add' },
+      { key: 1273559, value: 'Full Admin' },
+      { key: 1390308, value: 'Blah Blah' },
+      { key: 1119507, value: 'Elizabeth Cannon' },
+      { key: 1309645, value: 'Test A With Another Very Long Name That Should Wrap' },
+      { key: 1228192, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
+      { key: 1188711, value: 'Test Add' },
+      { key: 1273553, value: 'Full Admin' },
+      { key: 1390302, value: 'Blah Blah' },
+      { key: 1119509, value: 'Elizabeth Cannon' }
   ])
 .onGet('/filterB')
   .reply(200, [

@@ -9,6 +9,7 @@ const RipangaBodyRow = ({
   renderCell,
   rowData,
   showCheckboxes,
+  showGroups,
   styles
 }) => {
   const cells = columnDefinitions.map((def) => {
@@ -28,9 +29,11 @@ const RipangaBodyRow = ({
     onCheck(rowData[idKey]);
   };
 
+  const placeholder = showGroups ? <div className={styles.controlPlaceholder} /> : null;
+
   if (showCheckboxes) {
     cells.unshift(<div key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
-      <div className={styles.controlPlaceholder} />
+      {placeholder}
       <label className={styles.controlCheckbox}>
         <input
           type='checkbox'

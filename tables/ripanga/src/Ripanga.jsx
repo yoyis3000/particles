@@ -51,6 +51,7 @@ export default class Ripanga extends React.Component {
     renderSidebarHeadCell: PropTypes.func,
     renderSidebarGroupCell: PropTypes.func,
     onSort: PropTypes.func,
+    scope: PropTypes.string,
     showCheckboxes: PropTypes.bool,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
@@ -64,6 +65,7 @@ export default class Ripanga extends React.Component {
     renderSidebarBodyCell: null,
     renderSidebarHeadCell: null,
     renderSidebarGroupCell: null,
+    scope: 'ripanga',
     showCheckboxes: false,
     stylesheets: []
   }
@@ -75,20 +77,11 @@ export default class Ripanga extends React.Component {
     showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
     debouncedResize = debounce(this.onResize, 100);
 
-    const collapsedIds = props.tableData.reduce(
-      (acc, v) => (v.key === undefined ? acc : Object.assign(acc, { [v.key.key]: false })), {});
-
-    const checkedIds = props.tableData
-      .reduce((tableAcc, group) => Object.assign(tableAcc, group.data
-        .reduce((groupAcc, row) => Object.assign(groupAcc, { [row[props.idKey]]: false })
-        , {}))
-      , {});
-
     this.state = {
       allChecked: false,
       allCollapsed: false,
-      checkedIds,
-      collapsedIds
+      checkedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/CHECKED`)),
+      collapsedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/COLLAPSED`))
     };
   }
 
@@ -112,8 +105,6 @@ export default class Ripanga extends React.Component {
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', debouncedResize);
     window.removeEventListener('uncheck', this.onExternalUncheckAll);
-
-    this.table.removeChild(overflowTetherContainer);
   }
 
   onScroll = () => {
@@ -146,9 +137,18 @@ export default class Ripanga extends React.Component {
     }
 
     // Required for <div> elements to maintain background color for full scroll width. Ben 170411
-    const initialWidth = (showGroups || this.props.showCheckboxes) ? 60 : 0;
+    let initialWidth = 0;
+
+    if (showGroups) {
+      initialWidth += 30;
+    }
+
+    if (this.props.showCheckboxes) {
+      initialWidth += 30;
+    }
+
     const tableWidth = this.props.columnDefinitions
-      .reduce((acc, def) => def.hidden ? acc : acc + def.width, initialWidth);
+      .reduce((acc, def) => (def.hidden ? acc : acc + def.width), initialWidth);
 
     this.header.style.minWidth = `${tableWidth}px`;
 
@@ -173,7 +173,7 @@ export default class Ripanga extends React.Component {
 
     const allCollapsed = Object.values(collapsedIds).reduce((acc, v) => acc && v, true);
 
-    this.setState({ collapsedIds, allCollapsed });
+    this.setState({ collapsedIds, allCollapsed }, this.updateStorage);
   }
 
   onCollapseAll = () => {
@@ -182,7 +182,7 @@ export default class Ripanga extends React.Component {
 
     const collapsedIds = keys.reduce((acc, k) => Object.assign(acc, { [k]: allCollapsed }), {});
 
-    this.setState({ allCollapsed, collapsedIds });
+    this.setState({ allCollapsed, collapsedIds }, this.updateStorage);
   }
 
   onRowCheck = (id) => {
@@ -191,7 +191,7 @@ export default class Ripanga extends React.Component {
 
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
-    this.setState({ allChecked, checkedIds });
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
   }
 
   onGroupCheck = (groupId) => {
@@ -205,7 +205,7 @@ export default class Ripanga extends React.Component {
 
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
-    this.setState({ allChecked, checkedIds });
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
   }
 
   onCheckAll = () => {
@@ -213,14 +213,21 @@ export default class Ripanga extends React.Component {
     const checkedIds = Object.keys(this.state.checkedIds)
       .reduce((acc, k) => Object.assign(acc, { [k]: allChecked }), {});
 
-    this.setState({ allChecked, checkedIds });
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
   }
 
   onExternalUncheckAll = () => {
     const checkedIds = Object.keys(this.state.checkedIds)
       .reduce((acc, k) => Object.assign(acc, { [k]: false }), {});
 
-    this.setState({ allChecked: false, checkedIds });
+    this.setState({ allChecked: false, checkedIds }, this.updateStorage);
+  }
+
+  updateStorage = () => {
+    const { checkedIds, collapsedIds } = this.state;
+
+    sessionStorage.setItem(`${this.props.scope}/CHECKED`, JSON.stringify(checkedIds));
+    sessionStorage.setItem(`${this.props.scope}/COLLAPSED`, JSON.stringify(collapsedIds));
   }
 
   render() {

@@ -1567,13 +1567,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _keys = __webpack_require__(72);
+var _toConsumableArray2 = __webpack_require__(26);
 
-var _keys2 = _interopRequireDefault(_keys);
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _values = __webpack_require__(74);
+var _stringify = __webpack_require__(131);
 
-var _values2 = _interopRequireDefault(_values);
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _defineProperty2 = __webpack_require__(23);
 
@@ -1583,9 +1583,13 @@ var _assign = __webpack_require__(70);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _toConsumableArray2 = __webpack_require__(26);
+var _keys = __webpack_require__(72);
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _keys2 = _interopRequireDefault(_keys);
+
+var _values = __webpack_require__(74);
+
+var _values2 = _interopRequireDefault(_values);
 
 var _getPrototypeOf = __webpack_require__(20);
 
@@ -1607,7 +1611,7 @@ var _inherits2 = __webpack_require__(24);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _class, _temp, _initialiseProps;
+var _class, _temp;
 
 var _react = __webpack_require__(3);
 
@@ -1679,27 +1683,159 @@ var Ripanga = (_temp = _class = function (_React$Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Ripanga.__proto__ || (0, _getPrototypeOf2.default)(Ripanga)).call(this, props));
 
-    _initialiseProps.call(_this);
+    _this.onScroll = function () {
+      if (!_this.table) {
+        return;
+      }
+
+      var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
+
+      if (scrollTop > headerInitialTop) {
+        moveHeader(_this.header, scrollTop - headerInitialTop);
+      } else {
+        restoreHeader(_this.header);
+      }
+    };
+
+    _this.onResize = function () {
+      if (!_this.table) {
+        return;
+      }
+
+      // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
+      var sidebarCells = document.querySelectorAll('.' + styles.sidebarCell.split(' ').shift());
+      var tableRows = document.querySelectorAll('.' + styles.tableRow.split(' ').shift());
+      var len = tableRows.length;
+
+      for (var i = 0; i < len; i += 1) {
+        sidebarCells[i].style.height = tableRows[i].offsetHeight + 'px';
+      }
+
+      // Required for <div> elements to maintain background color for full scroll width. Ben 170411
+      var initialWidth = 0;
+
+      if (showGroups) {
+        initialWidth += 30;
+      }
+
+      if (_this.props.showCheckboxes) {
+        initialWidth += 30;
+      }
+
+      var tableWidth = _this.props.columnDefinitions.reduce(function (acc, def) {
+        return def.hidden ? acc : acc + def.width;
+      }, initialWidth);
+
+      _this.header.style.minWidth = tableWidth + 'px';
+
+      var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
+
+      headerInitialTop = _this.header.getBoundingClientRect().top + scrollTop;
+
+      _this.onScroll();
+    };
+
+    _this.onSort = function () {
+      if (_this.props.onSort) {
+        _this.props.onSort();
+      }
+    };
+
+    _this.onCollapse = function (id) {
+      var collapsedIds = _this.state.collapsedIds;
+
+
+      collapsedIds[id] = !collapsedIds[id];
+
+      var allCollapsed = (0, _values2.default)(collapsedIds).reduce(function (acc, v) {
+        return acc && v;
+      }, true);
+
+      _this.setState({ collapsedIds: collapsedIds, allCollapsed: allCollapsed }, _this.updateStorage);
+    };
+
+    _this.onCollapseAll = function () {
+      var keys = (0, _keys2.default)(_this.state.collapsedIds);
+      var allCollapsed = !_this.state.allCollapsed;
+
+      var collapsedIds = keys.reduce(function (acc, k) {
+        return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, allCollapsed));
+      }, {});
+
+      _this.setState({ allCollapsed: allCollapsed, collapsedIds: collapsedIds }, _this.updateStorage);
+    };
+
+    _this.onRowCheck = function (id) {
+      var checkedIds = _this.state.checkedIds;
+
+      checkedIds[id] = !checkedIds[id];
+
+      var allChecked = (0, _values2.default)(checkedIds).reduce(function (acc, v) {
+        return acc && v;
+      }, true);
+
+      _this.setState({ allChecked: allChecked, checkedIds: checkedIds }, _this.updateStorage);
+    };
+
+    _this.onGroupCheck = function (groupId) {
+      var groupIds = _this.props.tableData.find(function (d) {
+        return d.key.name === groupId;
+      }).data.reduce(function (acc, row) {
+        return acc.concat(row[_this.props.idKey]);
+      }, []);
+
+      var checkedIds = _this.state.checkedIds;
+
+      var groupIsChecked = groupIds.reduce(function (acc, id) {
+        return acc && checkedIds[id];
+      }, true);
+      groupIds.forEach(function (id) {
+        checkedIds[id] = !groupIsChecked;
+      });
+
+      var allChecked = (0, _values2.default)(checkedIds).reduce(function (acc, v) {
+        return acc && v;
+      }, true);
+
+      _this.setState({ allChecked: allChecked, checkedIds: checkedIds }, _this.updateStorage);
+    };
+
+    _this.onCheckAll = function () {
+      var allChecked = !_this.state.allChecked;
+      var checkedIds = (0, _keys2.default)(_this.state.checkedIds).reduce(function (acc, k) {
+        return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, allChecked));
+      }, {});
+
+      _this.setState({ allChecked: allChecked, checkedIds: checkedIds }, _this.updateStorage);
+    };
+
+    _this.onExternalUncheckAll = function () {
+      var checkedIds = (0, _keys2.default)(_this.state.checkedIds).reduce(function (acc, k) {
+        return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, false));
+      }, {});
+
+      _this.setState({ allChecked: false, checkedIds: checkedIds }, _this.updateStorage);
+    };
+
+    _this.updateStorage = function () {
+      var _this$state = _this.state,
+          checkedIds = _this$state.checkedIds,
+          collapsedIds = _this$state.collapsedIds;
+
+
+      sessionStorage.setItem(_this.props.scope + '/CHECKED', (0, _stringify2.default)(checkedIds));
+      sessionStorage.setItem(_this.props.scope + '/COLLAPSED', (0, _stringify2.default)(collapsedIds));
+    };
 
     styles = (0, _stylesheetComposer2.default)(_Ripanga2.default, [_RipangaDefault2.default].concat((0, _toConsumableArray3.default)(props.stylesheets)));
     showGroups = props.tableData.length > 0 && props.tableData[0].key !== undefined;
     debouncedResize = debounce(_this.onResize, 100);
 
-    var collapsedIds = props.tableData.reduce(function (acc, v) {
-      return v.key === undefined ? acc : (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, v.key.key, false));
-    }, {});
-
-    var checkedIds = props.tableData.reduce(function (tableAcc, group) {
-      return (0, _assign2.default)(tableAcc, group.data.reduce(function (groupAcc, row) {
-        return (0, _assign2.default)(groupAcc, (0, _defineProperty3.default)({}, row[props.idKey], false));
-      }, {}));
-    }, {});
-
     _this.state = {
       allChecked: false,
       allCollapsed: false,
-      checkedIds: checkedIds,
-      collapsedIds: collapsedIds
+      checkedIds: JSON.parse(sessionStorage.getItem(props.scope + '/CHECKED')),
+      collapsedIds: JSON.parse(sessionStorage.getItem(props.scope + '/COLLAPSED'))
     };
     return _this;
   }
@@ -1728,8 +1864,6 @@ var Ripanga = (_temp = _class = function (_React$Component) {
       window.removeEventListener('scroll', this.onScroll);
       window.removeEventListener('resize', debouncedResize);
       window.removeEventListener('uncheck', this.onExternalUncheckAll);
-
-      this.table.removeChild(overflowTetherContainer);
     }
   }, {
     key: 'render',
@@ -1852,6 +1986,7 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   renderSidebarHeadCell: _react.PropTypes.func,
   renderSidebarGroupCell: _react.PropTypes.func,
   onSort: _react.PropTypes.func,
+  scope: _react.PropTypes.string,
   showCheckboxes: _react.PropTypes.bool,
   stylesheets: _react.PropTypes.arrayOf(_react.PropTypes.shape()),
   tableData: _react.PropTypes.arrayOf(_react.PropTypes.shape()).isRequired
@@ -1863,135 +1998,9 @@ var Ripanga = (_temp = _class = function (_React$Component) {
   renderSidebarBodyCell: null,
   renderSidebarHeadCell: null,
   renderSidebarGroupCell: null,
+  scope: 'ripanga',
   showCheckboxes: false,
   stylesheets: []
-}, _initialiseProps = function _initialiseProps() {
-  var _this3 = this;
-
-  this.onScroll = function () {
-    if (!_this3.table) {
-      return;
-    }
-
-    var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
-
-    if (scrollTop > headerInitialTop) {
-      moveHeader(_this3.header, scrollTop - headerInitialTop);
-    } else {
-      restoreHeader(_this3.header);
-    }
-  };
-
-  this.onResize = function () {
-    if (!_this3.table) {
-      return;
-    }
-
-    // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
-    var sidebarCells = document.querySelectorAll('.' + styles.sidebarCell.split(' ').shift());
-    var tableRows = document.querySelectorAll('.' + styles.tableRow.split(' ').shift());
-    var len = tableRows.length;
-
-    for (var i = 0; i < len; i += 1) {
-      sidebarCells[i].style.height = tableRows[i].offsetHeight + 'px';
-    }
-
-    // Required for <div> elements to maintain background color for full scroll width. Ben 170411
-    var initialWidth = showGroups || _this3.props.showCheckboxes ? 60 : 0;
-    var tableWidth = _this3.props.columnDefinitions.reduce(function (acc, def) {
-      return def.hidden ? acc : acc + def.width;
-    }, initialWidth);
-
-    _this3.header.style.minWidth = tableWidth + 'px';
-
-    var scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop;
-
-    headerInitialTop = _this3.header.getBoundingClientRect().top + scrollTop;
-
-    _this3.onScroll();
-  };
-
-  this.onSort = function () {
-    if (_this3.props.onSort) {
-      _this3.props.onSort();
-    }
-  };
-
-  this.onCollapse = function (id) {
-    var collapsedIds = _this3.state.collapsedIds;
-
-
-    collapsedIds[id] = !collapsedIds[id];
-
-    var allCollapsed = (0, _values2.default)(collapsedIds).reduce(function (acc, v) {
-      return acc && v;
-    }, true);
-
-    _this3.setState({ collapsedIds: collapsedIds, allCollapsed: allCollapsed });
-  };
-
-  this.onCollapseAll = function () {
-    var keys = (0, _keys2.default)(_this3.state.collapsedIds);
-    var allCollapsed = !_this3.state.allCollapsed;
-
-    var collapsedIds = keys.reduce(function (acc, k) {
-      return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, allCollapsed));
-    }, {});
-
-    _this3.setState({ allCollapsed: allCollapsed, collapsedIds: collapsedIds });
-  };
-
-  this.onRowCheck = function (id) {
-    var checkedIds = _this3.state.checkedIds;
-
-    checkedIds[id] = !checkedIds[id];
-
-    var allChecked = (0, _values2.default)(checkedIds).reduce(function (acc, v) {
-      return acc && v;
-    }, true);
-
-    _this3.setState({ allChecked: allChecked, checkedIds: checkedIds });
-  };
-
-  this.onGroupCheck = function (groupId) {
-    var groupIds = _this3.props.tableData.find(function (d) {
-      return d.key.name === groupId;
-    }).data.reduce(function (acc, row) {
-      return acc.concat(row[_this3.props.idKey]);
-    }, []);
-
-    var checkedIds = _this3.state.checkedIds;
-
-    var groupIsChecked = groupIds.reduce(function (acc, id) {
-      return acc && checkedIds[id];
-    }, true);
-    groupIds.forEach(function (id) {
-      checkedIds[id] = !groupIsChecked;
-    });
-
-    var allChecked = (0, _values2.default)(checkedIds).reduce(function (acc, v) {
-      return acc && v;
-    }, true);
-
-    _this3.setState({ allChecked: allChecked, checkedIds: checkedIds });
-  };
-
-  this.onCheckAll = function () {
-    var allChecked = !_this3.state.allChecked;
-    var checkedIds = (0, _keys2.default)(_this3.state.checkedIds).reduce(function (acc, k) {
-      return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, allChecked));
-    }, {});
-
-    _this3.setState({ allChecked: allChecked, checkedIds: checkedIds });
-  };
-
-  this.onExternalUncheckAll = function () {
-    var checkedIds = (0, _keys2.default)(_this3.state.checkedIds).reduce(function (acc, k) {
-      return (0, _assign2.default)(acc, (0, _defineProperty3.default)({}, k, false));
-    }, {});
-
-    _this3.setState({ allChecked: false, checkedIds: checkedIds });
-  };
 }, _temp);
 exports.default = Ripanga;
 
@@ -2199,6 +2208,7 @@ var RipangaBodyRow = function RipangaBodyRow(_ref) {
       renderCell = _ref.renderCell,
       rowData = _ref.rowData,
       showCheckboxes = _ref.showCheckboxes,
+      showGroups = _ref.showGroups,
       styles = _ref.styles;
 
   var cells = columnDefinitions.map(function (def) {
@@ -2220,11 +2230,13 @@ var RipangaBodyRow = function RipangaBodyRow(_ref) {
     onCheck(rowData[idKey]);
   };
 
+  var placeholder = showGroups ? _react2.default.createElement('div', { className: styles.controlPlaceholder }) : null;
+
   if (showCheckboxes) {
     cells.unshift(_react2.default.createElement(
       'div',
       { key: rowData[idKey] + '-checkboxes', className: styles.controlCell },
-      _react2.default.createElement('div', { className: styles.controlPlaceholder }),
+      placeholder,
       _react2.default.createElement(
         'label',
         { className: styles.controlCheckbox },
@@ -3849,7 +3861,7 @@ exports = module.exports = __webpack_require__(57)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.contentContainer__src-Ripanga__1GSK3 {\n  padding-right: 100px;\n  position: relative; }\n\n.tableContainer__src-Ripanga__2eRH0 {\n  overflow: auto;\n  position: relative;\n  z-index: 0; }\n\n.sidebarContainer__src-Ripanga__1ylI_ {\n  background: #fff;\n  border-top: 1px solid #c3c2c2;\n  height: 100%;\n  position: absolute;\n  right: 0;\n  top: 0;\n  width: 100px;\n  z-index: 3; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 2; }\n\n.tableBody__src-Ripanga__1J3be {\n  font-family: inherit; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex: 0 0 62px;\n      flex: 0 0 62px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.sidebarCell__src-Ripanga__3XMIT {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 1px;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 10px;\n  position: relative;\n  z-index: 0; }\n\n.headSidebarCell__src-Ripanga__2RQ8q {\n  background: #e7e7e7;\n  z-index: 1; }\n\n.groupSidebarCell__src-Ripanga__1ccHl {\n  background: #e7e7e7; }\n\n.overflowContainer__src-Ripanga__2jYDr {\n  height: 100%;\n  width: 100%; }\n\n.overflowContainer__src-Ripanga__2jYDr {\n  background: 0 !important;\n  border: 0 !important;\n  left: 0;\n  outline: 0 !important;\n  padding: 0 !important;\n  position: relative;\n  text-align: left !important;\n  top: 0;\n  width: 100%;\n  z-index: 0; }\n  .overflowContainer__src-Ripanga__2jYDr.focused__src-Ripanga__2SUuq {\n    position: fixed;\n    z-index: 1; }\n  .overflowContainer__src-Ripanga__2jYDr:active {\n    outline: 0 !important; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  cursor: default;\n  margin: 0;\n  padding: 0; }\n\n.contentContainer__src-Ripanga__1GSK3 {\n  padding-right: 100px;\n  position: relative; }\n\n.tableContainer__src-Ripanga__2eRH0 {\n  overflow: auto;\n  position: relative;\n  z-index: 0; }\n\n.sidebarContainer__src-Ripanga__1ylI_ {\n  background: #fff;\n  border-top: 1px solid #c3c2c2;\n  height: 100%;\n  position: absolute;\n  right: 0;\n  top: 0;\n  width: 100px;\n  z-index: 3; }\n\n.table__src-Ripanga__1_H6Y {\n  border-bottom: 1px solid #c3c2c2;\n  padding-top: 45px; }\n\n.tableHead__src-Ripanga__1Ij9q {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  z-index: 2; }\n\n.tableBody__src-Ripanga__1J3be {\n  font-family: inherit; }\n\n.tableRow__src-Ripanga__h4uzr {\n  display: -ms-flexbox;\n  display: flex; }\n\n.tableCell__src-Ripanga__2lGOY {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 1px 0 0 1px;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  padding: 10px; }\n  .tableCell__src-Ripanga__2lGOY:last-child {\n    border-right-width: 1px; }\n\n.headRow__src-Ripanga__3uaGs {\n  background: #e7e7e7;\n  font-weight: bold;\n  height: 45px; }\n  .headRow__src-Ripanga__3uaGs .fa {\n    font-size: 12px;\n    margin-left: 5px; }\n\n.headCell__src-Ripanga__EbsGD { }\n\n.groupRow__src-Ripanga__3rO1h {\n  background: #f2f2f2; }\n\n.groupCell__src-Ripanga__298FC { }\n\n.controlCell__src-Ripanga__MKVfs {\n  display: -ms-flexbox;\n  display: flex;\n  max-width: 62px;\n  min-width: 42px;\n  text-align: center; }\n\n.controlCaret__src-Ripanga__1eDe4 {\n  cursor: pointer;\n  display: inline-block;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  text-align: center;\n  transition: transform 0.3s ease;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCaret__src-Ripanga__1eDe4 .fa {\n    cursor: pointer; }\n  .controlCaret__src-Ripanga__1eDe4.closed__src-Ripanga__3xJMU {\n    transform: rotate(180deg); }\n\n.controlPlaceholder__src-Ripanga__3pKUb {\n  background: salmon;\n  display: inline-block;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px; }\n\n.controlCheckbox__src-Ripanga__EbqGm {\n  cursor: pointer;\n  -ms-flex-preferred-size: 1;\n      flex-basis: 1;\n  height: 20px;\n  line-height: 20px;\n  text-align: center;\n  vertical-align: middle;\n  width: 20px; }\n  .controlCheckbox__src-Ripanga__EbqGm [type=checkbox] {\n    cursor: pointer;\n    vertical-align: middle; }\n\n.sidebarCell__src-Ripanga__3XMIT {\n  -ms-flex-align: center;\n      align-items: center;\n  border: 1px solid #c3c2c2;\n  border-width: 0 1px 1px 1px;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 10px;\n  position: relative;\n  z-index: 0; }\n\n.headSidebarCell__src-Ripanga__2RQ8q {\n  background: #e7e7e7;\n  z-index: 1; }\n\n.groupSidebarCell__src-Ripanga__1ccHl {\n  background: #e7e7e7; }\n\n.overflowContainer__src-Ripanga__2jYDr {\n  height: 100%;\n  width: 100%; }\n\n.overflowContainer__src-Ripanga__2jYDr {\n  background: 0 !important;\n  border: 0 !important;\n  left: 0;\n  outline: 0 !important;\n  padding: 0 !important;\n  position: relative;\n  text-align: left !important;\n  top: 0;\n  width: 100%;\n  z-index: 0; }\n  .overflowContainer__src-Ripanga__2jYDr.focused__src-Ripanga__2SUuq {\n    position: fixed;\n    z-index: 1; }\n  .overflowContainer__src-Ripanga__2jYDr:active {\n    outline: 0 !important; }\n\n.w50px__src-Ripanga__3KuPN {\n  -ms-flex: 1 0 50px;\n      flex: 1 0 50px;\n  min-width: 50px; }\n\n.w75px__src-Ripanga__36-1- {\n  -ms-flex: 1 0 75px;\n      flex: 1 0 75px;\n  min-width: 75px; }\n\n.w100px__src-Ripanga__15rYu {\n  -ms-flex: 1 0 100px;\n      flex: 1 0 100px;\n  min-width: 100px; }\n\n.w125px__src-Ripanga__1Ylym {\n  -ms-flex: 1 0 125px;\n      flex: 1 0 125px;\n  min-width: 125px; }\n\n.w150px__src-Ripanga__gbYYm {\n  -ms-flex: 1 0 150px;\n      flex: 1 0 150px;\n  min-width: 150px; }\n\n.w175px__src-Ripanga__38KT2 {\n  -ms-flex: 1 0 175px;\n      flex: 1 0 175px;\n  min-width: 175px; }\n\n.w200px__src-Ripanga__ObDxP {\n  -ms-flex: 1 0 200px;\n      flex: 1 0 200px;\n  min-width: 200px; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -4284,6 +4296,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _Ripanga2.default;
 exports.OverflowCell = _RipangaOverflowCell2.default;
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(132), __esModule: true };
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var core  = __webpack_require__(0)
+  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+  return $JSON.stringify.apply($JSON, arguments);
+};
 
 /***/ })
 /******/ ]);

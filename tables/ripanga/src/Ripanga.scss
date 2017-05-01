@@ -89,7 +89,8 @@ $tableZ: 0;
 .controlCell {
   composes: tableCell;
   display: flex;
-  flex: 0 0 ((2 * 20) + (2 * $padding) + (2 * 1));
+  max-width: 40 + (2 * $padding) + 2;
+  min-width: 20 + (2 * $padding) + 2;
   text-align: center;
 }
 
@@ -113,6 +114,7 @@ $tableZ: 0;
 }
 
 .controlPlaceholder {
+  background: salmon;
   display: inline-block;
   height: 20px;
   vertical-align: middle;

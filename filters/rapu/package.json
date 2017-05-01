@@ -1,6 +1,6 @@
 {
   "name": "rapu",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "A text search component that updates the address bar.",
   "main": "index.js",
   "scripts": {

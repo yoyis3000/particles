@@ -4,6 +4,11 @@ A dynamically populated filter component.
 
 # Change Log
 
+#### 2.2.4
+- Removing reset.scss 
+
+##### MISSING?
+
 ##### 2.1.12
 - Restored search functionality after clear.
 

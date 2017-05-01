@@ -1,14 +1,21 @@
-@import "../../shared/reset.scss";
-
 $h: 30px;
 $p: 10px;
 $delay: 0.2s;
 $searchH: 26px;
 
 .filterContainer {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .clearAllFilters {

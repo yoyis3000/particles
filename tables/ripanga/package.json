@@ -1,6 +1,6 @@
 {
   "name": "ripanga",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,6 @@
     "react-dom": "^15.4.2",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
-    "tiwae": "^1.1.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   }

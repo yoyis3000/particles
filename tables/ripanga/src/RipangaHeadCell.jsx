@@ -29,7 +29,7 @@ const RipangaHeadCell = ({
 
   if (!def.key) {
     // eslint-disable-next-line
-    console.error(`Column definition for "${def.label}" has no 'key' property which causes the error below.`);
+    console.error(`Column definition for "${def.label}" has no 'key' property. This might cause the error below.`);
   }
 
   return (

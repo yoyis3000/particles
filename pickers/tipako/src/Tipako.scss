@@ -1,10 +1,15 @@
-@import "../../shared/reset.scss";
-
 $h: 30px;
 $p: 5px;
 
 .picker {
   position: relative;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .inputContainer {

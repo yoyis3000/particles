@@ -1,6 +1,6 @@
 {
   "name": "ripanga",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.",
   "main": "index.js",
   "scripts": {

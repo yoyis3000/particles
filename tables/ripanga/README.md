@@ -4,12 +4,15 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 1.2.2
+- Removing reset.scss
+
 ##### 1.2.1
 - Configure sorting features through props
 ```
 <Table
   sorting: {
-    direction: (columnDefintion) => 'desc' | 'asc' | false,
+    direction: (columnDefinition) => 'desc' | 'asc' | false,
     change: (columDefinition) => return void
   }
 />

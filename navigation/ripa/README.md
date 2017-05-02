@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 2.1.3
+- Removing reset.scss
+
 ##### 2.1.2
 - San serif default removed
 

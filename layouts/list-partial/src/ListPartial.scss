@@ -1,4 +1,9 @@
-@import "../../../shared/reset";
+.listPartialContainer * {
+  box-sizing: border-box;
+  cursor: default;
+  margin: 0;
+  padding: 0;
+}
 
 .notifications {
   margin: 10px 0;

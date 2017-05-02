@@ -3,8 +3,14 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  margin: 0;
   padding: 0 10px;
   width: 100%;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+  }
 }
 
 .meta {

@@ -10,8 +10,16 @@ $headZ: 2;
 $stickyZ: 3;
 
 .container {
+  box-sizing: border-box;
   overflow: hidden;
   position: relative;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .headContainer {

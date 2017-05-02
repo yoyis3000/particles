@@ -4,6 +4,9 @@ A `<select>` dropdown to manage downloads.
 
 # Change Log
 
+##### 2.4.5
+- Removing reset.scss
+
 ##### 2.4.4
 - Event listener removed on unmount
 

@@ -18,7 +18,7 @@ const ListPartial = ({
 }) => {
   styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
-  return (<div>
+  return (<div className={styles.listPartialContainer}>
     <div className={styles.toolHeader}>
       {headerComponent && headerComponent}
     </div>

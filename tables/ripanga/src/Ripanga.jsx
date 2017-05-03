@@ -80,8 +80,8 @@ export default class Ripanga extends React.Component {
     this.state = {
       allChecked: false,
       allCollapsed: false,
-      checkedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/CHECKED`)),
-      collapsedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/COLLAPSED`))
+      checkedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/CHECKED`)) || {},
+      collapsedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/COLLAPSED`)) || {}
     };
   }
 

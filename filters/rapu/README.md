@@ -7,7 +7,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 ##### 2.0.11
 - Removing reset.scss
 
-#### 2.0.10 MISSING?
+#### 2.0.10
+- Border color change
+- Height change
 
 ##### 2.0.7, 2.0.8, 2.0.9
 - Adding min width

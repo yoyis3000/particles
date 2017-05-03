@@ -4,10 +4,17 @@ A dynamically populated filter component.
 
 # Change Log
 
-#### 2.2.4
-- Removing reset.scss 
+##### 2.2.4
+- Removing reset.scss
 
-##### MISSING?
+##### 2.2.2, 2.2.3
+- Small style fixes
+
+##### 2.2.1
+- Autofocus
+
+##### 2.2.0
+- Adding `filterOptions` function
 
 ##### 2.1.12
 - Restored search functionality after clear.

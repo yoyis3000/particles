@@ -1,379 +1,324 @@
-/* eslint-disable react/no-string-refs */
 import React, { PropTypes } from 'react';
-import Range from 'react-range';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
-import RipangaStickyCells from './RipangaStickyCells';
-import RipangaInterface from './RipangaInterface';
-import S from './Ripanga.scss';
+import RipangaSidebar from './RipangaSidebar';
+
+import baseStyles from './Ripanga.scss';
+import defaultStyles from './RipangaDefault.scss';
+import composeStyles from '../../../shared/stylesheetComposer';
+
+let styles = {};
+let showGroups = false;
+
+let headerInitialTop = 0;
+
+let debouncedResize = null;
 
 const i18n = {
-  NO_RESULTS: 'No results found',
+  NO_RESULTS: 'No results found'
 };
 
-@RipangaInterface
+const debounce = (fn, ms) => {
+  let timer = null;
+
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(fn, ms);
+  };
+};
+
+const moveHeader = (el, y) => {
+  window.requestAnimationFrame(() => {
+    el.style.top = `${y}px`; // eslint-disable-line no-param-reassign
+  });
+};
+
+const restoreHeader = (el) => {
+  window.requestAnimationFrame(() => {
+    el.style.top = 0; // eslint-disable-line no-param-reassign
+  });
+};
+
 export default class Ripanga extends React.Component {
   static propTypes = {
-    actions: PropTypes.shape(),
-    globalKey: PropTypes.bool,
-    sliderValue: PropTypes.number,
-    tableData: PropTypes.arrayOf(PropTypes.shape()),
-    panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
+    columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    idKey: PropTypes.string,
+    renderCell: PropTypes.func.isRequired,
+    renderEmpty: PropTypes.func,
+    renderGroupTitle: PropTypes.func,
+    renderSidebarBodyCell: PropTypes.func,
+    renderSidebarHeadCell: PropTypes.func,
+    renderSidebarGroupCell: PropTypes.func,
+    onSort: PropTypes.func,
+    scope: PropTypes.string,
+    showCheckboxes: PropTypes.bool,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
   };
 
   static defaultProps = {
     idKey: 'id',
-    panelPosition: 'right',
+    onSort: null,
+    renderEmpty: null,
+    renderGroupTitle: null,
+    renderSidebarBodyCell: null,
+    renderSidebarHeadCell: null,
+    renderSidebarGroupCell: null,
+    scope: 'ripanga',
     showCheckboxes: false,
+    stylesheets: []
   }
 
   constructor(props) {
     super(props);
 
-    this.scrollListener = null;
-    this.resizeListener = null;
+    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
+    debouncedResize = debounce(this.onResize, 100);
 
-    window.addEventListener('scroll', this.scrollWindow);
-    window.addEventListener('resize', this.resize);
+    this.state = {
+      allChecked: false,
+      allCollapsed: false,
+      checkedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/CHECKED`)),
+      collapsedIds: JSON.parse(sessionStorage.getItem(`${props.scope}/COLLAPSED`))
+    };
   }
 
   componentDidMount() {
-    const {
-      actions: {
-        setChecked,
-      },
-      globalKey,
-    } = this.props;
+    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener('resize', debouncedResize);
+    window.addEventListener('uncheck', this.onExternalUncheckAll);
 
-    const storedRecords = localStorage.getItem(`${globalKey}/CHECKED`);
-    const obj = (storedRecords ? JSON.parse(storedRecords) : {});
-    const ids = [];
-
-    // eslint-disable-next-line
-    for (let i in obj) {
-      ids.push(parseInt(i, 10));
-    }
-
-    setChecked({ ids, globalKey });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(this.props.tableData)
-    !== JSON.stringify(nextProps.tableData)) {
-      this.props.actions.clearCollapsedGroups();
-    }
+    this.onResize();
   }
 
   componentDidUpdate() {
-    if (this.props.tableData.length === 0) {
+    if (!this.table) {
       return;
     }
 
-    this.refs.bodyContainer
-      .removeEventListener('scroll', this.scrollListener);
-    this.scrollListener =
-      this.refs.bodyContainer.addEventListener('scroll', this.scrollBody);
-
-    this.resize();
+    this.onResize();
   }
 
-  setHeadPosition = (value) => {
-    this.refs.stickyHead.style.position = value;
-    this.refs.headContainer.style.position = value;
-  };
-
-  applyStaticBounds = (side) => {
-    this.setHeadPosition('absolute');
-    this.placePanelStatic(side);
-  };
-
-  applyStickyBounds = (side) => {
-    this.setHeadPosition('fixed');
-    this.placePanelSticky(side);
-  };
-
-  hideSticky = () => {
-    this.refs.stickyHead.style.display = 'none';
-    this.refs.stickyContainer.style.display = 'none';
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', debouncedResize);
+    window.removeEventListener('uncheck', this.onExternalUncheckAll);
   }
 
-  placePanelStatic = (side) => {
-    const {
-      headContainer,
-      stickyContainer,
-      stickyHead,
-      ripangaContainer,
-    } = this.refs;
-
-    const ripangaBounds = ripangaContainer.getBoundingClientRect();
-    const stickyBounds = stickyContainer.getBoundingClientRect();
-
-    switch (side) {
-      case 'right':
-        stickyHead.style.left = `${ripangaBounds.width - stickyBounds.width}px`;
-        stickyContainer.style.right = 0;
-        headContainer.style.left = 0;
-        break;
-      case 'left':
-        stickyHead.style.left = 0;
-        stickyContainer.style.left = 0;
-        headContainer.style.left = `${stickyBounds.width}px`;
-        break;
-      case 'none':
-        this.hideSticky();
-        this.refs.headContainer.style.left = 0;
-        break;
-      default:
-        console.error(`placePanelStatic does not accept side: ${side}`);
-    }
-  };
-
-  placePanelSticky = (side) => {
-    const {
-      headContainer,
-      stickyContainer,
-      stickyHead,
-      ripangaContainer,
-    } = this.refs;
-
-    const ripangaBounds = ripangaContainer.getBoundingClientRect();
-    const stickyBounds = stickyContainer.getBoundingClientRect();
-
-    switch (side) {
-      case 'right':
-        stickyHead.style.left = `${ripangaBounds.right - stickyBounds.width}px`;
-        headContainer.style.left = `${ripangaBounds.left}px`;
-        stickyContainer.style.right = 0;
-        break;
-      case 'left':
-        stickyHead.style.left = `${ripangaBounds.left}px`;
-        headContainer.style.left =
-          `${ripangaBounds.left + stickyBounds.width}px`;
-        stickyContainer.style.left = 0;
-        break;
-      case 'none':
-        this.hideSticky();
-        headContainer.style.left = `${ripangaBounds.left}px`;
-        break;
-      default:
-        console.error(`placePanelSticky does not accept side: ${side}`);
-    }
-  };
-
-  // TODO: Throttle window resize and scroll
-  recalculateSticky = () => {
-    if (this.stickyHeaderActive()) {
-      this.applyStickyBounds(this.props.panelPosition);
-    } else {
-      this.applyStaticBounds(this.props.panelPosition);
-    }
-  }
-
-  resize = () => {
-    this.resizeRipanga();
-    this.resizeHead();
-    this.resizeSticky();
-  }
-
-  resizeHead = () => {
-    const {
-      bodyContainer,
-      bodyTable,
-      headContainer,
-      headTable,
-    } = this.refs;
-
-    if (bodyTable.rows.length > 0) {
-      const headcells = headTable.rows[0].cells;
-
-      const renderedRow = Array.from(bodyTable.rows).find((row) => {
-        return row.cells.length === headcells.length;
-      });
-
-      if (renderedRow !== undefined) {
-        ([...renderedRow.cells]).forEach((cell, index) => {
-          headTable.rows[0].cells[index].style.width =
-            `${cell.getBoundingClientRect().width}px`;
-        });
-      }
-    }
-
-    headContainer.style.width =
-      `${bodyContainer.getBoundingClientRect().width}px`;
-
-    this.recalculateSticky();
-  }
-
-  resizeRipanga = () => {
-    const {
-      headContainer,
-      stickyContainer,
-      ripangaContainer,
-    } = this.refs;
-    const { panelPosition } = this.props;
-
-    const headBounds = headContainer.getBoundingClientRect();
-    const stickyBounds = stickyContainer.getBoundingClientRect();
-
-    const setTableContainerPadding = (side) => {
-      ripangaContainer.style.paddingTop = `${headBounds.height}px`;
-      switch (side) {
-        case 'right':
-          ripangaContainer.style.paddingRight = `${stickyBounds.width}px`;
-          break;
-        case 'left':
-          ripangaContainer.style.paddingLeft = `${stickyBounds.width}px`;
-          break;
-        case 'none':
-          ripangaContainer.style.paddingLeft = 0;
-          break;
-        default:
-          console.error(
-            `setTableContainerPadding does not accept side: ${side}`);
-      }
-    };
-
-    setTableContainerPadding(panelPosition);
-  }
-
-  resizeSticky = () => {
-    const {
-      bodyContainer,
-      bodyTable,
-      headContainer,
-      slider,
-      stickyContainer,
-      stickyHead,
-    } = this.refs;
-    const { panelPosition } = this.props;
-    const headBounds = headContainer.getBoundingClientRect();
-
-    if (bodyContainer.clientWidth >= bodyContainer.scrollWidth) {
-      slider.range.style.display = 'none';
-    } else {
-      slider.range.style.display = 'inline';
-    }
-
-    if (panelPosition !== 'none') {
-      stickyHead.style.height = `${headBounds.height}px`;
-      stickyHead.style.width =
-        `${stickyContainer.getBoundingClientRect().width}px`;
-    }
-
-    this.recalculateSticky();
-
-    stickyContainer.style.paddingTop = `${headBounds.height}px`;
-
-    const stickyCells = stickyContainer.childNodes;
-
-    Array.from(stickyCells).forEach((node, index) => {
-      node.style.height =
-        `${bodyTable.rows[index].getBoundingClientRect().height}px`;
-    });
-  }
-
-  _scrollSlider = (e) => {
-    const {
-      bodyContainer,
-    } = this.refs;
-
-    const v = e.target.value;
-    const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-    const delta = e.target.getAttribute('max') - e.target.getAttribute('min');
-
-    this.props.actions.scrollSlider(parseInt(v, 0));
-
-    bodyContainer.scrollLeft = (scrollWidth * v) / delta;
-  }
-
-  scrollBody = () => {
-    const {
-      bodyContainer,
-      headContainer,
-      slider,
-      stickyContainer,
-    } = this.refs;
-
-    headContainer.scrollLeft = bodyContainer.scrollLeft;
-    stickyContainer.scrollTop = bodyContainer.scrollTop;
-
-    const delta = slider.props.max - slider.props.min;
-    const scrollWidth = bodyContainer.scrollWidth - bodyContainer.offsetWidth;
-    const v = (bodyContainer.scrollLeft * delta) / scrollWidth;
-
-    this.props.actions.scrollSlider(v);
-  }
-
-  scrollWindow = () => {
-    if (this.refs.ripangaContainer === undefined) {
+  onScroll = () => {
+    if (!this.table) {
       return;
     }
 
-    this.recalculateSticky();
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
+
+    if (scrollTop > headerInitialTop) {
+      moveHeader(this.header, scrollTop - headerInitialTop);
+    } else {
+      restoreHeader(this.header);
+    }
   }
 
-  stickyHeaderActive = () => {
-    const ripangaBounds = this.refs.ripangaContainer.getBoundingClientRect();
-    return ripangaBounds.top < 0;
+  onResize = () => {
+    if (!this.table) {
+      return;
+    }
+
+    // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
+    const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
+    const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
+    const len = tableRows.length;
+
+    for (let i = 0; i < len; i += 1) {
+      sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
+    }
+
+    // Required for <div> elements to maintain background color for full scroll width. Ben 170411
+    let initialWidth = 0;
+
+    if (showGroups) {
+      initialWidth += 30;
+    }
+
+    if (this.props.showCheckboxes) {
+      initialWidth += 30;
+    }
+
+    const tableWidth = this.props.columnDefinitions
+      .reduce((acc, def) => (def.hidden ? acc : acc + def.width), initialWidth);
+
+    this.header.style.minWidth = `${tableWidth}px`;
+
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
+
+    headerInitialTop = this.header.getBoundingClientRect().top + scrollTop;
+
+    this.onScroll();
+  }
+
+  onSort = () => {
+    if (this.props.onSort) {
+      this.props.onSort();
+    }
+  }
+
+  onCollapse = (id) => {
+    const { collapsedIds } = this.state;
+
+    collapsedIds[id] = !collapsedIds[id];
+
+    const allCollapsed = Object.values(collapsedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ collapsedIds, allCollapsed }, this.updateStorage);
+  }
+
+  onCollapseAll = () => {
+    const keys = Object.keys(this.state.collapsedIds);
+    const allCollapsed = !this.state.allCollapsed;
+
+    const collapsedIds = keys.reduce((acc, k) => Object.assign(acc, { [k]: allCollapsed }), {});
+
+    this.setState({ allCollapsed, collapsedIds }, this.updateStorage);
+  }
+
+  onRowCheck = (id) => {
+    const { checkedIds } = this.state;
+    checkedIds[id] = !checkedIds[id];
+
+    const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
+  }
+
+  onGroupCheck = (groupId) => {
+    const groupIds = this.props.tableData.find(d => d.key.name === groupId)
+      .data
+      .reduce((acc, row) => acc.concat(row[this.props.idKey]), []);
+
+    const { checkedIds } = this.state;
+    const groupIsChecked = groupIds.reduce((acc, id) => acc && checkedIds[id], true);
+    groupIds.forEach((id) => { checkedIds[id] = !groupIsChecked; });
+
+    const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
+
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
+  }
+
+  onCheckAll = () => {
+    const allChecked = !this.state.allChecked;
+    const checkedIds = Object.keys(this.state.checkedIds)
+      .reduce((acc, k) => Object.assign(acc, { [k]: allChecked }), {});
+
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
+  }
+
+  onExternalUncheckAll = () => {
+    const checkedIds = Object.keys(this.state.checkedIds)
+      .reduce((acc, k) => Object.assign(acc, { [k]: false }), {});
+
+    this.setState({ allChecked: false, checkedIds }, this.updateStorage);
+  }
+
+  updateStorage = () => {
+    const { checkedIds, collapsedIds } = this.state;
+
+    sessionStorage.setItem(`${this.props.scope}/CHECKED`, JSON.stringify(checkedIds));
+    sessionStorage.setItem(`${this.props.scope}/COLLAPSED`, JSON.stringify(collapsedIds));
   }
 
   render() {
     const {
-      sliderValue = 0,
-      tableData,
+      columnDefinitions,
+      idKey,
+      renderCell,
+      renderEmpty,
+      renderGroupTitle,
+      renderSidebarBodyCell,
+      renderSidebarHeadCell,
+      renderSidebarGroupCell,
+      showCheckboxes,
+      tableData
     } = this.props;
 
+    const {
+      allChecked,
+      allCollapsed,
+      checkedIds,
+      collapsedIds
+    } = this.state;
+
     if (tableData.length === 0) {
-      if (this.props.renderEmpty) {
-          return this.props.renderEmpty();
+      if (renderEmpty) {
+        return renderEmpty();
       }
 
       return (
-        <h3 className="no-borders padding-top empty_table empty_graphic">
+        <h3 className='no-borders padding-top empty_table empty_graphic'>
           <img
-            role="presentation"
-            src="/assets/no_results_illustration.svg"
-            className="text-align-center empty_table_graphic"
+            alt='Empty Table'
+            src='/assets/no_results_illustration.svg'
+            className='text-align-center empty_table_graphic'
           />
-          <span className="empty_table_label">{i18n.NO_RESULTS}</span>
+          <span className='empty_table_label'>{i18n.NO_RESULTS}</span>
         </h3>
       );
     }
 
-    const stickyCells = RipangaStickyCells({...this.props});
-
-    return (
-      <div className={S.container} ref="ripangaContainer">
-        <div className={S.headContainer} ref="headContainer">
-          <table className={S.head} ref="headTable">
-            <RipangaHeadRow {...this.props} />
-          </table>
-        </div>
-
-        <div className={S.bodyContainer} ref="bodyContainer">
-          <table className={S.body} ref="bodyTable">
-            <RipangaBodyRows {...this.props} />
-          </table>
-        </div>
-
-        <div className={S.stickyContainer} ref="stickyContainer">
-          {stickyCells}
-        </div>
-
-        <div className={S.stickyCellHead} ref="stickyHead">
-          <Range
-            className={S.horizontalScroller}
-            max="50"
-            min="0"
-            onChange={this._scrollSlider}
-            onClick={this.props.actions.trackSlider}
-            ref="slider"
-            type="range"
-            value={sliderValue}
-          />
+    return (<div className={styles.contentContainer}>
+      <RipangaSidebar
+        {
+          ...{
+            idKey,
+            renderSidebarBodyCell,
+            renderSidebarHeadCell,
+            renderSidebarGroupCell,
+            showGroups,
+            styles,
+            tableData
+          }
+        }
+      />
+      <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
+        <div className={styles.table} ref={(el) => { this.table = el; }}>
+          <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
+            { RipangaHeadRow({
+              allChecked,
+              allCollapsed,
+              columnDefinitions,
+              idKey,
+              onCheckAll: this.onCheckAll,
+              onCollapseAll: this.onCollapseAll,
+              onScroll: this.onScroll,
+              onScrollTrack: this.onScrollTrack,
+              onSort: this.onSort,
+              showGroups,
+              showCheckboxes,
+              styles
+            }) }
+          </div>
+          <div className={styles.tableBody}>
+            { RipangaBodyRows({
+              checkedIds,
+              collapsedIds,
+              columnDefinitions,
+              idKey,
+              onRowCheck: this.onRowCheck,
+              onCollapse: this.onCollapse,
+              onGroupCheck: this.onGroupCheck,
+              renderCell,
+              renderGroupTitle,
+              showGroups,
+              showCheckboxes,
+              styles,
+              tableData
+            }) }
+          </div>
         </div>
       </div>
-    );
+    </div>);
   }
 }

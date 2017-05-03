@@ -40,7 +40,7 @@ const TatariDropdownPlain = ({
 
   return (<div className={styles.dropdownContainer}>
     <div
-      className={styles.dropdownHead}
+      className={cx(styles.dropdownHead, { [styles.expanded]: isExpanded })}
       data-key={'inactive'}
       onClick={onExpand}
     >

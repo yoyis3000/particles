@@ -4,7 +4,14 @@ A picker with support for group or individual selections.
 
 # Change Log
 
-##### 2.4.3 - 2.4.7
+##### 2.4.8
+- Restored "clear all" to be available at all times
+- Removed disabled items from select all handling
+
+##### 2.4.7
+- Fixed warning title show condition
+
+##### 2.4.3 - 2.4.6
 - (Unintentional minor bump)
 - Adding Lerna publishing management
 - Splitting out dev dependencies

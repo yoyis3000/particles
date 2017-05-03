@@ -15,7 +15,11 @@ const TatariDropdownCheckboxes = ({
   styles
 }) => {
   const count = options.reduce((acc, option) => (option.checked ? acc + 1 : acc), 0);
-  const adjustedCount = (count ? `(${count})` : null);
+  const adjustedCount = (count ? <div className={styles.activeCount}>({count})</div> : null);
+
+  function onClick(evt) {
+    evt.stopPropagation();
+  }
 
   const remove = (<button
     className={cx('fa', 'fa-times', styles.activeRemove)}
@@ -60,9 +64,37 @@ const TatariDropdownCheckboxes = ({
     return acc;
   }, []);
 
+  const emptyMessage = items.length === 0
+    ? <div className={styles.emptyMessage}>No items available for this filter.</div>
+    : null;
+
+  const activeControls = items.length > 0
+    ? (<div className={styles.activeControls}>
+      <button onClick={onCheckAll} data-key={filter.key} className={styles.activeControl}>
+        Select All
+      </button>
+      <span className={styles.activeDivider}>/</span>
+      <button onClick={onCheckNone} data-key={filter.key} className={styles.activeControl}>
+        Clear All
+      </button>
+    </div>)
+    : null;
+
+  const activeSearch = items.length > 0
+    ? (<div className={styles.activeSearch}>
+      <input
+        onChange={onSearch}
+        data-key={filter.key}
+        className={styles.activeInput}
+        onClick={onClick}
+      />
+      <div className={cx('fa', 'fa-search', styles.activeIcon)} />
+    </div>)
+    : null;
+
   return (<div className={styles.dropdownContainer}>
     <div
-      className={styles.dropdownHead}
+      className={cx(styles.dropdownHead, { [styles.expanded]: isExpanded })}
       data-key={filter.key}
       onClick={onExpand}
     >
@@ -74,22 +106,10 @@ const TatariDropdownCheckboxes = ({
     </div>
 
     <div className={cx(styles.dropdownBody, { [styles.expanded]: isExpanded })}>
-      <div className={styles.activeSearch}>
-        <input onChange={onSearch} data-key={filter.key} className={styles.activeInput} />
-        <div className={cx('fa', 'fa-search', styles.activeIcon)} />
-      </div>
-
-      <div className={styles.activeControls}>
-        <button onClick={onCheckAll} data-key={filter.key} className={styles.activeControl}>
-          Select All
-        </button>
-        <span className={styles.activeDivider}>/</span>
-        <button onClick={onCheckNone} data-key={filter.key} className={styles.activeControl}>
-          Clear All
-        </button>
-      </div>
-
+      {activeSearch}
+      {activeControls}
       {items}
+      {emptyMessage}
     </div>
   </div>);
 };

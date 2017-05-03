@@ -53,7 +53,7 @@ export default class Tatari extends React.Component {
       const previousFilters = params.filters || saved;
 
       const activeFilters = availableFilters.reduce((acc, filter, index) => {
-        if (previousFilters[filter.key] !== undefined) {
+        if (previousFilters[filter.key] !== undefined && previousFilters[filter.key] !== null) {
           acc.push(Object.assign(filter, { index }));
         }
 
@@ -61,7 +61,7 @@ export default class Tatari extends React.Component {
       }, []);
 
       const inactiveFilters = availableFilters.reduce((acc, filter, index) => {
-        if (previousFilters[filter.key] === undefined) {
+        if (previousFilters[filter.key] === undefined || previousFilters[filter.key] === null) {
           acc.push(Object.assign(filter, { index }));
         }
 
@@ -79,8 +79,10 @@ export default class Tatari extends React.Component {
           const options = activeFilters.reduce((acc, filter, index) => {
             const { data } = values[index];
 
-            const setChecked = d => Object.assign(d,
-              { checked: (previousFilters[filter.key].indexOf(d.key.toString()) > -1) });
+            const setChecked = d => Object.assign(d, { checked:
+              (previousFilters[filter.key].filter(
+                v => v.toString() === d.key.toString()).length > 0)
+            });
 
             return Object.assign(acc, { [filter.key]: data.map(setChecked) });
           }, {});
@@ -172,7 +174,7 @@ export default class Tatari extends React.Component {
   saveOptions = () => {
     const payload = { filters: this.createPayload() };
 
-    Object.keys(payload.filters).length === 0
+    Object.keys(payload.filters).length > 0
       ? patch(this.props.urls.patch, payload).then(this.props.onComplete)
       : this.props.onComplete();
   }
@@ -204,8 +206,13 @@ export default class Tatari extends React.Component {
     const key = evt.target.dataset.key;
     const { options } = this.state;
 
-    options[key].reduce((acc, option) =>
-      acc.concat(Object.assign(option, { checked: true })), []);
+    options[key].reduce((acc, option) => {
+      if (option.hidden === true) {
+        return acc;
+      }
+
+      return acc.concat(Object.assign(option, { checked: true }));
+    }, []);
 
     this.setState({ options });
   }
@@ -244,7 +251,7 @@ export default class Tatari extends React.Component {
     };
 
     retrieveOptions().then(({ data }) => {
-      options[key] = data.map(d => Object.assign(d, { checked: false }));
+      options[key] = data.map(d => Object.assign(d, { checked: false, hidden: false }));
       const newLoading = this.state.loading;
       newLoading[key] = false;
 
@@ -271,6 +278,9 @@ export default class Tatari extends React.Component {
     inactiveFilters.sort((a, b) => (a.index - b.index));
 
     this.setState({ inactiveFilters, activeFilters });
+
+    this.updateUrl();
+    this.saveOptions();
   }
 
   removeAllActive = () => {
@@ -279,6 +289,9 @@ export default class Tatari extends React.Component {
       .sort((a, b) => (a.index - b.index));
 
     this.setState({ inactiveFilters: inactive, activeFilters: [] }, this.updateUrl);
+
+    this.updateUrl();
+    this.saveOptions();
   }
 
   removeEmptyActive = () => {

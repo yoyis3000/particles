@@ -15,17 +15,22 @@ mockApi
     {
       endpoint: '/filterA',
       key: 'ball_in_court_id',
-      value: 'Ball In Court With A Very Long Name That Hopefully Wraps'
+      value: 'Ball In Court With A Very Long Name That Should Truncate'
     },
     {
       endpoint: '/filterB',
       key: 'assignee',
       value: 'Assignee'
+    },
+    {
+      endpoint: '/filterC',
+      key: 'emptyfilter',
+      value: 'An Empty Filter'
     }
   ])
 .onGet('/filterA')
   .reply(200, [
-      { key: 1309646, value: 'Test A With Another Very Long Name That Hopefully Wraps' },
+      { key: 1309646, value: 'Test A With Another Very Long Name That Should Wrap' },
       { key: 1228193, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
       { key: 1188710, value: 'Test Add' },
       { key: 1273550, value: 'Full Admin' },
@@ -42,6 +47,8 @@ mockApi
       { key: 1202938, value: 'Ultimate Test' },
       { key: 1133776, value: 'California Towhee' }
   ])
+.onGet('/filterC')
+  .reply(200, [])
 .onPatch('/patch_filters')
   .reply(200);
 

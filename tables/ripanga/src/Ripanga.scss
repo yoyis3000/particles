@@ -1,179 +1,220 @@
-@import 'RipangaSlider';
-@import "./variables";
+@import '../../shared/reset';
 
-$headHex: palette(gray, light);
-$groupHex: palette(gray, xlight);
-$borderHex: palette(gray, base);
+$padding: 10px;
+$sidebarZ: 3;
+$headerZ: 2;
+$overflowZ: 1;
+$tableZ: 0;
 
-$bodyZ: 1;
-$headZ: 2;
-$stickyZ: 3;
-
-.container {
-  overflow: hidden;
+.contentContainer {
+  padding-right: 100px;
   position: relative;
 }
 
-.headContainer {
-  border: solid palette(gray, base);
-  border-width:1px 0 1px 1px;
-  cursor: default;
-  left: 0;
-  overflow: hidden;
+.tableContainer {
+  overflow: auto;
+  position: relative;
+  z-index: $tableZ;
+}
+
+.sidebarContainer {
+  background: #fff;
+  border-top: 1px solid #c3c2c2;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+  z-index: $sidebarZ;
+}
+
+.table {
+  border-bottom: 1px solid #c3c2c2;
+  padding-top: 45px;
+}
+
+.tableHead {
   position: absolute;
   top: 0;
-  z-index: $headZ;
+  width: 100%;
+  z-index: $headerZ;
 }
 
-.bodyContainer {
-  border: solid palette(gray, base);
-  border-width: 0 0 0 1px;
-  overflow: auto;
-  z-index: $bodyZ;
+.tableBody {
+  font-family: inherit;
 }
 
-.head {
-  background: palette(gray, light);
+.tableRow {
+  display: flex;
+}
 
-  font-size: 11px;
-  table-layout: fixed;
+.tableCell {
+  align-items: center;
+  border: 1px solid #c3c2c2;
+  border-width: 1px 0 0 1px;
+  display: flex;
+  flex-grow: 1;
+  padding: $padding;
 
-  th {
-    border-right: 1px solid palette(gray, base);
-    font-weight: bold;
-    line-height: 20px;
-    overflow: hidden;
-    padding: 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .columnSort {
-    white-space: normal;
-  }
-
-  .sortable {
-    cursor: pointer;
-  }
-
-  .label {
-    display: inline-block;
-    margin-right: 5px;
+  &:last-child {
+    border-right-width: 1px;
   }
 }
 
-.body {
-  position: relative;
+.headRow {
+  composes: tableRow;
+  background: #e7e7e7;
+  font-weight: bold;
+  height: 45px;
 
-  td {
-    border-right: 1px solid palette(gray, base);
-    border-bottom: 1px solid palette(gray, base);
-    font-size: 11px;
-    padding: 10px;
-    position: relative;
+  :global .fa {
+    font-size: 12px;
+    margin-left: 5px;
   }
+}
+
+.headCell {
+  composes: tableCell;
 }
 
 .groupRow {
-  background: palette(gray, xlight);
+  composes: tableRow;
+  background: #f2f2f2;
+}
 
-  .controls {
-    display: inline-block;
-    padding: 0 10px;
+.groupCell {
+  composes: tableCell;
+}
+
+.controlCell {
+  composes: tableCell;
+  display: flex;
+  max-width: 40 + (2 * $padding) + 2;
+  min-width: 20 + (2 * $padding) + 2;
+  text-align: center;
+}
+
+.controlCaret {
+  cursor: pointer;
+  display: inline-block;
+  flex-basis: 1;
+  height: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  vertical-align: middle;
+  width: 20px;
+
+  :global .fa {
+    cursor: pointer;
   }
 
-  .title {
-    display: inline-block;
-  }
-
-  td {
-    padding: 0;
-    vertical-align:middle;
+  &.closed {
+    transform: rotate(180deg);
   }
 }
 
-.caret {
-  color: palette(gray, xdark);
-  cursor: pointer;
+.controlPlaceholder {
+  background: salmon;
   display: inline-block;
-  font-size:11px;
+  height: 20px;
+  vertical-align: middle;
+  width: 20px;
+}
+
+.controlCheckbox {
+  cursor: pointer;
+  flex-basis: 1;
   height: 20px;
   line-height: 20px;
   text-align: center;
-  transition: transform 0.2s ease;
+  vertical-align: middle;
   width: 20px;
 
-  &.closed,
-  &.disabled {
-    transform:rotate(-180deg);
-  }
-
-  &.disabled {
-    color: palette(gray, base);
-    pointer: not-allowed;
+  [type=checkbox] {
+    cursor: pointer;
+    vertical-align: middle;
   }
 }
 
-.groupPane {
-  .inside {
-    height: 300px;
-    max-height: 300px;
-    transition: all 0.5s ease;
-  }
-
-  .hidden {
-    max-height: 0px;
-    overflow: hidden;
-  }
-}
-
-.stickyCell {
-  border: solid palette(gray, base);
+.sidebarCell {
+  align-items: center;
+  border: 1px solid #c3c2c2;
   border-width: 0 1px 1px 1px;
-  text-align:center;
+  display: flex;
+  padding: 10px;
+  position: relative;
+  z-index: 0;
 }
 
-.stickyCellGroup {
-  composes: stickyCell;
-  background: palette(gray, xlight);
-  padding: 0;
-  text-align:right;
+.headSidebarCell {
+  composes: sidebarCell;
+  background: #e7e7e7;
+  z-index: 1;
 }
 
-.stickyCellHead {
-  composes: stickyCell;
-  background: palette(gray, light);
-  border-top: 1px solid palette(gray, base);
-  padding: 0;
-  position: absolute;
-  right: 0;
+.groupSidebarCell {
+  composes: sidebarCell;
+  background: #e7e7e7;
+}
+
+.overflowContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.overflowContainer {
+  background: 0 !important;
+  border: 0 !important;
+  left: 0;
+  outline: 0 !important;
+  padding: 0 !important;
+  position: relative;
+  text-align: left !important;
   top: 0;
-  text-align: center;
-  z-index:$stickyZ;
+  width: 100%;
+  z-index: 0;
 
-  .horizontalScroller {
-    height: 14px;
-    left: 50%;
-    margin-left: -40px;
-    margin-top: -7px;
-    padding: 0;
-    position: absolute;
-    top: 50%;
-    width:80px;
+  &.focused {
+    position: fixed;
+    z-index: 1;
+  }
+
+  &:active {
+    outline: 0 !important;
   }
 }
 
-.stickyCellPane {
-  border: solid palette(gray, base);
-  border-width: 0 0 0 1px;
+.w50px {
+  flex: 1 0 50px;
+  min-width: 50px;
 }
 
-.stickyContainer {
-  background: #fff;
-  border-top: 1px solid palette(gray, base);
-  position: absolute;
-  overflow: hidden;
-  right: 0;
-  top: 0;
-  width: 110px;
+.w75px {
+  flex: 1 0 75px;
+  min-width: 75px;
+}
+
+.w100px {
+  flex: 1 0 100px;
+  min-width: 100px;
+}
+
+.w125px {
+  flex: 1 0 125px;
+  min-width: 125px;
+}
+
+.w150px {
+  flex: 1 0 150px;
+  min-width: 150px;
+}
+
+.w175px {
+  flex: 1 0 175px;
+  min-width: 175px;
+}
+
+.w200px {
+  flex: 1 0 200px;
+  min-width: 200px;
 }

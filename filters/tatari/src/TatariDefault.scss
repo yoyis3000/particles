@@ -23,7 +23,6 @@
 
   &.expanded {
     border: 1px solid palette(gray, dark);
-    border-top: 0;
   }
 }
 
@@ -31,8 +30,7 @@
   transition: all 0.15s ease;
 
   &:hover {
-    background: palette(orange);
-    color: #fff;
+    background: 0;
   }
 }
 

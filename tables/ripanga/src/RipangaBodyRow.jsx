@@ -1,118 +1,64 @@
-import React from 'react';
-import { isEqual } from 'lodash';
+import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
-const cloneOrRender = (Component, props) => {
-  if (!Component) {
-    return null;
-  }
+const RipangaBodyRow = ({
+  columnDefinitions,
+  idKey,
+  isChecked,
+  onCheck,
+  renderCell,
+  rowData,
+  showCheckboxes,
+  showGroups,
+  styles
+}) => {
+  const cells = columnDefinitions.map((def) => {
+    if (def.hidden === true) {
+      return null;
+    }
 
-  if (React.isValidElement(Component)) {
-    return React.cloneElement(Component, props);
-  }
+    return (<div
+      key={`cell-${rowData[idKey]}-${def.key}`}
+      className={cx(styles.tableCell, styles[`w${def.width}px`])}
+    >
+      {renderCell(rowData, def)}
+    </div>);
+  });
 
-  return <Component {...props} />;
-};
-
-const defaultCellRenderer = () => {
-  return <td />;
-};
-
-const defaultRowRenderer = (cells) => {
-  return <tr>{cells}</tr>;
-};
-
-export default class RipangaBodyRow extends React.Component {
-  static propTypes = {
-    checkedIds: React.PropTypes.shape(),
-    columnDefinitions: React.PropTypes.arrayOf(React.PropTypes.shape()),
-    idKey: React.PropTypes.string,
-    renderBodyCell: React.PropTypes.func,
-    renderBodyRow: React.PropTypes.func,
-    rowData: React.PropTypes.shape(),
-    showCheckboxes: React.PropTypes.bool,
-    actions: React.PropTypes.shape(),
-    globalKey: React.PropTypes.string,
-    onCheck: React.PropTypes.func,
+  const onChange = () => {
+    onCheck(rowData[idKey]);
   };
 
-  /**
-   * IMPORTANT - without this method, the entire table will repaint on each
-   * state change, however minor. Ben 160831
-   */
-  shouldComponentUpdate(nextProps) {
-    const id = this.props.rowData[this.props.idKey];
+  const placeholder = showGroups ? <div className={styles.controlPlaceholder} /> : null;
 
-    return (!isEqual(this.props.rowData, nextProps.rowData)) ||
-      this.props.checkedIds.get(id) !== nextProps.checkedIds.get(id);
-  }
-
-  _onCheck = (evt) => {
-    const {
-      actions,
-      globalKey,
-      idKey,
-      onCheck,
-      rowData,
-    } = this.props;
-
-    evt.target.checked
-      ? actions.setChecked({ ids: [rowData[idKey]], globalKey, onCheck })
-      : actions.setUnchecked({ ids: [rowData[idKey]], globalKey, onCheck });
-  }
-
-  renderCells() {
-    const {
-      checkedIds,
-      columnDefinitions,
-      idKey,
-      renderBodyCell,
-      rowData,
-      showCheckboxes,
-    } = this.props;
-
-    const cells = columnDefinitions.map((def, i) => {
-      if (def.hidden === true) {
-        return null;
-      }
-
-      if (def.Cell) {
-        const Cell = def.Cell;
-        return cloneOrRender(Cell, {
-          data: rowData,
-          definition: def,
-        });
-      }
-
-      return renderBodyCell
-          ? renderBodyCell(defaultCellRenderer, rowData, i)
-          : defaultCellRenderer();
-    });
-
-    if (showCheckboxes) {
-      cells.unshift(<td key={`${idKey}-checkboxes`}>
+  if (showCheckboxes) {
+    cells.unshift(<div key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
+      {placeholder}
+      <label className={styles.controlCheckbox}>
         <input
-          type="checkbox"
-          checked={checkedIds.get(rowData[idKey])}
-          onChange={this._onCheck}
+          type='checkbox'
+          checked={isChecked}
+          onChange={onChange}
         />
-      </td>);
-    }
-
-    return cells;
+      </label>
+    </div>);
   }
 
-  render() {
-    const {
-      renderBodyRow,
-      rowData,
-    } = this.props;
+  return (<div key={`row-${rowData[idKey]}`} className={styles.tableRow}>
+    {cells}
+  </div>);
+};
 
-    const cells = this.renderCells();
+/* eslint react/require-default-props: 0 */
+RipangaBodyRow.propTypes = {
+  columnDefinitions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  idKey: PropTypes.string,
+  isChecked: PropTypes.bool,
+  onCheck: PropTypes.func,
+  renderCell: PropTypes.func,
+  rowData: PropTypes.shape().isRequired,
+  showCheckboxes: PropTypes.bool,
+  styles: PropTypes.shape().isRequired
+};
 
-    if (renderBodyRow) {
-      return renderBodyRow(defaultRowRenderer, rowData, cells);
-    }
-
-    return defaultRowRenderer(cells);
-  }
-}
+export default RipangaBodyRow;

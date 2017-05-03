@@ -7,7 +7,6 @@ import composeStyles from '../../../shared/stylesheetComposer';
 let styles = {};
 
 const ListPartial = ({
-  exportComponent,
   filterComponent,
   headerComponent,
   isLoading,
@@ -20,10 +19,6 @@ const ListPartial = ({
   styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
   return (<div>
-    <div className={styles.exportComponent}>
-      { exportComponent && exportComponent }
-    </div>
-
     <div className={styles.toolHeader}>
       {headerComponent && headerComponent}
     </div>
@@ -51,7 +46,6 @@ const ListPartial = ({
 };
 
 ListPartial.propTypes = {
-  exportComponent: PropTypes.shape(),
   filterComponent: PropTypes.shape(),
   headerComponent: PropTypes.shape(),
   isLoading: PropTypes.bool,
@@ -63,7 +57,6 @@ ListPartial.propTypes = {
 };
 
 ListPartial.defaultProps = {
-  exportComponent: null,
   filterComponent: null,
   headerComponent: null,
   isLoading: false,

@@ -1,3 +1,7 @@
-import Ripanga from './RipangaProvider';
+import Ripanga from './Ripanga';
+import OverflowCell from './RipangaOverflowCell';
 
-export default Ripanga;
+export {
+  Ripanga as default,
+  OverflowCell
+};

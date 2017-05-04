@@ -35,8 +35,10 @@ const RipangaHeadRow = ({
   const defaultRenderer = (def, i) => {
     return (
       <RipangaHeadCell
+        def={def}
+        globalKey={globalKey}
         key={`head-${def.sortKey}-${i}`}
-        {...{...sorting, def, globalKey }}
+        sorting={sorting}
       />
     );
   };

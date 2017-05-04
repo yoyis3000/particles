@@ -30,9 +30,10 @@ const columnDefinitions = [
 
 render(
   <Ripanga
-    renderBodyCell={renderer}
     columnDefinitions={columnDefinitions}
+    globalKey='sandbox'
     idKey='key'
+    renderBodyCell={renderer}
     tableData={tableData}
   />,
   document.getElementById('root'),

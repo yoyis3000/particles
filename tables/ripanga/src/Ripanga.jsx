@@ -13,11 +13,16 @@ const i18n = {
   NO_RESULTS: 'No results found',
 };
 
+const DIRECTION = {
+  ASC: 'asc',
+  DESC: 'desc'
+};
+
 @RipangaInterface
 export default class Ripanga extends React.Component {
   static propTypes = {
     actions: PropTypes.shape(),
-    globalKey: PropTypes.bool,
+    globalKey: PropTypes.string,
     panelPosition: PropTypes.oneOf(['left', 'right', 'none']),
     sliderValue: PropTypes.number,
     sorting: PropTypes.shape({ direction: PropTypes.func, change: PropTypes.func }),
@@ -29,7 +34,7 @@ export default class Ripanga extends React.Component {
     panelPosition: 'right',
     showCheckboxes: false,
     sorting: {
-      change: ({ sortable, sortKey }) => {
+      change: ({ globalKey, sortable, sortKey }) => {
         const url = window.location.href.split('?');
         const params = qs.parse(url[1]);
 

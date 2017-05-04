@@ -5,29 +5,27 @@ import styles from './Ripanga.scss';
 
 const DIRECTION = {
   ASC: 'asc',
-  DESC: 'desc',
+  DESC: 'desc'
 };
 
 const RipangaHeadCell = ({
-  def,
-  globalKey,
-  onSort,
   change,
-  direction
+  def,
+  direction,
+  globalKey
 }) => {
-
   let arrow = null;
   const sort = direction(def);
 
   if (sort) {
     const isDesc = sort === DIRECTION.DESC;
-    arrow = <i className={cx({ fa: true, 'fa-long-arrow-down': isDesc, 'fa-long-arrow-up': !isDesc })} />
+    arrow = <i className={cx({ fa: true, 'fa-long-arrow-down': isDesc, 'fa-long-arrow-up': !isDesc })} />;
   }
 
   return (
     <th
-      onClick={() => change(def)}
-      className={cx(styles.sortArrow, {[styles.sortable]: def.sortable })}
+      onClick={() => change({ def, globalKey })}
+      className={cx(styles.sortArrow, { [styles.sortable]: def.sortable })}
     >
       <span className={styles.label}>{def.label}</span>
       {arrow}
@@ -36,10 +34,10 @@ const RipangaHeadCell = ({
 };
 
 RipangaHeadCell.propTypes = {
-  def: PropTypes.shape(),
-  globalKey: PropTypes.string,
   change: PropTypes.func,
-  direction: PropTypes.func
+  def: PropTypes.shape().isRequired,
+  direction: PropTypes.func,
+  globalKey: PropTypes.string.isRequired
 };
 
 RipangaHeadCell.defaultProps = {

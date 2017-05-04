@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+#### 1.2.3
+- Added back missing variables and passing down of globalKey correctly
+
 ##### 1.2.2
 - Removing reset.scss
 

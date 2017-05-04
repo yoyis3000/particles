@@ -1,6 +1,6 @@
 {
   "name": "tatari",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "A dynamically populated filter component.",
   "main": "index.js",
   "scripts": {

@@ -50,7 +50,16 @@ export default class Tatari extends React.Component {
       get(this.props.urls.available),
       get(this.props.urls.saved)
     ])
-    .then(([{ data: filterData }, { data: saved }]) => {
+    .then(([{ data: filterData }, { data: stored }]) => {
+      let saved = stored;
+
+      // This is only needed for backwards compatibility, will remove in the near future
+      // -- May the Fourth Be With You (2017)
+      if (Array.isArray(saved)) {
+        saved =
+          stored.reduce((acc, item) => Object.assign(acc, { [item.key]: item.storedValue }), {});
+      }
+
       const url = window.location.href.split('?');
       const params = qs.parse(url[1]);
       const previousFilters = params.filters || saved;

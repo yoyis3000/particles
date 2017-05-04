@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+#### 2.2.5
+- Added backwards compatibility for saved filters that come back as arrays rather than objects
+
 ##### 2.2.4
 - Removing reset.scss
 

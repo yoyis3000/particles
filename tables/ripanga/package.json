@@ -1,6 +1,6 @@
 {
   "name": "ripanga",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.",
   "main": "index.js",
   "scripts": {
@@ -20,16 +20,8 @@
   "homepage": "https://github.com/chrisarevir/component-library#readme",
   "dependencies": {
     "classnames": "^2.2.5",
-    "immutable": "^3.7.5",
-    "lodash": "^4.17.4",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
-    "react-range": "^0.0.7",
-    "react-redux": "^4.0.0",
-    "redux": "^3.5.0",
-    "redux-actions": "^0.8.0",
-    "redux-thunk": "^0.1.0",
-    "reselect": "^2.0.3"
+    "react": "^15.4.2",
+    "react-range": "^0.0.7"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
@@ -42,6 +34,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.21.0",
     "node-sass": "^3.8.0",
+    "react-dom": "^15.4.2",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
     "webpack": "^2.2.1",

@@ -1,48 +1,50 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-
-import styles from './Ripanga.scss';
-
-const DIRECTION = {
-  ASC: 'asc',
-  DESC: 'desc'
-};
+import { SORT_DIRECTION } from './Ripanga';
 
 const RipangaHeadCell = ({
-  change,
   def,
-  direction,
-  globalKey
+  onSort,
+  sortState,
+  styles
 }) => {
-  let arrow = null;
-  const sort = direction(def);
+  const onClick = () => {
+    if (def.sortable === false) {
+      return;
+    }
 
-  if (sort) {
-    const isDesc = sort === DIRECTION.DESC;
-    arrow = <i className={cx({ fa: true, 'fa-long-arrow-down': isDesc, 'fa-long-arrow-up': !isDesc })} />;
+    onSort(def);
+  };
+
+  let arrow = null;
+  if (sortState.attribute && sortState.attribute === def.sortKey && sortState.direction !== SORT_DIRECTION.NONE) {
+    arrow = (sortState.direction === SORT_DIRECTION.DESC
+      ? <i className='fa fa-long-arrow-down' />
+      : <i className='fa fa-long-arrow-up' />);
+  }
+
+  if (!def.key) {
+    // eslint-disable-next-line
+    console.error(`Column definition for "${def.label}" has no 'key' property. This might cause the error below.`);
   }
 
   return (
-    <th
-      onClick={() => change({ def, globalKey })}
-      className={cx(styles.sortArrow, { [styles.sortable]: def.sortable })}
+    <div
+      className={cx(styles.headCell, styles[`w${def.width}px`], { [styles.sortable]: def.sortable })}
+      key={`head-${def.key}`}
+      onClick={onClick}
     >
       <span className={styles.label}>{def.label}</span>
       {arrow}
-    </th>
+    </div>
   );
 };
 
 RipangaHeadCell.propTypes = {
-  change: PropTypes.func,
   def: PropTypes.shape().isRequired,
-  direction: PropTypes.func,
-  globalKey: PropTypes.string.isRequired
-};
-
-RipangaHeadCell.defaultProps = {
-  change: () => {},
-  direction: () => {}
+  onSort: PropTypes.func.isRequired,
+  sortState: PropTypes.shape().isRequired,
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaHeadCell;

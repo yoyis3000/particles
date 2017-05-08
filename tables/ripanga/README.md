@@ -4,6 +4,21 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.0.0
+- Throttle slider actions to improve performance
+- Move checkbox persistence to session storage to avoid local storage overflow bugs
+- Expand all / collapse all groups now managed internally
+- Remove shouldcomponentupdate for row to fix line repainting issues
+- Remove lodash to lighten component footprint
+- Remove immutable to lighten component footprint
+- Fixed Cannot read property 'getBoundingClientRect' of undefined console error
+- requestAnimationFrame used to optimize DOM changes
+- Stylesheet composition implemented
+- Overflow bug on inline edit dropdown
+- Improved documentation (sandbox examples)
+- Package size decreased from 925kb to 135kb (pre-compression)
+- Removed URL updating
+
 #### 1.2.3
 - Added back missing variables and passing down of globalKey correctly
 
@@ -20,6 +35,7 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
   }
 />
 ```
+
 ##### 1.0.8, 1.0.9
 
 - Implemented prod builds

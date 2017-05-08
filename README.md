@@ -4,13 +4,13 @@
 
 ## Two Design Principles. No Exceptions.
 - **Aggressively remove complexity whenever possible**
-	- Keep the folder structure flat
-	- Slice out dependencies with fire
-	- Make it easy for the next person
-	- Make things *fast* to work with
+  - Keep the folder structure flat
+  - Slice out dependencies with fire
+  - Make it easy for the next person
+  - Make things *fast* to work with
 - **Isolate changes**
-	- Follow SemVer religiously
-	- Maintain sandboxes for components
+  - Follow SemVer religiously
+  - Maintain sandboxes for components
 
 ## What problems does this solve?
 
@@ -37,26 +37,25 @@
 
 `Wait, that's awesome` - Most people
 
-## How do I get started then?
-If you have yarn already installed, do `yarn` at the root, otherwise run `npm install` at the root of this repo.  From this point on, `yarn` will be used exclusively.
+## How do I get started?
+If you already have `yarn`, run `yarn` at the root, otherwise run `npm install` at the root of this repo.  
 
 This will install:
 - [yarn](https://yarnpkg.com/en/)
 - [lerna](https://lernajs.io/)
-- Packages needed for sandbox, dev, and prod builds
 - Code style preferences for Javascript and CSS
+
+Then, run `lerna boostrap` at the root. It will install all dependencies for all components.
 
 # Development
 
-Start by running `lerna boostrap` at the root. It will install all dependencies for all components.
-
 To develop a component `FOO`, all you need is these commands:
 
-### npm run sandbox
+### yarn sandbox
 
-Spins up `FOO` and serves it up on `http://localhost:8080` for you to play around with in a standalone environment. The sandbox files are usually minimal implementation examples for the component, so keep them up to date!
+Spins up `FOO` and serves it up on `http://localhost:8080` (or `http://ude.8080`) for you to play around with in a standalone environment. The sandbox files are usually minimal implementation examples for the component, so keep them up to date!
 
-### npm run dev
+### yarn dev
 
 Builds the dev bundle and watches the folder, rebuilding on a change.
 

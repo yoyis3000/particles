@@ -1,3 +1,8 @@
-import Ripanga from './RipangaProvider';
+import Ripanga, { SORT_DIRECTION } from './Ripanga';
+import OverflowCell from './RipangaOverflowCell';
 
-export default Ripanga;
+export {
+  Ripanga as default,
+  OverflowCell,
+  SORT_DIRECTION
+};

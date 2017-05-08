@@ -64,7 +64,6 @@ $itemH: 24px;
   border-radius: 2px;
   color: #888;
   cursor: pointer;
-  font-size: 20px;
   height: 24px;
   line-height: 24px;
   position: absolute;
@@ -110,9 +109,21 @@ $itemH: 24px;
   }
 
   &:hover {
-    background: url('./gripper.svg') no-repeat 3px center #f8f8f8;
+    background: no-repeat 3px center #eee;
+    background-image:
+      url(
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm\
+        cvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNSAyNSI+PGRlZnM+PHN0eWxlPi5jaXJ7Zm\
+        lsbDojMzQzNzM5O308L3N0eWxlPjwvZGVmcz48Y2lyY2xlIGNsYXNzPSJjaXIiIGN4PS\
+        I5IiBjeT0iMiIgcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNpciIgY3g9IjE2IiBjeT0iMi\
+        Igcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNpciIgY3g9IjkiIGN5PSI5IiByPSIyIi8+PG\
+        NpcmNsZSBjbGFzcz0iY2lyIiBjeD0iMTYiIGN5PSI5IiByPSIyIi8+PGNpcmNsZSBjbG\
+        Fzcz0iY2lyIiBjeD0iOSIgY3k9IjE2IiByPSIyIi8+PGNpcmNsZSBjbGFzcz0iY2lyIi\
+        BjeD0iMTYiIGN5PSIxNiIgcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNpciIgY3g9IjkiIG\
+        N5PSIyMyIgcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNpciIgY3g9IjE2IiBjeT0iMjMiIH\
+        I9IjIiLz48L3N2Zz4="
+      );
     background-size: 14px 20px;
-    box-shadow: 0 2px 4px 0 #939393;
   }
 
   &.locked {

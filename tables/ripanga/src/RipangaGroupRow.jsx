@@ -1,71 +1,77 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import RipangaCaret from './RipangaCaret';
-import styles from './Ripanga.scss';
 
 const RipangaGroupRow = ({
-  actions,
-  globalKey,
-  checkedIds,
-  collapseGroup,
-  colSpan,
   groupData,
-  groupIndex,
+  isChecked,
   isCollapsed,
   isDisabled,
-  isToggled,
+  onCheck,
+  onCollapse,
+  renderGroupTitle,
   showCheckboxes,
-  titleElement,
-  toggleGroup,
+  showGroups,
+  styles
 }) => {
-  const indices = groupData.data.map(v => v.id);
-
-  const checkedCount = indices.reduce((acc, i) => {
-    if (checkedIds.get(i)) {
-      return acc + 1;
-    }
-
-    return acc;
-  }, 0);
-
-  const _onCheck = (evt) => {
-    evt.target.checked
-      ? actions.setChecked({ ids: indices, globalKey })
-      : actions.setUnchecked({ ids: indices, globalKey });
-  }
-
-  const _collapseGroup = () => {
+  const onCaretClick = () => {
     if (isDisabled === false) {
-      collapseGroup(groupIndex);
+      onCollapse(groupData.key.key);
     }
   };
 
-  // WORKING; but no content ready for group pane. Add {toggle} to final render. Ben 160809
-  // const _toggleGroup = () => {
-  //   toggleGroup(groupIndex);
-  // };
-  //
-  // const toggle = (isCollapsed ? <div></div> :
-  //   <SlideToggle
-  //     onToggle={_toggleGroup}
-  //     checked={isToggled}
-  //   />);
+  const onChange = () => {
+    onCheck(groupData.key.key);
+  };
 
-  const checkbox = (showCheckboxes
-    ? <input type='checkbox' checked={indices.length === checkedCount} onChange={_onCheck} />
-    : null);
+  const titleElement = (renderGroupTitle
+    ? renderGroupTitle(groupData)
+    : (<span className={styles.title}>{groupData.key.label}</span>));
+
+  const cells = [];
+
+  if (showCheckboxes || showGroups) {
+    const checkbox = (showCheckboxes
+      ? (<label className={styles.controlCheckbox}>
+        <input type='checkbox' checked={isChecked} onChange={onChange} />
+      </label>)
+      : null);
+
+    const caret = RipangaCaret({
+      closed: isCollapsed,
+      disabled: isDisabled,
+      onClick: onCaretClick
+    });
+
+    cells.push(<div key={`group-control-${groupData.key.key}`} className={styles.controlCell}>
+      {caret}
+      {checkbox}
+    </div>);
+  }
+
+  cells.push(<div key={`group-title-${groupData.key.key}`} className={styles.groupCell}>
+    {titleElement}
+  </div>);
 
   return (
-    <tr className={styles['groupRow']}>
-      <td colSpan={colSpan}>
-        <div className={styles.controls}>
-          {checkbox}
-          <RipangaCaret disabled={isDisabled} closed={isCollapsed} onClick={_collapseGroup} />
-        </div>
-        <span className={styles.title}>{titleElement}</span>
-      </td>
-    </tr>
+    <div className={styles.groupRow} key={`group-${groupData.key.key}`}>
+      {cells}
+    </div>
   );
+};
+
+/* eslint-disable react/require-default-props */
+RipangaGroupRow.propTypes = {
+  onCollapse: PropTypes.func.isRequired,
+  groupData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  isChecked: PropTypes.bool,
+  isCollapsed: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onCheck: PropTypes.func,
+  renderGroupTitle: PropTypes.func,
+  showCheckboxes: PropTypes.bool.isRequired,
+  showGroups: PropTypes.bool.isRequired,
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaGroupRow;

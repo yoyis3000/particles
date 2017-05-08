@@ -1,95 +1,61 @@
 import React, { PropTypes } from 'react';
+import RipangaCaret from './RipangaCaret';
 import RipangaHeadCell from './RipangaHeadCell';
 
 const RipangaHeadRow = ({
-  actions,
-  checkedIds,
+  allChecked,
+  allCollapsed,
   columnDefinitions,
-  globalKey,
-  idKey,
-  onCheck,
+  onCheckAll,
+  onCollapseAll,
   onSort,
-  renderHeadCell,
   showCheckboxes,
-  tableData,
-  sorting,
+  showGroups,
+  sortState,
+  styles
 }) => {
-  const indices = tableData.reduce((acc, group) => {
-    return acc.concat(group.data.map(v => v[idKey]));
-  }, []);
-
-  const checkedCount = indices.reduce((acc, i) => {
-    if (checkedIds.get(i)) {
-      return acc + 1;
+  const cells = columnDefinitions.reduce((acc, def) => {
+    if (def.hidden !== true) {
+      acc.push(RipangaHeadCell({ def, onSort, sortState, styles }));
     }
 
     return acc;
-  }, 0);
+  }, []);
 
-  const _onCheck = (evt) => {
-    evt.target.checked
-      ? actions.setChecked({ ids: indices, globalKey, onCheck })
-      : actions.setUnchecked({ ids: indices, globalKey, onCheck });
-  };
+  if (showCheckboxes || showGroups) {
+    const checkbox = (showCheckboxes
+      ? (<label className={styles.controlCheckbox}>
+        <input type='checkbox' checked={allChecked} onChange={onCheckAll} />
+      </label>)
+      : null);
 
-  const defaultRenderer = (def, i) => {
-    return (
-      <RipangaHeadCell
-        def={def}
-        globalKey={globalKey}
-        key={`head-${def.sortKey}-${i}`}
-        sorting={sorting}
-      />
+    const caret = (showGroups
+      ? RipangaCaret({ closed: allCollapsed, onClick: onCollapseAll })
+      : null);
+
+    cells.unshift(
+      <div key='head-controls' className={styles.controlCell}>
+        {caret}
+        {checkbox}
+      </div>
     );
-  };
-
-  const renderCell = (def, i) => {
-    if (def.hidden === true) {
-      return null;
-    }
-
-    return (renderHeadCell
-      ? renderHeadCell(defaultRenderer, def, i)
-      : defaultRenderer(def, i));
-  };
-
-  const cells = columnDefinitions.map(renderCell);
-
-  if (showCheckboxes) {
-    cells.unshift(<th className="headControls" key="headControls">
-      <input
-        type="checkbox"
-        checked={indices.length === checkedCount}
-        onChange={_onCheck}
-      />
-    </th>);
   }
 
-  return (
-    <thead>
-      <tr>
-        {cells}
-      </tr>
-    </thead>
-  );
+  return <div className={styles.headRow}>{cells}</div>;
 };
 
+/* eslint react/require-default-props: 0 */
 RipangaHeadRow.propTypes = {
-  actions: PropTypes.shape(),
-  checkedIds: PropTypes.shape(),
-  columnDefinitions: PropTypes.arrayOf(PropTypes.object),
-  globalKey: PropTypes.string,
-  idKey: PropTypes.string,
-  onCheck: PropTypes.func,
-  onSort: PropTypes.func,
-  renderHeadCell: PropTypes.func,
-  showCheckboxes: PropTypes.bool,
-  sorting: PropTypes.shape({ direction: PropTypes.func, change: PropTypes.func }),
-  tableData: PropTypes.arrayOf(PropTypes.object)
-};
-
-RipangaHeadRow.defaultProps = {
-  sorting: {},
+  allChecked: PropTypes.bool.isRequired,
+  allCollapsed: PropTypes.bool.isRequired,
+  columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onCheckAll: PropTypes.func.isRequired,
+  onCollapseAll: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
+  showCheckboxes: PropTypes.bool.isRequired,
+  showGroups: PropTypes.bool.isRequired,
+  sortState: PropTypes.shape().isRequired,
+  styles: PropTypes.shape().isRequired
 };
 
 export default RipangaHeadRow;

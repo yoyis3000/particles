@@ -39,10 +39,6 @@ const prodConfig = (dir, options = {}) => {
           }, {
             loader: 'sass-loader'
           }]
-        },
-        {
-          test: /\.svg$/,
-          loader: 'file-loader'
         }
       ]
     },

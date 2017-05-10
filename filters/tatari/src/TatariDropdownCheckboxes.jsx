@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 const TatariDropdownCheckboxes = ({
   filter,
+  i18n,
   isExpanded,
   isLoading,
   onCheckOne,
@@ -71,11 +72,11 @@ const TatariDropdownCheckboxes = ({
   const activeControls = items.length > 0
     ? (<div className={styles.activeControls}>
       <button onClick={onCheckAll} data-key={filter.key} className={styles.activeControl}>
-        Select All
+        {i18n.select_all}
       </button>
       <span className={styles.activeDivider}>/</span>
       <button onClick={onCheckNone} data-key={filter.key} className={styles.activeControl}>
-        Clear All
+        {i18n.clear_all}
       </button>
     </div>)
     : null;
@@ -126,6 +127,7 @@ TatariDropdownCheckboxes.propTypes = {
     key: PropTypes.string,
     value: PropTypes.string
   }).isRequired,
+  i18n: PropTypes.shape(),
   isExpanded: PropTypes.bool,
   isLoading: PropTypes.bool,
   onCheckOne: PropTypes.func.isRequired,
@@ -139,6 +141,7 @@ TatariDropdownCheckboxes.propTypes = {
 };
 
 TatariDropdownCheckboxes.defaultProps = {
+  i18n: {},
   isExpanded: false,
   isLoading: false,
   options: [],

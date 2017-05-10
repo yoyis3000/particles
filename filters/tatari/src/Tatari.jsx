@@ -19,12 +19,14 @@ export default class Tatari extends React.Component {
       patch: PropTypes.string,
       saved: PropTypes.string,
       delete: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    i18n: PropTypes.shape()
   }
 
   static defaultProps = {
     filterOptions: item => item,
-    stylesheets: []
+    stylesheets: [],
+    i18n: {}
   }
 
   constructor(props) {
@@ -341,6 +343,7 @@ export default class Tatari extends React.Component {
     const inactiveFilters = this.state.inactiveFilters.length
       ? (<TatariDropdownPlain
         data={this.state.inactiveFilters}
+        i18n={this.props.i18n}
         isExpanded={this.state.expanded.inactive}
         isLoading={this.state.loading.inactive}
         onChange={this.addActive}
@@ -353,6 +356,7 @@ export default class Tatari extends React.Component {
       .map(item => <TatariDropdownCheckboxes
         key={`active-${item.key}`}
         filter={item}
+        i18n={this.props.i18n}
         isExpanded={this.state.expanded[item.key]}
         isHiding={this.state.hiding[item.key]}
         isLoading={this.state.loading[item.key]}
@@ -371,7 +375,7 @@ export default class Tatari extends React.Component {
         onClick={this.removeAllActive}
         className={styles.clearAllFilters}
       >
-        Clear All
+        {this.props.i18n.clear_all}
       </div>)
       : null);
 

@@ -12,6 +12,9 @@ A dynamically populated filter component.
 - The typeahead search bar in the dropdown body now has a placeholder value
 - Deleted unnecessary CSS files
 
+### 2.2.6
+- Added internationalization for placeholders
+
 #### 2.2.5
 - Added backwards compatibility for saved filters that come back as arrays rather than objects
 

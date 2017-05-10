@@ -4,6 +4,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.12
+- Added in internationalization for search placeholders
+
 ##### 2.0.11
 - Removing reset.scss
 

@@ -14,59 +14,132 @@ mockApi
   .reply(200, [
     {
       endpoint: '/filterA',
-      key: 'ball_in_court_id',
-      value: 'Ball In Court With A Very Long Name That Should Truncate'
+      key: 'mountain_dogs',
+      value: 'Mountain Dogs'
     },
     {
       endpoint: '/filterB',
-      key: 'assignee',
-      value: 'Assignee'
+      key: 'scent_hounds',
+      value: 'Scent Hounds'
     },
     {
       endpoint: '/filterC',
-      key: 'emptyfilter',
-      value: 'An Empty Filter'
+      key: 'guard_dogs',
+      value: 'Guard Dogs'
+    },
+    {
+      endpoint: '/filterD',
+      key: 'poodles',
+      value: 'Poodles'
+    },
+    {
+      endpoint: '/filterE',
+      key: 'retrievers',
+      value: 'Retrievers'
+    },
+    {
+      endpoint: '/filterF',
+      key: 'herding_dogs',
+      value: 'Herding Dogs'
+    },
+    {
+      endpoint: '/filterG',
+      key: 'spaniels',
+      value: 'Spaniels'
+    },
+    {
+      endpoint: '/filterH',
+      key: 'flying_dogs',
+      value: 'Flying Dogs'
+    },
+    {
+      endpoint: '/filterI',
+      key: 'mean_dogs',
+      value: "Mean Dogs that use words like !@#$%^&*()~`.,/'[]{}|-_=+?>< "
     }
   ])
 .onGet('/filterA')
   .reply(200, [
-      { key: 1309646, value: 'Test A With Another Very Long Name That Should Wrap' },
-      { key: 1228193, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
-      { key: 1188710, value: 'Test Add' },
-      { key: 1273550, value: 'Full Admin' },
-      { key: 1390306, value: 'Blah Blah' },
-      { key: 1119508, value: 'Elizabeth Cannon' },
-      { key: 1309641, value: 'Test A With Another Very Long Name That Should Wrap' },
-      { key: 1228492, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
-      { key: 1188713, value: 'Test Add' },
-      { key: 1273554, value: 'Full Admin' },
-      { key: 1390305, value: 'Blah Blah' },
-      { key: 1119506, value: 'Elizabeth Cannon' },
-      { key: 1309647, value: 'Test A With Another Very Long Name That Should Wrap' },
-      { key: 1228198, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
-      { key: 1188719, value: 'Test Add' },
-      { key: 1273559, value: 'Full Admin' },
-      { key: 1390308, value: 'Blah Blah' },
-      { key: 1119507, value: 'Elizabeth Cannon' },
-      { key: 1309645, value: 'Test A With Another Very Long Name That Should Wrap' },
-      { key: 1228192, value: "Test A'postrophe And Oh My Gosh More Wrapping" },
-      { key: 1188711, value: 'Test Add' },
-      { key: 1273553, value: 'Full Admin' },
-      { key: 1390302, value: 'Blah Blah' },
-      { key: 1119509, value: 'Elizabeth Cannon' }
+      { key: 2659261, value: 'Newfoundland' },
+      { key: 1333393, value: 'Bernese Mountain Dog' },
+      { key: 9617612, value: 'Greater Swiss Mountain Dog (Large)' },
+      { key: 1670106, value: 'Saint Bernard' },
+      { key: 6286295, value: 'Great Pyrennes' },
+      { key: 8443652, value: 'Leonberger' },
+      { key: 6767534, value: 'Chinook' },
+      { key: 6310679, value: 'Kuvasz' },
+      { key: 4429528, value: 'Tibetan Mastiff' }
   ])
 .onGet('/filterB')
   .reply(200, [
-      { key: 649574, value: 'Litmus Litmus' },
-      { key: 1202971, value: 'Test McTest' },
-      { key: 1133792, value: 'Northern Mockingbird' },
-      { key: 582118, value: 'Nautica Sales' },
-      { key: 1133787, value: 'Western Scrubjay' },
-      { key: 1202938, value: 'Ultimate Test' },
-      { key: 1133776, value: 'California Towhee' }
+      { key: 1384421, value: 'Harrier' },
+      { key: 4107368, value: 'Basset Hound' },
+      { key: 6328918, value: 'American English Coonhound (Large)' },
+      { key: 6588341, value: 'Dachsund' },
+      { key: 1000270, value: 'Ibizan Hound' },
+      { key: 6279186, value: 'Portuguese Podengo Pequeno (Small)' },
+      { key: 9674088, value: 'Bloodhound' },
+      { key: 6646388, value: 'Otterhound' },
+      { key: 8858134, value: 'Plott' },
+      { key: 8159692, value: 'Treeing Walker Coonhound' },
+      { key: 3558092, value: 'Redbone Coonhound' }
   ])
 .onGet('/filterC')
+  .reply(200, [
+      { key: 7012631, value: 'Boxer' },
+      { key: 7926295, value: 'Rottweiler' },
+      { key: 1581248, value: 'Cane Corso' }
+  ])
+.onGet('/filterD')
+  .reply(200, [
+      { key: 7002311, value: 'Toy' },
+      { key: 8291146, value: 'Miniature' },
+      { key: 2176686, value: 'Standard' }
+  ])
+.onGet('/filterE')
+  .reply(200, [
+      { key: 8891492, value: 'Flat-Coated Retriever' },
+      { key: 6321373, value: 'Curly-Coated Retriever' },
+      { key: 5369769, value: 'Nova Scotia Duck Tolling Retreiver' },
+      { key: 7191680, value: 'Chesapeake Bay Retriever' },
+      { key: 5534015, value: 'Golden Retriever' },
+      { key: 9173242, value: 'Labrador Retriever' }
+  ])
+.onGet('/filterF')
+  .reply(200, [
+      { key: 8474928, value: 'Shetland Sheepdog' },
+      { key: 8990586, value: 'Border Collie' },
+      { key: 4003196, value: 'Australian Cattle Dog' },
+      { key: 9506467, value: 'Entlebucher Mountain Dog' },
+      { key: 5941897, value: 'Canaan Dog' },
+      { key: 1217177, value: 'Swedish Vallhund' },
+      { key: 6236225, value: 'Bouvier des Flandres' },
+      { key: 6292722, value: 'Australian Shepherd' },
+      { key: 9731553, value: 'German Shepherd' },
+      { key: 9234936, value: 'Schipperke' },
+      { key: 8455793, value: 'Cardigan Welsh Corgi' },
+      { key: 3891168, value: 'Pembroke Welsh Corgi' }
+  ])
+.onGet('/filterG')
+  .reply(200, [
+      { key: 1124459, value: 'Irish Water Spaniel' },
+      { key: 5320652, value: 'Cocker Spaniel' },
+      { key: 6798893, value: 'Welsh Springer Spaniel' },
+      { key: 5951624, value: 'Sussex Spaniel' },
+      { key: 6111852, value: 'English Toy Spaniel' },
+      { key: 7642678, value: 'Field Spaniel' },
+      { key: 2229001, value: 'English Cocker Spaniel' },
+      { key: 8993388, value: 'Papillon' },
+      { key: 9049941, value: 'Cavalier King Charles Spaniel' },
+      { key: 1891910, value: 'Boykin Spaniel' },
+      { key: 1086249, value: 'American Water Spaniel' }
+  ])
+.onGet('/filterH')
   .reply(200, [])
+.onGet('/filterI')
+  .reply(200, [
+      { key: 5245908, value: 'Ben' }
+  ])
 .onPatch('/patch_filters')
   .reply(200);
 
@@ -86,5 +159,5 @@ const stylesheets = [sandboxStyles];
 
 render(
   <Tatari {...{ urls, onComplete, stylesheets, filterOptions }} />,
-  document.getElementById('root'),
+  document.getElementById('root')
 );

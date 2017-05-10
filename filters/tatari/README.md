@@ -4,6 +4,14 @@ A dynamically populated filter component.
 
 # Change Log
 
+#### 2.3.0
+- The CSS file was alphabetized, and unnecessary overrides were removed
+- Many micro style tweaks were made
+- The dropdown body is now responsive with a min- and max-width
+- The sandbox file has "more realistic" data now
+- The typeahead search bar in the dropdown body now has a placeholder value
+- Deleted unnecessary CSS files
+
 #### 2.2.5
 - Added backwards compatibility for saved filters that come back as arrays rather than objects
 
@@ -98,7 +106,7 @@ A dynamically populated filter component.
 - Return to page 1 after filter update
 
 ##### 1.0.2
-- Minor padding udpate
+- Minor padding update
 
 ##### 1.0.1
 - Centering checkboxes on multiline items

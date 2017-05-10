@@ -5,7 +5,6 @@ import TatariDropdownPlain from './TatariDropdownPlain';
 import TatariDropdownCheckboxes from './TatariDropdownCheckboxes';
 
 import baseStyles from './Tatari.scss';
-import defaultStyles from './TatariDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
@@ -31,7 +30,7 @@ export default class Tatari extends React.Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    styles = composeStyles(baseStyles, [...props.stylesheets]);
 
     this.state = {
       activeFilters: [],

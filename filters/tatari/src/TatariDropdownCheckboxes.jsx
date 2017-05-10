@@ -88,6 +88,7 @@ const TatariDropdownCheckboxes = ({
         data-key={filter.key}
         onChange={onSearch}
         onClick={onClick}
+        placeholder='Search'
       />
       <div className={cx('fa', 'fa-search', styles.activeIcon)} />
     </div>
@@ -111,7 +112,7 @@ const TatariDropdownCheckboxes = ({
         {activeSearch}
         {activeControls}
       </div>
-      <div className={cx(styles.itemList)}>
+      <div className={cx(styles.activeItems)}>
         {items}
         {emptyMessage}
       </div>

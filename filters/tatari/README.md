@@ -4,7 +4,7 @@ A dynamically populated filter component.
 
 # Change Log
 
-#### 2.3.0
+#### 2.2.6
 - The CSS file was alphabetized, and unnecessary overrides were removed
 - Many micro style tweaks were made
 - The dropdown body is now responsive with a min- and max-width

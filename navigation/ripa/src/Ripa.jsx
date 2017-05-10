@@ -15,17 +15,17 @@ class Ripa extends React.Component {
     ).isRequired,
     onChange: PropTypes.func,
     selectedKey: PropTypes.string,
-    slot: PropTypes.node,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    title: PropTypes.string
+    slotL: PropTypes.node,
+    slotR: PropTypes.node,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
   static defaultProps = {
     onChange: null,
     selectedKey: null,
-    slot: null,
-    stylesheets: [],
-    title: null
+    slotL: null,
+    slotR: null,
+    stylesheets: []
   };
 
   constructor(props) {
@@ -61,8 +61,8 @@ class Ripa extends React.Component {
   render() {
     const {
       labels,
-      slot,
-      title
+      slotL,
+      slotR
     } = this.props;
 
     const { selectedIndex } = this.state;
@@ -79,9 +79,9 @@ class Ripa extends React.Component {
 
     return (
       <div className={styles.container}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.slotL}>{slotL}</div>
         {tabs}
-        <div className={styles.slot}>{slot}</div>
+        <div className={styles.slotR}>{slotR}</div>
       </div>
     );
   }

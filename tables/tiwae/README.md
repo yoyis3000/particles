@@ -6,6 +6,7 @@ Manages column definition arrays to configure columns.
 
 ##### 1.1.2
 - Adding drag handle, removing drop shadow
+- Removing reset.scss
 
 ##### 1.1.1
 - Sans serif star selector solve

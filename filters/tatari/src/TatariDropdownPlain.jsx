@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 const TatariDropdownPlain = ({
   data,
+  i18n,
   isExpanded,
   isLoading,
   onChange,
@@ -23,7 +24,7 @@ const TatariDropdownPlain = ({
     return acc;
   }, []);
 
-  const text = <div className={styles.dropdownTitle}>Add Filter</div>;
+  const text = <div className={styles.dropdownTitle}>{i18n.filter_placeholder}</div>;
 
   const loading = (isLoading
     ? <span className={styles.dropdownLoading} />
@@ -61,6 +62,7 @@ TatariDropdownPlain.propTypes = {
     key: PropTypes.string,
     value: PropTypes.string
   })).isRequired,
+  i18n: PropTypes.shape(),
   isExpanded: PropTypes.bool,
   isLoading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -69,6 +71,7 @@ TatariDropdownPlain.propTypes = {
 };
 
 TatariDropdownPlain.defaultProps = {
+  i18n: {},
   isExpanded: false,
   isLoading: false
 };

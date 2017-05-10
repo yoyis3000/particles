@@ -1,5 +1,3 @@
-@import "../../../shared/reset";
-
 $h: 32px;
 $delay: 0.4s;
 
@@ -13,6 +11,11 @@ $delay: 0.4s;
   &.expanded {
     height: auto;
     max-height: 300px;
+  }
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
   }
 }
 

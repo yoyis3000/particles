@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
+import sandboxStyles from './sandbox.scss';
 
-import Ripa, { RipaControlled } from '../src';
+import Ripa from '../src';
 
 const onChange = () => {
   console.warn('Tab changed; external callback triggered.');
@@ -13,23 +14,16 @@ const labels = [
   { k: 'baz', v: 'Some Baz' }
 ];
 
-const slot = <div>Right side slot</div>;
-
-const titleA = 'Vanilla Ripa';
-const titleB = 'Ripa Controlled';
+const slotL = <div className={sandboxStyles.left}>Left side slot</div>;
+const slotR = <div className={sandboxStyles.right}>Right side slot</div>;
 
 const selectedKey = labels[0].k;
 
+const stylesheets = [sandboxStyles];
+
 render(
-  <div>
-    <Ripa
-      {...{ onChange, labels, slot, selectedKey }}
-      title={titleA}
-    />
-    <RipaControlled
-      {...{ onChange, labels, slot, selectedKey }}
-      title={titleB}
-    />
-  </div>,
+  <Ripa
+    {...{ onChange, labels, slotL, slotR, selectedKey, stylesheets }}
+  />,
   window.document.getElementById('root')
 );

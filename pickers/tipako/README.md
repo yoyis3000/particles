@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 2.4.9
+- Removing reset.scss
+
 ##### 2.4.8
 - Restored "clear all" to be available at all times
 - Removed disabled items from select all handling

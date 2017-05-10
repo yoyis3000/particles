@@ -1,11 +1,18 @@
-@import "../../shared/reset.scss";
 @import "../../shared/variables.scss";
 
 $itemH: 24px;
 
 .container {
+  box-sizing: border-box;
   padding-top: 30px;
   position: relative;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .dropdownContainer {

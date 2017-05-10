@@ -4,7 +4,10 @@ A loading spinner which wraps around content.
 
 # Change Log
 
-##### 1.2.0 - 1.2.4
+##### 1.2.4
+- Removing reset.scss
+
+##### 1.2.0 - 1.2.3
 - (Unintentional minor bump)
 - Adding Lerna publishing management
 - Splitting out dev dependencies

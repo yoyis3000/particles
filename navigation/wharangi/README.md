@@ -4,6 +4,12 @@ A pagination component.
 
 # Change Log
 
+##### 3.0.1
+- Removing reset.scss
+
+##### 3.0.0
+- Add onMount prop called from componentDidMount
+- `active` prop for managing active page instead of internal state
 ##### 2.0.3 - 2.1.3
 - (Unintentional minor bump)
 - Adding Lerna publishing management

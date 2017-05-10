@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
 import qs from 'qs';
-import { get, patch } from './TatariApi';
+import { get, patch, destroy } from './TatariApi';
 import TatariDropdownPlain from './TatariDropdownPlain';
 import TatariDropdownCheckboxes from './TatariDropdownCheckboxes';
 
 import baseStyles from './Tatari.scss';
-import defaultStyles from './TatariDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
@@ -13,22 +12,27 @@ let styles = {};
 export default class Tatari extends React.Component {
   static propTypes = {
     onComplete: PropTypes.func.isRequired,
+    filterOptions: PropTypes.func,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     urls: PropTypes.shape({
       available: PropTypes.string.isRequired,
       patch: PropTypes.string,
-      saved: PropTypes.string
-    }).isRequired
+      saved: PropTypes.string,
+      delete: PropTypes.string
+    }).isRequired,
+    i18n: PropTypes.shape()
   }
 
   static defaultProps = {
-    stylesheets: []
+    filterOptions: item => item,
+    stylesheets: [],
+    i18n: {}
   }
 
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    styles = composeStyles(baseStyles, [...props.stylesheets]);
 
     this.state = {
       activeFilters: [],
@@ -47,10 +51,20 @@ export default class Tatari extends React.Component {
       get(this.props.urls.available),
       get(this.props.urls.saved)
     ])
-    .then(([{ data: availableFilters }, { data: saved }]) => {
+    .then(([{ data: filterData }, { data: stored }]) => {
+      let saved = stored;
+
+      // This is only needed for backwards compatibility, will remove in the near future
+      // -- May the Fourth Be With You (2017)
+      if (Array.isArray(saved)) {
+        saved =
+          stored.reduce((acc, item) => Object.assign(acc, { [item.key]: item.storedValue }), {});
+      }
+
       const url = window.location.href.split('?');
       const params = qs.parse(url[1]);
       const previousFilters = params.filters || saved;
+      const availableFilters = this.props.filterOptions(filterData);
 
       const activeFilters = availableFilters.reduce((acc, filter, index) => {
         if (previousFilters[filter.key] !== undefined && previousFilters[filter.key] !== null) {
@@ -172,11 +186,18 @@ export default class Tatari extends React.Component {
   }
 
   saveOptions = () => {
+    if (!this.props.urls.patch) {
+      this.props.onComplete();
+      return;
+    }
+
     const payload = { filters: this.createPayload() };
 
-    Object.keys(payload.filters).length > 0
-      ? patch(this.props.urls.patch, payload).then(this.props.onComplete)
-      : this.props.onComplete();
+    if (Object.keys(payload.filters).length) {
+      patch(this.props.urls.patch, payload).then(this.props.onComplete);
+    } else {
+      destroy(this.props.urls.delete).then(this.props.onComplete);
+    }
   }
 
   checkOne = (evt) => {
@@ -277,10 +298,10 @@ export default class Tatari extends React.Component {
     inactiveFilters.push(item);
     inactiveFilters.sort((a, b) => (a.index - b.index));
 
-    this.setState({ inactiveFilters, activeFilters });
-
-    this.updateUrl();
-    this.saveOptions();
+    this.setState({ inactiveFilters, activeFilters }, () => {
+      this.updateUrl();
+      this.saveOptions();
+    });
   }
 
   removeAllActive = () => {
@@ -288,10 +309,10 @@ export default class Tatari extends React.Component {
     const inactive = inactiveFilters.concat(activeFilters)
       .sort((a, b) => (a.index - b.index));
 
-    this.setState({ inactiveFilters: inactive, activeFilters: [] }, this.updateUrl);
-
-    this.updateUrl();
-    this.saveOptions();
+    this.setState({ inactiveFilters: inactive, activeFilters: [] }, () => {
+      this.updateUrl();
+      this.saveOptions();
+    });
   }
 
   removeEmptyActive = () => {
@@ -322,6 +343,7 @@ export default class Tatari extends React.Component {
     const inactiveFilters = this.state.inactiveFilters.length
       ? (<TatariDropdownPlain
         data={this.state.inactiveFilters}
+        i18n={this.props.i18n}
         isExpanded={this.state.expanded.inactive}
         isLoading={this.state.loading.inactive}
         onChange={this.addActive}
@@ -334,6 +356,7 @@ export default class Tatari extends React.Component {
       .map(item => <TatariDropdownCheckboxes
         key={`active-${item.key}`}
         filter={item}
+        i18n={this.props.i18n}
         isExpanded={this.state.expanded[item.key]}
         isHiding={this.state.hiding[item.key]}
         isLoading={this.state.loading[item.key]}
@@ -352,7 +375,7 @@ export default class Tatari extends React.Component {
         onClick={this.removeAllActive}
         className={styles.clearAllFilters}
       >
-        Clear All
+        {this.props.i18n.clear_all}
       </div>)
       : null);
 

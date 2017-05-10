@@ -8,6 +8,8 @@ import baseStyles from './Ripanga.scss';
 import defaultStyles from './RipangaDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
+const SORT_DIRECTION = { ASC: 'asc', DESC: 'desc', NONE: 'none' };
+
 let styles = {};
 let showGroups = false;
 
@@ -40,6 +42,8 @@ const restoreHeader = (el) => {
   });
 };
 
+export { SORT_DIRECTION };
+
 export default class Ripanga extends React.Component {
   static propTypes = {
     columnDefinitions: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -51,8 +55,9 @@ export default class Ripanga extends React.Component {
     renderSidebarHeadCell: PropTypes.func,
     renderSidebarGroupCell: PropTypes.func,
     onSort: PropTypes.func,
-    scope: PropTypes.string,
+    scope: PropTypes.string.isRequired,
     showCheckboxes: PropTypes.bool,
+    sortState: PropTypes.shape(),
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired
   };
@@ -65,8 +70,8 @@ export default class Ripanga extends React.Component {
     renderSidebarBodyCell: null,
     renderSidebarHeadCell: null,
     renderSidebarGroupCell: null,
-    scope: 'ripanga',
     showCheckboxes: false,
+    sortState: { direction: SORT_DIRECTION.NONE, attribute: null },
     stylesheets: []
   }
 
@@ -160,12 +165,6 @@ export default class Ripanga extends React.Component {
     this.onScroll();
   }
 
-  onSort = () => {
-    if (this.props.onSort) {
-      this.props.onSort();
-    }
-  }
-
   onCollapse = (id) => {
     const { collapsedIds } = this.state;
 
@@ -234,6 +233,7 @@ export default class Ripanga extends React.Component {
     const {
       columnDefinitions,
       idKey,
+      onSort,
       renderCell,
       renderEmpty,
       renderGroupTitle,
@@ -241,6 +241,7 @@ export default class Ripanga extends React.Component {
       renderSidebarHeadCell,
       renderSidebarGroupCell,
       showCheckboxes,
+      sortState,
       tableData
     } = this.props;
 
@@ -294,9 +295,10 @@ export default class Ripanga extends React.Component {
               onCollapseAll: this.onCollapseAll,
               onScroll: this.onScroll,
               onScrollTrack: this.onScrollTrack,
-              onSort: this.onSort,
+              onSort,
               showGroups,
               showCheckboxes,
+              sortState,
               styles
             }) }
           </div>

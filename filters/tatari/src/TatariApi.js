@@ -9,3 +9,6 @@ export const get = (url, params) =>
 
 export const patch = (url, params, config) =>
   axios.patch(url, params, {...CSRFHEADER, ...config });
+
+export const destroy = (url, params, config) =>
+  axios.delete(url, params, {...CSRFHEADER, ...config });

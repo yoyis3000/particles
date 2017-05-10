@@ -4,7 +4,13 @@ A `<select>` dropdown to manage downloads.
 
 # Change Log
 
-##### 2.4.0 - 2.4.4
+##### 2.4.5
+- Removing reset.scss
+
+##### 2.4.4
+- Event listener removed on unmount
+
+##### 2.4.0 - 2.4.3
 - (Unintentional minor bump)
 - Adding Lerna publishing management
 - Splitting out dev dependencies

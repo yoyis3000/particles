@@ -10,8 +10,9 @@ const onSubmit = () => {
 };
 
 const stylesheets = [sandboxStyles];
+const placeholder = 'new Search function';
 
 render(
-  <Rapu {...{ onSubmit, stylesheets }} />,
+  <Rapu {...{ onSubmit, stylesheets, placeholder }} />,
   window.document.getElementById('root'),
 );

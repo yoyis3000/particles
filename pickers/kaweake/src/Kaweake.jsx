@@ -35,6 +35,10 @@ export default class Kaweake extends React.Component {
     window.addEventListener('click', this.onBlur);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onBlur);
+  }
+
   onFocus = (evt) => {
     evt.stopPropagation();
     this.setState({ expanded: !this.state.expanded });

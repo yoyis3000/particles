@@ -7,18 +7,16 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 
-const i18n = {
-  SEARCH_PLACEHOLDER: 'Search'
-};
-
 export default class Rapu extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape())
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    placeholder: PropTypes.string
   };
 
   static defaultProps = {
-    stylesheets: []
+    stylesheets: [],
+    placeholder: 'Search'
   };
 
   constructor(props) {
@@ -91,7 +89,7 @@ export default class Rapu extends React.Component {
           value={this.state.value}
           className={styles.input}
           type='text'
-          placeholder={i18n.SEARCH_PLACEHOLDER}
+          placeholder={this.props.placeholder}
           onSubmit={this.onSubmit}
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}

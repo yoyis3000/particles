@@ -4,6 +4,44 @@ A dynamically populated filter component.
 
 # Change Log
 
+#### 2.2.6
+- The CSS file was alphabetized, and unnecessary overrides were removed
+- Many micro style tweaks were made
+- The dropdown body is now responsive with a min- and max-width
+- The sandbox file has "more realistic" data now
+- The typeahead search bar in the dropdown body now has a placeholder value
+- Deleted unnecessary CSS files
+
+### 2.2.6
+- Added internationalization for placeholders
+
+#### 2.2.5
+- Added backwards compatibility for saved filters that come back as arrays rather than objects
+
+##### 2.2.4
+- Removing reset.scss
+
+##### 2.2.2, 2.2.3
+- Small style fixes
+
+##### 2.2.1
+- Autofocus
+
+##### 2.2.0
+- Adding `filterOptions` function
+
+##### 2.1.12
+- Restored search functionality after clear.
+
+##### 2.1.11
+- Added graceful handling if no PATCH endpoint provided
+
+##### 2.1.10
+- If empty, DELETE not PATCH.
+
+##### 2.1.9
+- Persisting text search even if no results
+
 ##### 2.1.7, 2.1.8
 - Text wrapping update
 - Removing default hover and rotate on arrow
@@ -71,7 +109,7 @@ A dynamically populated filter component.
 - Return to page 1 after filter update
 
 ##### 1.0.2
-- Minor padding udpate
+- Minor padding update
 
 ##### 1.0.1
 - Centering checkboxes on multiline items

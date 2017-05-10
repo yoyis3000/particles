@@ -1,28 +1,24 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import qs from 'qs';
-
-const DIRECTION = { ASC: 'asc', DESC: 'desc' };
+import { SORT_DIRECTION } from './Ripanga';
 
 const RipangaHeadCell = ({
   def,
   onSort,
+  sortState,
   styles
 }) => {
-  const url = window.location.href.split('?');
-  const params = qs.parse(url[1]);
-
   const onClick = () => {
     if (def.sortable === false) {
       return;
     }
 
-    onSort();
+    onSort(def);
   };
 
   let arrow = null;
-  if (def.sortable === true && def.sortKey === params.sort.attribute) {
-    arrow = (params.sort.direction === DIRECTION.DESC
+  if (sortState.attribute && sortState.attribute === def.sortKey && sortState.direction !== SORT_DIRECTION.NONE) {
+    arrow = (sortState.direction === SORT_DIRECTION.DESC
       ? <i className='fa fa-long-arrow-down' />
       : <i className='fa fa-long-arrow-up' />);
   }
@@ -34,7 +30,7 @@ const RipangaHeadCell = ({
 
   return (
     <div
-      className={cx(styles.headCell, styles[`w${def.width}px`])}
+      className={cx(styles.headCell, styles[`w${def.width}px`], { [styles.sortable]: def.sortable })}
       key={`head-${def.key}`}
       onClick={onClick}
     >
@@ -47,6 +43,7 @@ const RipangaHeadCell = ({
 RipangaHeadCell.propTypes = {
   def: PropTypes.shape().isRequired,
   onSort: PropTypes.func.isRequired,
+  sortState: PropTypes.shape().isRequired,
   styles: PropTypes.shape().isRequired
 };
 

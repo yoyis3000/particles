@@ -1,22 +1,24 @@
-@import "../../../shared/reset";
-
 .container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin: 0;
+  padding: 0;
   width: 100%;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+  }
 }
 
-.title {
-  display: flex;
-  font-size: 30px;
-  font-weight: 300;
-  margin-right: 35px;
+.slotL {
+  font-family: inherit;
 }
 
-.slot {
-  display: flex;
-  margin-left: auto;
+.slotR {
+  font-family: inherit;
 }
 
 .tab {

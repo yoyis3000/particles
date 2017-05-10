@@ -11,11 +11,12 @@ const RipangaHeadRow = ({
   onSort,
   showCheckboxes,
   showGroups,
+  sortState,
   styles
 }) => {
   const cells = columnDefinitions.reduce((acc, def) => {
     if (def.hidden !== true) {
-      acc.push(RipangaHeadCell({ def, onSort, styles }));
+      acc.push(RipangaHeadCell({ def, onSort, sortState, styles }));
     }
 
     return acc;
@@ -53,6 +54,7 @@ RipangaHeadRow.propTypes = {
   onSort: PropTypes.func.isRequired,
   showCheckboxes: PropTypes.bool.isRequired,
   showGroups: PropTypes.bool.isRequired,
+  sortState: PropTypes.shape().isRequired,
   styles: PropTypes.shape().isRequired
 };
 

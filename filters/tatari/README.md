@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.3.1
+- When a filter selection has no `options` associated with it, the typeahead search bar is not available
+
 ##### 2.3.0
 - When only one item is selected, it is displayed in the dropdown title token for better visibility
 

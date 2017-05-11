@@ -94,8 +94,8 @@ const TatariDropdownCheckboxes = ({
     </div>)
     : null;
 
-  const activeSearch = (
-    <div className={styles.activeSearch}>
+  const activeSearch = options.length > 0
+    ? (<div className={styles.activeSearch}>
       <input
         autoFocus
         className={styles.activeInput}
@@ -105,8 +105,8 @@ const TatariDropdownCheckboxes = ({
         placeholder='Search'
       />
       <div className={cx('fa', 'fa-search', styles.activeIcon)} />
-    </div>
-  );
+    </div>)
+    : null;
 
   return (<div className={styles.dropdownContainer}>
     <div

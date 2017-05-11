@@ -242,7 +242,7 @@ $searchH: 30px;
 
 .inactiveItem {
   cursor: pointer;
-  padding: $p;
+  padding: $p ($p * 2);
 
   &:hover {
     background: palette(gray, light);

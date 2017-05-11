@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 1.1.3
+- onChange called without using state options
+
 ##### 1.1.2
 - Adding drag handle, removing drop shadow
 - Removing reset.scss

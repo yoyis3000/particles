@@ -75,7 +75,7 @@ export default class Tiwae extends React.Component {
     }
 
     this.setState({ ghostIndex: -1, startIndex: -1, options });
-    this.props.onChange(this.state.options);
+    this.props.onChange(options);
   }
 
   onCheck = (evt) => {
@@ -86,7 +86,7 @@ export default class Tiwae extends React.Component {
     options[index].hidden = !options[index].hidden;
 
     this.setState({ options, ghostIndex: -1, startIndex: -1 });
-    this.props.onChange(this.state.options);
+    this.props.onChange(options);
   }
 
   onLock = (evt) => {
@@ -109,7 +109,7 @@ export default class Tiwae extends React.Component {
       });
 
     this.setState({ options });
-    this.props.onChange(this.state.options);
+    this.props.onChange(options);
   }
 
   onReset = (evt) => {
@@ -121,7 +121,7 @@ export default class Tiwae extends React.Component {
     }));
 
     this.setState({ ghostIndex: -1, options, startIndex: -1 });
-    this.props.onChange(this.state.options);
+    this.props.onChange(options);
   }
 
   onItemClick = (evt) => {

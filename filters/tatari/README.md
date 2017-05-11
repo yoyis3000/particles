@@ -4,7 +4,11 @@ A dynamically populated filter component.
 
 # Change Log
 
-#### 2.2.6
+##### 2.3.0
+- When only one item is selected, it is displayed in the dropdown title token for better visibility
+
+##### 2.2.6
+- Added internationalization for placeholders
 - The CSS file was alphabetized, and unnecessary overrides were removed
 - Many micro style tweaks were made
 - The dropdown body is now responsive with a min- and max-width
@@ -12,10 +16,7 @@ A dynamically populated filter component.
 - The typeahead search bar in the dropdown body now has a placeholder value
 - Deleted unnecessary CSS files
 
-### 2.2.6
-- Added internationalization for placeholders
-
-#### 2.2.5
+##### 2.2.5
 - Added backwards compatibility for saved filters that come back as arrays rather than objects
 
 ##### 2.2.4

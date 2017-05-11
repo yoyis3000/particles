@@ -249,6 +249,25 @@ $searchH: 30px;
   }
 }
 
+.itemList {
+  overflow-y: auto;
+}
+
+.singleSelection {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.singleSelectionDropdownTitle {
+  font-size: 10px;
+  line-height: normal;
+  overflow: hidden;
+  padding: 0 5px 0 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

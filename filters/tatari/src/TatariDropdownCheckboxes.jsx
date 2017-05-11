@@ -16,7 +16,7 @@ const TatariDropdownCheckboxes = ({
   styles
 }) => {
   const count = options.reduce((acc, option) => (option.checked ? acc + 1 : acc), 0);
-  const adjustedCount = (count ? <div className={styles.activeCount}>({count})</div> : null);
+  const adjustedCount = (count > 1 ? <div className={styles.activeCount}>({count})</div> : null);
 
   function onClick(evt) {
     evt.stopPropagation();
@@ -41,7 +41,20 @@ const TatariDropdownCheckboxes = ({
       />
     </div>);
 
-  const text = <div className={styles.dropdownTitle}>{filter.value}</div>;
+  const singleSelection = options.reduce((acc, option) => {
+    if (count === 1 && option.checked) {
+      acc.push(<div className={styles.singleSelection}>{option.value}</div>);
+    }
+
+    return acc;
+  }, []);
+
+  const text = (count === 1
+    ? (<div className={styles.singleSelectionDropdownTitle}>
+      {filter.value}:
+      {singleSelection}
+    </div>)
+    : <div className={styles.dropdownTitle}>{filter.value}</div>);
 
   const items = options.reduce((acc, option) => {
     if (option.hidden !== true) {

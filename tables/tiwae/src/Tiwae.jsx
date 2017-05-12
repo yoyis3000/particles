@@ -7,9 +7,10 @@ let styles = {};
 
 export default class Tiwae extends React.Component {
   static propTypes = {
+    columns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    defaultColumns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
@@ -23,7 +24,7 @@ export default class Tiwae extends React.Component {
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
-    const options = props.options.map(option => Object.assign(option, {
+    const columns = props.columns.map(option => Object.assign(option, {
       hidden: option.hidden || option.hidden,
       locked: option.locked || option.locked
     }));
@@ -31,7 +32,7 @@ export default class Tiwae extends React.Component {
     this.state = {
       expanded: false,
       ghostIndex: -1,
-      options,
+      columns,
       startIndex: -1
     };
   }
@@ -54,7 +55,7 @@ export default class Tiwae extends React.Component {
   onDragOverElement = (evt) => {
     evt.preventDefault();
 
-    const lastLocked = this.state.options.reduce((acc, option, i) => (option.locked ? i : acc), -1);
+    const lastLocked = this.state.columns.reduce((acc, option, i) => (option.locked ? i : acc), -1);
     const index = parseInt(evt.currentTarget.dataset.index, 10);
 
     if (index > lastLocked) {
@@ -65,28 +66,28 @@ export default class Tiwae extends React.Component {
   onDrop = (evt) => {
     evt.preventDefault();
 
-    const { options, ghostIndex, startIndex } = this.state;
+    const { columns, ghostIndex, startIndex } = this.state;
 
-    const lastLocked = options.reduce((acc, option, i) => (option.locked ? i : acc), -1);
+    const lastLocked = columns.reduce((acc, option, i) => (option.locked ? i : acc), -1);
 
     if (ghostIndex > lastLocked) {
-      const originalElement = options.splice(startIndex, 1);
-      options.splice(ghostIndex, 0, originalElement[0]);
+      const originalElement = columns.splice(startIndex, 1);
+      columns.splice(ghostIndex, 0, originalElement[0]);
     }
 
-    this.setState({ ghostIndex: -1, startIndex: -1, options });
-    this.props.onChange(options);
+    this.setState({ ghostIndex: -1, startIndex: -1, columns });
+    this.props.onChange(columns);
   }
 
   onCheck = (evt) => {
     evt.stopPropagation();
 
     const index = evt.currentTarget.dataset.index;
-    const { options } = this.state;
-    options[index].hidden = !options[index].hidden;
+    const { columns } = this.state;
+    columns[index].hidden = !columns[index].hidden;
 
-    this.setState({ options, ghostIndex: -1, startIndex: -1 });
-    this.props.onChange(options);
+    this.setState({ columns, ghostIndex: -1, startIndex: -1 });
+    this.props.onChange(columns);
   }
 
   onLock = (evt) => {
@@ -95,7 +96,7 @@ export default class Tiwae extends React.Component {
 
     const index = evt.currentTarget.dataset.index * 1;
 
-    const options = this.state.options
+    const columns = this.state.columns
       .map((option, i) => {
         if (i === index) {
           return Object.assign(option, { locked: !option.locked });
@@ -108,20 +109,20 @@ export default class Tiwae extends React.Component {
         return Object.assign(option, { locked: false });
       });
 
-    this.setState({ options });
-    this.props.onChange(options);
+    this.setState({ columns });
+    this.props.onChange(columns);
   }
 
   onReset = (evt) => {
     evt.stopPropagation();
 
-    const options = this.props.options.map(option => Object.assign(option, {
+    const columns = this.props.defaultColumns.map(option => Object.assign(option, {
       hidden: false,
       locked: false
     }));
 
-    this.setState({ ghostIndex: -1, options, startIndex: -1 });
-    this.props.onChange(options);
+    this.setState({ ghostIndex: -1, columns, startIndex: -1 });
+    this.props.onChange(columns);
   }
 
   onItemClick = (evt) => {
@@ -140,12 +141,12 @@ export default class Tiwae extends React.Component {
   render() {
     const {
       ghostIndex,
-      options,
+      columns,
       startIndex
     } = this.state;
 
-    const items = options.map((option, index) => {
-      const lock = (index < this.props.lockLimit && (index === 0 || options[index - 1].locked))
+    const items = columns.map((option, index) => {
+      const lock = (index < this.props.lockLimit && (index === 0 || columns[index - 1].locked))
         ? (<div
           className={`fa
             ${option.locked ? 'fa-lock' : 'fa-unlock'}

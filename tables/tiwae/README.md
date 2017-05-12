@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.0.0
+- Default columns added as a required prop
+
 ##### 1.1.3
 - onChange called without using state options
 

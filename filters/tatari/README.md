@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+#####2.3.2
+- Added in internationalization placeholders for sandbox
+
 ##### 2.3.1
 - When a filter selection has no `options` associated with it, the typeahead search bar is not available
 

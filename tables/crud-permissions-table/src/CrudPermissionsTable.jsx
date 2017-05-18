@@ -7,6 +7,8 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
 
+const contains = (val, dataArray) => Boolean(dataArray && dataArray.indexOf(val) > -1);
+
 export default class CrudPermissionsTable extends React.Component {
   static propTypes = {
     bodyData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -29,7 +31,7 @@ export default class CrudPermissionsTable extends React.Component {
     return <div className={styles.headRow}>{headCells}</div>;
   }
 
-  static renderGroupRow = ({ isChecked, isCollapsed, key, onChange, onCollapse }) => (
+  static renderGroupRow = ({ isChecked, isCollapsed, isDisabled, key, onChange, onCollapse }) => (
     <div className={styles.groupTitleRow} key={`group-${key.id}`}>
       <div
         className={styles.caret}
@@ -39,14 +41,38 @@ export default class CrudPermissionsTable extends React.Component {
         <div className={cx(styles.triangle, { [styles.collapsed]: isCollapsed })} />
       </div>
       <div className={cx(styles.groupTitle, styles.cell0)}>{key.label}</div>
-      <label className={styles.cell1}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='create' checked={!!isChecked.create} {...{ onChange }} />
+      <label className={cx(styles.cell1, { [styles.disabled]: isDisabled.create })}>
+        <input
+          type='checkbox'
+          disabled={isDisabled.create}
+          data-uneditable={isDisabled.create}
+          data-group-id={key.id}
+          data-crud-type='create'
+          checked={!!isChecked.create}
+          {...{ onChange }}
+        />
       </label>
-      <label className={styles.cell2}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='update' checked={!!isChecked.update} {...{ onChange }} />
+      <label className={cx(styles.cell2, { [styles.disabled]: isDisabled.update })}>
+        <input
+          type='checkbox'
+          disabled={isDisabled.update}
+          data-uneditable={isDisabled.update}
+          data-group-id={key.id}
+          data-crud-type='update'
+          checked={!!isChecked.update}
+          {...{ onChange }}
+        />
       </label>
-      <label className={styles.cell3}>
-        <input type='checkbox' data-group-id={key.id} data-crud-type='delete' checked={!!isChecked.delete} {...{ onChange }} />
+      <label className={cx(styles.cell3, { [styles.disabled]: isDisabled.delete })}>
+        <input
+          type='checkbox'
+          disabled={isDisabled.delete}
+          data-uneditable={isDisabled.delete}
+          data-group-id={key.id}
+          data-crud-type='delete'
+          checked={!!isChecked.delete}
+          {...{ onChange }}
+        />
       </label>
     </div>
   );
@@ -54,14 +80,38 @@ export default class CrudPermissionsTable extends React.Component {
   static renderBodyRows = ({ data, onChange }) => data.map(row =>
     (<div className={styles.bodyRow} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
-      <label className={styles.cell1}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='create' checked={!!row.create} {...{ onChange }} />
+      <label className={cx(styles.cell1, { [styles.disabled]: contains('create', row.uneditableOptions) })}>
+        <input
+          type='checkbox'
+          disabled={contains('create', row.uneditableOptions)}
+          data-uneditable={contains('create', row.uneditableOptions)}
+          data-row-id={row.id}
+          data-crud-type='create'
+          checked={!!row.create}
+          {...{ onChange }}
+        />
       </label>
-      <label className={styles.cell2}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='update' checked={!!row.update} {...{ onChange }} />
+      <label className={cx(styles.cell2, { [styles.disabled]: contains('update', row.uneditableOptions) })}>
+        <input
+          type='checkbox'
+          disabled={contains('update', row.uneditableOptions)}
+          data-uneditable={contains('update', row.uneditableOptions)}
+          data-row-id={row.id}
+          data-crud-type='update'
+          checked={!!row.update}
+          {...{ onChange }}
+        />
       </label>
-      <label className={styles.cell3}>
-        <input type='checkbox' data-row-id={row.id} data-crud-type='delete' checked={!!row.delete} {...{ onChange }} />
+      <label className={cx(styles.cell3, { [styles.disabled]: contains('delete', row.uneditableOptions) })}>
+        <input
+          type='checkbox'
+          disabled={contains('delete', row.uneditableOptions)}
+          data-uneditable={contains('delete', row.uneditableOptions)}
+          data-row-id={row.id}
+          data-crud-type='delete'
+          checked={!!row.delete}
+          {...{ onChange }}
+        />
       </label>
     </div>));
 
@@ -96,6 +146,7 @@ export default class CrudPermissionsTable extends React.Component {
     bodyData.forEach((group, groupIndex) => {
       if (group.key.id === groupId) {
         group.data.forEach((row, rowIndex) => {
+          if (contains(crudType, row.uneditableOptions)) { return; }
           bodyData[groupIndex].data[rowIndex][crudType] = !isChecked;
         });
 
@@ -146,12 +197,11 @@ export default class CrudPermissionsTable extends React.Component {
   }
 
   updateGroupCheckboxes = bodyData => bodyData.reduce((acc, group) => {
-    const groupCheckedState = group.data.reduce((acc2, row) =>
-      Object.assign(acc2, {
-        create: acc2.create && row.create,
-        update: acc2.update && row.update,
-        delete: acc2.delete && row.delete
-      }), { create: true, update: true, delete: true });
+    const groupCheckedState = group.data.reduce((acc2, row) => ({
+      create: acc2.create && (row.create || contains('create', row.uneditableOptions)),
+      update: acc2.update && (row.update || contains('update', row.uneditableOptions)),
+      delete: acc2.delete && (row.delete || contains('delete', row.uneditableOptions))
+    }), { create: true, update: true, delete: true });
 
     return Object.assign(acc, { [group.key.id]: groupCheckedState });
   }, {});
@@ -162,9 +212,16 @@ export default class CrudPermissionsTable extends React.Component {
     const headCells = CrudPermissionsTable.renderHeadCells(this.props.headData);
 
     const bodyCells = this.state.bodyData.reduce((acc, group) => {
+      const isDisabled = group.data.reduce((disabled, row) => ({
+        create: disabled.create && contains('create', row.uneditableOptions),
+        update: disabled.update && contains('update', row.uneditableOptions),
+        delete: disabled.delete && contains('delete', row.uneditableOptions)
+      }), { create: true, update: true, delete: true });
+
       acc.push(CrudPermissionsTable.renderGroupRow({
         isChecked: checkedGroupIds[group.key.id],
         isCollapsed: collapsedGroupIds[group.key.id],
+        isDisabled,
         key: group.key,
         onChange: this.onGroupCheck,
         onCollapse: this.onGroupCollapse

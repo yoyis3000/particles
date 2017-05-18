@@ -4,6 +4,9 @@ An (optionally) dismissable notification bar.
 
 # Change Log
 
+### 1.2.5
+- Made proptypes correct
+
 #### 1.2.4
 - Removing reset.scss
 

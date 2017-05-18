@@ -40,7 +40,7 @@ const Mataara = ({ title, body, type, onCancel, noDismiss, stylesheets }) => {
 };
 
 Mataara.propTypes = {
-  body: React.PropTypes.oneOf(PropTypes.string, PropTypes.object).isRequired,
+  body: React.PropTypes.oneOf([PropTypes.string, PropTypes.object]).isRequired,
   noDismiss: React.PropTypes.bool,
   onCancel: React.PropTypes.func,
   stylesheets: PropTypes.arrayOf(PropTypes.shape()),

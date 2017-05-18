@@ -16,7 +16,7 @@ const def = {
 
 const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData.text}</td>;
 
-const columnDefinitions = [
+const columns = [
   Object.assign({ def, renderer: renderCell }, { label: 'Col A', key: 'colA' }),
   Object.assign({ def, renderer: renderCell }, { label: 'Col B', key: 'colB' }),
   Object.assign({ def, renderer: renderCell }, { label: 'Col C', key: 'colC' }),
@@ -27,6 +27,8 @@ const columnDefinitions = [
   Object.assign({ def, renderer: renderCell }, { label: 'Col H', key: 'colH' }),
   Object.assign({ def, renderer: renderCell }, { label: 'Col I', key: 'colI' })
 ];
+
+const defaultColumns = columns;
 
 const onChange = (newColumnDefinitions) => {
   console.warn(newColumnDefinitions); // eslint-disable-line
@@ -39,9 +41,10 @@ const lockLimit = 3;
 render(
   <ColumnOrganizer
     {...{
+      columns,
+      defaultColumns,
       lockLimit,
       onChange,
-      options: columnDefinitions,
       stylesheets
     }}
   />,

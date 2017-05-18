@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import qs from 'qs';
 import baseStyles from './Rapu.scss';
-import defaultStyles from './RapuDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
@@ -22,7 +21,7 @@ export default class Rapu extends React.Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    styles = composeStyles(baseStyles, [...props.stylesheets]);
 
     const url = window.location.href.split('?');
     const params = qs.parse(url[1]);
@@ -84,7 +83,7 @@ export default class Rapu extends React.Component {
 
   render() {
     return (
-      <div className={styles.search}>
+      <div className={styles.searchContainer}>
         <input
           value={this.state.value}
           className={styles.input}

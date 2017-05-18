@@ -4,6 +4,13 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.13
+- CSS alphabetized and unnecessary overrides deleted
+- Renaming certain things for parity with Tatari
+- Switched lots of hardcoded styles to variables
+- Deleting unnecessary stylesheets, pointing to shared variables
+- Identical sandbox environment (style-wise) as Tatari
+
 ##### 2.0.12
 - Added in internationalization for search placeholders
 

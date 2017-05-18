@@ -91,9 +91,10 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.onScroll);
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('uncheck', this.onExternalUncheckAll);
+    window.addEventListener('table/checkAll', this.onCheckAll);
+    window.addEventListener('table/checkOne', ({ detail: id }) => this.onRowCheck(id));
+    window.addEventListener('table/resize', debouncedResize);
+    window.addEventListener('table/scroll', this.onScroll);
 
     this.onResize();
   }
@@ -107,9 +108,10 @@ export default class Ripanga extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', debouncedResize);
-    window.removeEventListener('uncheck', this.onExternalUncheckAll);
+    window.removeEventListener('table/checkAll', this.onCheckAll);
+    window.removeEventListener('table/checkOne', id => this.onRowCheck(id));
+    window.removeEventListener('table/resize', debouncedResize);
+    window.removeEventListener('table/scroll', this.onScroll);
   }
 
   onScroll = () => {
@@ -209,17 +211,12 @@ export default class Ripanga extends React.Component {
 
   onCheckAll = () => {
     const allChecked = !this.state.allChecked;
-    const checkedIds = Object.keys(this.state.checkedIds)
-      .reduce((acc, k) => Object.assign(acc, { [k]: allChecked }), {});
+
+    const checkedIds =
+      this.props.tableData[0].data
+        .reduce((acc, item) => Object.assign(acc, { [item.id]: allChecked }), {});
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
-  }
-
-  onExternalUncheckAll = () => {
-    const checkedIds = Object.keys(this.state.checkedIds)
-      .reduce((acc, k) => Object.assign(acc, { [k]: false }), {});
-
-    this.setState({ allChecked: false, checkedIds }, this.updateStorage);
   }
 
   updateStorage = () => {

@@ -81,7 +81,7 @@ render(
   <div className={sandboxStyles.sandboxContainer}>
     <button
       className={sandboxStyles.btnUncheck}
-      onClick={() => { window.dispatchEvent(new CustomEvent('uncheck')); }}
+      onClick={() => { window.dispatchEvent(new CustomEvent('table/checkAll')); }}
     >
       Uncheck All
     </button>

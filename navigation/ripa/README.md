@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 3.0.1
+- Removing extraneous :focus styling
+
 ##### 3.0.0
 - Replaced required `<h1>` tag with optional slot
 - Removing `RipaControlled` (no more URL management)

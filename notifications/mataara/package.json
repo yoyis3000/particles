@@ -1,6 +1,6 @@
 {
   "name": "mataara",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "An (optionally) dismissable notification bar.",
   "main": "index.js",
   "scripts": {

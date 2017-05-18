@@ -1,4 +1,3 @@
-@import "../../../../shared/reset.scss";
 @import "../../../../shared/variables.scss";
 
 $h: 30px;
@@ -11,6 +10,7 @@ $p: 5px;
   height: $h - 2;
   line-height: $h - 2;
   margin-left: -29px;
+  margin-right: 1px;
   margin-top: 1px;
   text-align: center;
   width: $h - 2;
@@ -49,6 +49,7 @@ $p: 5px;
 
     &.expanded {
       transform: rotate(180deg);
+      margin-left: 1px;
     }
   }
 
@@ -70,7 +71,7 @@ $p: 5px;
   overflow: hidden;
   position: absolute;
   transition: all 0.15s ease;
-  width: 100%;
+  width: auto;
 
   &.expanded {
     background: #fff;
@@ -87,19 +88,20 @@ $p: 5px;
 }
 
 .input {
-  display: block;
-  height: $h;
-  line-height: $h;
-  padding: 0 56px 0 4px;
-  width: 100%;
-  max-width: 200px;
   cursor: text;
+  display: block;
+  line-height: $h;
+  max-width: 200px;
+  padding: 0 0 0 4px;
+  width: 100%;
 }
 
 .inputContainer {
+  display: flex;
+  max-height: 30px;
+  max-width: 200px;
   overflow: hidden;
   position: relative;
-  display: flex;
 }
 
 .item {
@@ -137,7 +139,6 @@ $p: 5px;
 }
 
 .picker {
-  margin-top: 2px;
   position: relative;
 }
 
@@ -145,14 +146,14 @@ $p: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  height: 28px;
+  height: 29px;
   margin-right: 29px;
   position: absolute;
   right: 0;
   top: 1px;
   transition: background 0.3s ease;
   vertical-align: middle;
-  width: 28px;
+  width: 29px;
 
   &:focus {
     outline: none;

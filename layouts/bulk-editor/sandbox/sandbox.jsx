@@ -59,7 +59,7 @@ const valueField = 'id';
 const onSubmit = ({ ids, fields }) => console.log("ids: ", ids, "field values: ", fields); // eslint-disable-line
 const onRemove = item => console.log('Would have removed: ', item); // eslint-disable-line
 
-const stylesheets = [sandboxStyles];
+const stylesheets = [];
 
 render(
   <div style={{ margin: '10px' }}>

@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.1.0
+- Triangle added to top
+
 ##### 2.0.0
 - Default columns added as a required prop
 

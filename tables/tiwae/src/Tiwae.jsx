@@ -187,6 +187,8 @@ export default class Tiwae extends React.Component {
       <div className={styles.container}>
         <div className={`${styles.button} fa fa-ellipsis-v`} onClick={this.onExpand} />
         <div className={`${styles.dropdownContainer} ${this.state.expanded ? styles.expanded : ''}`}>
+          <div className={styles.dropdownTriangle} />
+
           <div className={styles.dropdownHead}>
             <div className={styles.title}>Show, Hide, or Reorder Columns</div>
             <div onClick={this.onReset} className={styles.reset}>Reset to Default</div>

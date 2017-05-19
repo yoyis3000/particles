@@ -1,10 +1,11 @@
 @import "../../shared/variables.scss";
 
 $itemH: 24px;
+$buttonH: 24px;
 
 .container {
   box-sizing: border-box;
-  padding-top: 30px;
+  padding-top: $buttonH;
   position: relative;
 
   * {
@@ -16,8 +17,9 @@ $itemH: 24px;
 }
 
 .dropdownContainer {
+  $bezier: cubic-bezier(0, 0.2, 0.5, 1);
+
   background-color: #fff;
-  border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 0;
   max-height: 0;
@@ -25,29 +27,48 @@ $itemH: 24px;
   opacity: 0;
   overflow: hidden;
   position: relative;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s $bezier;
   width: 100%;
 
-  &::after {
-    border: 8px solid transparent;
-    border-bottom-color: #777;
-    content: '';
-    position: absolute;
-    right: 3px;
-    top: -16px;
-  }
-
   &.expanded {
-    border-color: #c2c2c2;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    box-shadow: -8px 8px 8px -8px rgba(0, 0, 0, 0.26);
     height: auto;
     max-height: 460px;
     opacity: 1;
   }
 }
 
+.dropdownTriangle {
+  $h: 16px;
+
+  height: $h / 2;
+  position: relative;
+
+  &::after {
+    border: 8px solid transparent;
+    border-bottom-color: #bbb;
+    bottom: 0;
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: #{1 - $h}px;
+    z-index: 1;
+  }
+
+  &::before {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    bottom: -1px;
+    content: '';
+    position: absolute;
+    right: 6px;
+    z-index: 2;
+  }
+}
+
 .dropdownHead {
-  border-bottom: 1px solid #f2f2f2;
+  border: 1px solid #c2c2c2;
+  border-bottom-color: #f2f2f2;
   height: 60px;
   padding: 10px 15px;
   text-align: left;
@@ -55,7 +76,9 @@ $itemH: 24px;
 }
 
 .dropdownBody {
-  max-height: 400px;
+  border: 1px solid #c2c2c2;
+  border-top: 0;
+  max-height: 200px;
   overflow: auto;
   padding: 5px 0;
 }
@@ -64,14 +87,14 @@ $itemH: 24px;
   border-radius: 2px;
   color: #888;
   cursor: pointer;
-  height: 24px;
-  line-height: 24px;
+  height: $buttonH;
+  line-height: $buttonH;
   position: absolute;
   right: 0;
   text-align: center;
   top: 0;
   transition: background 0.2s ease, color 0.2s ease;
-  width: 24px;
+  width: $buttonH;
 
   &:hover {
     background: #ddd;

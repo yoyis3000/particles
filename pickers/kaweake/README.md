@@ -1,8 +1,11 @@
 # Kaweake
 
-A `<select>` dropdown to manage downloads.
+A dropdown to replace `<select>` tags.
 
 # Change Log
+
+##### 2.4.6
+- Description update
 
 ##### 2.4.5
 - Removing reset.scss

@@ -11,7 +11,6 @@ import composeStyles from '../../../shared/stylesheetComposer';
 const SORT_DIRECTION = { ASC: 'asc', DESC: 'desc', NONE: 'none' };
 
 let styles = {};
-let showGroups = false;
 
 let headerInitialTop = 0;
 
@@ -79,7 +78,6 @@ export default class Ripanga extends React.Component {
     super(props);
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
-    showGroups = (props.tableData.length > 0 && props.tableData[0].key !== undefined);
     debouncedResize = debounce(this.onResize, 100);
 
     this.state = {
@@ -138,6 +136,8 @@ export default class Ripanga extends React.Component {
     const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
     const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
     const len = tableRows.length;
+    const tableData = this.props.tableData;
+    const showGroups = (tableData.length > 0 && tableData[0].key !== undefined);
 
     for (let i = 0; i < len; i += 1) {
       sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
@@ -248,6 +248,8 @@ export default class Ripanga extends React.Component {
       checkedIds,
       collapsedIds
     } = this.state;
+
+    const showGroups = (tableData.length > 0 && tableData[0].key !== undefined);
 
     if (tableData.length === 0) {
       if (renderEmpty) {

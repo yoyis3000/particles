@@ -3,6 +3,8 @@
 A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.
 
 # Change Log
+##### 2.1.1
+- Patch groupBy
 ##### 2.1.0
 - Adding more exposed subscribable methods for table management
 -- checkAll, checkOne, resize, scroll standardized and namespaced to 'table'

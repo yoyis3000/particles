@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
+import clonedeep from 'lodash.clonedeep';
 
 import baseStyles from './CrudPermissionsTable.scss';
 import defaultStyles from './CrudPermissionsTableDefault.scss';
@@ -122,12 +123,12 @@ export default class CrudPermissionsTable extends React.Component {
   }
 
   componentWillMount() {
-    this.refreshState(this.props.bodyData);
+    this.refreshState(clonedeep(this.props.bodyData));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.bodyData !== this.props.bodyData) {
-      this.refreshState(nextProps.bodyData);
+      this.refreshState(clonedeep(nextProps.bodyData));
     }
   }
 

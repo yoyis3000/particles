@@ -4,6 +4,9 @@ A table to manage CRUD permissions.
 
 # Change Log
 
+#### 1.1.2
+- `lodash.clonedeep` to prevent the table from touching memory that the parent component has
+
 #### 1.1.1
 - commit the built file
 

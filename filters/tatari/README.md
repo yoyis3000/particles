@@ -4,7 +4,7 @@ A dynamically populated filter component.
 
 # Change Log
 
-#####2.3.2
+##### 2.3.2
 - Added in internationalization placeholders for sandbox
 
 ##### 2.3.1

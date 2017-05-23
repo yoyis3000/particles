@@ -246,7 +246,7 @@ export default class Tipako extends React.Component {
           return result.concat(<button
             onClick={(evt) => { this.onChildClick(evt, vv); }}
             className={cx(styles.item, styles.childItem, { [styles.disabled]: vv.disabled })}
-            key={`item-${vv.id}`}
+            key={`child-${v.id}-${vv.id}`}
           >
             {itemIcon}
             {vv.text}
@@ -264,7 +264,7 @@ export default class Tipako extends React.Component {
         const group = (<button
           onClick={(evt) => { this.onGroupClick(evt, v); }}
           className={cx(styles.item, styles.groupItem, { [styles.disabled]: v.disabled })}
-          key={`item-${v.id}`}
+          key={`group-${v.id}`}
         >
           {groupIcon}
           {v.text}
@@ -281,7 +281,7 @@ export default class Tipako extends React.Component {
       const ungrouped = (<button
         onClick={(evt) => { this.onUngroupedClick(evt, v); }}
         className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
-        key={`item-${v.id}`}
+        key={`ungrouped-${v.id}`}
       >
         {itemIcon}
         {v.text}

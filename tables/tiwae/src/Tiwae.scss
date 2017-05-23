@@ -1,92 +1,15 @@
 @import "../../shared/variables.scss";
 
-$itemH: 24px;
 $buttonH: 24px;
-
-.container {
-  box-sizing: border-box;
-  padding-top: $buttonH;
-  position: relative;
-
-  * {
-    box-sizing: border-box;
-    cursor: default;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-.dropdownContainer {
-  $bezier: cubic-bezier(0, 0.2, 0.5, 1);
-
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0;
-  max-height: 0;
-  min-width: 300px;
-  opacity: 0;
-  overflow: hidden;
-  position: relative;
-  transition: max-height 0.3s ease, opacity 0.3s $bezier;
-  width: 100%;
-
-  &.expanded {
-    box-shadow: -8px 8px 8px -8px rgba(0, 0, 0, 0.26);
-    height: auto;
-    max-height: 460px;
-    opacity: 1;
-  }
-}
-
-.dropdownTriangle {
-  $h: 16px;
-
-  height: $h / 2;
-  position: relative;
-
-  &::after {
-    border: 8px solid transparent;
-    border-bottom-color: #bbb;
-    bottom: 0;
-    content: '';
-    position: absolute;
-    right: 5px;
-    top: #{1 - $h}px;
-    z-index: 1;
-  }
-
-  &::before {
-    border: 7px solid transparent;
-    border-bottom-color: #fff;
-    bottom: -1px;
-    content: '';
-    position: absolute;
-    right: 6px;
-    z-index: 2;
-  }
-}
-
-.dropdownHead {
-  border: 1px solid #c2c2c2;
-  border-bottom-color: #f2f2f2;
-  height: 60px;
-  padding: 10px 15px;
-  text-align: left;
-  user-select: none;
-}
-
-.dropdownBody {
-  border: 1px solid #c2c2c2;
-  border-top: 0;
-  max-height: 200px;
-  overflow: auto;
-  padding: 5px 0;
-}
+$itemH: 24px;
+$m: 8px;
+$p: 8px;
 
 .button {
   border-radius: 2px;
   color: #888;
   cursor: pointer;
+  font-size: 16px;
   height: $buttonH;
   line-height: $buttonH;
   position: absolute;
@@ -102,30 +25,105 @@ $buttonH: 24px;
   }
 }
 
-.title {
-  font-size: 16px;
-  font-weight: bold;
-  height: 20px;
-  line-height: 20px;
+.container {
+  box-sizing: border-box;
+  padding-top: $buttonH;
+  position: relative;
+
+  * {
+    box-sizing: border-box;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+  }
 }
 
-.reset {
-  color: palette(blue, dark);
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 20px;
-  padding-left: 5px;
+.controlDivider {
+  font-size: 15px;
+  margin: 0 ($m * 2);
+}
 
-  &:hover {
-    text-decoration: underline;
+.controls {
+  align-items: center;
+  display: flex;
+  margin-top: $m * 2;
+}
+
+.dropdownBody {
+  border: 1px solid #c2c2c2;
+  border-top: 0;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.dropdownContainer {
+  $bezier: cubic-bezier(0, 0.2, 0.5, 1);
+
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: relative;
+  transition: max-height 0.3s ease, opacity 0.3s $bezier;
+
+  &.expanded {
+    box-shadow: -8px 8px 8px -8px rgba(0, 0, 0, 0.26);
+    height: auto;
+    max-height: 460px;
+    opacity: 1;
   }
+}
+
+.dropdownHead {
+  border: 1px solid #c2c2c2;
+  padding: $p * 2;
+  text-align: left;
+  user-select: none;
+}
+
+.dropdownTriangle {
+  $h: 16px;
+
+  height: $h / 2;
+  position: relative;
+
+  &::after {
+    border: 8px solid transparent;
+    border-bottom-color: #bbb;
+    bottom: 0;
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: #{1 - $h};
+    z-index: 1;
+  }
+
+  &::before {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    bottom: -1px;
+    content: '';
+    position: absolute;
+    right: 6px;
+    z-index: 2;
+  }
+}
+
+.ghost {
+  box-shadow: 0 2px 4px 0 palette(gray, dark);
+  background-color: palette(blue, xlight);
+  border-top: 1px solid palette(blue, light);
+  border-bottom: 1px solid palette(blue, light);
+  height: $itemH;
 }
 
 .item {
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 5px 10px 5px 20px;
+  padding: ($p / 2) ($p * 2);
 
   &.grab {
     opacity: 0.4;
@@ -157,10 +155,12 @@ $buttonH: 24px;
   }
 }
 
+
+
 .itemCheckbox {
   cursor: pointer;
   flex-shrink: 0;
-  margin-right: 5px;
+  margin-right: $m;
 }
 
 .itemLabel {
@@ -194,10 +194,22 @@ $buttonH: 24px;
   width: $itemH;
 }
 
-.ghost {
-  box-shadow: 0 2px 4px 0 palette(gray, dark);
-  background-color: palette(blue, xlight);
-  border-top: 1px solid palette(blue, light);
-  border-bottom: 1px solid palette(blue, light);
-  height: $itemH;
+.reset {
+  color: palette(blue, dark);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.selectAll {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: bold;
 }

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import baseStyles from './Tiwae.scss';
 import defaultStyles from './TiwaeDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
@@ -11,6 +12,7 @@ export default class Tiwae extends React.Component {
     defaultColumns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
+    onSelectAll: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
@@ -25,14 +27,17 @@ export default class Tiwae extends React.Component {
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     const columns = props.columns.map(option => Object.assign(option, {
-      hidden: option.hidden || option.hidden,
-      locked: option.locked || option.locked
+      hidden: option.hidden || false,
+      locked: option.locked || false
     }));
 
+    const isAllChecked = columns.every(column => !column.hidden);
+
     this.state = {
+      isAllChecked,
+      columns,
       expanded: false,
       ghostIndex: -1,
-      columns,
       startIndex: -1
     };
   }
@@ -86,9 +91,20 @@ export default class Tiwae extends React.Component {
     const { columns } = this.state;
     columns[index].hidden = !columns[index].hidden;
 
-    this.setState({ columns, ghostIndex: -1, startIndex: -1 });
+    const isAllChecked = this.state.columns.every(column => !column.hidden);
+
+    this.setState({ columns, ghostIndex: -1, startIndex: -1, isAllChecked });
     this.props.onChange(columns);
   }
+
+  onSelectAll = (evt) => {
+    evt.stopPropagation();
+
+    const isAllChecked = !this.state.isAllChecked;
+
+    this.setState({ isAllChecked });
+    this.props.onSelectAll(isAllChecked);
+  };
 
   onLock = (evt) => {
     evt.preventDefault();
@@ -121,7 +137,9 @@ export default class Tiwae extends React.Component {
       locked: false
     }));
 
-    this.setState({ ghostIndex: -1, columns, startIndex: -1 });
+    const isAllChecked = this.state.columns.every(column => !column.hidden);
+
+    this.setState({ ghostIndex: -1, columns, startIndex: -1, isAllChecked });
     this.props.onChange(columns);
   }
 
@@ -144,6 +162,20 @@ export default class Tiwae extends React.Component {
       columns,
       startIndex
     } = this.state;
+
+    const controls = (<div className={styles.controls}>
+      <div className={styles.selectAll} onClick={this.onSelectAll}>
+        <input
+          checked={this.state.isAllChecked}
+          className={styles.itemCheckbox}
+          onChange={this.onSelectAll}
+          type='checkbox'
+        />
+        <div className={styles.itemLabel}>Select All</div>
+      </div>
+      <span className={styles.controlDivider}>|</span>
+      <div className={styles.reset} onClick={this.onReset} >Reset to Default</div>
+    </div>);
 
     const items = columns.map((option, index) => {
       const lock = (index < this.props.lockLimit && (index === 0 || columns[index - 1].locked))
@@ -188,10 +220,9 @@ export default class Tiwae extends React.Component {
         <div className={`${styles.button} fa fa-ellipsis-v`} onClick={this.onExpand} />
         <div className={`${styles.dropdownContainer} ${this.state.expanded ? styles.expanded : ''}`}>
           <div className={styles.dropdownTriangle} />
-
           <div className={styles.dropdownHead}>
             <div className={styles.title}>Show, Hide, or Reorder Columns</div>
-            <div onClick={this.onReset} className={styles.reset}>Reset to Default</div>
+            {controls}
           </div>
           <div
             className={styles.dropdownBody}

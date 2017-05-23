@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.2.0
+- Select all control added
+
 ##### 2.1.0
 - Triangle added to top
 

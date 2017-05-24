@@ -3,6 +3,8 @@
 A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.
 
 # Change Log
+##### 2.1.2
+adjusted naming convention for ongroupselect from `key` to `name`
 ##### 2.1.1
 - Patch groupBy
 ##### 2.1.0

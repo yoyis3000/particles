@@ -196,7 +196,7 @@ export default class Ripanga extends React.Component {
   }
 
   onGroupCheck = (groupId) => {
-    const groupIds = this.props.tableData.find(d => d.key.name === groupId)
+    const groupIds = this.props.tableData.find(d => d.key.key === groupId)
       .data
       .reduce((acc, row) => acc.concat(row[this.props.idKey]), []);
 

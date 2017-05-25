@@ -4,6 +4,9 @@ A table to manage CRUD permissions.
 
 # Change Log
 
+#### 1.1.3
+- when an entire column in a group was disabled, the group box was checked
+
 #### 1.1.2
 - `lodash.clonedeep` to prevent the table from touching memory that the parent component has
 

@@ -23,26 +23,33 @@ const bodyData = [
   {
     key: { id: 'budget', label: 'Budget' },
     data: [
-      { label: 'Budget Line Items', id: 0, create: true, update: true, delete: true, uneditableOptions: ['create'] },
-      { label: 'Budget Modifications', id: 1, create: false, update: true, delete: false, uneditableOptions: ['create'] },
-      { label: 'Budget', id: 10, create: false, update: true, delete: false, uneditableOptions: ['create'] }
+      { label: 'Budget Line Items', id: 0, create: false, update: true, delete: false, uneditableOptions: ['create', 'delete'] },
+      { label: 'Budget Modifications', id: 1, create: false, update: true, delete: true, uneditableOptions: ['create'] },
+      { label: 'Budget', id: 10, create: false, update: false, delete: false, uneditableOptions: ['create', 'update'] }
     ]
   },
 
   {
     key: { id: 'change_events', label: 'Change Events' },
     data: [
-      { label: 'Change Events', id: 2, create: true, update: true, delete: true, uneditableOptions: ['update'] },
-      { label: 'Change Types', id: 3, create: true, update: false, delete: false, uneditableOptions: ['delete'] }
+      { label: 'Change Events', id: 2, create: true, update: false, delete: false, uneditableOptions: ['update', 'delete'] },
+      { label: 'Change Types', id: 3, create: true, update: false, delete: false, uneditableOptions: ['update'] },
+      { label: 'Change Change', id: 11, create: false, update: false, delete: false, uneditableOptions: ['update', 'create'] }
     ]
   },
 
   {
     key: { id: 'change_orders', label: 'Change Orders' },
     data: [
-      { label: 'Change Order Foo', id: 4, create: true, update: false, delete: true, uneditableOptions: [] },
-      { label: 'Change Order Bar', id: 5, create: false, update: true, delete: true, uneditableOptions: ['create', 'delete'] },
+      { label: 'Change Order Foo', id: 4, create: true, update: true, delete: false, uneditableOptions: ['delete'] },
+      { label: 'Change Order Bar', id: 5, create: false, update: true, delete: false, uneditableOptions: ['create', 'delete'] },
       { label: 'Change Order Baz', id: 6, create: false, update: false, delete: false, uneditableOptions: ['update', 'delete'] }
+    ]
+  },
+  {
+    key: { id: 'commitments', label: 'Commitments' },
+    data: [
+      { label: 'Commitment', id: 12, create: false, update: true, delete: false, uneditableOptions: ['delete'] }
     ]
   }
 ];

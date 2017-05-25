@@ -4,8 +4,6 @@ import baseStyles from './Kaweake.scss';
 import defaultStyles from './KaweakeDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
-let styles = {};
-
 export default class Kaweake extends React.Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
@@ -29,7 +27,7 @@ export default class Kaweake extends React.Component {
 
   constructor(props) {
     super(props);
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
     this.state = { expanded: false };
   }
 
@@ -56,12 +54,12 @@ export default class Kaweake extends React.Component {
 
   render() {
     const img = this.props.icon
-      ? <img alt='' src={this.props.icon} className={styles.icon} />
+      ? <img alt='' src={this.props.icon} className={this.styles.icon} />
       : null;
 
     const options = this.props.data.map(obj => (<div
       key={`option-${obj[this.props.valueField]}`}
-      className={styles.option}
+      className={this.styles.option}
       data-value={obj[this.props.valueField]}
       onClick={this.onClick}
     >
@@ -78,20 +76,20 @@ export default class Kaweake extends React.Component {
       }
     }
 
-    const title = (<span className={styles.title}>{titleText}</span>);
+    const title = (<span className={this.styles.title}>{titleText}</span>);
 
     const caret = (<div
-      className={cx(styles.caret, 'fa', 'fa-caret-down',
-      { [styles.expanded]: this.state.expanded })}
+      className={cx(this.styles.caret, 'fa', 'fa-caret-down',
+      { [this.styles.expanded]: this.state.expanded })}
     />);
 
-    return (<div className={cx(styles.container, { [styles.expanded]: this.state.expanded })}>
-      <div className={styles.head} onClick={this.onFocus}>
+    return (<div className={cx(this.styles.container, { [this.styles.expanded]: this.state.expanded })}>
+      <div className={this.styles.head} onClick={this.onFocus}>
         {img}
         {title}
         {caret}
       </div>
-      <div className={styles.body}>
+      <div className={this.styles.body}>
         {options}
       </div>
     </div>);

@@ -10,6 +10,7 @@ export default class Tiwae extends React.Component {
   static propTypes = {
     columns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     defaultColumns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    isSelectAll: PropTypes.bool,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     onSelectAll: PropTypes.func.isRequired,
@@ -18,6 +19,7 @@ export default class Tiwae extends React.Component {
 
   static defaultProps = {
     lockLimit: 3,
+    isSelectAll: false,
     stylesheets: []
   }
 
@@ -97,9 +99,7 @@ export default class Tiwae extends React.Component {
     this.props.onChange(columns);
   }
 
-  onSelectAll = (evt) => {
-    evt.stopPropagation();
-
+  onSelectAll = () => {
     const isAllChecked = !this.state.isAllChecked;
 
     this.setState({ isAllChecked });
@@ -129,9 +129,7 @@ export default class Tiwae extends React.Component {
     this.props.onChange(columns);
   }
 
-  onReset = (evt) => {
-    evt.stopPropagation();
-
+  onReset = () => {
     const columns = this.props.defaultColumns.map(option => Object.assign(option, {
       hidden: false,
       locked: false
@@ -163,17 +161,21 @@ export default class Tiwae extends React.Component {
       startIndex
     } = this.state;
 
+    const selectAll = this.props.isSelectAll
+    ? (<div className={styles.selectAll} onClick={this.onSelectAll}>
+      <input
+        checked={this.state.isAllChecked}
+        className={styles.itemCheckbox}
+        onChange={this.onSelectAll}
+        type='checkbox'
+      />
+      <div className={styles.itemLabel}>Select All</div>
+      <span className={styles.controlDivider}>|</span>)
+    </div>)
+    : null;
+
     const controls = (<div className={styles.controls}>
-      <div className={styles.selectAll} onClick={this.onSelectAll}>
-        <input
-          checked={this.state.isAllChecked}
-          className={styles.itemCheckbox}
-          onChange={this.onSelectAll}
-          type='checkbox'
-        />
-        <div className={styles.itemLabel}>Select All</div>
-      </div>
-      <span className={styles.controlDivider}>|</span>
+      {selectAll}
       <div className={styles.reset} onClick={this.onReset} >Reset to Default</div>
     </div>);
 
@@ -220,7 +222,10 @@ export default class Tiwae extends React.Component {
         <div className={`${styles.button} fa fa-ellipsis-v`} onClick={this.onExpand} />
         <div className={`${styles.dropdownContainer} ${this.state.expanded ? styles.expanded : ''}`}>
           <div className={styles.dropdownTriangle} />
-          <div className={styles.dropdownHead}>
+          <div
+            className={styles.dropdownHead}
+            onClick={this.onItemClick}
+          >
             <div className={styles.title}>Show, Hide, or Reorder Columns</div>
             {controls}
           </div>

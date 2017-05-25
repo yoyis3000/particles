@@ -4,6 +4,10 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.2.2
+- Added isSelectAll prop to turn it on/off
+- Prevent dropdown from closing when clicking in dropdownHead
+
 ##### 2.2.1
 - Triangle style fixes
 

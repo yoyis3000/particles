@@ -17,19 +17,32 @@ const onSelect = (value) => {
   console.warn(`Selected '${value}'.`); // eslint-disable-line no-console
 };
 
+const selectedValue = 'pdf';
+const stylesheets = [sandboxStyles];
 const title = 'Export';
 
-const stylesheets = [sandboxStyles];
-
 render(
-  <Kaweake
-    {...{
-      data,
-      icon,
-      onSelect,
-      title,
-      stylesheets
-    }}
-  />,
+  <div>
+    <Kaweake
+      {...{
+        data,
+        icon,
+        onSelect,
+        selectedValue,
+        stylesheets,
+        title
+      }}
+    />
+
+    <Kaweake
+      {...{
+        data,
+        icon,
+        onSelect,
+        stylesheets,
+        title
+      }}
+    />
+  </div>,
   window.document.getElementById('root')
 );

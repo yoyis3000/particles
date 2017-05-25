@@ -8,18 +8,20 @@ let styles = {};
 
 export default class Kaweake extends React.Component {
   static propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object),
     icon: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(PropTypes.object),
-    title: PropTypes.string.isRequired,
+    selectedValue: PropTypes.string,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     textField: PropTypes.string,
+    title: PropTypes.string.isRequired,
     valueField: PropTypes.string
   };
 
   static defaultProps = {
-    icon: null,
     data: [],
+    icon: null,
+    selectedValue: null,
     stylesheets: [],
     textField: 'text',
     valueField: 'value'
@@ -66,9 +68,17 @@ export default class Kaweake extends React.Component {
       {obj[this.props.textField]}
     </div>));
 
-    const title = (<span className={styles.title}>
-      {this.props.title}
-    </span>);
+    let titleText = this.props.title;
+
+    if (this.props.selectedValue) {
+      const element = this.props.data.find(({ value }) => value === this.props.selectedValue);
+
+      if (element) {
+        titleText = element.text;
+      }
+    }
+
+    const title = (<span className={styles.title}>{titleText}</span>);
 
     const caret = (<div
       className={cx(styles.caret, 'fa', 'fa-caret-down',

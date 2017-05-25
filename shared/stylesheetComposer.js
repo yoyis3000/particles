@@ -12,6 +12,8 @@
 /* eslint-disable no-param-reassign */
 
 module.exports = function composer(base, extensions) {
+  const initialValue = Object.assign({}, base);
+
   return extensions.reduce(function (result, baseStyle) {
     return Object.keys(baseStyle).reduce(function (subResult, k) {
       if (subResult[k] && baseStyle[k]) {
@@ -20,5 +22,5 @@ module.exports = function composer(base, extensions) {
 
       return subResult;
     }, result);
-  }, base);
+  }, initialValue);
 };

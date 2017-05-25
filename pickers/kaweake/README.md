@@ -4,7 +4,10 @@ A dropdown to replace `<select>` tags.
 
 # Change Log
 
-#### 2.5.0
+##### 2.5.1
+- Stylesheet composer fix applied
+
+##### 2.5.0
 - Adding `selectedValue` prop to show a specified value instead of the title.
 
 ##### 2.4.6

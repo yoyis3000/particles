@@ -34,7 +34,7 @@ export default class Tipako extends React.Component {
     data: [],
     groupIcon: null,
     itemIcon: null,
-    maxResults: Math.Infinite,
+    maxResults: Infinity,
     msgEmpty: 'No matching items.',
     msgPlaceholder: 'Search...',
     onFetch: null,

@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+#### 2.4.11
+- Fixing max warning default
+
 ##### 2.4.10
 - Fixing `key` attributes to be more specific
 

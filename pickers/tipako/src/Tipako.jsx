@@ -4,10 +4,6 @@ import baseStyles from './Tipako.scss';
 import defaultStyles from './TipakoDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
-let timer = null;
-let styles = {};
-const tokensMemo = {};
-
 export default class Tipako extends React.Component {
   static propTypes = {
     addGroupTokens: PropTypes.bool,
@@ -25,6 +21,7 @@ export default class Tipako extends React.Component {
     msgPlaceholder: PropTypes.string,
     onFetch: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
+    prepopulate: PropTypes.bool,
     renderTokens: PropTypes.func,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   }
@@ -38,6 +35,7 @@ export default class Tipako extends React.Component {
     msgEmpty: 'No matching items.',
     msgPlaceholder: 'Search...',
     onFetch: null,
+    prepopulate: false,
     renderTokens: null,
     stylesheets: []
   }
@@ -45,7 +43,9 @@ export default class Tipako extends React.Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.timer = null;
+    this.tokensMemo = {};
 
     this.state = {
       data: this.props.data || [],
@@ -61,7 +61,7 @@ export default class Tipako extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.onFetch !== Tipako.defaultProps.onFetch) {
+    if (this.props.prepopulate && this.props.onFetch !== Tipako.defaultProps.onFetch) {
       this.props.onFetch('', (data) => {
         this.setState({ data, fetching: false });
       });
@@ -89,9 +89,9 @@ export default class Tipako extends React.Component {
       this.setState({ data, expanded: true });
     } else {
       this.setState({ value: str, fetching: true });
-      clearTimeout(timer);
+      clearTimeout(this.timer);
 
-      timer = setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.props.onFetch(str, (data) => {
           this.setState({ data, expanded: true, fetching: false });
         });
@@ -110,7 +110,7 @@ export default class Tipako extends React.Component {
 
     const tokens = this.state.tokens;
 
-    tokensMemo[child.id] = tokens.length;
+    this.tokensMemo[child.id] = tokens.length;
     tokens.push(child);
 
     this.props.onSelect(tokens);
@@ -129,20 +129,20 @@ export default class Tipako extends React.Component {
 
     // Use child index stored in the memoisation to remove if exists. Ben 170222
     group.children.forEach((child) => {
-      if (tokensMemo[child.id] !== undefined) {
-        tokens.splice(tokensMemo[child.id], 1);
-        delete tokensMemo[child.id];
+      if (this.tokensMemo[child.id] !== undefined) {
+        tokens.splice(this.tokensMemo[child.id], 1);
+        delete this.tokensMemo[child.id];
       }
     });
 
     if (this.props.addGroupTokens) {
-      tokensMemo[group.id] = tokens.length;
+      this.tokensMemo[group.id] = tokens.length;
       tokens.push(group);
     }
 
     group.children.forEach((child) => {
       if (!child.disabled) {
-        tokensMemo[child.id] = tokens.length;
+        this.tokensMemo[child.id] = tokens.length;
         tokens.push(child);
       }
     });
@@ -160,7 +160,7 @@ export default class Tipako extends React.Component {
     }
 
     const tokens = this.state.tokens;
-    tokensMemo[ungrouped.id] = tokens.length;
+    this.tokensMemo[ungrouped.id] = tokens.length;
     tokens.push(ungrouped);
 
     this.props.onSelect(tokens);
@@ -170,11 +170,11 @@ export default class Tipako extends React.Component {
 
   onTokenClick = (obj) => {
     const tokens = this.state.tokens;
-    tokens.splice(tokensMemo[obj.id], 1);
-    delete tokensMemo[obj.id];
+    tokens.splice(this.tokensMemo[obj.id], 1);
+    delete this.tokensMemo[obj.id];
 
     tokens.forEach((t, i) => {
-      tokensMemo[t.id] = i;
+      this.tokensMemo[t.id] = i;
     });
 
     this.props.onSelect(Object.values(tokens));
@@ -194,18 +194,18 @@ export default class Tipako extends React.Component {
 
       if (obj.children) {
         if (addGroupTokens && !obj.disabled) {
-          tokensMemo[obj.id] = result.length;
+          this.tokensMemo[obj.id] = result.length;
           result.push(obj);
         }
 
         obj.children.forEach((child) => {
           if (!child.disabled) {
-            tokensMemo[child.id] = result.length;
+            this.tokensMemo[child.id] = result.length;
             result.push(child);
           }
         });
       } else if (!obj.disabled) {
-        tokensMemo[obj.id] = result.length;
+        this.tokensMemo[obj.id] = result.length;
         result.push(obj);
       }
 
@@ -218,7 +218,7 @@ export default class Tipako extends React.Component {
 
   onClearAll = () => {
     this.props.onSelect([]);
-    Object.keys(tokensMemo).forEach((k) => { delete tokensMemo[k]; });
+    Object.keys(this.tokensMemo).forEach((k) => { delete this.tokensMemo[k]; });
     this.setState({ tokens: [], expanded: false });
   }
 
@@ -228,24 +228,24 @@ export default class Tipako extends React.Component {
 
   render() {
     const itemIcon = this.props.itemIcon
-      ? <img alt='Item' src={this.props.itemIcon} className={styles.itemIcon} />
+      ? <img alt='Item' src={this.props.itemIcon} className={this.styles.itemIcon} />
       : null;
 
     const groupIcon = this.props.groupIcon
-      ? <img alt='Group' src={this.props.groupIcon} className={styles.itemIcon} />
+      ? <img alt='Group' src={this.props.groupIcon} className={this.styles.itemIcon} />
       : null;
 
     const items = this.state.data.reduce((acc, v) => {
       // Grouped
       if (v.children) {
         const children = v.children.reduce((result, vv) => {
-          if (tokensMemo[vv.id] !== undefined) {
+          if (this.tokensMemo[vv.id] !== undefined) {
             return result;
           }
 
           return result.concat(<button
             onClick={(evt) => { this.onChildClick(evt, vv); }}
-            className={cx(styles.item, styles.childItem, { [styles.disabled]: vv.disabled })}
+            className={cx(this.styles.item, this.styles.childItem, { [this.styles.disabled]: vv.disabled })}
             key={`child-${v.id}-${vv.id}`}
           >
             {itemIcon}
@@ -257,13 +257,13 @@ export default class Tipako extends React.Component {
           return acc;
         }
 
-        if (tokensMemo[v.id] !== undefined && children.length === 0) {
+        if (this.tokensMemo[v.id] !== undefined && children.length === 0) {
           return acc;
         }
 
         const group = (<button
           onClick={(evt) => { this.onGroupClick(evt, v); }}
-          className={cx(styles.item, styles.groupItem, { [styles.disabled]: v.disabled })}
+          className={cx(this.styles.item, this.styles.groupItem, { [this.styles.disabled]: v.disabled })}
           key={`group-${v.id}`}
         >
           {groupIcon}
@@ -274,13 +274,13 @@ export default class Tipako extends React.Component {
       }
 
       // Ungrouped
-      if (tokensMemo[v.id] !== undefined) {
+      if (this.tokensMemo[v.id] !== undefined) {
         return acc;
       }
 
       const ungrouped = (<button
         onClick={(evt) => { this.onUngroupedClick(evt, v); }}
-        className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
+        className={cx(this.styles.item, this.styles.ungroupedItem, { [this.styles.disabled]: v.disabled })}
         key={`ungrouped-${v.id}`}
       >
         {itemIcon}
@@ -292,7 +292,7 @@ export default class Tipako extends React.Component {
 
     const selectAll = items.length > 0
       ? (<button
-        className={styles.controlsButton}
+        className={this.styles.controlsButton}
         onClick={this.onSelectAll}
       >
          Select All
@@ -300,14 +300,14 @@ export default class Tipako extends React.Component {
       : null;
 
     const spacer = items.length > 0
-      ? <div className={styles.controlsSpacer}>/</div>
+      ? <div className={this.styles.controlsSpacer}>/</div>
       : null;
 
-    const controls = (<div className={styles.controls}>
+    const controls = (<div className={this.styles.controls}>
       {selectAll}
       {spacer}
       <button
-        className={styles.controlsButton}
+        className={this.styles.controlsButton}
         onClick={this.onClearAll}
       >
         Clear All
@@ -317,29 +317,29 @@ export default class Tipako extends React.Component {
     const tokens = this.props.renderTokens
        ? this.props.renderTokens(this.state.tokens, this.onTokenClick)
        : this.state.tokens.map(val => (<button
-         className={styles.token}
+         className={this.styles.token}
          key={`token-${val.id}`}
          onClick={() => { this.onTokenClick(val); }}
        >
          {val.text}
        </button>));
 
-    const nomatch = <div className={styles.nomatch}>{this.props.msgEmpty}</div>;
+    const nomatch = <div className={this.styles.nomatch}>{this.props.msgEmpty}</div>;
 
     const caret = (this.state.fetching)
       ? null
-      : (<button onClick={this.onCaretClick} className={styles.caret}>
-        <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
+      : (<button onClick={this.onCaretClick} className={this.styles.caret}>
+        <span className={cx('fa', 'fa-caret-down', this.styles.arrow, { [this.styles.expanded]: this.state.expanded })} />
       </button>);
 
     const busy = this.state.fetching
-      ? <span className={styles.busy} />
+      ? <span className={this.styles.busy} />
       : null;
 
     const maxResultsWarningIcon =
       (this.state.fetching || this.state.data.length < this.props.maxResults)
       ? null
-      : <span className={`fa fa-exclamation-triangle ${styles.maxResults}`} />;
+      : <span className={`fa fa-exclamation-triangle ${this.styles.maxResults}`} />;
 
     const maxResultsWarningText =
       (this.state.fetching || this.state.data.length < this.props.maxResults)
@@ -347,14 +347,14 @@ export default class Tipako extends React.Component {
       : 'This search is too general, so the results have been limited.';
 
     return (<div
-      className={styles.picker}
+      className={this.styles.picker}
       title={maxResultsWarningText}
     >
       {tokens}
 
-      <div className={cx(styles.inputContainer)}>
+      <div className={cx(this.styles.inputContainer)}>
         <input
-          className={styles.input}
+          className={this.styles.input}
           type='text'
           placeholder={this.props.msgPlaceholder}
           value={this.state.value}
@@ -366,10 +366,10 @@ export default class Tipako extends React.Component {
         {maxResultsWarningIcon}
       </div>
 
-      <div className={styles.dropdownContainer}>
+      <div className={this.styles.dropdownContainer}>
         <div
-          className={cx(styles.dropdown, {
-            [styles.expanded]: this.state.expanded })}
+          className={cx(this.styles.dropdown, {
+            [this.styles.expanded]: this.state.expanded })}
         >
           {controls}
           {items.length ? items : nomatch}

@@ -2,6 +2,8 @@ $h: 32px;
 $delay: 0.4s;
 
 .container {
+  background: #fff;
+  border-radius: 2px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   max-height: $h;
@@ -25,6 +27,7 @@ $delay: 0.4s;
   display: flex;
   flex-direction: row;
   height: $h;
+  padding: 0 2px;
   width: 100%;
 
   &:hover {
@@ -47,10 +50,12 @@ $delay: 0.4s;
 .title {
   cursor: pointer;
   display: flex;
+  font-size: 14px;
   margin: 0 5px;
 }
 
 .caret {
+  color: #7b7b7b;
   cursor: pointer;
   display: block;
   font-size: 16px;
@@ -69,6 +74,7 @@ $delay: 0.4s;
 .option {
   cursor: pointer;
   display: block;
+  font-size: 14px;
   padding: 5px;
   width: 100%;
 

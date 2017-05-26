@@ -4,6 +4,9 @@ A dropdown to replace `<select>` tags.
 
 # Change Log
 
+##### 2.5.3
+- Default styles consolidated.
+
 ##### 2.5.2
 - Styles "this" fix applied
 

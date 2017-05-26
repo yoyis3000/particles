@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Kaweake.scss';
-import defaultStyles from './KaweakeDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 export default class Kaweake extends React.Component {
@@ -27,7 +26,7 @@ export default class Kaweake extends React.Component {
 
   constructor(props) {
     super(props);
-    this.styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.styles = composeStyles(baseStyles, [...props.stylesheets]);
     this.state = { expanded: false };
   }
 

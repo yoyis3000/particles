@@ -187,6 +187,7 @@ export default class Ripanga extends React.Component {
   }
 
   onRowCheck = (id) => {
+    // TODO: add the thing here
     const { checkedIds } = this.state;
     checkedIds[id] = !checkedIds[id];
 
@@ -196,6 +197,7 @@ export default class Ripanga extends React.Component {
   }
 
   onGroupCheck = (groupId) => {
+    // TODO: add the thing here
     const groupIds = this.props.tableData.find(d => d.key.name === groupId)
       .data
       .reduce((acc, row) => acc.concat(row[this.props.idKey]), []);
@@ -210,6 +212,7 @@ export default class Ripanga extends React.Component {
   }
 
   onCheckAll = () => {
+    // TODO: add the thing here
     const allChecked = !this.state.allChecked;
 
     const checkedIds =

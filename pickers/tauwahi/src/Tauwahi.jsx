@@ -33,7 +33,7 @@ export default class Tauwahi extends React.Component {
 
     this.state = {
       data,
-      expanded: false,
+      isExpanded: false,
       currentTier: 0
     }
   }
@@ -42,18 +42,37 @@ export default class Tauwahi extends React.Component {
     window.addEventListener('click', this.onBlur);
   }
 
-  onCaretClick() {
-
+  onCaretClick = (evt) => {
+    evt.stopPropagation();
+    this.setState({ isExpanded: true });
   }
 
   onBlur = () => {
-    this.setState({ expanded: false });
+    this.setState({ isExpanded: false });
   }
 
   render() {
     const { data } = this.props;
+    const { isExpanded } = this.state;
 
-    const items = [];
+    const items = [
+      <div key={1} className={this.styles.item}>Mock 1</div>,
+      <div key={2} className={this.styles.item}>Mock 2</div>,
+      <div key={3} className={this.styles.item}>Mock 3</div>,
+      <div key={4} className={this.styles.item}>Mock 4</div>,
+      <div key={5} className={this.styles.item}>Mock 5</div>
+    ];
+
+    const caret = (<div className={this.styles.caret} onClick={this.onCaretClick}>
+      <span
+        className={cx('fa', 'fa-caret-down', this.styles.arrow,
+        { [this.styles.expanded]: isExpanded })}
+      />
+    </div>);
+
+    const check = (<div className={this.styles.check}>
+      <span className={cx('fa', 'fa-check', this.styles.checkmark)} />
+    </div>);
 
     return <div className={this.styles.container}>
       <div className={this.styles.tiers}>
@@ -62,11 +81,11 @@ export default class Tauwahi extends React.Component {
 
       <div className={this.styles.quickAdder}>
         <div className={this.styles.dropdownHead}>
-          <input />
-          <div className={this.styles.caret}>Caret</div>
-          {/* <div>Check</div> */}
+          <input className={this.styles.input} />
+          {caret}
+          {check}
         </div>
-        <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: this.state.expanded })}>
+        <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: isExpanded })}>
           {items}
         </div>
       </div>

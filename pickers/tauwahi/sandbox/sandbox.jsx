@@ -50,7 +50,7 @@ const data = [
 //
 // const title = 'Export';
 //
-// const stylesheets = [];
+const stylesheets = [sandboxStyles];
 
 function onSelect(item) {
   console.warn('An item was selected', item);
@@ -64,7 +64,7 @@ render(
       canAdd,
       data,
       onSelect,
-      stylesheets: []
+      stylesheets
     }}
   />,
   window.document.getElementById('root')

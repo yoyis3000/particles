@@ -8,8 +8,6 @@ import defaultStyles from './DateSelect.scss';
 
 import composeStyles from '../../../../shared/stylesheetComposer';
 
-let styles = {};
-
 momentLocalizer(Moment);
 
 export default class DateSelect extends Component {
@@ -30,7 +28,7 @@ export default class DateSelect extends Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(defaultStyles, props.stylesheets);
+    this.styles = composeStyles(defaultStyles, props.stylesheets);
     this.state = { value: null };
   }
 
@@ -46,13 +44,13 @@ export default class DateSelect extends Component {
 
   removeButton = value => (
     value
-    ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
+    ? <button type='button' className={`fa fa-times ${this.styles.removeButton}`} onClick={this.onRemove} />
     : null
   )
 
   render() {
     return (
-      <div className={styles.rwOverrides}>
+      <div className={this.styles.rwOverrides}>
         <DateTimePicker
           onChange={this.onChange}
           placeholder={this.props.placeholder}

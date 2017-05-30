@@ -3,8 +3,6 @@ import defaultStyles from './Input.scss';
 
 import composeStyles from '../../../../shared/stylesheetComposer';
 
-let styles = {};
-
 export default class Input extends Component {
   static propTypes = {
     inputName: PropTypes.string.isRequired,
@@ -27,7 +25,7 @@ export default class Input extends Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(defaultStyles, props.stylesheets);
+    this.styles = composeStyles(defaultStyles, props.stylesheets);
     this.state = {
       value: null
     };
@@ -45,7 +43,7 @@ export default class Input extends Component {
 
   removeButton = value => (
     value
-    ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
+    ? <button type='button' className={`fa fa-times ${this.styles.removeButton}`} onClick={this.onRemove} />
     : null
   )
 
@@ -58,12 +56,12 @@ export default class Input extends Component {
     } = this.props;
 
     return (
-      <div className={styles.colFlex}>
+      <div className={this.styles.colFlex}>
         <label>{label}</label>
-        <div className={styles.inputWrapper}>
+        <div className={this.styles.inputWrapper}>
           <input
             {...this.props}
-            className={styles.input}
+            className={this.styles.input}
             onChange={this.onChange}
             placeholder={placeholder}
             type={type}

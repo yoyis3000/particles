@@ -100,7 +100,7 @@ BulkEditor.defaultProps = {
   items: [],
   itemsTitle: 'Selected Items: ',
   onCancel: () => console.log('No onCancel was passed to BulkEditor'), // eslint-disable-line
-  onRemove: () => console.log('No on Remove was passed to BulkEditor'), // eslint-disable-line
+  onRemove: () => console.log('No onRemove was passed to BulkEditor'), // eslint-disable-line
   onSubmit: () => console.log('No onSubmit was passed to Bulk Editor'), // eslint-disable-line
   stylesheets: [],
   submitText: 'Update',

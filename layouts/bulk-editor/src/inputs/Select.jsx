@@ -7,7 +7,6 @@ import defaultStyles from './SelectDefault.scss';
 import composeStyles from '../../../../shared/stylesheetComposer';
 
 let timer = null;
-let styles = {};
 const tokensMemo = {};
 
 export default class Select extends Component {
@@ -44,7 +43,7 @@ export default class Select extends Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
 
     this.state = {
       data: props.data,
@@ -131,23 +130,23 @@ export default class Select extends Component {
 
   render() {
     const busy = this.state.fetching
-    ? <span className={styles.busy} />
+    ? <span className={this.styles.busy} />
     : null;
 
     const caret = this.state.fetching
       ? null
       : (
-        <button onClick={this.onCaretClick} className={styles.caret}>
-          <span className={cx('fa', 'fa-caret-down', styles.arrow, { [styles.expanded]: this.state.expanded })} />
+        <button onClick={this.onCaretClick} className={this.styles.caret}>
+          <span className={cx('fa', 'fa-caret-down', this.styles.arrow, { [this.styles.expanded]: this.state.expanded })} />
         </button>
       );
 
     const groupIcon = this.props.groupIcon
-      ? <img alt='Group' src={this.props.groupIcon} className={styles.itemIcon} />
+      ? <img alt='Group' src={this.props.groupIcon} className={this.styles.itemIcon} />
       : null;
 
     const itemIcon = this.props.itemIcon
-      ? <img alt='Item' src={this.props.itemIcon} className={styles.itemIcon} />
+      ? <img alt='Item' src={this.props.itemIcon} className={this.styles.itemIcon} />
       : null;
 
     const items = this.state.data.reduce((acc, v) => {
@@ -158,7 +157,7 @@ export default class Select extends Component {
 
           return result.concat(<button
             onClick={(evt) => { this.onChildClick(evt, vv); }}
-            className={cx(styles.item, styles.childItem, { [styles.disabled]: vv.disabled })}
+            className={cx(this.styles.item, this.styles.childItem, { [this.styles.disabled]: vv.disabled })}
             key={`item-${vv.id}`}
           >
             {itemIcon}
@@ -172,7 +171,7 @@ export default class Select extends Component {
 
         const group = (
           <button
-            className={cx(styles.item, styles.groupItem, styles.disabled)}
+            className={cx(this.styles.item, this.styles.groupItem, this.styles.disabled)}
             key={`item-${v.id}`}
           >
             {groupIcon}
@@ -191,7 +190,7 @@ export default class Select extends Component {
       const ungrouped = (
         <button
           onClick={(evt) => { this.onChildClick(evt, v); }}
-          className={cx(styles.item, styles.ungroupedItem, { [styles.disabled]: v.disabled })}
+          className={cx(this.styles.item, this.styles.ungroupedItem, { [this.styles.disabled]: v.disabled })}
           key={`item-${v.id}`}
         >
           {itemIcon}
@@ -202,18 +201,18 @@ export default class Select extends Component {
       return acc.concat(ungrouped);
     }, []);
 
-    const nomatch = <div className={styles.nomatch}>{this.props.msgEmpty}</div>;
+    const nomatch = <div className={this.styles.nomatch}>{this.props.msgEmpty}</div>;
 
     const removeButton =
       this.state.value
-      ? <button type='button' className={`fa fa-times ${styles.removeButton}`} onClick={this.onRemove} />
+      ? <button type='button' className={`fa fa-times ${this.styles.removeButton}`} onClick={this.onRemove} />
       : null;
 
     return (
-      <div className={styles.picker}>
-        <div className={cx(styles.inputContainer)}>
+      <div className={this.styles.picker}>
+        <div className={cx(this.styles.inputContainer)}>
           <input
-            className={styles.input}
+            className={this.styles.input}
             onChange={this.onSearch}
             placeholder={this.props.placeholder}
             ref={(input) => { this.searchInput = input; }}
@@ -225,8 +224,8 @@ export default class Select extends Component {
           {busy}
         </div>
 
-        <div className={styles.dropdownContainer}>
-          <div className={cx(styles.dropdown, { [styles.expanded]: this.state.expanded })}>
+        <div className={this.styles.dropdownContainer}>
+          <div className={cx(this.styles.dropdown, { [this.styles.expanded]: this.state.expanded })}>
             {items.length > 0 ? items : nomatch}
           </div>
         </div>

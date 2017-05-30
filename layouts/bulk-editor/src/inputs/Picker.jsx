@@ -5,8 +5,6 @@ import defaultStyles from './Picker.scss';
 
 import composeStyles from '../../../../shared/stylesheetComposer';
 
-let styles;
-
 export default class Picker extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape()),
@@ -28,8 +26,7 @@ export default class Picker extends Component {
 
   constructor(props) {
     super(props);
-
-    styles = composeStyles(defaultStyles, props.stylesheets);
+    this.styles = composeStyles(defaultStyles, props.stylesheets);
     this.state = { value: {} };
   }
 
@@ -50,7 +47,7 @@ export default class Picker extends Component {
 
     return (
       <div>
-        <label className={styles.label}>{label}</label>
+        <label className={this.styles.label}>{label}</label>
         <Select
           data={data}
           onChange={this.onChange}

@@ -2,30 +2,29 @@ import React, { PropTypes } from 'react';
 import qs from 'qs';
 import cx from 'classnames';
 import baseStyles from './Wharangi.scss';
-import defaultStyles from './WharangiDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
-
-let styles = {};
 
 export default class Wharangi extends React.Component {
   static propTypes = {
-    onSelect: PropTypes.func,
-    perPage: PropTypes.number,
-    pagesToShow: PropTypes.number,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    totalRecords: PropTypes.number,
+    active: PropTypes.number,
+    i18n: PropTypes.shape(),
     onMount: PropTypes.func,
-    active: PropTypes.number
+    onSelect: PropTypes.func,
+    pagesToShow: PropTypes.number,
+    perPage: PropTypes.number,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    totalRecords: PropTypes.number
   };
 
   static defaultProps = {
-    onSelect: null,
-    perPage: 150,
-    pagesToShow: 3,
-    stylesheets: [],
-    totalRecords: 0,
+    active: 1,
+    i18n: { displaying: 'Displaying', of: 'of' },
     onMount: () => {},
-    active: 1
+    onSelect: null,
+    pagesToShow: 3,
+    perPage: 150,
+    stylesheets: [],
+    totalRecords: 0
   };
 
   static updateUrl(newParams) {
@@ -40,7 +39,7 @@ export default class Wharangi extends React.Component {
   constructor(props) {
     super(props);
 
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    this.styles = composeStyles(baseStyles, [...props.stylesheets]);
   }
 
   componentDidMount() {
@@ -61,10 +60,11 @@ export default class Wharangi extends React.Component {
 
   render() {
     const {
+      active,
+      i18n,
       pagesToShow,
       perPage,
-      totalRecords,
-      active
+      totalRecords
     } = this.props;
 
     const totalPages = Math.ceil(totalRecords / perPage);
@@ -80,17 +80,15 @@ export default class Wharangi extends React.Component {
       end: Math.min(start + (pagesToShow - 1), totalPages)
     };
 
-
     const msg = (totalRecords === 0)
-      ? 'Displaying 0'
-      : `Displaying ${recordRange.start || 0} - ${recordRange.end || 0}`;
+      ? `${i18n.displaying} 0`
+      : `${i18n.displaying} ${recordRange.start || 0} - ${recordRange.end || 0}`;
 
     const items = [];
     for (let i = pageRange.start; i <= pageRange.end; i++) {
       items.push(<button
-        enzyme={`pagination_${i}`}
         key={`page-${i}`}
-        className={cx(styles.item, { [styles.active]: i === active })}
+        className={cx(this.styles.item, { [this.styles.active]: i === active })}
         onClick={() => this.handleSelect(i)}
       >
         {i}
@@ -99,7 +97,7 @@ export default class Wharangi extends React.Component {
 
     const firstitem = (active > 2)
       ? (<button
-        className={styles.item}
+        className={this.styles.item}
         onClick={() => this.handleSelect(1)}
       >1</button>)
       : null;
@@ -107,28 +105,28 @@ export default class Wharangi extends React.Component {
     const prev = (active > 2)
       ? (<button
         onClick={() => this.handleSelect(active - 1)}
-        className={cx('fa', 'fa-angle-left', styles.prev)}
+        className={cx('fa', 'fa-angle-left', this.styles.prev)}
       />)
       : null;
 
     const prevEllipsis = (active > 2)
-      ? <span className={styles.ellipsis}>&hellip;</span>
+      ? <span className={this.styles.ellipsis}>&hellip;</span>
       : null;
 
     const next = (active < totalPages - 1)
       ? (<button
         onClick={() => this.handleSelect(active + 1)}
-        className={cx('fa', 'fa-angle-right', styles.prev)}
+        className={cx('fa', 'fa-angle-right', this.styles.prev)}
       />)
       : null;
 
     const nextEllipsis = (active < totalPages - 1)
-      ? <span className={styles.ellipsis}>&hellip;</span>
+      ? <span className={this.styles.ellipsis}>&hellip;</span>
       : null;
 
     const lastitem = (active < totalPages - 1)
       ? (<button
-        className={styles.item}
+        className={this.styles.item}
         onClick={() => this.handleSelect(totalPages)}
       >
         {totalPages}
@@ -142,8 +140,8 @@ export default class Wharangi extends React.Component {
     // URL hack pages
 
     return (
-      <div className={styles.paginator}>
-        <div className={styles.meta}>{`${msg} of ${totalRecords || 0}`}</div>
+      <div className={this.styles.paginator}>
+        <div className={this.styles.meta}>{`${msg} ${i18n.of} ${totalRecords || 0}`}</div>
         {prev}
         {firstitem}
         {prevEllipsis}

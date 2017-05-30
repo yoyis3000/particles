@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import { render } from 'react-dom';
 import React, { PropTypes } from 'react';
 import qs from 'qs';
@@ -49,9 +51,9 @@ class PaginationExample extends React.Component {
     return (
       <Wharangi
         {...{
-          onSelect: this.onChange,
           active,
           onMount: this.onMount,
+          onSelect: this.onChange,
           pagesToShow,
           perPage,
           totalRecords

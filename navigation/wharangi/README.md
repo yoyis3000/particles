@@ -4,6 +4,11 @@ A pagination component.
 
 # Change Log
 
+##### 3.1.0
+- I18N support
+- `this.styles` fix
+- Default styles removed
+
 ##### 3.0.1
 - Removing reset.scss
 

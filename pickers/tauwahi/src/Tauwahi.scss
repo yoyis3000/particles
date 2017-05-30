@@ -1,0 +1,48 @@
+.container {
+  background: lightgreen;
+}
+
+.tiers {
+  background: turquoise;
+}
+
+.quickAdder {
+  background: salmon;
+}
+
+.dropdownBody {
+  background: lightgrey;
+}
+
+// .loading {
+//   animation-duration: 1.5s;
+//   animation-name: spin;
+//   animation-iteration-count: infinite;
+//   animation-timing-function: linear;
+//   background-image:
+//     url(
+//       "data:image/svg+xml;base64,PHN2ZyB4bWxucz\
+//       0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h\
+//       0PScxNic+PGVsbGlwc2UgY3g9IjgiIGN5PSI4IiByeD0iNyIgcnk9IjciIHN0\
+//       cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW9wYWNpdHk9JzAuNScgc3Ryb2tlPSIjY\
+//       2NjIiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9J00gMSA4IEEgOCA4IDAgMCAwID\
+//       QgMTMuNycgZmlsbD0nbm9uZScgc3Ryb2tlPScjRjQ3RTQyJyAgc3Ryb2tlLXd\
+//       pZHRoPScyJyBzdHJva2Utb3BhY2l0eT0nMC44JyAvPjwvc3ZnPg=="
+//     );
+//   background-position: center center;
+//   background-repeat: no-repeat;
+//   background-size: 16px 16px;
+//   height: $h;
+//   margin-left: auto;
+//   min-width: $h;
+// }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

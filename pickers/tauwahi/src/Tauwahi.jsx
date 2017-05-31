@@ -3,39 +3,45 @@ import cx from 'classnames';
 import baseStyles from './Tauwahi.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
+const { arrayOf, shape } = PropTypes;
+
+const group = (data) => {
+  return data.reduce((acc, val) => {
+    const key = val.parent_id || null;
+    if (acc[key]) {
+      acc[key].push(val);
+      return acc;
+    } else {
+      return Object.assign(acc, { [key]: [val] });
+    }
+  }, { null: [] });
+};
+
+const getSelected = (names) => {
+
+};
+
 export default class Tauwahi extends React.Component {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape()),
-    // icon: PropTypes.string,
-    // onSelect: PropTypes.func.isRequired,
-    // selectedValue: PropTypes.string,
-    // stylesheets: PropTypes.arrayOf(PropTypes.shape()),
-    // textField: PropTypes.string,
-    // title: PropTypes.string.isRequired,
-    // valueField: PropTypes.string
+    data: arrayOf(shape()),
+    stylesheets: arrayOf(shape())
   };
 
   static defaultProps = {
-
+    data: [],
+    stylesheets: []
   };
 
   constructor(props) {
     super(props);
     this.styles = composeStyles(baseStyles, [...props.stylesheets]);
 
-    const data = props.data.reduce((acc, v) => {
-      // if (v.parent_id === null) {
-      //   acc[parent_id] = {};
-      // }
-
-      return acc;
-    }, {});
-
     this.state = {
-      data,
+      data: group(props.data),
       isExpanded: false,
-      currentTier: 0
-    }
+      currentTier: 0,
+      selected: { id: null, full_name: '' }
+    };
   }
 
   componentDidMount() {
@@ -52,16 +58,9 @@ export default class Tauwahi extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
-    const { isExpanded } = this.state;
-
-    const items = [
-      <div key={1} className={this.styles.item}>Mock 1</div>,
-      <div key={2} className={this.styles.item}>Mock 2</div>,
-      <div key={3} className={this.styles.item}>Mock 3</div>,
-      <div key={4} className={this.styles.item}>Mock 4</div>,
-      <div key={5} className={this.styles.item}>Mock 5</div>
-    ];
+    const { data, isExpanded, selected } = this.state;
+    const items = data[selected.id];
+    const names = selected.full_name.split('>');
 
     const caret = (<div className={this.styles.caret} onClick={this.onCaretClick}>
       <span
@@ -74,21 +73,45 @@ export default class Tauwahi extends React.Component {
       <span className={cx('fa', 'fa-check', this.styles.checkmark)} />
     </div>);
 
+    const remove = (<div className={this.styles.check}>
+      <span className={cx('fa', 'fa-remove', this.styles.checkmark)} />
+    </div>);
+
     return <div className={this.styles.container}>
       <div className={this.styles.tiers}>
-
+        {names.map(name => (
+          <div
+            className={this.styles.tierLabel}
+            onClick={() => this.setState({ selected: getSelected() })}
+          >
+            {name}</div>
+        ))}
       </div>
-
-      <div className={this.styles.quickAdder}>
+      {items ? (
+        <div className={this.styles.quickAdder}>
+          <div className={this.styles.dropdownHead}>
+            <input className={this.styles.input} />
+            {caret}
+            {check}
+          </div>
+          <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: isExpanded })}>
+            {items.map(item => (
+              <div
+                key={item.id}
+                className={this.styles.dropdownItem}
+                onClick={() => this.setState({ selected: item })}
+              >
+                {item.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
         <div className={this.styles.dropdownHead}>
-          <input className={this.styles.input} />
-          {caret}
+          <input className={this.styles.input} placeholder='Add New Tier...' />
           {check}
         </div>
-        <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: isExpanded })}>
-          {items}
-        </div>
-      </div>
+      )}
     </div>
   }
 }

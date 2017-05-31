@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactTooltip from 'react-tooltip';
 import cx from 'classnames';
 import clonedeep from 'lodash.clonedeep';
 
@@ -16,11 +17,13 @@ export default class CrudPermissionsTable extends React.Component {
     headData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     onCheck: PropTypes.func.isRequired,
     onGroupCheck: PropTypes.func.isRequired,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape())
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    tooltipMessageDisabled: PropTypes.string
   };
 
   static defaultProps = {
-    stylesheets: []
+    stylesheets: [],
+    tooltipMessageDisabled: ''
   };
 
   static renderHeadCells = (headData) => {
@@ -32,7 +35,7 @@ export default class CrudPermissionsTable extends React.Component {
     return <div className={styles.headRow}>{headCells}</div>;
   }
 
-  static renderGroupRow = ({ isChecked, isCollapsed, isDisabled, key, onChange, onCollapse }) => (
+  static renderGroupRow = ({ isChecked, isCollapsed, isDisabled, key, onChange, onCollapse, tooltipMessageDisabled }) => (
     <div className={styles.groupTitleRow} key={`group-${key.id}`}>
       <div
         className={styles.caret}
@@ -44,7 +47,7 @@ export default class CrudPermissionsTable extends React.Component {
       <div className={cx(styles.groupTitle, styles.cell0)}>{key.label}</div>
       <label
         className={cx(styles.cell1, { [styles.disabled]: isDisabled.create })}
-        data-editable={!isDisabled.create}
+        data-tip={isDisabled.create ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -58,7 +61,7 @@ export default class CrudPermissionsTable extends React.Component {
       </label>
       <label
         className={cx(styles.cell2, { [styles.disabled]: isDisabled.update })}
-        data-editable={!isDisabled.update}
+        data-tip={isDisabled.update ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -72,7 +75,7 @@ export default class CrudPermissionsTable extends React.Component {
       </label>
       <label
         className={cx(styles.cell3, { [styles.disabled]: isDisabled.delete })}
-        data-editable={!isDisabled.delete}
+        data-tip={isDisabled.delete ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -87,12 +90,12 @@ export default class CrudPermissionsTable extends React.Component {
     </div>
   );
 
-  static renderBodyRows = ({ data, onChange }) => data.map(row =>
+  static renderBodyRows = ({ data, onChange, tooltipMessageDisabled }) => data.map(row =>
     (<div className={styles.bodyRow} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
       <label
         className={cx(styles.cell1, { [styles.disabled]: contains('create', row.uneditableOptions) })}
-        data-editable={!contains('create', row.uneditableOptions)}
+        data-tip={contains('create', row.uneditableOptions) ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -106,7 +109,7 @@ export default class CrudPermissionsTable extends React.Component {
       </label>
       <label
         className={cx(styles.cell2, { [styles.disabled]: contains('update', row.uneditableOptions) })}
-        data-editable={!contains('update', row.uneditableOptions)}
+        data-tip={contains('update', row.uneditableOptions) ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -120,7 +123,7 @@ export default class CrudPermissionsTable extends React.Component {
       </label>
       <label
         className={cx(styles.cell3, { [styles.disabled]: contains('delete', row.uneditableOptions) })}
-        data-editable={!contains('delete', row.uneditableOptions)}
+        data-tip={contains('delete', row.uneditableOptions) ? tooltipMessageDisabled : null}
       >
         <input
           type='checkbox'
@@ -243,6 +246,7 @@ export default class CrudPermissionsTable extends React.Component {
 
   render() {
     const { checkedGroupIds, collapsedGroupIds } = this.state;
+    const { tooltipMessageDisabled } = this.props;
 
     const headCells = CrudPermissionsTable.renderHeadCells(this.props.headData);
 
@@ -259,13 +263,15 @@ export default class CrudPermissionsTable extends React.Component {
         isDisabled,
         key: group.key,
         onChange: this.onGroupCheck,
-        onCollapse: this.onGroupCollapse
+        onCollapse: this.onGroupCollapse,
+        tooltipMessageDisabled
       }));
 
       if (collapsedGroupIds[group.key.id] === false) {
         acc.push(CrudPermissionsTable.renderBodyRows({
           data: group.data,
-          onChange: this.onRowCheck
+          onChange: this.onRowCheck,
+          tooltipMessageDisabled
         }));
       }
 
@@ -275,6 +281,7 @@ export default class CrudPermissionsTable extends React.Component {
     return (<div className={styles.container}>
       {headCells}
       {bodyCells}
+      <ReactTooltip effect='solid' className={styles.tooltip} />
     </div>);
   }
 }

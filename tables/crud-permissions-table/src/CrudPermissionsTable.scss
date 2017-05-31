@@ -109,3 +109,9 @@ $triangleW: 7px;
     }
   }
 }
+
+.container .tooltip:global(.show) {
+  opacity: 0.8;
+  border-radius: 6px;
+  padding: 10px;
+}

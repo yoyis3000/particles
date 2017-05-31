@@ -4,6 +4,9 @@ A table to manage CRUD permissions.
 
 # Change Log
 
+#### 1.3.0
+- introduce react-tooltip to disabled cells
+
 #### 1.2.1
 - built with an unclean git status, picked up undesired css
 

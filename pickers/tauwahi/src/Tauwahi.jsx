@@ -38,7 +38,7 @@ export default class Tauwahi extends React.Component {
 
     this.state = {
       data: group(props.data),
-      isExpanded: false,
+      isExpanded: true,
       currentTier: 0,
       selected: { id: null, full_name: '' }
     };
@@ -59,8 +59,28 @@ export default class Tauwahi extends React.Component {
 
   render() {
     const { data, isExpanded, selected } = this.state;
-    const items = data[selected.id];
-    const names = selected.full_name.split('>');
+
+    const items = data[selected.id].map(item => (
+      <div
+        key={item.id}
+        className={this.styles.dropdownItem}
+        onClick={() => this.setState({ selected: item })}
+      >
+        {item.name}
+      </div>
+    ));
+
+    const names = ["Heavy Bombers", "Intercontintal Ballistic Missiles", "Submarines", "Nuclear Triad"];
+    // const names = selected.full_name ? selected.full_name.split('>') : [];
+    const tierLabels = names.map(name => (
+      <div
+        className={this.styles.tierLabel}
+        onClick={() => this.setState({ selected: getSelected() })}
+      >
+        <div className={this.styles.tierNumber}>Tier X</div>
+        <div className={this.styles.tierValue}>{name}</div>
+      </div>
+    ));
 
     const caret = (<div className={this.styles.caret} onClick={this.onCaretClick}>
       <span
@@ -77,41 +97,23 @@ export default class Tauwahi extends React.Component {
       <span className={cx('fa', 'fa-remove', this.styles.checkmark)} />
     </div>);
 
+    const addButton = <button className={this.styles.quickAdd}>Add New Tier...</button>
+
     return <div className={this.styles.container}>
       <div className={this.styles.tiers}>
-        {names.map(name => (
-          <div
-            className={this.styles.tierLabel}
-            onClick={() => this.setState({ selected: getSelected() })}
-          >
-            {name}</div>
-        ))}
+        {tierLabels}
       </div>
-      {items ? (
-        <div className={this.styles.quickAdder}>
-          <div className={this.styles.dropdownHead}>
-            <input className={this.styles.input} />
-            {caret}
-            {check}
-          </div>
-          <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: isExpanded })}>
-            {items.map(item => (
-              <div
-                key={item.id}
-                className={this.styles.dropdownItem}
-                onClick={() => this.setState({ selected: item })}
-              >
-                {item.name}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className={this.styles.dropdownHead}>
-          <input className={this.styles.input} placeholder='Add New Tier...' />
-          {check}
-        </div>
-      )}
+
+      <div className={this.styles.dropdownHead}>
+        <input className={this.styles.input} />
+        {caret}
+        {check}
+      </div>
+
+      <div className={cx(this.styles.dropdownBody, { [this.styles.expanded]: isExpanded })}>
+        {items}
+        {addButton}
+      </div>
     </div>
   }
 }

@@ -1,7 +1,8 @@
 @import '../../shared/variables';
 
+$headH: 30px;
+
 .container {
-  background: lightgreen;
   box-sizing: border-box;
   position: relative;
 
@@ -11,55 +12,161 @@
 }
 
 .tiers {
-  background: turquoise;
-  width: 100%;
+  margin: 10px 0;
+  padding-left: 10px;
 }
 
 .tierLabel {
-  display: inline;
-  height: 20px;
-  width: 100%;
-  padding: 5px;
+  background: #eee;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 20px 5px 0;
+  position: relative;
+  padding: 12px 5px 0 5px;
+
+  &::before {
+    border-bottom: 15px solid #eee;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #eee;
+    content: ' ';
+    height: 0;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    width: 0;
+    z-index: 0;
+  }
+
+  &::after {
+    border-bottom: 15px solid transparent;
+    border-left: 10px solid #eee;
+    border-right: 10px solid transparent;
+    border-top: 15px solid transparent;
+    content: ' ';
+    height: 0;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 0;
+    z-index: 0;
+  }
+
+  &:first-child::before {
+    border-left-color: #eee;
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+
+  &:hover {
+    background: #ddd;
+
+    &:first-child::before {
+      border-left-color: #ddd;
+    }
+  }
+
+  &:hover::before {
+    border-bottom-color: #ddd;
+    border-top-color: #ddd;
+  }
+
+  &:hover::after {
+    border-left-color: #ddd;
+  }
 }
 
-.quickAdder {
-  background: salmon;
+.tierNumber {
+  font-size: 9px;
+  left: 5px;
+  position: absolute;
+  text-transform: uppercase;
+  top: -8px;
+}
+
+.tierValue {
+  font-size: 14px;
+  margin-top: -5px;
+  position: relative;
+  z-index: 1;
+}
+
+.input {
+  border: 0;
+  font-size: 13px;
+  height: $headH;
+  line-height: $headH;
+  padding: 5px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.quickAdd {
+  background: #eee;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  line-height: 30px;
+  margin: 10px auto;
+  text-align: center;
+  width: 90%;
+
+  &:hover {
+    background: #ddd;
+  }
 }
 
 .dropdownHead {
-  background: gold;
+  border: 1px solid #ccc;
   display: flex;
+  position: relative;
+  z-index: 2;
 }
 
 .dropdownBody {
-  background: lightgrey;
+  left: 0;
   max-height: 0;
   overflow: hidden;
   position: absolute;
-  transition: max-height 0.2s ease, border 0.2s ease;
+  transition: all 0.2s ease;
   width: 100%;
+  z-index: 1;
 
   &.expanded {
+    border: 1px solid #ccc;
+    border-top: 0;
+    box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.1);
     height: auto;
     max-height: 310px;
   }
 }
 
 .dropdownHeadIcon {
-  background: cornflowerblue;
   cursor: pointer;
-  height: 24px;
-  line-height: 24px;
+  height: $headH;
+  line-height: $headH;
   text-align: center;
-  width: 24px;
+  width: $headH;
 
   &:hover {
-    background: grey;
+    background: #ddd;
   }
 }
 
 .dropdownItem {
   cursor: pointer;
+  padding: 5px;
+
+  &:hover {
+    background: #ddd;
+  }
 }
 
 .caret {

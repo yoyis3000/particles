@@ -44,12 +44,6 @@ const data = [
   }
 ];
 
-// const onSelect = (value) => {
-//   console.warn(`Selected '${value}'.`); // eslint-disable-line no-console
-// };
-//
-// const title = 'Export';
-//
 const stylesheets = [sandboxStyles];
 
 function onSelect(item) {

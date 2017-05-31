@@ -4,6 +4,9 @@ A table to manage CRUD permissions.
 
 # Change Log
 
+#### 1.2.1
+- built with an unclean git status, picked up undesired css
+
 #### 1.2.0
 - added editable data attr to cell
 

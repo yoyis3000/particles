@@ -4,6 +4,9 @@ A table to manage CRUD permissions.
 
 # Change Log
 
+#### 1.2.0
+- added editable data attr to cell
+
 #### 1.1.3
 - when an entire column in a group was disabled, the group box was checked
 

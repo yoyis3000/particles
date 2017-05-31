@@ -42,7 +42,10 @@ export default class CrudPermissionsTable extends React.Component {
         <div className={cx(styles.triangle, { [styles.collapsed]: isCollapsed })} />
       </div>
       <div className={cx(styles.groupTitle, styles.cell0)}>{key.label}</div>
-      <label className={cx(styles.cell1, { [styles.disabled]: isDisabled.create })}>
+      <label
+        className={cx(styles.cell1, { [styles.disabled]: isDisabled.create })}
+        data-editable={!isDisabled.create}
+      >
         <input
           type='checkbox'
           disabled={isDisabled.create}
@@ -53,7 +56,10 @@ export default class CrudPermissionsTable extends React.Component {
           {...{ onChange }}
         />
       </label>
-      <label className={cx(styles.cell2, { [styles.disabled]: isDisabled.update })}>
+      <label
+        className={cx(styles.cell2, { [styles.disabled]: isDisabled.update })}
+        data-editable={!isDisabled.update}
+      >
         <input
           type='checkbox'
           disabled={isDisabled.update}
@@ -64,7 +70,10 @@ export default class CrudPermissionsTable extends React.Component {
           {...{ onChange }}
         />
       </label>
-      <label className={cx(styles.cell3, { [styles.disabled]: isDisabled.delete })}>
+      <label
+        className={cx(styles.cell3, { [styles.disabled]: isDisabled.delete })}
+        data-editable={!isDisabled.delete}
+      >
         <input
           type='checkbox'
           disabled={isDisabled.delete}
@@ -81,7 +90,10 @@ export default class CrudPermissionsTable extends React.Component {
   static renderBodyRows = ({ data, onChange }) => data.map(row =>
     (<div className={styles.bodyRow} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
-      <label className={cx(styles.cell1, { [styles.disabled]: contains('create', row.uneditableOptions) })}>
+      <label
+        className={cx(styles.cell1, { [styles.disabled]: contains('create', row.uneditableOptions) })}
+        data-editable={!contains('create', row.uneditableOptions)}
+      >
         <input
           type='checkbox'
           disabled={contains('create', row.uneditableOptions)}
@@ -92,7 +104,10 @@ export default class CrudPermissionsTable extends React.Component {
           {...{ onChange }}
         />
       </label>
-      <label className={cx(styles.cell2, { [styles.disabled]: contains('update', row.uneditableOptions) })}>
+      <label
+        className={cx(styles.cell2, { [styles.disabled]: contains('update', row.uneditableOptions) })}
+        data-editable={!contains('update', row.uneditableOptions)}
+      >
         <input
           type='checkbox'
           disabled={contains('update', row.uneditableOptions)}
@@ -103,7 +118,10 @@ export default class CrudPermissionsTable extends React.Component {
           {...{ onChange }}
         />
       </label>
-      <label className={cx(styles.cell3, { [styles.disabled]: contains('delete', row.uneditableOptions) })}>
+      <label
+        className={cx(styles.cell3, { [styles.disabled]: contains('delete', row.uneditableOptions) })}
+        data-editable={!contains('delete', row.uneditableOptions)}
+      >
         <input
           type='checkbox'
           disabled={contains('delete', row.uneditableOptions)}

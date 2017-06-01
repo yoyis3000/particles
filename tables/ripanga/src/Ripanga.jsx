@@ -21,6 +21,15 @@ const i18n = {
   NO_RESULTS: 'No results found'
 };
 
+const checkedReducer = ids =>
+  Object.keys(ids).reduce((acc, key) => {
+    if (key !== 0 && ids[key]) {
+      acc.push(key);
+    }
+
+    return acc;
+  }, []);
+
 const debounce = (fn, ms) => {
   let timer = null;
 
@@ -54,6 +63,7 @@ export default class Ripanga extends React.Component {
     renderSidebarBodyCell: PropTypes.func,
     renderSidebarHeadCell: PropTypes.func,
     renderSidebarGroupCell: PropTypes.func,
+    onCheck: PropTypes.func,
     onSort: PropTypes.func,
     scope: PropTypes.string.isRequired,
     showCheckboxes: PropTypes.bool,
@@ -64,6 +74,7 @@ export default class Ripanga extends React.Component {
 
   static defaultProps = {
     idKey: 'id',
+    onCheck: ids => console.info('No onCheck passed to Ripanga. Current checked state: ', ids), // eslint-disable-line
     onSort: null,
     renderEmpty: null,
     renderGroupTitle: null,
@@ -113,6 +124,8 @@ export default class Ripanga extends React.Component {
     window.removeEventListener('table/resize', debouncedResize);
     window.removeEventListener('table/scroll', this.onScroll);
   }
+
+  onCheck = ids => this.props.onCheck(checkedReducer(ids));
 
   onScroll = () => {
     if (!this.table) {
@@ -187,17 +200,19 @@ export default class Ripanga extends React.Component {
   }
 
   onRowCheck = (id) => {
-    // TODO: add the thing here
     const { checkedIds } = this.state;
-    checkedIds[id] = !checkedIds[id];
 
+    if (id) {
+      checkedIds[id] = !checkedIds[id];
+    }
+
+    this.onCheck(checkedIds);
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
   }
 
   onGroupCheck = (groupId) => {
-    // TODO: add the thing here
     const groupIds = this.props.tableData.find(d => d.key.name === groupId)
       .data
       .reduce((acc, row) => acc.concat(row[this.props.idKey]), []);
@@ -206,18 +221,20 @@ export default class Ripanga extends React.Component {
     const groupIsChecked = groupIds.reduce((acc, id) => acc && checkedIds[id], true);
     groupIds.forEach((id) => { checkedIds[id] = !groupIsChecked; });
 
+    this.onCheck(checkedIds);
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
   }
 
   onCheckAll = () => {
-    // TODO: add the thing here
     const allChecked = !this.state.allChecked;
 
     const checkedIds =
       this.props.tableData[0].data
         .reduce((acc, item) => Object.assign(acc, { [item.id]: allChecked }), {});
+
+    this.onCheck(checkedIds);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
   }

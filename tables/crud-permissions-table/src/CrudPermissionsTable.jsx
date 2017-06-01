@@ -90,8 +90,8 @@ export default class CrudPermissionsTable extends React.Component {
     </div>
   );
 
-  static renderBodyRows = ({ data, onChange, tooltipMessageDisabled }) => data.map(row =>
-    (<div className={styles.bodyRow} key={`row-${row.id}`}>
+  static renderBodyRows = ({ hidden, data, onChange, tooltipMessageDisabled }) => data.map(row =>
+    (<div className={cx(styles.bodyRow, { [styles.hidden]: hidden })} key={`row-${row.id}`}>
       <div className={styles.cell0}>{row.label}</div>
       <label
         className={cx(styles.cell1, { [styles.disabled]: contains('create', row.uneditableOptions) })}
@@ -267,13 +267,12 @@ export default class CrudPermissionsTable extends React.Component {
         tooltipMessageDisabled
       }));
 
-      if (collapsedGroupIds[group.key.id] === false) {
-        acc.push(CrudPermissionsTable.renderBodyRows({
-          data: group.data,
-          onChange: this.onRowCheck,
-          tooltipMessageDisabled
-        }));
-      }
+      acc.push(CrudPermissionsTable.renderBodyRows({
+        hidden: collapsedGroupIds[group.key.id] === true,
+        data: group.data,
+        onChange: this.onRowCheck,
+        tooltipMessageDisabled
+      }));
 
       return acc;
     }, []);

@@ -74,6 +74,10 @@ $triangleW: 7px;
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .caret {
   cursor: pointer;
   height: $rowH;

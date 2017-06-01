@@ -5,7 +5,7 @@ import composeStyles from '../../../shared/stylesheetComposer';
 
 const { arrayOf, shape } = PropTypes;
 
-const group = (data) => {
+function group(data) {
   return data.reduce((acc, val) => {
     const key = val.parent_id || null;
     if (acc[key]) {
@@ -15,11 +15,12 @@ const group = (data) => {
       return Object.assign(acc, { [key]: [val] });
     }
   }, { null: [] });
-};
+}
 
-const getSelected = (names) => {
-
-};
+function getSelected(names, index, data) {
+  const name = names.splice(0, index + 1).join('>');
+  return data.find(d => d.full_name === name);
+}
 
 export default class Tauwahi extends React.Component {
   static propTypes = {
@@ -37,7 +38,7 @@ export default class Tauwahi extends React.Component {
     this.styles = composeStyles(baseStyles, [...props.stylesheets]);
 
     this.state = {
-      data: group(props.data),
+      data: props.data,
       isExpanded: true,
       currentTier: 0,
       selected: { id: null, full_name: '' }
@@ -59,8 +60,9 @@ export default class Tauwahi extends React.Component {
 
   render() {
     const { data, isExpanded, selected } = this.state;
+    const grouped = group(data);
 
-    const items = data[selected.id].map(item => (
+    const items = grouped[selected.id] ? grouped[selected.id].map(item => (
       <div
         key={item.id}
         className={this.styles.dropdownItem}
@@ -68,14 +70,15 @@ export default class Tauwahi extends React.Component {
       >
         {item.name}
       </div>
-    ));
+    )) : [];
 
-    const names = ["Heavy Bombers", "Intercontintal Ballistic Missiles", "Submarines", "Nuclear Triad"];
-    // const names = selected.full_name ? selected.full_name.split('>') : [];
-    const tierLabels = names.map(name => (
+    const names = selected.full_name ? selected.full_name.split('>') : [];
+    const tierLabels = names.map((name, index) => (
       <div
         className={this.styles.tierLabel}
-        onClick={() => this.setState({ selected: getSelected() })}
+        onClick={() => this.setState({
+          selected: getSelected(names, index, data)
+        })}
       >
         <div className={this.styles.tierNumber}>Tier X</div>
         <div className={this.styles.tierValue}>{name}</div>
@@ -85,16 +88,12 @@ export default class Tauwahi extends React.Component {
     const caret = (<div className={this.styles.caret} onClick={this.onCaretClick}>
       <span
         className={cx('fa', 'fa-caret-down', this.styles.arrow,
-        { [this.styles.expanded]: isExpanded })}
+        { [this.styles.expanded]: true })}
       />
     </div>);
 
     const check = (<div className={this.styles.check}>
       <span className={cx('fa', 'fa-check', this.styles.checkmark)} />
-    </div>);
-
-    const remove = (<div className={this.styles.check}>
-      <span className={cx('fa', 'fa-remove', this.styles.checkmark)} />
     </div>);
 
     const addButton = <button className={this.styles.quickAdd}>Add New Tier...</button>

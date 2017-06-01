@@ -38,14 +38,14 @@
 `Wait, that's awesome` - Most people
 
 ## How do I get started?
-If you already have `yarn`, run `yarn` at the root, otherwise run `npm install` at the root of this repo.  
+If you already have `yarn`, run `yarn` at the root, otherwise run `npm install` at the root of this repo.
 
 This will install:
 - [yarn](https://yarnpkg.com/en/)
-- [lerna](https://lernajs.io/)
+- Packages needed for sandbox, dev, and prod builds
 - Code style preferences for Javascript and CSS
 
-Then, run `lerna boostrap` at the root. It will install all dependencies for all components.
+Start by running `yarn` at the root, and then `yarn` again in the components folder you want to develop on. This will install all the shared dependencies (at the root) and then individual dependencies.
 
 # Development
 
@@ -64,7 +64,7 @@ In the tool which is importing `FOO`, use `yarn link FOO` to take advantage of t
 
 # Publishing
 
-`lerna publish` at the root is your friend. It will ask you what kind of version bump a change might be:
+`npm version PATCH|MINOR|MAJOR` in the component itself:
 
 - MAJOR version when you make incompatible API changes,
 - MINOR version when you add functionality in a backwards-compatible manner
@@ -72,4 +72,8 @@ In the tool which is importing `FOO`, use `yarn link FOO` to take advantage of t
 
 **SEMVER IS CRUCIAL.** For questions, start at [semver.org](http://semver.org/).
 
+Please update the README for each component with each change. This helps us keep track of what's happened, and will also provide a decent upgrade log for when things change in bigger ways.
+
 If you have publishing rights to a component, this will go along smoothly. If not, find and go ask the maintainers of the component for code review to ensure quality and continuity.
+
+To publish it to NPM, now is the time to `npm publish`.

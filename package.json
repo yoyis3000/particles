@@ -16,9 +16,7 @@
     "url": "https://github.com/chrisarevir/component-library/issues"
   },
   "homepage": "https://github.com/chrisarevir/component-library#readme",
-  "devDependencies": {
-    "lerna": "^2.0.0-beta.38"
-  },
+  "devDependencies": {},
   "dependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.15.0",

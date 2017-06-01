@@ -13,7 +13,7 @@ const def = {
   width: 100
 };
 
-const onSort = () => { console.warn("Column was sorted."); };
+const onSort = () => console.warn('Column was sorted.');
 
 const tableDataUngrouped = [{
   key: undefined,
@@ -60,22 +60,26 @@ const columnDefinitions = [
   Object.assign({ ...def }, { label: 'Col C', key: 'colC' })
 ];
 
-const groupedWithCheckboxes = (<Ripanga
-  globalKey='ripanga-sandbox-grouped'
-  idKey='key'
-  showCheckboxes
-  tableData={tableDataGrouped}
-  {...{
-    columnDefinitions,
-    onSort,
-    renderCell,
-    renderGroupTitle,
-    renderSidebarBodyCell,
-    renderSidebarGroupCell,
-    renderSidebarHeadCell,
-    stylesheets: [sandboxStyles]
-  }}
-/>);
+const groupedWithCheckboxes = (
+  <Ripanga
+    globalKey='ripanga-sandbox-grouped'
+    idKey='key'
+    scope='sandbox'
+    showCheckboxes
+    onMounted={state => console.log(state)}
+    tableData={tableDataGrouped}
+    {...{
+      columnDefinitions,
+      onSort,
+      renderCell,
+      renderGroupTitle,
+      renderSidebarBodyCell,
+      renderSidebarGroupCell,
+      renderSidebarHeadCell,
+      stylesheets: [sandboxStyles]
+    }}
+  />
+);
 
 render(
   <div className={sandboxStyles.sandboxContainer}>

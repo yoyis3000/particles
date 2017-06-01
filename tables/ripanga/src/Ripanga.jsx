@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import RipangaHeadRow from './RipangaHeadRow';
 import RipangaBodyRows from './RipangaBodyRows';
@@ -19,6 +20,15 @@ let debouncedResize = null;
 const i18n = {
   NO_RESULTS: 'No results found'
 };
+
+const checkedReducer = ids =>
+  Object.keys(ids).reduce((acc, key) => {
+    if (key !== 0 && ids[key]) {
+      acc.push(key);
+    }
+
+    return acc;
+  }, []);
 
 const debounce = (fn, ms) => {
   let timer = null;
@@ -53,7 +63,9 @@ export default class Ripanga extends React.Component {
     renderSidebarBodyCell: PropTypes.func,
     renderSidebarHeadCell: PropTypes.func,
     renderSidebarGroupCell: PropTypes.func,
+    onCheck: PropTypes.func,
     onSort: PropTypes.func,
+    onMounted: PropTypes.func,
     scope: PropTypes.string.isRequired,
     showCheckboxes: PropTypes.bool,
     sortState: PropTypes.shape(),
@@ -63,7 +75,9 @@ export default class Ripanga extends React.Component {
 
   static defaultProps = {
     idKey: 'id',
+    onCheck: ids => console.info('No onCheck passed to Ripanga. Current checked state: ', ids), // eslint-disable-line
     onSort: null,
+    onMounted: () => {},
     renderEmpty: null,
     renderGroupTitle: null,
     renderSidebarBodyCell: null,
@@ -94,6 +108,7 @@ export default class Ripanga extends React.Component {
     window.addEventListener('table/resize', debouncedResize);
     window.addEventListener('table/scroll', this.onScroll);
 
+    this.props.onMounted({ ...this.state });
     this.onResize();
   }
 
@@ -111,6 +126,8 @@ export default class Ripanga extends React.Component {
     window.removeEventListener('table/resize', debouncedResize);
     window.removeEventListener('table/scroll', this.onScroll);
   }
+
+  onCheck = ids => this.props.onCheck(checkedReducer(ids));
 
   onScroll = () => {
     if (!this.table) {
@@ -136,6 +153,7 @@ export default class Ripanga extends React.Component {
     const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
     const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
     const len = tableRows.length;
+
     const tableData = this.props.tableData;
     const showGroups = (tableData.length > 0 && tableData[0].key !== undefined);
 
@@ -188,8 +206,12 @@ export default class Ripanga extends React.Component {
 
   onRowCheck = (id) => {
     const { checkedIds } = this.state;
-    checkedIds[id] = !checkedIds[id];
 
+    if (id) {
+      checkedIds[id] = !checkedIds[id];
+    }
+
+    this.onCheck(checkedIds);
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
@@ -204,6 +226,7 @@ export default class Ripanga extends React.Component {
     const groupIsChecked = groupIds.reduce((acc, id) => acc && checkedIds[id], true);
     groupIds.forEach((id) => { checkedIds[id] = !groupIsChecked; });
 
+    this.onCheck(checkedIds);
     const allChecked = Object.values(checkedIds).reduce((acc, v) => acc && v, true);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
@@ -215,6 +238,8 @@ export default class Ripanga extends React.Component {
     const checkedIds =
       this.props.tableData[0].data
         .reduce((acc, item) => Object.assign(acc, { [item.id]: allChecked }), {});
+
+    this.onCheck(checkedIds);
 
     this.setState({ allChecked, checkedIds }, this.updateStorage);
   }

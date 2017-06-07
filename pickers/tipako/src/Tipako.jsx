@@ -2,16 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Tipako.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
-
-// https://stackoverflow.com/a/2117523/385273 (overly complex? Ben 170607)
-/* eslint-disable no-bitwise */
-function guidGenerator() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : ((r & 0x3) | 0x8);
-    return v.toString(16);
-  });
-}
+import generateId from '../../../shared/generateId';
 
 export default class Tipako extends React.Component {
   static propTypes = {
@@ -62,7 +53,7 @@ export default class Tipako extends React.Component {
 
     this.styles = composeStyles(baseStyles, [...props.stylesheets]);
 
-    this.guid = guidGenerator();
+    this.guid = generateId();
 
     if (props.searchable === false && props.onSearch !== null) {
       console.error('An instance of Tipako has an "onSearch()" ' // eslint-disable-line
@@ -76,9 +67,12 @@ export default class Tipako extends React.Component {
     };
   }
 
-  componentDidMount() {
-    window.removeEventListener('click', this.onBlur);
+  componentWillMount() {
     window.addEventListener('click', this.onBlur);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onBlur);
   }
 
   onSearch = (evt) => {

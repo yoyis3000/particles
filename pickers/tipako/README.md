@@ -4,6 +4,10 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.0.1
+- Extracting and importing UUID generation
+- Moving listener removal to unmount
+
 ##### 3.0.0
 - Consolidating from Kaweake
 - Standard { key, value } data structure

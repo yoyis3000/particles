@@ -4,13 +4,21 @@
 
 ## Design Principles
 Simple is better than complex.
+
 Explicit is better than implicit.
+
 Readability counts.
+
 Flat is better than nested.
+
 Sparse is better than dense.
+
 Special cases aren't special enough to break the rules.
+
 Follow SemVer religiously.
+
 Maintain sandboxes for components.
+
 Ship it.
 
 ## How do I get started?

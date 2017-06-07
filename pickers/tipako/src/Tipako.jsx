@@ -1,104 +1,93 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import baseStyles from './Tipako.scss';
-import defaultStyles from './TipakoDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
+
+// https://stackoverflow.com/a/2117523/385273 (overly complex? Ben 170607)
+/* eslint-disable no-bitwise */
+function guidGenerator() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : ((r & 0x3) | 0x8);
+    return v.toString(16);
+  });
+}
 
 export default class Tipako extends React.Component {
   static propTypes = {
-    addGroupTokens: PropTypes.bool,
     data: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.arrayOf(PropTypes.shape({
-        text: PropTypes.string.isRequired
+        disabled: PropTypes.bool,
+        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        value: PropTypes.string.isRequired
       })),
-      text: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired
+      disabled: PropTypes.bool,
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      value: PropTypes.string.isRequired
     })),
-    groupIcon: PropTypes.string,
-    itemIcon: PropTypes.string,
-    maxResults: PropTypes.number,
-    msgEmpty: PropTypes.string,
-    msgPlaceholder: PropTypes.string,
-    onFetch: PropTypes.func,
+    loading: PropTypes.bool,
+    onClearAll: PropTypes.func,
+    onSearch: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
-    prepopulate: PropTypes.bool,
-    renderTokens: PropTypes.func,
-    stylesheets: PropTypes.arrayOf(PropTypes.shape())
+    onSelectAll: PropTypes.func,
+    renderEmpty: PropTypes.func,
+    renderGroup: PropTypes.func,
+    renderItem: PropTypes.func,
+    searchable: PropTypes.bool,
+    stylesheets: PropTypes.arrayOf(PropTypes.shape()),
+    titlePlaceholder: PropTypes.string,
+    titleSlot: PropTypes.element,
+    titleValue: PropTypes.string
   }
 
   static defaultProps = {
-    addGroupTokens: false,
     data: [],
-    groupIcon: null,
-    itemIcon: null,
-    maxResults: Infinity,
-    msgEmpty: 'No matching items.',
-    msgPlaceholder: 'Search...',
-    onFetch: null,
-    prepopulate: false,
-    renderTokens: null,
-    stylesheets: []
+    loading: false,
+    onSearch: null,
+    onClearAll: null,
+    onSelectAll: null,
+    renderEmpty: null,
+    renderGroup: null,
+    renderItem: null,
+    searchable: false,
+    selectedKey: null,
+    stylesheets: [],
+    titlePlaceholder: 'Select...',
+    titleSlot: null,
+    titleValue: ''
   }
 
   constructor(props) {
     super(props);
 
-    this.styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
-    this.timer = null;
-    this.tokensMemo = {};
+    this.styles = composeStyles(baseStyles, [...props.stylesheets]);
+
+    this.guid = guidGenerator();
+
+    if (props.searchable === false && props.onSearch !== null) {
+      console.error('An instance of Tipako has an "onSearch()" ' // eslint-disable-line
+        + 'callback defined, but its "searchable" prop is false, '
+        + 'so the callback will have no effect.');
+    }
 
     this.state = {
-      data: this.props.data || [],
       expanded: false,
-      fetching: false,
-      tokens: [],
-      value: ''
+      value: props.titleValue
     };
   }
 
-  componentWillMount() {
-    window.addEventListener('click', this.onBlur);
-  }
-
   componentDidMount() {
-    if (this.props.prepopulate && this.props.onFetch !== Tipako.defaultProps.onFetch) {
-      this.props.onFetch('', (data) => {
-        this.setState({ data, fetching: false });
-      });
-    }
+    window.removeEventListener('click', this.onBlur);
+    window.addEventListener('click', this.onBlur);
   }
 
   onSearch = (evt) => {
     const str = evt.target.value;
-
-    if (this.props.onFetch === Tipako.defaultProps.onFetch) {
-      const data = this.props.data.reduce((acc, val) => {
-        const matchText = val.text.toLowerCase().indexOf(str) !== -1;
-
-        const matchChild = val.children &&
-          val.children.reduce((result, child) =>
-            result || (child.text.toLowerCase().indexOf(str) !== -1), false);
-
-        if (matchText || matchChild) {
-          return acc.concat(val);
-        }
-
-        return acc;
-      }, []);
-
-      this.setState({ data, expanded: true });
-    } else {
-      this.setState({ value: str, fetching: true });
-      clearTimeout(this.timer);
-
-      this.timer = setTimeout(() => {
-        this.props.onFetch(str, (data) => {
-          this.setState({ data, expanded: true, fetching: false });
-        });
-      }, 500);
-    }
-
-    this.setState({ value: str });
+    this.setState({ value: str, expanded: true }, () => {
+      if (this.props.onSearch) {
+        this.props.onSearch(str);
+      }
+    });
   }
 
   onChildClick = (evt, child) => {
@@ -108,14 +97,8 @@ export default class Tipako extends React.Component {
       return;
     }
 
-    const tokens = this.state.tokens;
-
-    this.tokensMemo[child.id] = tokens.length;
-    tokens.push(child);
-
-    this.props.onSelect(tokens);
+    this.props.onSelect(child);
     this.searchInput.focus();
-    this.setState({ tokens });
   }
 
   onGroupClick = (evt, group) => {
@@ -125,245 +108,205 @@ export default class Tipako extends React.Component {
       return;
     }
 
-    const tokens = this.state.tokens;
-
-    // Use child index stored in the memoisation to remove if exists. Ben 170222
-    group.children.forEach((child) => {
-      if (this.tokensMemo[child.id] !== undefined) {
-        tokens.splice(this.tokensMemo[child.id], 1);
-        delete this.tokensMemo[child.id];
-      }
-    });
-
-    if (this.props.addGroupTokens) {
-      this.tokensMemo[group.id] = tokens.length;
-      tokens.push(group);
-    }
-
-    group.children.forEach((child) => {
-      if (!child.disabled) {
-        this.tokensMemo[child.id] = tokens.length;
-        tokens.push(child);
-      }
-    });
-
-    this.props.onSelect(tokens);
+    this.props.onSelect(group);
     this.searchInput.focus();
-    this.setState({ tokens });
   }
 
-  onUngroupedClick = (evt, ungrouped) => {
+  onUngroupedClick = (evt, item) => {
     evt.stopPropagation();
 
-    if (ungrouped.disabled) {
+    if (item.disabled) {
       return;
     }
 
-    const tokens = this.state.tokens;
-    this.tokensMemo[ungrouped.id] = tokens.length;
-    tokens.push(ungrouped);
-
-    this.props.onSelect(tokens);
+    this.props.onSelect(item);
     this.searchInput.focus();
-    this.setState({ tokens });
   }
 
-  onTokenClick = (obj) => {
-    const tokens = this.state.tokens;
-    tokens.splice(this.tokensMemo[obj.id], 1);
-    delete this.tokensMemo[obj.id];
-
-    tokens.forEach((t, i) => {
-      this.tokensMemo[t.id] = i;
-    });
-
-    this.props.onSelect(Object.values(tokens));
-    this.setState({ tokens, expanded: false });
-  }
-
-  onCaretClick = (evt) => {
-    evt.stopPropagation();
-    this.setState({ expanded: true });
+  onCaretClick = () => {
+    if (this.state.expanded === false) {
+      this.setState({ expanded: true, guid: this.guid });
+    }
   }
 
   onSelectAll = () => {
-    const { addGroupTokens } = this.props;
-
-    const tokens = this.state.data.reduce((acc, obj) => {
-      const result = acc;
-
-      if (obj.children) {
-        if (addGroupTokens && !obj.disabled) {
-          this.tokensMemo[obj.id] = result.length;
-          result.push(obj);
-        }
-
-        obj.children.forEach((child) => {
-          if (!child.disabled) {
-            this.tokensMemo[child.id] = result.length;
-            result.push(child);
-          }
-        });
-      } else if (!obj.disabled) {
-        this.tokensMemo[obj.id] = result.length;
-        result.push(obj);
-      }
-
-      return result;
-    }, []);
-
-    this.props.onSelect(Object.values(tokens));
-    this.setState({ tokens, expanded: false });
+    this.props.onSelectAll();
+    this.setState({ expanded: false });
   }
 
   onClearAll = () => {
-    this.props.onSelect([]);
-    Object.keys(this.tokensMemo).forEach((k) => { delete this.tokensMemo[k]; });
-    this.setState({ tokens: [], expanded: false });
+    this.props.onClearAll([]);
+    this.setState({ expanded: false });
+  }
+
+  onSearchFocus = (evt) => {
+    evt.target.select();
   }
 
   onBlur = () => {
-    this.setState({ expanded: false });
+    const expanded = (this.state.guid === this.guid);
+    this.setState({ expanded, guid: null });
   };
 
+  onInputBlur = () => {
+    if (this.state.value.length === 0 && this.props.titleValue) {
+      this.setState({ value: this.props.titleValue });
+    }
+  };
+
+  onInputClear = (evt) => {
+    evt.stopPropagation();
+
+    if (this.props.onSearch) {
+      this.props.onSearch('');
+    }
+
+    this.setState({ value: '' });
+  }
+
+  getEmptyString = () => {
+    if (this.state.value) {
+      return `No matches for "${this.state.value}".`;
+    }
+
+    return 'No items found.';
+  }
+
   render() {
-    const itemIcon = this.props.itemIcon
-      ? <img alt='Item' src={this.props.itemIcon} className={this.styles.itemIcon} />
-      : null;
+    const {
+      data,
+      loading,
+      onClearAll,
+      onSearch,
+      onSelectAll,
+      renderEmpty,
+      renderGroup,
+      renderItem,
+      searchable,
+      titlePlaceholder,
+      titleSlot,
+      titleValue
+    } = this.props;
 
-    const groupIcon = this.props.groupIcon
-      ? <img alt='Group' src={this.props.groupIcon} className={this.styles.itemIcon} />
-      : null;
+    const searchTerm = (searchable && this.state.value && !onSearch)
+      ? this.state.value.toLowerCase()
+      : '';
 
-    const items = this.state.data.reduce((acc, v) => {
+    const items = data.reduce((acc, v, i) => {
       // Grouped
       if (v.children) {
-        const children = v.children.reduce((result, vv) => {
-          if (this.tokensMemo[vv.id] !== undefined) {
+        const children = v.children.reduce((result, vv, ii) => {
+          if (vv.value.toLowerCase().indexOf(searchTerm) === -1) {
             return result;
           }
 
           return result.concat(<button
             onClick={(evt) => { this.onChildClick(evt, vv); }}
-            className={cx(this.styles.item, this.styles.childItem, { [this.styles.disabled]: vv.disabled })}
-            key={`child-${v.id}-${vv.id}`}
+            className={cx(this.styles.item, this.styles.childItem,
+              { [this.styles.disabled]: vv.disabled })}
+            key={`child-${v.key}-${vv.key}`}
           >
-            {itemIcon}
-            {vv.text}
+            {renderItem ? renderItem(vv, ii) : vv.value}
           </button>);
         }, []);
 
-        if (this.props.addGroupTokens === false && children.length === 0) {
-          return acc;
-        }
-
-        if (this.tokensMemo[v.id] !== undefined && children.length === 0) {
+        if (children.length === 0 && v.value.toLowerCase().indexOf(searchTerm) === -1) {
           return acc;
         }
 
         const group = (<button
           onClick={(evt) => { this.onGroupClick(evt, v); }}
-          className={cx(this.styles.item, this.styles.groupItem, { [this.styles.disabled]: v.disabled })}
-          key={`group-${v.id}`}
+          className={cx(this.styles.item, this.styles.groupItem,
+            { [this.styles.disabled]: v.disabled })}
+          key={`group-${v.key}`}
         >
-          {groupIcon}
-          {v.text}
+          {renderGroup ? renderGroup(v, i) : v.value}
         </button>);
 
         return acc.concat(group).concat(children);
       }
 
-      // Ungrouped
-      if (this.tokensMemo[v.id] !== undefined) {
+      if (v.value.toLowerCase().indexOf(searchTerm) === -1) {
         return acc;
       }
 
+      // Ungrouped
       const ungrouped = (<button
         onClick={(evt) => { this.onUngroupedClick(evt, v); }}
-        className={cx(this.styles.item, this.styles.ungroupedItem, { [this.styles.disabled]: v.disabled })}
-        key={`ungrouped-${v.id}`}
+        className={cx(this.styles.item, this.styles.ungroupedItem,
+          { [this.styles.disabled]: v.disabled })}
+        key={`ungrouped-${v.key}`}
       >
-        {itemIcon}
-        {v.text}
+        {renderItem ? renderItem(v, i) : v.value}
       </button>);
 
       return acc.concat(ungrouped);
     }, []);
 
-    const selectAll = items.length > 0
-      ? (<button
-        className={this.styles.controlsButton}
-        onClick={this.onSelectAll}
-      >
-         Select All
-      </button>)
+    const selectAll = (onSelectAll && items.length > 0)
+      ? (<button className={this.styles.controlsButton} onClick={this.onSelectAll}>
+           Select All
+        </button>)
       : null;
 
-    const spacer = items.length > 0
+    const clearAll = onClearAll
+      ? (<button className={this.styles.controlsButton} onClick={this.onClearAll}>
+          Clear All
+        </button>)
+      : null;
+
+    const spacer = (clearAll && selectAll)
       ? <div className={this.styles.controlsSpacer}>/</div>
       : null;
 
     const controls = (<div className={this.styles.controls}>
       {selectAll}
       {spacer}
-      <button
-        className={this.styles.controlsButton}
-        onClick={this.onClearAll}
-      >
-        Clear All
-      </button>
+      {clearAll}
     </div>);
 
-    const tokens = this.props.renderTokens
-       ? this.props.renderTokens(this.state.tokens, this.onTokenClick)
-       : this.state.tokens.map(val => (<button
-         className={this.styles.token}
-         key={`token-${val.id}`}
-         onClick={() => { this.onTokenClick(val); }}
-       >
-         {val.text}
-       </button>));
+    const empty = (<div className={this.styles.empty}>
+      {renderEmpty ? renderEmpty() : this.getEmptyString()}
+    </div>);
 
-    const nomatch = <div className={this.styles.nomatch}>{this.props.msgEmpty}</div>;
-
-    const caret = (this.state.fetching)
+    const caret = loading
       ? null
       : (<button onClick={this.onCaretClick} className={this.styles.caret}>
         <span className={cx('fa', 'fa-caret-down', this.styles.arrow, { [this.styles.expanded]: this.state.expanded })} />
       </button>);
 
-    const busy = this.state.fetching
-      ? <span className={this.styles.busy} />
+    const clear = this.state.value && searchable
+      ? <button onClick={this.onInputClear} className={this.styles.clear} />
       : null;
 
-    const maxResultsWarningIcon =
-      (this.state.fetching || this.state.data.length < this.props.maxResults)
-      ? null
-      : <span className={`fa fa-exclamation-triangle ${this.styles.maxResults}`} />;
+    const spinner = loading
+      ? <span className={this.styles.spinner} />
+      : null;
 
-    const maxResultsWarningText =
-      (this.state.fetching || this.state.data.length < this.props.maxResults)
-      ? ''
-      : 'This search is too general, so the results have been limited.';
+    const slot = titleSlot
+      ? <div className={this.styles.slot}>{titleSlot}</div>
+      : null;
 
-    return (<div
-      className={this.styles.picker}
-      title={maxResultsWarningText}
-    >
-      {tokens}
+    const search = searchable
+      ? (<input
+        className={this.styles.input}
+        onBlur={this.onInputBlur}
+        onChange={this.onSearch}
+        onFocus={this.onSearchFocus}
+        placeholder={titlePlaceholder}
+        ref={(input) => { this.searchInput = input; }}
+        type='text'
+        value={this.state.value}
+      />)
+      : <div className={this.styles.staticText}>{titleValue || titlePlaceholder}</div>;
 
-      <div className={cx(this.styles.inputContainer)}>
-        <input
-          className={this.styles.input}
-          type='text'
-          placeholder={this.props.msgPlaceholder}
-          value={this.state.value}
-          onChange={this.onSearch}
-          ref={(input) => { this.searchInput = input; }}
-        />
+    return (<div className={this.styles.container}>
+      <div className={cx(this.styles.title)}>
+        {slot}
+        {search}
+        {clear}
         {caret}
-        {busy}
-        {maxResultsWarningIcon}
+        {spinner}
       </div>
 
       <div className={this.styles.dropdownContainer}>
@@ -372,7 +315,9 @@ export default class Tipako extends React.Component {
             [this.styles.expanded]: this.state.expanded })}
         >
           {controls}
-          {items.length ? items : nomatch}
+          <div className={this.styles.itemsContainer}>
+            {items.length ? items : empty}
+          </div>
         </div>
       </div>
     </div>);

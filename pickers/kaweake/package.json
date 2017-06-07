@@ -1,6 +1,6 @@
 {
   "name": "kaweake",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "A select dropdown to manage downloads.",
   "main": "index.js",
   "scripts": {

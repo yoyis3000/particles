@@ -1,6 +1,14 @@
-.picker {
+.container {
   // background: rgba(85, 182, 255, 0.1);
   margin: 100px auto;
   padding: 50px;
   width: 300px;
+}
+
+.titleIcon {
+  display: inline-block;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 30px;
 }

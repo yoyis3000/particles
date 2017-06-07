@@ -1,28 +1,43 @@
 $h: 30px;
 $p: 5px;
 
-.picker {
+.container {
   position: relative;
 
   * {
     box-sizing: border-box;
-    cursor: default;
-    margin: 0;
-    padding: 0;
   }
 }
 
-.inputContainer {
+.title {
+  align-items: center;
+  border: 1px solid gray;
+  display: flex;
   overflow: hidden;
+  padding-right: $h;
   position: relative;
+
+  .slot {
+    font-family: inherit;
+  }
+
+  .staticText {
+    flex-grow: 1;
+    height: $h;
+    line-height: $h;
+    padding: 0 4px;
+  }
 }
 
 .input {
+  border: 0;
+  cursor: text;
   display: block;
+  flex-grow: 1;
+  font-size: 13px;
   height: $h;
   line-height: $h;
-  padding: 0 (2 * $h + 4) 0 4px;
-  width: 100%;
+  padding: 0 24px 0 4px;
 }
 
 .inputIcon {
@@ -30,23 +45,31 @@ $p: 5px;
   border: 0;
   display: block;
   font-size: 12px;
-  height: $h - 2;
-  line-height: $h - 2;
+  height: $h;
+  line-height: $h;
   position: absolute;
-  right: 1px;
+  right: 0;
   text-align: center;
-  top: 1px;
-  width: $h - 2;
+  top: 0;
+  width: $h;
+
+  &:hover {
+    background: #ddd;
+    cursor: pointer;
+  }
 }
 
 .caret {
   composes: inputIcon;
+  border-left: 1px solid #999;
   cursor: pointer;
   display: block;
 
   .arrow {
     cursor: pointer;
     display: block;
+    font-size: 13px;
+    margin-top: 2px;
     transition: transform 0.3s ease;
 
     &.expanded {
@@ -59,14 +82,20 @@ $p: 5px;
   }
 }
 
-.maxResults {
+.clear {
   composes: inputIcon;
-  color: #ffc500;
-  font-size: 16px;
   right: $h;
+
+  &::before {
+    content: '\00D7';
+    display: block;
+    font-size: 16px;
+    height: 16px;
+    line-height: 16px;
+  }
 }
 
-.busy {
+.spinner {
   composes: inputIcon;
   animation-duration: 1.5s;
   animation-name: spin;
@@ -107,11 +136,11 @@ $p: 5px;
     border: 1px solid #666;
     height: auto;
     max-height: 300px;
-    overflow: auto;
+    z-index: 100;
   }
 }
 
-.nomatch {
+.empty {
   padding: 10px;
 }
 
@@ -194,18 +223,9 @@ $p: 5px;
   }
 }
 
-.token {
-  background: 0;
-  border: 1px solid #aaa;
-  display: block;
-  margin: 2px 0;
-  padding: 4px;
-  text-align: left;
-  width: 100%;
-
-  &:focus {
-    outline: 0;
-  }
+.itemsContainer {
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 @keyframes spin {

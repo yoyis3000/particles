@@ -1,110 +1,94 @@
+/* eslint-disable no-console */
+/* eslint-disable import/no-extraneous-dependencies */
+
 import { render } from 'react-dom';
 import React from 'react';
 
 import Tipako from '../src';
-
-import defaultStyles from '../src/TipakoDefault.scss';
 import sandboxStyles from './sandbox.scss';
 
 const data = [
-  { text: 'Animals',
-    id: 100,
+  { value: 'Animals',
+    key: 100,
     disabled: true,
     children: [
-      { text: 'Dolphin', id: 2, disabled: true },
-      { text: 'Albatross', id: 3 },
-      { text: 'German Shepherd', id: 4 },
-      { text: 'Mole', id: 5 },
-      { text: 'Lesser Southern Floridian Muskrat', id: 6 }
+      { value: 'Dolphin', key: 2, disabled: true },
+      { value: 'Albatross', key: 3 },
+      { value: 'German Shepherd', key: 4 },
+      { value: 'Mole', key: 5 },
+      { value: 'Lesser Southern Floridian Muskrat', key: 6 }
     ]
   },
 
-  { text: 'Woodworking',
-    id: 7,
+  {
     children: [
-      { text: 'Lutherie', id: 8 },
-      { text: 'Carpentry', id: 9 },
-      { text: 'Parquetry', id: 10 },
-      { text: 'Joinery', id: 11 },
-      { text: 'Cabinetry', id: 12 }
-    ]
+      { value: 'Lutherie', key: 8 },
+      { value: 'Carpentry', key: 9 },
+      { value: 'Parquetry', key: 10 },
+      { value: 'Joinery', key: 11 },
+      { value: 'Cabinetry', key: 12 }
+    ],
+    key: 7,
+    value: 'Woodworking'
   },
 
-  { text: 'Saturnian Moons Found Around Saturn',
-    id: 13,
+  {
     children: [
-      { text: 'Tethys', id: 14 },
-      { text: 'Calypso', id: 15 },
-      { text: 'Enceladus', id: 16 },
-      { text: 'Rhea', id: 17 },
-      { text: 'Iapetus', id: 18 }
-    ]
+      { value: 'Tethys', key: 14 },
+      { value: 'Calypso', key: 15 },
+      { value: 'Enceladus', key: 16 },
+      { value: 'Rhea', key: 17 },
+      { value: 'Iapetus', key: 18 }
+    ],
+    key: 13,
+    value: 'Saturnian Moons Found Around Saturn'
   },
 
-  { text: 'An empty group appears!', id: 19, children: [] },
+  { value: 'An empty group appears!', key: 19, children: [] },
 
-  { text: 'Magnetic', id: 20, disabled: true },
-  { text: 'Guacamole', id: 21 },
-  { text: 'Crankshaft', id: 22 },
-  { text: 'Demographic', id: 23 },
-  { text: 'Almond', id: 24 }
+  { value: 'Magnetic poles are points to and from which the lines of magnetic force are directed.', key: 20, disabled: true },
+  { value: 'Guacamole', key: 21 },
+  { value: 'Crankshaft', key: 22 },
+  { value: 'Demographic', key: 23 },
+  { value: 'Almond', key: 24 }
 ];
 
-const renderTokens = (tokens, onRemove) => {
-  console.warn('Using custom token renderer.'); // eslint-disable-line no-console
+const loading = false;
+const searchable = true;
 
-  return Object.values(tokens).map(t =>
-    (<div key={`token-${t.id}`}>
-      {t.text}
+const onClearAll = () => { console.warn('Clear all.'); };
+const onSearch = (str) => { console.warn('Searching for', str); };
+const onSelect = (item) => { console.warn('Selected', item); };
+const onSelectAll = () => { console.warn('Select all.'); };
 
-      <button style={{ marginLeft: '10px' }} onClick={() => onRemove(t)}>
-        Remove
-      </button>
-    </div>));
-};
+const renderEmpty = () => 'Empty!';
+const renderGroup = group => group.value;
+const renderItem = item => item.value;
 
-const groupIcon = 'icon-group.png';
-const itemIcon = 'icon-item.png';
+const stylesheets = [sandboxStyles];
 
-// Use this method to customize your call with URIs, query parameters, etc.
-const onFetch = (str, callback) => {
-  console.warn('Starting API mock response time...'); // eslint-disable-line no-console
-  setTimeout(() => {
-    console.warn('...finished.'); // eslint-disable-line no-console
-    callback(data);
-  }, 1000);
-};
-
-const onSelect = (selectedItems) => {
-  console.warn('The following items have been selected:', selectedItems); // eslint-disable-line no-console
-};
-
-const msgEmpty = 'No results!';
-const msgPlaceholder = 'Hello world';
-const addGroupTokens = true;
-const maxResults = 4;
-const stylesheets = [
-  defaultStyles,
-  sandboxStyles
-];
+const titleValue = 'Calypso';
+const titlePlaceholder = 'Make a selection...';
+const titleSlot = <div className={`fa fa-bus ${sandboxStyles.titleIcon}`} />;
 
 render(
   <Tipako
     {...{
-      addGroupTokens,
       data,
-      groupIcon,
-      itemIcon,
-      maxResults,
-      msgEmpty,
-      msgPlaceholder,
-      onFetch,
+      loading,
+      onClearAll,
+      // onSearch,
       onSelect,
-      renderTokens,
-      stylesheets
+      onSelectAll,
+      renderEmpty,
+      renderGroup,
+      renderItem,
+      searchable,
+      stylesheets,
+      titlePlaceholder,
+      titleSlot,
+      titleValue
     }}
-
-    className={sandboxStyles.sandbox}
   />,
   window.document.getElementById('root')
 );

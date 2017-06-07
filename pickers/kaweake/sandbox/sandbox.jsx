@@ -23,22 +23,13 @@ const title = 'Export';
 
 render(
   <div>
+    <h1>Kaweake is deprecated. Please use Tipako instead.</h1>
     <Kaweake
       {...{
         data,
         icon,
         onSelect,
         selectedValue,
-        stylesheets,
-        title
-      }}
-    />
-
-    <Kaweake
-      {...{
-        data,
-        icon,
-        onSelect,
         stylesheets,
         title
       }}

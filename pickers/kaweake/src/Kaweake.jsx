@@ -26,6 +26,13 @@ export default class Kaweake extends React.Component {
 
   constructor(props) {
     super(props);
+
+
+
+    console.error("KAWEAKE IS DEPRECATED. Please use Tipako instead.");
+
+
+
     this.styles = composeStyles(baseStyles, [...props.stylesheets]);
     this.state = { expanded: false };
   }

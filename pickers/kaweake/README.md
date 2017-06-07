@@ -4,6 +4,11 @@ A dropdown to replace `<select>` tags.
 
 # Change Log
 
+## DEPRECATED. Please use `tipako` instead.`
+
+##### 2.5.4
+- Adding deprecation message.
+
 ##### 2.5.3
 - Default styles consolidated.
 

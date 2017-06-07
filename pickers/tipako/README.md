@@ -4,6 +4,14 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.0.0
+- Consolidating from Kaweake
+- Standard { key, value } data structure
+- Removed token handling
+- Title value prop
+- renderItem(), renderGroup(), renderEmpty()
+- Multiple expanded bug fixed
+
 ##### 2.5.0
 - Added prepopulate flag
 - 'this' styles fix

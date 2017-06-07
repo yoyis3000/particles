@@ -106,7 +106,7 @@ export default class Ripanga extends React.Component {
     window.addEventListener('table/checkAll', this.onCheckAll);
     window.addEventListener('table/checkOne', ({ detail: id }) => this.onRowCheck(id));
     window.addEventListener('table/resize', debouncedResize);
-    window.addEventListener('table/scroll', this.onScroll);
+    window.addEventListener('scroll', this.onScroll);
 
     this.props.onMounted({ ...this.state });
     this.onResize();
@@ -124,7 +124,7 @@ export default class Ripanga extends React.Component {
     window.removeEventListener('table/checkAll', this.onCheckAll);
     window.removeEventListener('table/checkOne', id => this.onRowCheck(id));
     window.removeEventListener('table/resize', debouncedResize);
-    window.removeEventListener('table/scroll', this.onScroll);
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   onCheck = ids => this.props.onCheck(checkedReducer(ids));

@@ -4,11 +4,15 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.2.1
+- Fixed sticky header scroll bug
+- Changed some border styling to fix overflow cell border rendering bugs
+
 ##### 2.2.0
-Added in support for more table listeners, ability to figure out the internal state of checkedIds
+- Added in support for more table listeners, ability to figure out the internal state of checkedIds
 
 ##### 2.1.2
-adjusted naming convention for ongroupselect from `key` to `name`
+- Adjusted naming convention for ongroupselect from `key` to `name`
 
 ##### 2.1.1
 - Patch groupBy

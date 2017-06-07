@@ -13,13 +13,12 @@ export default class Tiwae extends React.Component {
     isSelectAll: PropTypes.bool,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
-    onSelectAll: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
   static defaultProps = {
+    isSelectAll: true,
     lockLimit: 3,
-    isSelectAll: false,
     stylesheets: []
   }
 
@@ -101,9 +100,13 @@ export default class Tiwae extends React.Component {
 
   onSelectAll = () => {
     const isAllChecked = !this.state.isAllChecked;
+    const columns = this.state.columns.map(option => Object.assign(option, {
+      hidden: !isAllChecked
+    }));
 
-    this.setState({ isAllChecked });
-    this.props.onSelectAll(isAllChecked);
+    this.setState({ columns, isAllChecked });
+
+    this.props.onChange(columns);
   };
 
   onLock = (evt) => {
@@ -135,7 +138,7 @@ export default class Tiwae extends React.Component {
       locked: false
     }));
 
-    const isAllChecked = this.state.columns.every(column => !column.hidden);
+    const isAllChecked = columns.every(column => !column.hidden);
 
     this.setState({ ghostIndex: -1, columns, startIndex: -1, isAllChecked });
     this.props.onChange(columns);
@@ -170,7 +173,7 @@ export default class Tiwae extends React.Component {
         type='checkbox'
       />
       <div className={styles.itemLabel}>Select All</div>
-      <span className={styles.controlDivider}>|</span>)
+      <span className={styles.controlDivider}>|</span>
     </div>)
     : null;
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { render } from 'react-dom';
 import React from 'react';
 
@@ -44,10 +45,6 @@ const onChange = (newColumnDefinitions) => {
   console.warn(newColumnDefinitions); // eslint-disable-line
 };
 
-const onSelectAll = (isAllChecked) => {
-  columns.map(column => Object.assign(column, { hidden: !isAllChecked }));
-};
-
 const stylesheets = [sandboxStyles];
 
 const lockLimit = 3;
@@ -59,7 +56,6 @@ render(
       defaultColumns,
       lockLimit,
       onChange,
-      onSelectAll,
       stylesheets
     }}
   />,

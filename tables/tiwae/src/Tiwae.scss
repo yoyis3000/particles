@@ -91,6 +91,7 @@ $p: 8px;
 
   height: $h / 2;
   position: relative;
+  right: -1px;
 
   &::after {
     border: 8px solid transparent;
@@ -133,7 +134,7 @@ $p: 8px;
   }
 
   &:hover {
-    background: no-repeat 3px center #eee;
+    background: no-repeat 1px center #eee;
     background-image:
       url(
         "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcm\

@@ -5,6 +5,8 @@ $overflowZ: 1;
 $tableZ: 0;
 
 .contentContainer {
+  border: 1px solid #c3c2c2;
+  border-width: 0 1px 0 1px;
   box-sizing: border-box;
   overflow: hidden;
   padding-right: 100px;
@@ -26,7 +28,6 @@ $tableZ: 0;
 
 .sidebarContainer {
   background: #fff;
-  border-top: 1px solid #c3c2c2;
   height: 100%;
   position: absolute;
   right: 0;
@@ -36,7 +37,6 @@ $tableZ: 0;
 }
 
 .table {
-  border-bottom: 1px solid #c3c2c2;
   padding-top: 45px;
 }
 
@@ -58,19 +58,17 @@ $tableZ: 0;
 .tableCell {
   align-items: center;
   border: 1px solid #c3c2c2;
-  border-width: 1px 0 0 1px;
+  border-width: 0 1px 1px 0;
   display: flex;
   flex-grow: 1;
   padding: $padding;
-
-  &:last-child {
-    border-right-width: 1px;
-  }
 }
 
 .headRow {
   composes: tableRow;
   background: #e7e7e7;
+  border: 1px solid #c3c2c2;
+  border-width: 1px 0;
   font-weight: bold;
   height: 45px;
 
@@ -82,6 +80,7 @@ $tableZ: 0;
 
 .headCell {
   composes: tableCell;
+  border-width: 0 1px 0 0;
 
   &.sortable,
   &.sortable * {
@@ -151,7 +150,7 @@ $tableZ: 0;
 .sidebarCell {
   align-items: center;
   border: 1px solid #c3c2c2;
-  border-width: 0 1px 1px 1px;
+  border-width: 0 0 1px 1px;
   display: flex;
   padding: 10px;
   position: relative;
@@ -161,6 +160,7 @@ $tableZ: 0;
 .headSidebarCell {
   composes: sidebarCell;
   background: #e7e7e7;
+  border-top-width: 1px;
   z-index: 1;
 }
 

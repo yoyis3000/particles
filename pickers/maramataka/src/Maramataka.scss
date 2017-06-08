@@ -1,0 +1,171 @@
+.container {
+  font-family: sans-serif;
+  position: relative;
+
+  * {
+    box-sizing: border-box;
+    user-select: none;
+  }
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdown {
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  max-height: 0;
+  margin-top: -1px;
+  overflow: hidden;
+  position: absolute;
+  transition: all 0.15s ease;
+
+  &.expanded {
+    background: #fff;
+    border: 1px solid #666;
+    box-shadow: -1px 1px 4px 0 #bbb;
+    height: auto;
+    max-height: 320px;
+    z-index: 100;
+  }
+}
+
+.head {
+  align-items: center;
+  border: 1px solid gray;
+  display: flex;
+  overflow: hidden;
+  padding: 5px;
+  position: relative;
+  width: 150px;
+}
+
+.input {
+  background: #eee;
+  border: 0;
+  cursor: text;
+  font-size: 13px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  width: 30px;
+
+  &.invalid {
+    background: #fdc1c2;
+  }
+
+  &:focus {
+    background: #ddd;
+    outline: 0;
+  }
+}
+
+.inputYear {
+  composes: input;
+  width: 50px;
+}
+
+.slash {
+  margin: 0 5px;
+  width: 5px;
+}
+
+.days {
+  font-size: 0;
+  padding: 10px;
+  width: 265px;
+}
+
+.day {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  width: 35px;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &.selected {
+    background: #999;
+    border-radius: 1px;
+    color: #fff;
+  }
+}
+
+.month {
+  align-items: middle;
+  display: flex;
+  padding: 10px;
+}
+
+.monthTitle {
+  cursor: default;
+  flex-grow: 1;
+  font-size: 16px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.dayTitle {
+  composes: day;
+
+  cursor: default;
+  font-weight: bold;
+
+  &:hover {
+    background: 0;
+  }
+}
+
+.dayActive {
+  composes: day;
+}
+
+.dayPrevious,
+.dayNext {
+  composes: day;
+
+  color: #ccc;
+
+  &.selected {
+    background: #ddd;
+  }
+}
+
+.arrow {
+  cursor: pointer;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  width: 35px;
+
+  &:hover {
+    background: #eee;
+  }
+
+  &::before {
+    font-family: 'fontawesome';
+  }
+}
+
+.leftArrow {
+  composes: arrow;
+
+  &::before {
+    content: '\f053';
+  }
+}
+
+.rightArrow {
+  composes: arrow;
+
+  &::before {
+    content: '\f054';
+  }
+}

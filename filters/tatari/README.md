@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.4.0
+- Will not call the external population function if nothing has changed
+
 ##### 2.3.2
 - Added in internationalization placeholders for sandbox
 

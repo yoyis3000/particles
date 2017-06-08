@@ -9,7 +9,7 @@ const mockApi = new MockAdapter(axios);
 
 mockApi
 .onGet('/saved_filters')
-  .reply(200, {})
+  .reply(200, { herding_dogs: [8474928] })
 .onGet('/available_filters')
   .reply(200, [
     {
@@ -154,6 +154,7 @@ const i18n = {
   clear_all: 'Clear All',
   select_all: 'Select All'
 };
+
 const onComplete = () => {
   console.warn("Called external population function.");  // eslint-disable-line
 };
@@ -163,6 +164,6 @@ const filterOptions = options => options.filter(obj => obj.key !== 'assignee');
 const stylesheets = [sandboxStyles];
 
 render(
-  <Tatari {...{ i18n, urls, onComplete, stylesheets, filterOptions }} />,
+  <Tatari {...{ filterOptions, i18n, onComplete, stylesheets, urls }} />,
   document.getElementById('root')
 );

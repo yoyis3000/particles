@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 const TatariDropdownCheckboxes = ({
@@ -43,7 +44,10 @@ const TatariDropdownCheckboxes = ({
 
   const singleSelection = options.reduce((acc, option) => {
     if (count === 1 && option.checked) {
-      acc.push(<div className={styles.singleSelection}>{option.value}</div>);
+      acc.push(<div
+        className={styles.singleSelection}
+        key={`option-${option.key}`}
+      >{option.value}</div>);
     }
 
     return acc;

@@ -1,6 +1,6 @@
 {
   "name": "tatari",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "A dynamically populated filter component.",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,9 @@
     "axios": "^0.15.3",
     "classnames": "^2.2.5",
     "qs": "^6.3.1",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react-dom": "^15.5.4",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",

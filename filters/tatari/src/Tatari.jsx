@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import qs from 'qs';
 import { get, patch, destroy } from './TatariApi';
 import TatariDropdownPlain from './TatariDropdownPlain';
@@ -11,22 +12,22 @@ let styles = {};
 
 export default class Tatari extends React.Component {
   static propTypes = {
-    onComplete: PropTypes.func.isRequired,
     filterOptions: PropTypes.func,
+    i18n: PropTypes.shape(),
+    onComplete: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     urls: PropTypes.shape({
       available: PropTypes.string.isRequired,
       patch: PropTypes.string,
       saved: PropTypes.string,
       delete: PropTypes.string
-    }).isRequired,
-    i18n: PropTypes.shape()
+    }).isRequired
   }
 
   static defaultProps = {
     filterOptions: item => item,
-    stylesheets: [],
-    i18n: {}
+    i18n: {},
+    stylesheets: []
   }
 
   constructor(props) {
@@ -37,10 +38,12 @@ export default class Tatari extends React.Component {
     this.state = {
       activeFilters: [],
       expanded: {},
-      inactiveFilters: [],
       hiding: {},
+      inactiveFilters: [],
       loading: {},
-      options: {}
+      options: {},
+      savedFilters: [],
+      savedSelections: []
     };
   }
 
@@ -53,6 +56,16 @@ export default class Tatari extends React.Component {
     ])
     .then(([{ data: filterData }, { data: stored }]) => {
       let saved = stored;
+
+      const savedFilters = Object.keys(saved);
+      const savedSelections = Object.keys(saved).reduce((acc, key) => {
+        acc.push(...saved[key]);
+        return acc;
+      }, []);
+
+      savedFilters.push(...savedSelections);
+
+      this.setState({ savedFilters, savedSelections });
 
       // This is only needed for backwards compatibility, will remove in the near future
       // -- May the Fourth Be With You (2017)
@@ -193,10 +206,25 @@ export default class Tatari extends React.Component {
 
     const payload = { filters: this.createPayload() };
 
-    if (Object.keys(payload.filters).length) {
-      patch(this.props.urls.patch, payload).then(this.props.onComplete);
-    } else {
-      destroy(this.props.urls.delete).then(this.props.onComplete);
+    const { savedFilters } = this.state;
+    const newFilters = Object.keys(payload.filters);
+    const newSelections = Object.keys(payload.filters).reduce((acc, key) => {
+      acc.push(...payload.filters[key]);
+      return acc;
+    }, []);
+
+    newFilters.push(...newSelections);
+
+    const isFiltersSame = newFilters.reduce((acc, key) => acc && savedFilters.includes(key), true);
+    const isFiltersSameLength = savedFilters.length === newFilters.length;
+
+    if (!(isFiltersSame && isFiltersSameLength)) {
+      if (Object.keys(payload.filters).length) {
+        patch(this.props.urls.patch, payload).then(this.props.onComplete);
+      } else {
+        destroy(this.props.urls.delete).then(this.props.onComplete);
+      }
+      this.setState({ savedFilters: newFilters, savedSelections: newSelections });
     }
   }
 

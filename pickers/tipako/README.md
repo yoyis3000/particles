@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.0.2
+- Added in keyField and valueField to allow different data structure
+
 ##### 3.0.1
 - Extracting and importing UUID generation
 - Moving listener removal to unmount

@@ -67,6 +67,8 @@ const renderItem = item => item.value;
 
 const stylesheets = [sandboxStyles];
 
+const keyField = 'key';
+const valueField = 'value';
 const titleValue = 'Calypso';
 const titlePlaceholder = 'Make a selection...';
 const titleSlot = <div className={`fa fa-bus ${sandboxStyles.titleIcon}`} />;
@@ -75,6 +77,7 @@ render(
   <Tipako
     {...{
       data,
+      keyField,
       loading,
       onClearAll,
       // onSearch,
@@ -87,7 +90,8 @@ render(
       stylesheets,
       titlePlaceholder,
       titleSlot,
-      titleValue
+      titleValue,
+      valueField
     }}
   />,
   window.document.getElementById('root')

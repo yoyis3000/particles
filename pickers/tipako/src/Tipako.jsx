@@ -16,6 +16,7 @@ export default class Tipako extends React.Component {
       key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       value: PropTypes.string.isRequired
     })),
+    keyField: PropTypes.string,
     loading: PropTypes.bool,
     onClearAll: PropTypes.func,
     onSearch: PropTypes.func,
@@ -28,11 +29,13 @@ export default class Tipako extends React.Component {
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     titlePlaceholder: PropTypes.string,
     titleSlot: PropTypes.element,
-    titleValue: PropTypes.string
+    titleValue: PropTypes.string,
+    valueField: PropTypes.string
   }
 
   static defaultProps = {
     data: [],
+    keyField: 'key',
     loading: false,
     onSearch: null,
     onClearAll: null,
@@ -45,7 +48,8 @@ export default class Tipako extends React.Component {
     stylesheets: [],
     titlePlaceholder: 'Select...',
     titleSlot: null,
-    titleValue: ''
+    titleValue: '',
+    valueField: 'value'
   }
 
   constructor(props) {
@@ -169,6 +173,7 @@ export default class Tipako extends React.Component {
   render() {
     const {
       data,
+      keyField,
       loading,
       onClearAll,
       onSearch,
@@ -179,7 +184,8 @@ export default class Tipako extends React.Component {
       searchable,
       titlePlaceholder,
       titleSlot,
-      titleValue
+      titleValue,
+      valueField
     } = this.props;
 
     const searchTerm = (searchable && this.state.value && !onSearch)
@@ -190,7 +196,7 @@ export default class Tipako extends React.Component {
       // Grouped
       if (v.children) {
         const children = v.children.reduce((result, vv, ii) => {
-          if (vv.value.toLowerCase().indexOf(searchTerm) === -1) {
+          if (vv[valueField].toLowerCase().indexOf(searchTerm) === -1) {
             return result;
           }
 
@@ -198,13 +204,13 @@ export default class Tipako extends React.Component {
             onClick={(evt) => { this.onChildClick(evt, vv); }}
             className={cx(this.styles.item, this.styles.childItem,
               { [this.styles.disabled]: vv.disabled })}
-            key={`child-${v.key}-${vv.key}`}
+            key={`child-${v[keyField]}-${vv[keyField]}`}
           >
-            {renderItem ? renderItem(vv, ii) : vv.value}
+            {renderItem ? renderItem(vv, ii) : vv[valueField]}
           </button>);
         }, []);
 
-        if (children.length === 0 && v.value.toLowerCase().indexOf(searchTerm) === -1) {
+        if (children.length === 0 && v[valueField].toLowerCase().indexOf(searchTerm) === -1) {
           return acc;
         }
 
@@ -212,15 +218,15 @@ export default class Tipako extends React.Component {
           onClick={(evt) => { this.onGroupClick(evt, v); }}
           className={cx(this.styles.item, this.styles.groupItem,
             { [this.styles.disabled]: v.disabled })}
-          key={`group-${v.key}`}
+          key={`group-${v[keyField]}`}
         >
-          {renderGroup ? renderGroup(v, i) : v.value}
+          {renderGroup ? renderGroup(v, i) : v[valueField]}
         </button>);
 
         return acc.concat(group).concat(children);
       }
 
-      if (v.value.toLowerCase().indexOf(searchTerm) === -1) {
+      if (v[valueField].toLowerCase().indexOf(searchTerm) === -1) {
         return acc;
       }
 
@@ -229,9 +235,9 @@ export default class Tipako extends React.Component {
         onClick={(evt) => { this.onUngroupedClick(evt, v); }}
         className={cx(this.styles.item, this.styles.ungroupedItem,
           { [this.styles.disabled]: v.disabled })}
-        key={`ungrouped-${v.key}`}
+        key={`ungrouped-${v[keyField]}`}
       >
-        {renderItem ? renderItem(v, i) : v.value}
+        {renderItem ? renderItem(v, i) : v[valueField]}
       </button>);
 
       return acc.concat(ungrouped);

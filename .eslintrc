@@ -9,9 +9,6 @@
     "window": true,
   },
   "parser": "babel-eslint",
-  "plugins": [
-    "babel"
-  ],
   "rules": {
     "comma-dangle": ["error", "never"],
     "id-length": 0,

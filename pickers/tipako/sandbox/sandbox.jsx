@@ -54,7 +54,8 @@ const data = [
 ];
 
 const loading = false;
-const searchable = true;
+const searchable = false;
+const closeOnSelect = false;
 
 const onClearAll = () => { console.warn('Clear all.'); };
 const onSearch = (str) => { console.warn('Searching for', str); };
@@ -76,6 +77,7 @@ const titleSlot = <div className={`fa fa-bus ${sandboxStyles.titleIcon}`} />;
 render(
   <Tipako
     {...{
+      closeOnSelect,
       data,
       keyField,
       loading,

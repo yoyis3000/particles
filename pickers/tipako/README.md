@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.1.0
+- Added in ability for single selection to update state immediately and close on selection
+
 ##### 3.0.2
 - Added in keyField and valueField to allow different data structure
 

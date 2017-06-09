@@ -6,6 +6,7 @@ import generateId from '../../../shared/generateId';
 
 export default class Tipako extends React.Component {
   static propTypes = {
+    closeOnSelect: PropTypes.bool,
     data: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.arrayOf(PropTypes.shape({
         disabled: PropTypes.bool,
@@ -34,6 +35,7 @@ export default class Tipako extends React.Component {
   }
 
   static defaultProps = {
+    closeOnSelect: false,
     data: [],
     keyField: 'key',
     loading: false,
@@ -96,7 +98,14 @@ export default class Tipako extends React.Component {
     }
 
     this.props.onSelect(child);
-    this.searchInput.focus();
+
+    if (this.props.closeOnSelect) {
+      this.setState({ value: child[this.props.valueField], expanded: false });
+    }
+
+    if (this.props.searchable) {
+      this.searchInput.focus();
+    }
   }
 
   onGroupClick = (evt, group) => {
@@ -107,7 +116,14 @@ export default class Tipako extends React.Component {
     }
 
     this.props.onSelect(group);
-    this.searchInput.focus();
+
+    if (this.props.closeOnSelect) {
+      this.setState({ value: group[this.props.valueField], expanded: false });
+    }
+
+    if (this.props.searchable) {
+      this.searchInput.focus();
+    }
   }
 
   onUngroupedClick = (evt, item) => {
@@ -118,7 +134,14 @@ export default class Tipako extends React.Component {
     }
 
     this.props.onSelect(item);
-    this.searchInput.focus();
+
+    if (this.props.closeOnSelect) {
+      this.setState({ value: item[this.props.valueField], expanded: false });
+    }
+
+    if (this.props.searchable) {
+      this.searchInput.focus();
+    }
   }
 
   onCaretClick = () => {
@@ -188,8 +211,10 @@ export default class Tipako extends React.Component {
       valueField
     } = this.props;
 
-    const searchTerm = (searchable && this.state.value && !onSearch)
-      ? this.state.value.toLowerCase()
+    const { value } = this.state;
+
+    const searchTerm = (searchable && value && !onSearch)
+      ? value.toLowerCase()
       : '';
 
     const items = data.reduce((acc, v, i) => {
@@ -275,7 +300,7 @@ export default class Tipako extends React.Component {
         <span className={cx('fa', 'fa-caret-down', this.styles.arrow, { [this.styles.expanded]: this.state.expanded })} />
       </button>);
 
-    const clear = this.state.value && searchable
+    const clear = value
       ? <button onClick={this.onInputClear} className={this.styles.clear} />
       : null;
 
@@ -288,17 +313,23 @@ export default class Tipako extends React.Component {
       : null;
 
     const search = searchable
-      ? (<input
-        className={this.styles.input}
-        onBlur={this.onInputBlur}
-        onChange={this.onSearch}
-        onFocus={this.onSearchFocus}
-        placeholder={titlePlaceholder}
-        ref={(input) => { this.searchInput = input; }}
-        type='text'
-        value={this.state.value}
-      />)
-      : <div className={this.styles.staticText}>{titleValue || titlePlaceholder}</div>;
+      ? (
+        <input
+          className={this.styles.input}
+          onBlur={this.onInputBlur}
+          onChange={this.onSearch}
+          onFocus={this.onSearchFocus}
+          placeholder={titlePlaceholder}
+          ref={(input) => { this.searchInput = input; }}
+          type='text'
+          value={value}
+        />
+        )
+      : (
+        <div className={this.styles.staticText}>
+          {(value.length > 0 && value) || titleValue || titlePlaceholder}
+        </div>
+      );
 
     return (<div className={this.styles.container}>
       <div className={cx(this.styles.title)}>

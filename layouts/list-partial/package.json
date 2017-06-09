@@ -1,6 +1,6 @@
 {
   "name": "list-partial",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A template partial for showing list based presentations",
   "main": "index.js",
   "scripts": {

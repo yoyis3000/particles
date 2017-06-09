@@ -4,8 +4,6 @@ import baseStyles from './ListPartial.scss';
 import defaultStyles from './ListPartialDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
-let styles = {};
-
 const ListPartial = ({
   bulkEditorComponent,
   controlComponent,
@@ -18,7 +16,7 @@ const ListPartial = ({
   stylesheets,
   tableComponent
 }) => {
-  styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
+  const styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
 
   return (<div className={styles.listPartialContainer}>
     <div className={styles.toolHeader}>
@@ -68,8 +66,8 @@ ListPartial.propTypes = {
 };
 
 ListPartial.defaultProps = {
+  bulkEditorComponent: null,
   controlComponent: null,
-  bulkEditorDropdown: null,
   filterComponent: null,
   headerComponent: null,
   isLoading: false,

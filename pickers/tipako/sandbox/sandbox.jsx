@@ -56,9 +56,10 @@ const data = [
 const loading = false;
 const searchable = false;
 const closeOnSelect = false;
+const updateOnSelect = false;
 
 const onClearAll = () => { console.warn('Clear all.'); };
-const onSearch = (str) => { console.warn('Searching for', str); };
+// const onSearch = (str) => { console.warn('Searching for', str); };
 const onSelect = (item) => { console.warn('Selected', item); };
 const onSelectAll = () => { console.warn('Select all.'); };
 
@@ -93,6 +94,7 @@ render(
       titlePlaceholder,
       titleSlot,
       titleValue,
+      updateOnSelect,
       valueField
     }}
   />,

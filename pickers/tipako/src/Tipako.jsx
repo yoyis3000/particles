@@ -31,6 +31,7 @@ export default class Tipako extends React.Component {
     titlePlaceholder: PropTypes.string,
     titleSlot: PropTypes.element,
     titleValue: PropTypes.string,
+    updateOnSelect: PropTypes.bool,
     valueField: PropTypes.string
   }
 
@@ -51,6 +52,7 @@ export default class Tipako extends React.Component {
     titlePlaceholder: 'Select...',
     titleSlot: null,
     titleValue: '',
+    updateOnSelect: false,
     valueField: 'value'
   }
 
@@ -100,7 +102,11 @@ export default class Tipako extends React.Component {
     this.props.onSelect(child);
 
     if (this.props.closeOnSelect) {
-      this.setState({ value: child[this.props.valueField], expanded: false });
+      this.setState({ expanded: false });
+    }
+
+    if (this.props.updateOnSelect) {
+      this.setState({ value: child[this.props.valueField] });
     }
 
     if (this.props.searchable) {
@@ -118,7 +124,11 @@ export default class Tipako extends React.Component {
     this.props.onSelect(group);
 
     if (this.props.closeOnSelect) {
-      this.setState({ value: group[this.props.valueField], expanded: false });
+      this.setState({ expanded: false });
+    }
+
+    if (this.props.updateOnSelect) {
+      this.setState({ value: group[this.props.valueField] });
     }
 
     if (this.props.searchable) {
@@ -136,7 +146,11 @@ export default class Tipako extends React.Component {
     this.props.onSelect(item);
 
     if (this.props.closeOnSelect) {
-      this.setState({ value: item[this.props.valueField], expanded: false });
+      this.setState({ expanded: false });
+    }
+
+    if (this.props.updateOnSelect) {
+      this.setState({ value: item[this.props.valueField] });
     }
 
     if (this.props.searchable) {

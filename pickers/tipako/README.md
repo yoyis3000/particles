@@ -5,6 +5,9 @@ A picker with support for group or individual selections.
 # Change Log
 
 ##### 3.1.0
+- Added ability to not set internal state if not needed
+
+##### 3.1.0
 - Added in ability for single selection to update state immediately and close on selection
 
 ##### 3.0.2

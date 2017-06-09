@@ -340,31 +340,33 @@ export default class Tipako extends React.Component {
         />
         )
       : (
-        <div className={this.styles.staticText}>
+        <div className={this.styles.staticText} onClick={this.onCaretClick}>
           {(value.length > 0 && value) || titleValue || titlePlaceholder}
         </div>
       );
 
-    return (<div className={this.styles.container}>
-      <div className={cx(this.styles.title)}>
-        {slot}
-        {search}
-        {clear}
-        {caret}
-        {spinner}
-      </div>
+    return (
+      <div className={this.styles.container}>
+        <div className={cx(this.styles.title)}>
+          {slot}
+          {search}
+          {clear}
+          {caret}
+          {spinner}
+        </div>
 
-      <div className={this.styles.dropdownContainer}>
-        <div
-          className={cx(this.styles.dropdown, {
-            [this.styles.expanded]: this.state.expanded })}
-        >
-          {controls}
-          <div className={this.styles.itemsContainer}>
-            {items.length ? items : empty}
+        <div className={this.styles.dropdownContainer}>
+          <div
+            className={cx(this.styles.dropdown, {
+              [this.styles.expanded]: this.state.expanded })}
+          >
+            {controls}
+            <div className={this.styles.itemsContainer}>
+              {items.length ? items : empty}
+            </div>
           </div>
         </div>
       </div>
-    </div>);
+    );
   }
 }

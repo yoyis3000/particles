@@ -4,7 +4,10 @@ A picker with support for group or individual selections.
 
 # Change Log
 
-##### 3.1.0
+##### 3.3.0
+- Added the ability to open the picker from the title if it is not searchable
+
+##### 3.2.0
 - Added ability to not set internal state if not needed
 
 ##### 3.1.0

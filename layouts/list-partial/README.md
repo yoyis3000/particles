@@ -4,6 +4,9 @@ A template partial for showing list presentations.
 
 # Change Log
 
+##### 1.4.0
+- Added an extra slot on the left side of the controls area, added in bulk editor to layout
+
 ##### 1.3.15
 - Removing reset.scss
 

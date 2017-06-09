@@ -73,7 +73,7 @@ export default class Maramataka extends React.Component {
     const { active } = this.state;
 
     if (active.month === 11) {
-      active.month = 1;
+      active.month = 0;
       active.year += 1;
     } else {
       active.month += 1;

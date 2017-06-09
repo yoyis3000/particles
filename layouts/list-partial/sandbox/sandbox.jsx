@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 
 import ListPartial from '../src';
 
+const controlComponent = (<div>Control Component</div>);
+const bulkEditorComponent = (<div>Bulk Editor Component</div>);
 const headerComponent = (<div>Header Component</div>);
 const filterComponent = (<div>Filter Component</div>);
 const notifications = [
@@ -18,6 +20,8 @@ const isLoading = true;
 render(
   <ListPartial
     {...{
+      bulkEditorComponent,
+      controlComponent,
       headerComponent,
       filterComponent,
       isLoading,

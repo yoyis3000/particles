@@ -7,6 +7,8 @@ import composeStyles from '../../../shared/stylesheetComposer';
 let styles = {};
 
 const ListPartial = ({
+  bulkEditorComponent,
+  controlComponent,
   filterComponent,
   headerComponent,
   isLoading,
@@ -24,6 +26,9 @@ const ListPartial = ({
     </div>
     <div>
       <div className={styles.toolControls}>
+        <div className={styles.controlComponent}>
+          { controlComponent && controlComponent }
+        </div>
         <div className={styles.searchComponent}>
           { searchComponent && searchComponent }
         </div>
@@ -36,6 +41,10 @@ const ListPartial = ({
         { notifications && notifications }
       </div>
 
+      <div className={styles.bulkEditorComponent}>
+        { bulkEditorComponent && bulkEditorComponent }
+      </div>
+
       <Uta isLoading={isLoading}>
         { paginationComponent && paginationComponent }
         { tableComponent && tableComponent }
@@ -46,6 +55,8 @@ const ListPartial = ({
 };
 
 ListPartial.propTypes = {
+  bulkEditorComponent: PropTypes.shape(),
+  controlComponent: PropTypes.shape(),
   filterComponent: PropTypes.shape(),
   headerComponent: PropTypes.shape(),
   isLoading: PropTypes.bool,
@@ -57,6 +68,8 @@ ListPartial.propTypes = {
 };
 
 ListPartial.defaultProps = {
+  controlComponent: null,
+  bulkEditorDropdown: null,
   filterComponent: null,
   headerComponent: null,
   isLoading: false,

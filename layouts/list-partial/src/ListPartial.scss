@@ -5,6 +5,10 @@
   padding: 0;
 }
 
+.bulkEditorComponent {
+  margin: 10px 0;
+}
+
 .notifications {
   margin: 10px 0;
 }
@@ -13,6 +17,10 @@
   display: flex;
   line-height: 35px;
   padding: 15px 0;
+}
+
+.controlComponent {
+  width: 180px;
 }
 
 .searchComponent {

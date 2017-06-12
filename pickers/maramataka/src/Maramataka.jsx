@@ -28,7 +28,7 @@ export default class Maramataka extends React.Component {
       active: { day: d.getDate(), month: d.getMonth(), year: d.getFullYear() },
       days: { previous: [], active: [], next: [] },
       errors: { day: false, month: false, year: false },
-      expanded: true,
+      expanded: false,
       selected: { day: null, month: null, year: null },
       value: props.value
     };
@@ -104,7 +104,7 @@ export default class Maramataka extends React.Component {
     const selected = { day, month, year };
     const value = { day, month: month + 1, year };
 
-    this.setState({ selected, value }, () => {
+    this.setState({ selected, value, expanded: false }, () => {
       this.updateDateArrays();
       this.props.onSelect(value);
     });
@@ -140,7 +140,11 @@ export default class Maramataka extends React.Component {
       (errors.day === false && errors.month === false && errors.year === false);
 
     const valueIsEmpty =
-      (value.day === 0 && value.month === 0 && value.year === 0);
+      (
+        (value.day === 0 || value.day === null)
+        && (value.month === 0 || value.month === null)
+        && (value.year === 0 || value.year === null)
+      );
 
     if (valueIsEmpty) {
       errors.day = false;
@@ -227,7 +231,7 @@ export default class Maramataka extends React.Component {
   }
 
   renderHead() {
-    const { errors } = this.state;
+    const { errors, value } = this.state;
 
     return (<div className={this.styles.head} onClick={this.onHeadClick}>
       <input
@@ -235,7 +239,7 @@ export default class Maramataka extends React.Component {
         placeholder='mm'
         onFocus={this.onInputFocus}
         onChange={this.onInputMonth}
-        value={this.state.value.month || null}
+        value={value.month || null}
       />
 
       <span className={this.styles.slash}>/</span>
@@ -245,7 +249,7 @@ export default class Maramataka extends React.Component {
         placeholder='dd'
         onFocus={this.onInputFocus}
         onChange={this.onInputDay}
-        value={this.state.value.day || null}
+        value={value.day || null}
       />
 
       <span className={this.styles.slash}>/</span>
@@ -256,7 +260,7 @@ export default class Maramataka extends React.Component {
         placeholder='yyyy'
         onFocus={this.onInputFocus}
         onChange={this.onInputYear}
-        value={this.state.value.year || null}
+        value={value.year || null}
       />
     </div>);
   }
@@ -330,30 +334,27 @@ export default class Maramataka extends React.Component {
 
     const days = this.renderDays();
 
-    const dayTitles = dayNames.map(name =>
-      <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 2)}</div>
-    );
+    const dayTitles = dayNames.map(name => <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 2)}</div>);
 
-    return (<div className={this.styles.container}>
-      {head}
+    return (
+      <div className={this.styles.container}>
+        {head}
 
-      <div className={this.styles.dropdownContainer}>
-        <div
-          className={cx(this.styles.dropdown, {
-            [this.styles.expanded]: expanded })}
-        >
-          <div className={this.styles.month}>
-            <div className={this.styles.leftArrow} onClick={this.onLeftArrowClick} />
-            <div className={this.styles.monthTitle}>{monthNames[active.month]} {active.year}</div>
-            <div className={this.styles.rightArrow} onClick={this.onRightArrowClick} />
-          </div>
+        <div className={this.styles.dropdownContainer}>
+          <div className={cx(this.styles.dropdown, { [this.styles.expanded]: expanded })}>
+            <div className={this.styles.month}>
+              <div className={this.styles.leftArrow} onClick={this.onLeftArrowClick} />
+              <div className={this.styles.monthTitle}>{monthNames[active.month]} {active.year}</div>
+              <div className={this.styles.rightArrow} onClick={this.onRightArrowClick} />
+            </div>
 
-          <div className={this.styles.days}>
-            {dayTitles}
-            {days}
+            <div className={this.styles.days}>
+              {dayTitles}
+              {days}
+            </div>
           </div>
         </div>
       </div>
-    </div>);
+    );
   }
 }

@@ -4,7 +4,6 @@ A template partial for showing list presentations.
 
 # Change Log
 
-
 ##### 1.4.2
 - Changed styling to generic colors
 

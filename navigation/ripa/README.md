@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 3.0.2
+- Changed styling to generic colors
+
 ##### 3.0.1
 - Removing extraneous :focus styling
 

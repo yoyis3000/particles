@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import baseStyles from './Ripa.scss';
 import defaultStyles from './RipaDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';

@@ -5,21 +5,21 @@
 }
 
 .title {
-  color: palette(orange);
+  color: $lightGray;
 }
 
 .tab {
-  background-color: palette(white);
-  border-bottom: 2px solid palette(white);
-  border-color: palette(white);
-  color: palette(gray, xdark);
+  background-color: $white;
+  border-bottom: 2px solid $white;
+  border-color: $white;
+  color: $darkGray;
 
   &:hover {
-    border-bottom: 2px solid palette(gray, light);
+    border-bottom: 2px solid $lightGray;
   }
 }
 
 .active,
 .active:hover {
-  border-bottom: 2px solid palette(gray, xdark);
+  border-bottom: 2px solid $darkGray;
 }

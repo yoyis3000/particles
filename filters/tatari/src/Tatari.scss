@@ -1,10 +1,6 @@
-@import '../../shared/variables';
+@import '../../../shared/variables';
 
-$fontSize: 13px;
 $h: 30px;
-$m: 8px;
-$p: 8px;
-$searchH: 30px;
 
 .activeCheckbox {
   cursor: pointer;
@@ -15,7 +11,7 @@ $searchH: 30px;
 .activeControl {
   background: none;
   border: 0;
-  color: palette(blue, dark);
+  color: $darkBlue;
   cursor: pointer;
   font: $fontSize $main-font;
   padding: 0;
@@ -26,7 +22,7 @@ $searchH: 30px;
   }
 
   &:hover {
-    color: palette(orange);
+    color: $darkGray;
   }
 }
 
@@ -44,22 +40,22 @@ $searchH: 30px;
 
 .activeIcon {
   font-size: $fontSize;
-  line-height: $searchH;
+  line-height: $h;
   position: absolute;
   right: $p;
   text-align: center;
   top: 0;
-  width: $searchH;
+  width: $h;
 }
 
 .activeInput {
-  border: 1px solid palette(gray, dark);
-  border-radius: $default-border-radius;
+  border: 1px solid $darkGray;
+  border-radius: $borderRadius;
   cursor: text;
   display: block;
   font: $fontSize $main-font;
-  height: $searchH;
-  padding-left: $p - 2; //border adjustment
+  height: $h;
+  padding-left: $p - 2; // border adjustment
   width: 100%;
 
   &:focus {
@@ -75,7 +71,7 @@ $searchH: 30px;
   padding: $p ($p * 2) $p $p;
 
   &:hover {
-    background: palette(gray, light);
+    background: $lightGray;
   }
 }
 
@@ -94,16 +90,16 @@ $searchH: 30px;
   outline: 0;
   padding: 0 $p;
   text-align: center;
-  transition: $default-trans;
+  transition: $transition;
 
   &:hover {
-    background: palette(orange);
-    color: palette(white);
+    background: $darkGray;
+    color: $white;
   }
 }
 
 .activeSearch {
-  height: $searchH;
+  height: $h;
   margin-top: $m;
   padding: 0 $p;
   position: relative;
@@ -115,21 +111,21 @@ $searchH: 30px;
 }
 
 .clearAllFilters {
-  color: palette(blue, dark);
+  color: $darkBlue;
   cursor: pointer;
   line-height: $h;
   margin-left: $m;
   outline: 0;
 
   &:hover {
-    color: palette(orange);
+    color: $darkGray;
     text-decoration: none;
   }
 }
 
 .dropdownBody {
-  background: palette(white);
-  box-shadow: $card-shadow;
+  background: $white;
+  box-shadow: $shadow;
   display: flex;
   flex-direction: column;
   margin-top: -1px;
@@ -138,11 +134,11 @@ $searchH: 30px;
   min-width: 200px;
   overflow-x: hidden;
   position: absolute;
-  transition: $default-trans;
+  transition: $transition;
 
   &.expanded {
-    border: 1px solid palette(gray, dark);
-    border-radius: 0 $default-border-radius $default-border-radius;
+    border: 1px solid $darkGray;
+    border-radius: 0 $borderRadius $borderRadius;
     height: auto;
     max-height: 310px;
   }
@@ -175,9 +171,9 @@ $searchH: 30px;
 }
 
 .dropdownHead {
-  border: 1px solid palette(gray, dark);
-  border-radius: $default-border-radius;
-  color: palette(black);
+  border: 1px solid $darkGray;
+  border-radius: $borderRadius;
+  color: $black1;
   cursor: pointer;
   display: flex;
   line-height: $h;
@@ -186,7 +182,7 @@ $searchH: 30px;
   text-overflow: ellipsis;
 
   &.expanded {
-    border-radius: $default-border-radius $default-border-radius 0 0;
+    border-radius: $borderRadius $borderRadius 0 0;
   }
 
   &:focus {
@@ -245,7 +241,7 @@ $searchH: 30px;
   padding: $p ($p * 2);
 
   &:hover {
-    background: palette(gray, light);
+    background: $lightGray;
   }
 }
 

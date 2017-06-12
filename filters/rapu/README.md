@@ -4,6 +4,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.14
+- Changed styling to generic colors, etc., fix prop-types deprecation warning
+
 ##### 2.0.13
 - CSS alphabetized and unnecessary overrides deleted
 - Renaming certain things for parity with Tatari

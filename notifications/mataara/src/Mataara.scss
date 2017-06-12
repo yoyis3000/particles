@@ -36,21 +36,21 @@ $h: 36px;
 }
 
 .alertInfo {
-  background: palette(blue, xlight);
-  border-color: palette(blue, dark);
-  color: palette(blue, dark);
+  background: $xLightBlue;
+  border-color: $darkBlue;
+  color: $darkBlue;
 
   :global .fa-times {
-    color: palette(blue, dark);
+    color: $darkBlue;
 
     &:hover {
-      color: palette(blue);
+      color: $blue;
     }
   }
 
   .btnCancel:hover {
-    background: palette(blue, dark);
-    color: palette(white);
+    background: $darkBlue;
+    color: $white;
   }
 }
 
@@ -65,26 +65,26 @@ $h: 36px;
 
   .btnCancel:hover {
     background: #336b34;
-    color: palette(white);
+    color: $white;
   }
 }
 
 .alertError {
-  background: palette(red, xlight);
-  border-color: palette(red);
-  color: palette(red);
+  background: $xLightRed;
+  border-color: $red;
+  color: $red;
 
   :global .fa-times {
-    color: palette(red);
+    color: $red;
 
     &:hover {
-      color: palette(red, light);
+      color: $lightRed;
     }
   }
 
   .btnCancel:hover {
-    background: palette(red);
-    color: palette(white);
+    background: $red;
+    color: $white;
   }
 }
 

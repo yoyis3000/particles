@@ -1,26 +1,22 @@
-@import "../../shared/variables";
+@import '../../../shared/variables';
 
-$borderWidth: 1px;
-$fontSize: 13px;
 $h: 32px;
-$m: 8px;
-$p: 8px;
 
 .btnBase {
-  background: palette(white);
-  color: palette(black);
+  background: $white;
+  color: $black1;
   cursor: pointer;
   font-size: $fontSize;
   line-height: $h - ($borderWidth * 2);
   position: absolute;
   text-align: center;
   top: $borderWidth;
-  transition: $default-trans;
+  transition: $transition;
   width: $h;
 
   &:hover {
-    background-color: palette(orange);
-    color: palette(white);
+    background-color: $darkGray;
+    color: $white;
   }
 }
 
@@ -30,9 +26,9 @@ $p: 8px;
 }
 
 .btnSubmit {
-  border: solid palette(gray, dark);
+  border: solid $darkGray;
   border-width: 0 0 0 $borderWidth;
-  border-radius: 0 ($default-border-radius - 1) ($default-border-radius - 1) 0;
+  border-radius: 0 ($borderRadius - 1) ($borderRadius - 1) 0;
   composes: btnBase;
   right: $borderWidth;
 }
@@ -42,11 +38,11 @@ $p: 8px;
 }
 
 .input {
-  background: palette(white);
-  border: $borderWidth solid palette(gray, dark);
-  border-radius: $default-border-radius;
+  background: $white;
+  border: $borderWidth solid $darkGray;
+  border-radius: $borderRadius;
   box-sizing: border-box;
-  color: palette(black);
+  color: $black1;
   cursor: text;
   font: $fontSize $main-font;
   height: $h;
@@ -64,5 +60,5 @@ $p: 8px;
 
 .searchContainer {
   position: relative;
-  width: 260px; // industry standard: search bar should allow ~27 char
+  width: 260px;
 }

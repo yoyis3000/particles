@@ -1,9 +1,7 @@
-@import "../../shared/variables.scss";
+@import '../../../shared/variables';
 
 $buttonH: 24px;
 $itemH: 24px;
-$m: 8px;
-$p: 8px;
 
 .button {
   border-radius: 2px;
@@ -116,10 +114,10 @@ $p: 8px;
 }
 
 .ghost {
-  box-shadow: 0 2px 4px 0 palette(gray, dark);
-  background-color: palette(blue, xlight);
-  border-top: 1px solid palette(blue, light);
-  border-bottom: 1px solid palette(blue, light);
+  box-shadow: 0 2px 4px 0 $darkGray;
+  background-color: $xLightBlue;
+  border-top: 1px solid $lightBlue;
+  border-bottom: 1px solid $lightBlue;
   height: $itemH;
 }
 
@@ -199,7 +197,7 @@ $p: 8px;
 }
 
 .reset {
-  color: palette(blue, dark);
+  color: $darkBlue;
   cursor: pointer;
 
   &:hover {

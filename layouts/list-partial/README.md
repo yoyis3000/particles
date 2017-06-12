@@ -5,6 +5,9 @@ A template partial for showing list presentations.
 # Change Log
 
 
+##### 1.4.2
+- Changed styling to generic colors
+
 ##### 1.4.1
 - Removed the star selector from the layout
 

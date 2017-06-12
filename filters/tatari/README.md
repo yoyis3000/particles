@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.4.1
+- Changed styling to generic colors, etc., fix prop-types deprecation warning
+
 ##### 2.4.0
 - Will not call the external population function if nothing has changed
 

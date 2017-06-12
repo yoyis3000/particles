@@ -4,10 +4,13 @@ An (optionally) dismissable notification bar.
 
 # Change Log
 
-### 1.2.5
+##### 1.2.6
+- Changed styling to generic colors
+
+##### 1.2.5
 - Made proptypes correct
 
-#### 1.2.4
+##### 1.2.4
 - Removing reset.scss
 
 ##### 1.2.1 - 1.2.3

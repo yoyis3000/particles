@@ -1,6 +1,6 @@
 @import "../../../shared/variables";
 
 .toolControls {
-  border-bottom: 1px dashed palette(black);
-  border-top: 1px solid palette(gray);
+  border-bottom: 1px dashed $black1;
+  border-top: 1px solid $darkGray;
 }

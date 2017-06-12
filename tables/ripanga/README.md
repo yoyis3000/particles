@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.2.2
+- Fixed overflow issue (child elements of the table can now overflow the table)
+
 ##### 2.2.1
 - Fixed sticky header scroll bug
 - Changed some border styling to fix overflow cell border rendering bugs

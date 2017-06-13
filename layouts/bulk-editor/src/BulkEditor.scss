@@ -1,0 +1,115 @@
+@import '../../../shared/variables.scss';
+
+$defaultSpacing: 5px;
+
+.cancel {
+  color: palette(blue, dark);
+  cursor: pointer;
+  margin-right: $defaultSpacing;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: orange;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.fields {
+  display: flex;
+  flex: 7; // This is to take up 70% of the width
+}
+
+.footer {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: $defaultSpacing;
+}
+
+.fieldsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: $defaultSpacing;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.itemContainer {
+  margin-bottom: 2px;
+}
+
+.itemsTitle {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4px;
+}
+
+.itemsContainer {
+  height: 100%;
+  margin-right: $defaultSpacing;
+  width: 250px;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: $defaultSpacing;
+  padding: $defaultSpacing;
+  transition: background 0.3s ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: palette(orange);
+    color: white;
+  }
+}
+
+.selectedItems {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  max-width: 250px;
+}
+
+.subContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.submitButton {
+  background: palette(orange);
+  border-radius: 2px;
+  border: 1px solid palette(orange);
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 8px 15px;
+  transition: background 0.3s ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: palette(orange, dark);
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+}
+
+input:placeholder-shown {
+  font-size: 12px;
+}

@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.4.0
+- Added an onClear callback function for when picker is searchable
+
 ##### 3.3.0
 - Added the ability to open the picker from the title if it is not searchable
 

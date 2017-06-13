@@ -19,6 +19,7 @@ export default class Tipako extends React.Component {
     })),
     keyField: PropTypes.string,
     loading: PropTypes.bool,
+    onClear: PropTypes.func,
     onClearAll: PropTypes.func,
     onSearch: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
@@ -41,6 +42,7 @@ export default class Tipako extends React.Component {
     keyField: 'key',
     loading: false,
     onSearch: null,
+    onClear: null,
     onClearAll: null,
     onSelectAll: null,
     renderEmpty: null,
@@ -194,6 +196,10 @@ export default class Tipako extends React.Component {
 
     if (this.props.onSearch) {
       this.props.onSearch('');
+    }
+
+    if (this.props.onClear) {
+      this.props.onClear();
     }
 
     this.setState({ value: '' });

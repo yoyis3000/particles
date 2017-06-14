@@ -4,6 +4,9 @@ A loading spinner which wraps around content.
 
 # Change Log
 
+##### 1.2.5
+- Referencing prop types externally
+
 ##### 1.2.4
 - Removing reset.scss
 

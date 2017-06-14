@@ -1,6 +1,6 @@
 {
   "name": "tipako",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "A picker with support for group or individual selections.",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,9 @@
   "author": "Procore",
   "license": "MIT",
   "bugs": {
-    "url": "git@github.com:procore/particles/issues"
+    "url": "https://github.com/procore/particles/issues"
   },
-  "homepage": "git@github.com:procore/particles#readme",
+  "homepage": "https://github.com/procore/particles/tree/master/pickers/tipako#readme",
   "dependencies": {
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",

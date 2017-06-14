@@ -1,0 +1,29 @@
+{
+  "name": "modal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "license": "MIT",
+  "scripts": {
+    "start": "neutrino start --use neutrino-preset-react",
+    "build": "neutrino build --use neutrino-preset-react"
+  },
+  "devDependencies": {
+    "neutrino": "^5.9.0",
+    "neutrino-preset-react": "^5.9.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "immutable": "^3.8.1",
+    "lodash": "^4.17.4",
+    "ramda": "^0.24.1",
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0",
+    "react-redux": "^5.0.5",
+    "recompose": "^0.23.5",
+    "redux": "^3.6.0",
+    "redux-actions": "^2.0.3",
+    "redux-optimistic-ui": "^1.0.0",
+    "reselect": "^3.0.1"
+  }
+}

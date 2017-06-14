@@ -4,14 +4,19 @@ import baseStyles from './Maramataka.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 import generateId from '../../../shared/generateId';
 
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 export default class Maramataka extends React.Component {
   static propTypes = {
+    onClear: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
     value: PropTypes.shape()
   };
 
   static defaultProps = {
+    onClear: null,
     stylesheets: [],
     value: { day: null, month: null, year: null }
   };
@@ -82,6 +87,16 @@ export default class Maramataka extends React.Component {
     this.setState({ active }, this.updateDateArrays);
   }
 
+  onClear = (event) => {
+    event.stopPropagation();
+
+    this.setState({ value: { day: null, month: null, year: null } });
+
+    if (this.props.onClear) {
+      this.props.onClear();
+    }
+  }
+
   onDayClick = (evt) => {
     evt.stopPropagation();
 
@@ -108,24 +123,6 @@ export default class Maramataka extends React.Component {
       this.updateDateArrays();
       this.props.onSelect(value);
     });
-  }
-
-  onInputDay = (evt) => {
-    const { value } = this.state;
-    value.day = evt.target.value * 1;
-    this.setState({ value }, this.onInputChange);
-  }
-
-  onInputMonth = (evt) => {
-    const { value } = this.state;
-    value.month = evt.target.value * 1;
-    this.setState({ value }, this.onInputChange);
-  }
-
-  onInputYear = (evt) => {
-    const { value } = this.state;
-    value.year = evt.target.value * 1;
-    this.setState({ value }, this.onInputChange);
   }
 
   onInputChange = () => {
@@ -158,6 +155,24 @@ export default class Maramataka extends React.Component {
     }
 
     this.setState({ active, errors, selected, value }, this.updateDateArrays);
+  }
+
+  onInputDay = (evt) => {
+    const { value } = this.state;
+    value.day = evt.target.value * 1;
+    this.setState({ value }, this.onInputChange);
+  }
+
+  onInputMonth = (evt) => {
+    const { value } = this.state;
+    value.month = evt.target.value * 1;
+    this.setState({ value }, this.onInputChange);
+  }
+
+  onInputYear = (evt) => {
+    const { value } = this.state;
+    value.year = evt.target.value * 1;
+    this.setState({ value }, this.onInputChange);
   }
 
   validateDay = (day) => {
@@ -233,39 +248,57 @@ export default class Maramataka extends React.Component {
   renderHead() {
     const { errors, value } = this.state;
 
-    return (<div className={this.styles.head} onClick={this.onHeadClick}>
-      <input
-        className={cx(this.styles.input, { [this.styles.invalid]: errors.month })}
-        maxLength='2'
-        placeholder='mm'
-        onFocus={this.onInputFocus}
-        onChange={this.onInputMonth}
-        value={value.month || null}
-      />
+    const button = (value.day || value.month || value.year)
+        ? <button className={this.styles.clearButton} onClick={this.onClear} />
+        : null;
 
-      <span className={this.styles.slash}>/</span>
+    return (
+      <div className={this.styles.head} onClick={this.onHeadClick}>
+        <input
+          className={cx(this.styles.firstInput, this.styles.input,
+            { [this.styles.invalid]: errors.month })}
+          max='12'
+          min='1'
+          onChange={this.onInputMonth}
+          onFocus={this.onInputFocus}
+          placeholder='mm'
+          step='1'
+          type='number'
+          value={value.month || null}
+        />
 
-      <input
-        className={cx(this.styles.input, { [this.styles.invalid]: errors.day })}
-        maxLength='2'
-        placeholder='dd'
-        onFocus={this.onInputFocus}
-        onChange={this.onInputDay}
-        value={value.day || null}
-      />
+        <span className={this.styles.slash}>/</span>
 
-      <span className={this.styles.slash}>/</span>
+        <input
+          className={cx(this.styles.input, { [this.styles.invalid]: errors.day })}
+          max='31'
+          min='1'
+          onChange={this.onInputDay}
+          onFocus={this.onInputFocus}
+          placeholder='dd'
+          step='1'
+          type='number'
+          value={value.day || null}
+        />
 
-      <input
-        className={cx(this.styles.input, this.styles.inputYear,
-          { [this.styles.invalid]: errors.year })}
-        maxLength='4'
-        placeholder='yyyy'
-        onFocus={this.onInputFocus}
-        onChange={this.onInputYear}
-        value={value.year || null}
-      />
-    </div>);
+        <span className={this.styles.slash}>/</span>
+
+        <input
+          className={cx(this.styles.input, this.styles.inputYear,
+            { [this.styles.invalid]: errors.year })}
+          max='9999'
+          min='1'
+          onChange={this.onInputYear}
+          onFocus={this.onInputFocus}
+          placeholder='yyyy'
+          step='1'
+          type='number'
+          value={value.year || null}
+        />
+
+        {button}
+      </div>
+    );
   }
 
   renderDays() {
@@ -278,16 +311,18 @@ export default class Maramataka extends React.Component {
         active.month === (selected.month + 1) &&
         active.year === selected.year);
 
-      result.push(<div
-        className={cx(this.styles.dayPrevious, { [this.styles.selected]: isSelected })}
-        data-day={day}
-        data-month={active.month - 1}
-        data-year={active.year}
-        key={`prev-${day}`}
-        onClick={this.onDayClick}
-      >
-        {day}
-      </div>);
+      result.push(
+        <div
+          className={cx(this.styles.dayPrevious, { [this.styles.selected]: isSelected })}
+          data-day={day}
+          data-month={active.month - 1}
+          data-year={active.year}
+          key={`prev-${day}`}
+          onClick={this.onDayClick}
+        >
+          {day}
+        </div>
+      );
     });
 
     days.active.forEach((day) => {
@@ -295,16 +330,18 @@ export default class Maramataka extends React.Component {
         active.month === selected.month &&
         active.year === selected.year);
 
-      result.push(<div
-        className={cx(this.styles.dayActive, { [this.styles.selected]: isSelected })}
-        data-day={day}
-        data-month={active.month}
-        data-year={active.year}
-        key={`active-${day}`}
-        onClick={this.onDayClick}
-      >
-        {day}
-      </div>);
+      result.push(
+        <div
+          className={cx(this.styles.dayActive, { [this.styles.selected]: isSelected })}
+          data-day={day}
+          data-month={active.month}
+          data-year={active.year}
+          key={`active-${day}`}
+          onClick={this.onDayClick}
+        >
+          {day}
+        </div>
+      );
     });
 
     days.next.forEach((day) => {
@@ -312,16 +349,18 @@ export default class Maramataka extends React.Component {
         active.month === (selected.month - 1) &&
         active.year === selected.year);
 
-      result.push(<div
-        className={cx(this.styles.dayNext, { [this.styles.selected]: isSelected })}
-        data-day={day}
-        data-month={active.month + 1}
-        data-year={active.year}
-        key={`next-${day}`}
-        onClick={this.onDayClick}
-      >
-        {day}
-      </div>);
+      result.push(
+        <div
+          className={cx(this.styles.dayNext, { [this.styles.selected]: isSelected })}
+          data-day={day}
+          data-month={active.month + 1}
+          data-year={active.year}
+          key={`next-${day}`}
+          onClick={this.onDayClick}
+        >
+          {day}
+        </div>
+      );
     });
 
     return result;
@@ -330,14 +369,12 @@ export default class Maramataka extends React.Component {
   render() {
     const { active, expanded } = this.state;
 
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
     const head = this.renderHead();
 
     const days = this.renderDays();
 
-    const dayTitles = dayNames.map(name => <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 2)}</div>);
+    const dayTitles = dayNames.map(name =>
+      <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 2)}</div>);
 
     return (
       <div className={this.styles.container}>

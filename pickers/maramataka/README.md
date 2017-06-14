@@ -4,6 +4,9 @@ A date picker.
 
 # Change Log
 
+##### 1.1.0
+- Added ability to clear the inputs, with an optional callback as well
+
 ##### 1.0.4
 - Style changes, add `maxLength` on inputs
 

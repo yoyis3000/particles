@@ -17,10 +17,13 @@ const value = {
 
 const stylesheets = [sandboxStyles];
 
+const onClear = () => console.log('Cleared selected date!'); // eslint-disable-line
+
 render(
   <div>
     <Maramataka
       {...{
+        onClear,
         onSelect,
         stylesheets,
         value

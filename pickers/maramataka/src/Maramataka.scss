@@ -8,6 +8,33 @@
   }
 }
 
+.clearButton {
+  height: 32px;
+  width: 28px;
+  border-radius: 0 2px 2px 0;
+  border: 1px solid white;
+  color: black;
+  background: white;
+
+  &:hover {
+    background: #939393;
+    border: 1px solid #939393;
+    color: white;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::before {
+    content: '\00D7';
+    display: block;
+    font-size: 16px;
+    height: 16px;
+    line-height: 14px;
+  }
+}
+
 .dropdownContainer {
   position: relative;
 }
@@ -31,15 +58,19 @@
   }
 }
 
+.firstInput {
+  margin-left: 4px;
+}
+
 .head {
   align-items: center;
-  border: 1px solid gray;
   border-radius: 2px;
+  border: 1px solid gray;
   display: flex;
+  height: 32px;
   overflow: hidden;
-  padding: 5px;
   position: relative;
-  width: 150px;
+  width: 152px;
 }
 
 .input {
@@ -61,13 +92,18 @@
   }
 }
 
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
 .inputYear {
   composes: input;
   width: 50px;
 }
 
 .slash {
-  margin: 0 5px;
   width: 5px;
 }
 

@@ -99,9 +99,12 @@ export default class Tiwae extends React.Component {
 
   onSelectAll = () => {
     const isAllChecked = !this.state.isAllChecked;
-    const columns = this.state.columns.map(option => Object.assign(option, {
-      hidden: !isAllChecked
-    }));
+    const columns = this.state.columns.map((option) => {
+      if (option.hideable) {
+        Object.assign(option, { hidden: !isAllChecked });
+      }
+      return option;
+    });
 
     this.setState({ columns, isAllChecked });
 
@@ -203,9 +206,10 @@ export default class Tiwae extends React.Component {
         onDragStart={this.onDragStart}
       >
         <input
-          checked={!option.hidden}
+          checked={option.hideable ? !option.hidden : true}
           className={styles.itemCheckbox}
           data-index={index}
+          disabled={!option.hideable}
           onChange={this.onCheck}
           type='checkbox'
         />

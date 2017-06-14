@@ -11,6 +11,7 @@ const renderCell = (rowData, i) => <td key={`cell-${rowData.key}-${i}`}>{rowData
 const def = {
   editable: false,
   hidden: false,
+  hideable: true,
   key: '',
   label: '',
   locked: false,

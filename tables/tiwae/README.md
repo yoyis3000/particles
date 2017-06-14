@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.3.0
+- Added `hideable` to column definitions and support for it within component
+
 ##### 2.2.5
 - Updating package.json to Particles URL
 

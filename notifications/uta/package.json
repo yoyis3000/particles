@@ -1,6 +1,6 @@
 {
   "name": "uta",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A loading spinner which wraps around content.",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/procore/particles/issues"
   },
-  "homepage": "https://github.com/procore/particles/tree/master/notifications/uta#readme",
+  "homepage": "https://github.com/procore/particles/tree/master/notifications/uta",
   "dependencies": {
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",

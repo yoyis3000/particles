@@ -4,6 +4,9 @@ A text search component that updates the address bar. Does not use auto-suggest.
 
 # Change Log
 
+##### 2.0.16
+- Updating package.json to Particles URL
+
 ##### 2.0.15
 - CSS changes to prevent unnecessary overrides
 

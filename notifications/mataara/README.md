@@ -4,6 +4,9 @@ An (optionally) dismissable notification bar.
 
 # Change Log
 
+##### 1.2.7
+- Updating package.json to Particles URL
+
 ##### 1.2.6
 - Changed styling to generic colors
 

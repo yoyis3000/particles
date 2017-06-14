@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.2.3
+- Updating package.json to Particles URL
+
 ##### 2.2.2
 - Fixed overflow issue (child elements of the table can now overflow the table)
 

@@ -4,6 +4,9 @@ A pagination component.
 
 # Change Log
 
+##### 3.1.1
+- Updating package.json to Particles URL
+
 ##### 3.1.0
 - I18N support
 - `this.styles` fix

@@ -1,6 +1,6 @@
 {
   "name": "ripanga",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "A table component with self-managed checkboxes, sticky head, sticky right panel, and horizontal scroll widget.",
   "main": "index.js",
   "scripts": {
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisarevir/component-library.git"
+    "url": "git+git@github.com:procore/particles.git/"
   },
   "author": "Procore",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chrisarevir/component-library/issues"
+    "url": "https://github.com/procore/particles/issues"
   },
-  "homepage": "https://github.com/chrisarevir/component-library#readme",
+  "homepage": "https://github.com/procore/particles/tree/master/tables/ripanga",
   "dependencies": {
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",

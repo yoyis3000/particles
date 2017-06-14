@@ -4,8 +4,8 @@ A picker with support for group or individual selections.
 
 # Change Log
 
-##### 3.4.2
-- Update package.json URLs
+##### 3.4.2, 3.4.3
+- Updating package.json to Particles URL
 
 ##### 3.4.1
 - Using external `prop-types` package

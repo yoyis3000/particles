@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.4.2
+- Updating package.json to Particles URL
+
 ##### 2.4.1
 - Changed styling to generic colors, etc., fix prop-types deprecation warning
 

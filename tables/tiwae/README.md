@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.2.5
+- Updating package.json to Particles URL
+
 ##### 2.2.4
 - Changed styling to generic colors
 

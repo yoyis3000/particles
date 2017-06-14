@@ -10,7 +10,7 @@ const onSubmit = () => {
 };
 
 const stylesheets = [sandboxStyles];
-const placeholder = 'new Search function';
+const placeholder = 'Search';
 
 render(
   <Rapu {...{ onSubmit, stylesheets, placeholder }} />,

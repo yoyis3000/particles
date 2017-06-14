@@ -34,6 +34,7 @@
 .head {
   align-items: center;
   border: 1px solid gray;
+  border-radius: 2px;
   display: flex;
   overflow: hidden;
   padding: 5px;
@@ -42,11 +43,10 @@
 }
 
 .input {
-  background: #eee;
   border: 0;
   cursor: text;
   font-size: 13px;
-  height: 28px;
+  height: 20px;
   line-height: 28px;
   text-align: center;
   width: 30px;
@@ -56,7 +56,7 @@
   }
 
   &:focus {
-    background: #ddd;
+    background: #eee;
     outline: 0;
   }
 }

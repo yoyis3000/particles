@@ -236,6 +236,7 @@ export default class Maramataka extends React.Component {
     return (<div className={this.styles.head} onClick={this.onHeadClick}>
       <input
         className={cx(this.styles.input, { [this.styles.invalid]: errors.month })}
+        maxLength='2'
         placeholder='mm'
         onFocus={this.onInputFocus}
         onChange={this.onInputMonth}
@@ -246,6 +247,7 @@ export default class Maramataka extends React.Component {
 
       <input
         className={cx(this.styles.input, { [this.styles.invalid]: errors.day })}
+        maxLength='2'
         placeholder='dd'
         onFocus={this.onInputFocus}
         onChange={this.onInputDay}
@@ -257,6 +259,7 @@ export default class Maramataka extends React.Component {
       <input
         className={cx(this.styles.input, this.styles.inputYear,
           { [this.styles.invalid]: errors.year })}
+        maxLength='4'
         placeholder='yyyy'
         onFocus={this.onInputFocus}
         onChange={this.onInputYear}

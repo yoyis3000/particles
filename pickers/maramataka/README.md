@@ -4,6 +4,9 @@ A date picker.
 
 # Change Log
 
+##### 1.0.4
+- Style changes, add `maxLength` on inputs
+
 ##### 1.0.3
 - Updating package.json to Particles URL
 

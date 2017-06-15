@@ -4,6 +4,9 @@ A date picker.
 
 # Change Log
 
+##### 1.1.1
+- Changed internal clearing to work as a function instead of object assignment as setState doe snot merge correctly. Updated inputs to be 'controlled'
+
 ##### 1.1.0
 - Added ability to clear the inputs, with an optional callback as well
 

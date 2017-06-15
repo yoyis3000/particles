@@ -16,9 +16,9 @@ export default class Maramataka extends React.Component {
   };
 
   static defaultProps = {
-    onClear: null,
+    onClear: () => {},
     stylesheets: [],
-    value: { day: null, month: null, year: null }
+    value: { day: '', month: '', year: '' }
   };
 
   constructor(props) {
@@ -90,11 +90,10 @@ export default class Maramataka extends React.Component {
   onClear = (event) => {
     event.stopPropagation();
 
-    this.setState({ value: { day: null, month: null, year: null } });
-
-    if (this.props.onClear) {
-      this.props.onClear();
-    }
+    this.setState(
+      state => ({ ...state, value: { day: '', month: '', year: '' } }),
+      this.props.onClear
+    );
   }
 
   onDayClick = (evt) => {
@@ -137,11 +136,9 @@ export default class Maramataka extends React.Component {
       (errors.day === false && errors.month === false && errors.year === false);
 
     const valueIsEmpty =
-      (
-        (value.day === 0 || value.day === null)
-        && (value.month === 0 || value.month === null)
-        && (value.year === 0 || value.year === null)
-      );
+      (value.day === '' || value.day === 0)
+      && (value.month === '' || value.day === 0)
+      && (value.year === '' || value.day === 0);
 
     if (valueIsEmpty) {
       errors.day = false;
@@ -264,7 +261,7 @@ export default class Maramataka extends React.Component {
           placeholder='mm'
           step='1'
           type='number'
-          value={value.month || null}
+          value={value.month || ''}
         />
 
         <span className={this.styles.slash}>/</span>
@@ -278,7 +275,7 @@ export default class Maramataka extends React.Component {
           placeholder='dd'
           step='1'
           type='number'
-          value={value.day || null}
+          value={value.day || ''}
         />
 
         <span className={this.styles.slash}>/</span>
@@ -293,7 +290,7 @@ export default class Maramataka extends React.Component {
           placeholder='yyyy'
           step='1'
           type='number'
-          value={value.year || null}
+          value={value.year || ''}
         />
 
         {button}

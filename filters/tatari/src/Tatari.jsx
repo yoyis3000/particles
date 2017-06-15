@@ -58,10 +58,9 @@ export default class Tatari extends React.Component {
       let saved = stored;
 
       const savedFilters = Object.keys(saved);
-      const savedSelections = Object.keys(saved).reduce((acc, key) => {
-        acc.push(...saved[key]);
-        return acc;
-      }, []);
+
+      const savedSelections = Object.keys(saved)
+        .reduce((acc, key) => acc.concat(saved[key] || []), []);
 
       savedFilters.push(...savedSelections);
 
@@ -94,6 +93,7 @@ export default class Tatari extends React.Component {
 
         return acc;
       }, []);
+
 
       const loading = availableFilters.reduce((acc, filter) =>
         Object.assign(acc, { [filter.key]: previousFilters[filter.key] !== undefined }),

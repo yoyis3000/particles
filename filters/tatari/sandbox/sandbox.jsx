@@ -9,7 +9,7 @@ const mockApi = new MockAdapter(axios);
 
 mockApi
 .onGet('/saved_filters')
-  .reply(200, { herding_dogs: [8474928] })
+  .reply(200, { herding_dogs: [8474928], mountain_dogs: [null], flying_dogs: null })
 .onGet('/available_filters')
   .reply(200, [
     {

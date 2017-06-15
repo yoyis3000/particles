@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import baseStyles from './Ripa.scss';
-import defaultStyles from './RipaDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
@@ -31,7 +30,7 @@ class Ripa extends React.Component {
 
   constructor(props) {
     super(props);
-    styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
+    styles = composeStyles(baseStyles, [...props.stylesheets]);
   }
 
   componentWillMount() {

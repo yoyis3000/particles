@@ -6,6 +6,9 @@ A header component with a title, tabs, and extra slot.
 
 # Change Log
 
+##### 3.0.4
+- Removing default styles.
+
 ##### 3.0.3
 - Updating package.json to Particles URL
 

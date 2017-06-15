@@ -4,6 +4,9 @@ A file uploader that supports drag and drop.
 
 # Change Log
 
+##### 1.0.3
+- Adding defaults for slots in sandbox
+
 ##### 1.0.2
 - Adding `prop-types` externally
 

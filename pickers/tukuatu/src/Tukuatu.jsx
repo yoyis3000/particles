@@ -20,8 +20,8 @@ export default class Tukuatu extends React.Component {
   };
 
   static defaultProps = {
-    slotAttach: null,
-    slotDrag: null,
+    slotDrag: <div>Drag and Drop File(s)</div>,
+    slotAttach: <div>Attach File(s)</div>,
     stylesheets: []
   };
 

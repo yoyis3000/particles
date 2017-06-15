@@ -1,6 +1,6 @@
 {
   "name": "tukuatu",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A select dropdown to manage downloads.",
   "main": "index.js",
   "scripts": {

@@ -35,7 +35,7 @@ const RipangaHeadRow = ({
       : null);
 
     cells.unshift(
-      <div key='head-controls' className={styles.controlCell}>
+      <div key='head-controls' className={styles.controlHeadCell}>
         {caret}
         {checkbox}
       </div>

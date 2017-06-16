@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.2.4
+- Fix resize bug that cause sidebar head to lose stickiness
+
 ##### 2.2.3
 - Updating package.json to Particles URL
 

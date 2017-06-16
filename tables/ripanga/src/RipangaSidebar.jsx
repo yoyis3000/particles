@@ -5,7 +5,6 @@ let headerInitialTop = 0;
 
 const debounce = (fn, ms) => {
   let timer = null;
-
   return () => {
     clearTimeout(timer);
     timer = setTimeout(fn, ms);
@@ -44,7 +43,32 @@ export default class RipangaSidebar extends React.Component {
   componentDidMount() {
     window.addEventListener('scroll', this.onScroll);
     window.addEventListener('resize', debounce(this.onResize, 100));
+    this.setHeaderInitialTop();
     this.onResize();
+  }
+
+  componentDidUpdate() {
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
+
+    if (scrollTop <= headerInitialTop) {
+      this.setHeaderInitialTop();
+    } else if (this.header.getBoundingClientRect().top > headerInitialTop) {
+      this.setHeaderInitialTop();
+    }
+
+    this.onScroll();
+  }
+
+  onResize = () => {
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+              document.body.scrollTop;
+
+    if (scrollTop <= headerInitialTop) {
+      this.setHeaderInitialTop();
+    }
+
+    this.onScroll();
   }
 
   onScroll = () => {
@@ -58,13 +82,11 @@ export default class RipangaSidebar extends React.Component {
     }
   }
 
-  onResize = () => {
+  setHeaderInitialTop = () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
 
     headerInitialTop = this.header.getBoundingClientRect().top + scrollTop;
-
-    this.onScroll();
   }
 
   render() {

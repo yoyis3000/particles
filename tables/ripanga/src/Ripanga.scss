@@ -99,9 +99,14 @@ $tableZ: 0;
 .controlCell {
   composes: tableCell;
   display: flex;
-  max-width: 40 + (2 * $padding) + 2;
+  max-width: 20 + (2 * $padding) + 2;
   min-width: 20 + (2 * $padding) + 2;
   text-align: center;
+}
+
+.controlHeadCell {
+  composes: controlCell;
+  border-width: 0 1px 0 0;
 }
 
 .controlCaret {

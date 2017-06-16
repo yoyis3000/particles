@@ -169,7 +169,7 @@ export default class Ripanga extends React.Component {
     }
 
     if (this.props.showCheckboxes) {
-      initialWidth += 30;
+      initialWidth += 42;
     }
 
     const tableWidth = this.props.columnDefinitions

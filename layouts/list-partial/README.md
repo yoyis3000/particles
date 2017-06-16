@@ -4,6 +4,9 @@ A template partial for showing list presentations.
 
 # Change Log
 
+##### 1.4.4
+- If no controlComponent/search/filter is passed, the layout still looks normal rather than using whitespace to fill the void
+
 ##### 1.4.3
 - Updating package.json to Particles URL
 

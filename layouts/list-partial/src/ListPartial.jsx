@@ -18,6 +18,23 @@ const ListPartial = ({
   tableComponent
 }) => {
   const styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
+  const leftControl = controlComponent && (
+    <div className={styles.controlComponent}>
+      { controlComponent }
+    </div>
+  );
+
+  const search = searchComponent && (
+    <div className={styles.searchComponent}>
+      { searchComponent }
+    </div>
+  );
+
+  const filters = filterComponent && (
+    <div className={styles.filterComponent}>
+      { filterComponent }
+    </div>
+  );
 
   return (<div className={styles.listPartialContainer}>
     <div className={styles.toolHeader}>
@@ -25,15 +42,9 @@ const ListPartial = ({
     </div>
     <div>
       <div className={styles.toolControls}>
-        <div className={styles.controlComponent}>
-          { controlComponent && controlComponent }
-        </div>
-        <div className={styles.searchComponent}>
-          { searchComponent && searchComponent }
-        </div>
-        <div className={styles.filterComponent}>
-          { filterComponent && filterComponent }
-        </div>
+        {leftControl}
+        {search}
+        {filters}
       </div>
 
       <div className={styles.notifications}>

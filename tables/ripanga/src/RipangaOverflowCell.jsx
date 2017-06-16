@@ -27,6 +27,9 @@ export default class RipangaOverflowCell extends React.Component {
   }
 
   onFocus = (evt) => {
+    if (this.container === null) {
+      return;
+    }
     evt.stopPropagation();
 
     bounds = this.container.parentNode.getBoundingClientRect();
@@ -53,7 +56,7 @@ export default class RipangaOverflowCell extends React.Component {
   }
 
   onBlur = () => {
-    if (table === null) {
+    if (table === null || this.container === null) {
       return;
     }
 
@@ -67,6 +70,9 @@ export default class RipangaOverflowCell extends React.Component {
   }
 
   onScroll = () => {
+    if (this.container === null) {
+      return;
+    }
     this.container.style.top = `${initialTop - scrollTop()}px`;
     this.container.style.left = `${initialLeft - table.scrollLeft}px`;
   }

@@ -130,7 +130,7 @@ export default class Ripanga extends React.Component {
   onCheck = ids => this.props.onCheck(checkedReducer(ids));
 
   onScroll = () => {
-    if (!this.table) {
+    if (!this.table || !this.header) {
       return;
     }
 

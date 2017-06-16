@@ -61,6 +61,10 @@ export default class RipangaSidebar extends React.Component {
   }
 
   onResize = () => {
+    if (this.header === null) {
+      return;
+    }
+
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
 

@@ -353,7 +353,7 @@ export default class Tipako extends React.Component {
       );
 
     return (
-      <div className={this.styles.container}>
+      <div className={cx(this.styles.container, { [this.styles.active]: this.state.expanded })}>
         <div className={cx(this.styles.title)}>
           {slot}
           {search}

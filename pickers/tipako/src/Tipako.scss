@@ -1,6 +1,10 @@
 $h: 30px;
 $p: 5px;
 
+.active {
+  background: inherit;
+}
+
 .container {
   position: relative;
 

@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.4.4
+- Adding in active class to container when dropdown is expanded
+
 ##### 3.4.2, 3.4.3
 - Updating package.json to Particles URL
 

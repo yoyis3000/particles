@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.3.0
+- Added support for row height control
+
 ##### 2.2.5
 - Added in safe checks to avoid null references
 

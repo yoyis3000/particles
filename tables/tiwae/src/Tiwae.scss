@@ -52,8 +52,6 @@ $itemH: 24px;
   background: #fff;
   border: 1px solid #c2c2c2;
   border-top: 0;
-  max-height: 300px;
-  overflow: auto;
 }
 
 .dropdownContainer {
@@ -157,12 +155,15 @@ $itemH: 24px;
   }
 }
 
-
-
 .itemCheckbox {
   cursor: pointer;
   flex-shrink: 0;
   margin-right: $m;
+}
+
+.itemContainer {
+  max-height: 250px;
+  overflow: auto;
 }
 
 .itemLabel {
@@ -203,6 +204,15 @@ $itemH: 24px;
   &:hover {
     text-decoration: underline;
   }
+}
+
+.rowHeightControl {
+  align-items: center;
+  border-top: 1px solid #c2c2c2;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  user-select: none;
 }
 
 .selectAll {

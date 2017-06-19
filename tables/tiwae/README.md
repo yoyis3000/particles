@@ -4,6 +4,9 @@ Manages column definition arrays to configure columns.
 
 # Change Log
 
+##### 2.4.0
+- Added row height control
+
 ##### 2.3.0
 - Added `hideable` to column definitions and support for it within component
 

@@ -12,6 +12,7 @@ export default class Tiwae extends React.Component {
     isSelectAll: PropTypes.bool,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
+    onRowHeightChange: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
@@ -35,6 +36,7 @@ export default class Tiwae extends React.Component {
 
     this.state = {
       isAllChecked,
+      isMinHeight: false,
       columns,
       expanded: false,
       ghostIndex: -1,
@@ -159,12 +161,23 @@ export default class Tiwae extends React.Component {
     this.setState({ expanded: !this.state.expanded });
   }
 
+  changeRowHeight = (evt) => {
+    evt.stopPropagation();
+    this.setState({ isMinHeight: !this.state.isMinHeight });
+    this.props.onRowHeightChange();
+  }
+
   render() {
     const {
       ghostIndex,
       columns,
       startIndex
     } = this.state;
+
+    const rowHeightControl = (<div
+      className={styles.rowHeightControl}
+      onClick={this.changeRowHeight}
+    >{this.state.isMinHeight ? 'Increase Row Height' : 'Decrease Row Height'}</div>);
 
     const selectAll = this.props.isSelectAll
     ? (<div className={styles.selectAll} onClick={this.onSelectAll}>
@@ -235,12 +248,13 @@ export default class Tiwae extends React.Component {
             <div className={styles.title}>Show, Hide, or Reorder Columns</div>
             {controls}
           </div>
-          <div
-            className={styles.dropdownBody}
-            onDragOver={this.onDragOverBody}
-            onDrop={this.onDrop}
-          >
-            {items}
+          <div className={styles.dropdownBody}>
+            <div
+              className={styles.itemContainer}
+              onDragOver={this.onDragOverBody}
+              onDrop={this.onDrop}
+            >{items}</div>
+          {rowHeightControl}
           </div>
         </div>
       </div>

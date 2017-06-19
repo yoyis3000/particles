@@ -46,6 +46,10 @@ const onChange = (newColumnDefinitions) => {
   console.warn(newColumnDefinitions); // eslint-disable-line
 };
 
+const onRowHeightChange = () => {
+  console.log('onRowHeightChange');
+};
+
 const stylesheets = [sandboxStyles];
 
 const lockLimit = 3;
@@ -57,6 +61,7 @@ render(
       defaultColumns,
       lockLimit,
       onChange,
+      onRowHeightChange,
       stylesheets
     }}
   />,

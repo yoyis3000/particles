@@ -305,11 +305,14 @@ export default class Tipako extends React.Component {
       ? <div className={this.styles.controlsSpacer}>/</div>
       : null;
 
-    const controls = (<div className={this.styles.controls}>
-      {selectAll}
-      {spacer}
-      {clearAll}
-    </div>);
+    const controls =
+      (selectAll || clearAll) && (
+        <div className={this.styles.controls}>
+          {selectAll}
+          {spacer}
+          {clearAll}
+        </div>
+      );
 
     const empty = (<div className={this.styles.empty}>
       {renderEmpty ? renderEmpty() : this.getEmptyString()}

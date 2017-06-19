@@ -48,12 +48,11 @@ export default class RipangaSidebar extends React.Component {
   }
 
   componentDidUpdate() {
+    const currentHeaderTop = this.header.getBoundingClientRect().top;
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
 
-    if (scrollTop <= headerInitialTop) {
-      this.setHeaderInitialTop();
-    } else if (this.header.getBoundingClientRect().top > headerInitialTop) {
+    if (scrollTop <= headerInitialTop || currentHeaderTop > headerInitialTop) {
       this.setHeaderInitialTop();
     }
 
@@ -87,10 +86,11 @@ export default class RipangaSidebar extends React.Component {
   }
 
   setHeaderInitialTop = () => {
+    const currentHeaderTop = this.header.getBoundingClientRect().top;
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
               document.body.scrollTop;
 
-    headerInitialTop = this.header.getBoundingClientRect().top + scrollTop;
+    headerInitialTop = currentHeaderTop + scrollTop;
   }
 
   render() {

@@ -4,6 +4,9 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.2.6
+- Fix bug that was causing the header to lose stickiness on update
+
 ##### 2.2.5
 - Added in safe checks to avoid null references
 

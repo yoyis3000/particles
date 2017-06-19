@@ -13,10 +13,6 @@ const SORT_DIRECTION = { ASC: 'asc', DESC: 'desc', NONE: 'none' };
 
 let styles = {};
 
-let headerInitialTop = 0;
-
-let debouncedResize = null;
-
 const i18n = {
   NO_RESULTS: 'No results found'
 };
@@ -29,27 +25,6 @@ const checkedReducer = ids =>
 
     return acc;
   }, []);
-
-const debounce = (fn, ms) => {
-  let timer = null;
-
-  return () => {
-    clearTimeout(timer);
-    timer = setTimeout(fn, ms);
-  };
-};
-
-const moveHeader = (el, y) => {
-  window.requestAnimationFrame(() => {
-    el.style.top = `${y}px`; // eslint-disable-line no-param-reassign
-  });
-};
-
-const restoreHeader = (el) => {
-  window.requestAnimationFrame(() => {
-    el.style.top = 0; // eslint-disable-line no-param-reassign
-  });
-};
 
 export { SORT_DIRECTION };
 
@@ -92,7 +67,6 @@ export default class Ripanga extends React.Component {
     super(props);
 
     styles = composeStyles(baseStyles, [defaultStyles, ...props.stylesheets]);
-    debouncedResize = debounce(this.onResize, 100);
 
     this.state = {
       allChecked: false,
@@ -105,85 +79,18 @@ export default class Ripanga extends React.Component {
   componentDidMount() {
     window.addEventListener('table/checkAll', this.onCheckAll);
     window.addEventListener('table/checkOne', ({ detail: id }) => this.onRowCheck(id));
-    window.addEventListener('table/resize', debouncedResize);
     window.addEventListener('scroll', this.onScroll);
 
     this.props.onMounted({ ...this.state });
-    this.onResize();
-  }
-
-  componentDidUpdate() {
-    if (!this.table) {
-      return;
-    }
-
-    this.onResize();
   }
 
   componentWillUnmount() {
     window.removeEventListener('table/checkAll', this.onCheckAll);
     window.removeEventListener('table/checkOne', id => this.onRowCheck(id));
-    window.removeEventListener('table/resize', debouncedResize);
     window.removeEventListener('scroll', this.onScroll);
   }
 
   onCheck = ids => this.props.onCheck(checkedReducer(ids));
-
-  onScroll = () => {
-    if (!this.table || !this.header) {
-      return;
-    }
-
-    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
-              document.body.scrollTop;
-
-    if (scrollTop > headerInitialTop) {
-      moveHeader(this.header, scrollTop - headerInitialTop);
-    } else {
-      restoreHeader(this.header);
-    }
-  }
-
-  onResize = () => {
-    if (!this.table) {
-      return;
-    }
-
-    // Having each cell move individually is good for inheriting sizes but bad for perf. Ben 170411
-    const sidebarCells = document.querySelectorAll(`.${styles.sidebarCell.split(' ').shift()}`);
-    const tableRows = document.querySelectorAll(`.${styles.tableRow.split(' ').shift()}`);
-    const len = tableRows.length;
-
-    const tableData = this.props.tableData;
-    const showGroups = (tableData.length > 0 && tableData[0].key !== undefined);
-
-    for (let i = 0; i < len; i += 1) {
-      sidebarCells[i].style.height = `${tableRows[i].offsetHeight}px`;
-    }
-
-    // Required for <div> elements to maintain background color for full scroll width. Ben 170411
-    let initialWidth = 0;
-
-    if (showGroups) {
-      initialWidth += 30;
-    }
-
-    if (this.props.showCheckboxes) {
-      initialWidth += 42;
-    }
-
-    const tableWidth = this.props.columnDefinitions
-      .reduce((acc, def) => (def.hidden ? acc : acc + def.width), initialWidth);
-
-    this.header.style.minWidth = `${tableWidth}px`;
-
-    const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
-              document.body.scrollTop;
-
-    headerInitialTop = this.header.getBoundingClientRect().top + scrollTop;
-
-    this.onScroll();
-  }
 
   onCollapse = (id) => {
     const { collapsedIds } = this.state;
@@ -309,23 +216,27 @@ export default class Ripanga extends React.Component {
       />
       <div className={styles.tableContainer} ref={(el) => { this.tableContainer = el; }}>
         <div className={styles.table} ref={(el) => { this.table = el; }}>
-          <div className={styles.tableHead} ref={(el) => { this.header = el; }}>
-            { RipangaHeadRow({
-              allChecked,
-              allCollapsed,
-              columnDefinitions,
-              idKey,
-              onCheckAll: this.onCheckAll,
-              onCollapseAll: this.onCollapseAll,
-              onScroll: this.onScroll,
-              onScrollTrack: this.onScrollTrack,
-              onSort,
-              showGroups,
-              showCheckboxes,
-              sortState,
-              styles
-            }) }
-          </div>
+          <RipangaHeadRow
+            {
+              ...{
+                allChecked,
+                allCollapsed,
+                className: styles.tableHead,
+                columnDefinitions,
+                idKey,
+                onCheckAll: this.onCheckAll,
+                onCollapseAll: this.onCollapseAll,
+                onScroll: this.onScroll,
+                onScrollTrack: this.onScrollTrack,
+                onSort,
+                showGroups,
+                showCheckboxes,
+                sortState,
+                styles,
+                tableData
+              }
+            }
+          />
           <div className={styles.tableBody}>
             { RipangaBodyRows({
               checkedIds,

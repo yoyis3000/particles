@@ -204,6 +204,7 @@ export default class Ripanga extends React.Component {
       <RipangaSidebar
         {
           ...{
+            collapsedIds,
             idKey,
             renderSidebarBodyCell,
             renderSidebarHeadCell,

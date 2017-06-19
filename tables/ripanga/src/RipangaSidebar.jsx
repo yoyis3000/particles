@@ -25,6 +25,7 @@ const restoreHeader = (el) => {
 
 export default class RipangaSidebar extends React.Component {
   static propTypes = {
+    collapsedIds: PropTypes.shape(),
     idKey: PropTypes.string.isRequired,
     renderSidebarBodyCell: PropTypes.func,
     renderSidebarHeadCell: PropTypes.func,
@@ -95,6 +96,7 @@ export default class RipangaSidebar extends React.Component {
 
   render() {
     const {
+      collapsedIds,
       idKey,
       renderSidebarBodyCell,
       renderSidebarGroupCell,
@@ -105,8 +107,14 @@ export default class RipangaSidebar extends React.Component {
     } = this.props;
 
     const renderSidebarCell = group => group.data.map((rowData) => {
+      const groupKey = group.key && group.key.key;
       const cell = renderSidebarBodyCell ? renderSidebarBodyCell(rowData) : null;
-      return <div key={`${rowData[idKey]}-sidebar`} className={styles.sidebarCell}>{cell}</div>;
+
+      return !collapsedIds[groupKey] ? (
+        <div key={`${rowData[idKey]}-sidebar`} className={styles.sidebarCell}>{cell}</div>
+      ) : (
+        <div key={`${rowData[idKey]}-sidebar-hide`} />
+      );
     });
 
     const renderGroupSidebarCell = (groupData) => {

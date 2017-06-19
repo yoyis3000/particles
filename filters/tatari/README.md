@@ -4,6 +4,9 @@ A dynamically populated filter component.
 
 # Change Log
 
+##### 2.4.4
+- Fixing saved filters if null array entry
+
 ##### 2.4.3
 - Fixing saved filters if null entry
 

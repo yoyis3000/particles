@@ -26,10 +26,17 @@ export default class Tiwae extends React.Component {
 
     styles = composeStyles(baseStyles, [...props.stylesheets]);
 
-    const columns = props.columns.map(option => Object.assign(option, {
-      hidden: option.hidden || false,
-      locked: option.locked || false
-    }));
+    const columns = props.columns.map((option) => {
+      Object.assign(option, {
+        hidden: option.hidden || false,
+        hideable: option.hideable !== undefined ? option.hideable : true,
+        locked: option.locked || false
+      });
+      if (option.hidden && !option.hideable) {
+        Object.assign(option, { hidden: false });
+      }
+      return option;
+    });
 
     const isAllChecked = columns.every(column => !column.hidden);
 
@@ -40,6 +47,10 @@ export default class Tiwae extends React.Component {
       ghostIndex: -1,
       startIndex: -1
     };
+  }
+
+  componentWillMount() {
+    this.props.onChange(this.props.columns);
   }
 
   componentDidMount() {
@@ -91,10 +102,12 @@ export default class Tiwae extends React.Component {
     const { columns } = this.state;
     columns[index].hidden = !columns[index].hidden;
 
-    const isAllChecked = this.state.columns.every(column => !column.hidden);
+    if (columns[index].hideable) { // IE bug forces double checking logic here
+      const isAllChecked = this.state.columns.every(column => !column.hidden);
 
-    this.setState({ columns, ghostIndex: -1, startIndex: -1, isAllChecked });
-    this.props.onChange(columns);
+      this.setState({ columns, ghostIndex: -1, startIndex: -1, isAllChecked });
+      this.props.onChange(columns);
+    }
   }
 
   onSelectAll = () => {
@@ -137,6 +150,7 @@ export default class Tiwae extends React.Component {
   onReset = () => {
     const columns = this.props.defaultColumns.map(option => Object.assign(option, {
       hidden: false,
+      hideable: option.hideable !== undefined ? option.hideable : true,
       locked: false
     }));
 

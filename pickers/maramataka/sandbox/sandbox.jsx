@@ -10,9 +10,9 @@ const onSelect = (value) => {
 };
 
 const value = {
-  day: 28,
-  month: 2,
-  year: 2017
+  day: "28",
+  month: "2",
+  year: "2017"
 };
 
 const stylesheets = [sandboxStyles];

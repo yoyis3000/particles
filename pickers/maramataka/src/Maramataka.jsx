@@ -35,7 +35,7 @@ export default class Maramataka extends React.Component {
       errors: { day: false, month: false, year: false },
       expanded: false,
       selected: { day: null, month: null, year: null },
-      value: props.value
+      value: { day: props.value.day * 1, month: props.value.month * 1, year: props.value.year * 1 }
     };
   }
 

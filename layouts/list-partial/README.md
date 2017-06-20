@@ -4,6 +4,9 @@ A template partial for showing list presentations.
 
 # Change Log
 
+##### 1.4.5
+- Updating packages, splitting out from shared config
+
 ##### 1.4.4
 - If no controlComponent/search/filter is passed, the layout still looks normal rather than using whitespace to fill the void
 

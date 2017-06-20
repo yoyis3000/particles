@@ -47,18 +47,24 @@ const onChange = (newColumnDefinitions) => {
 };
 
 const onRowHeightChange = () => {
-  console.log('onRowHeightChange');
+  console.log('Change row height'); // eslint-disable-line
 };
 
 const stylesheets = [sandboxStyles];
 
 const lockLimit = 3;
 
+const isSelectAll = true;
+
+const isRowHeightChange = true;
+
 render(
   <ColumnOrganizer
     {...{
       columns,
       defaultColumns,
+      isRowHeightChange,
+      isSelectAll,
       lockLimit,
       onChange,
       onRowHeightChange,

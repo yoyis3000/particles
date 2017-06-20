@@ -77,17 +77,19 @@ export default class Ripanga extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('scroll', this.onScroll);
     window.addEventListener('table/checkAll', this.onCheckAll);
     window.addEventListener('table/checkOne', ({ detail: id }) => this.onRowCheck(id));
-    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener('table/uncheckAll', this.onUncheckAll);
 
     this.props.onMounted({ ...this.state });
   }
 
   componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('table/checkAll', this.onCheckAll);
     window.removeEventListener('table/checkOne', id => this.onRowCheck(id));
-    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('table/uncheckAll', this.onUncheckAll);
   }
 
   onCheck = ids => this.props.onCheck(checkedReducer(ids));
@@ -141,6 +143,18 @@ export default class Ripanga extends React.Component {
 
   onCheckAll = () => {
     const allChecked = !this.state.allChecked;
+
+    const checkedIds =
+      this.props.tableData[0].data
+        .reduce((acc, item) => Object.assign(acc, { [item.id]: allChecked }), {});
+
+    this.onCheck(checkedIds);
+
+    this.setState({ allChecked, checkedIds }, this.updateStorage);
+  }
+
+  onUncheckAll = () => {
+    const allChecked = false;
 
     const checkedIds =
       this.props.tableData[0].data

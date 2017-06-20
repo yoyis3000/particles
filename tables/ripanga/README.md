@@ -4,6 +4,10 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.3.0
+- Adding in a listener to clear all checkboxes on a listener
+- upgraded to webpack 3
+
 ##### 2.2.7
 - Don't show sidebar cells when groups are collapsed
 

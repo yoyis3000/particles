@@ -42,15 +42,16 @@ const BulkEditor = ({
         <div className={styles.fields} id='batch-editor-fields'>
           <div className={styles.fieldsContainer}>
             {children}
-            <span className={styles.footer}>
-              <a className={styles.cancel} onClick={onCancel}>{cancelText}</a>
-              <button type='button' className={styles.submitButton} onClick={onSubmit}>
-                {submitText}
-              </button>
-            </span>
           </div>
         </div>
       </div>
+
+      <span className={styles.footer}>
+        <a className={styles.cancel} onClick={onCancel}>{cancelText}</a>
+        <button type='button' className={styles.submitButton} onClick={onSubmit}>
+          {submitText}
+        </button>
+      </span>
     </div>
   );
 };

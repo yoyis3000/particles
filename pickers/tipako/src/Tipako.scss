@@ -1,5 +1,6 @@
+@import '../../../shared/variables';
+
 $h: 30px;
-$p: 5px;
 
 .active {
   background: inherit;
@@ -15,7 +16,8 @@ $p: 5px;
 
 .title {
   align-items: center;
-  border: 1px solid gray;
+  border: 1px solid #939393;
+  border-radius: 2px;
   display: flex;
   overflow: hidden;
   padding-right: $h;
@@ -31,6 +33,10 @@ $p: 5px;
     line-height: $h;
     padding: 0 4px;
   }
+
+  &.expanded {
+    border-radius: 2px 2px 0 0;
+  }
 }
 
 .input {
@@ -38,10 +44,15 @@ $p: 5px;
   cursor: text;
   display: block;
   flex-grow: 1;
+  font-family: sans-serif;
   font-size: 13px;
   height: $h;
   line-height: $h;
-  padding: 0 24px 0 4px;
+  padding: 0 30px 0 16px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .inputIcon {
@@ -58,23 +69,21 @@ $p: 5px;
   width: $h;
 
   &:hover {
-    background: #ddd;
+    background: #e7e7e7;
     cursor: pointer;
   }
 }
 
 .caret {
   composes: inputIcon;
-  border-left: 1px solid #999;
+  border-left: 1px solid #939393;
   cursor: pointer;
   display: block;
 
   .arrow {
     cursor: pointer;
     display: block;
-    font-size: 13px;
-    margin-top: 2px;
-    transition: transform 0.3s ease;
+    font-size: 16px;
 
     &.expanded {
       transform: rotate(180deg);
@@ -95,7 +104,11 @@ $p: 5px;
     display: block;
     font-size: 16px;
     height: 16px;
-    line-height: 16px;
+    line-height: 14px;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 
@@ -126,7 +139,9 @@ $p: 5px;
 
 .dropdown {
   border: 0;
+  border-radius: 0 0 2px 2px;
   box-sizing: border-box;
+  box-shadow: $shadow;
   cursor: pointer;
   max-height: 0;
   margin-top: -1px;
@@ -137,7 +152,7 @@ $p: 5px;
 
   &.expanded {
     background: #fff;
-    border: 1px solid #666;
+    border: 1px solid #939393;
     height: auto;
     max-height: 300px;
     z-index: 100;
@@ -145,7 +160,7 @@ $p: 5px;
 }
 
 .empty {
-  padding: 10px;
+  padding: 8px 16px;
 }
 
 .item {
@@ -155,9 +170,11 @@ $p: 5px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  margin-bottom: 3px;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: bold;
   text-align: left;
-  padding: 2px $p;
+  padding: 8px 16px;
   width: 100%;
 
   * {
@@ -168,6 +185,14 @@ $p: 5px;
   &.disabled *, {
     color: #aaa;
     cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: #e7e7e7;
   }
 }
 
@@ -186,8 +211,9 @@ $p: 5px;
 }
 
 .childItem {
-  // color: firebrick;
-  padding: 2px ($p + 10);
+  font-size: 13px;
+  font-weight: normal;
+  padding: 8px 16px 8px 32px;
 }
 
 .ungroupedItem {
@@ -196,34 +222,35 @@ $p: 5px;
 }
 
 .controls {
-  line-height: $h;
-  margin: 5px 0;
-  padding: 0 10px;
+  padding: 8px 16px;
 
   .controlsButton {
     background: 0;
     border: 0;
     border-radius: 2px;
+    color: #1e519f;
     cursor: pointer;
     display: inline-block;
-    font-size: 13px;
-    padding: 3px;
+    font: 13px sans-serif;
+    margin: 0;
+    padding: 0;
     text-decoration: none;
     vertical-align: middle;
 
+    &:focus {
+      outline: none;
+    }
+
     &:hover {
-      text-decoration: underline;
+      color: #939393;
     }
   }
 
   .controlsSpacer {
     display: inline-block;
-    margin: 0 3px;
+    line-height: normal;
+    margin: 0 8px;
     vertical-align: middle;
-  }
-
-  &:hover {
-    background: #e7e7e7;
   }
 }
 

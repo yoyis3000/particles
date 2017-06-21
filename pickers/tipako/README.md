@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.4.6
+- Style cleanup
+- Dropdown opens on focus/click of input
 
 ##### 3.4.5
 - Removed the controls div if not being used

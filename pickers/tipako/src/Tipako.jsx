@@ -179,6 +179,7 @@ export default class Tipako extends React.Component {
 
   onSearchFocus = (evt) => {
     evt.target.select();
+    this.onCaretClick();
   }
 
   onBlur = () => {
@@ -342,6 +343,7 @@ export default class Tipako extends React.Component {
           className={this.styles.input}
           onBlur={this.onInputBlur}
           onChange={this.onSearch}
+          onClick={this.onCaretClick}
           onFocus={this.onSearchFocus}
           placeholder={titlePlaceholder}
           ref={(input) => { this.searchInput = input; }}
@@ -357,7 +359,7 @@ export default class Tipako extends React.Component {
 
     return (
       <div className={cx(this.styles.container, { [this.styles.active]: this.state.expanded })}>
-        <div className={cx(this.styles.title)}>
+        <div className={cx(this.styles.title, { [this.styles.expanded]: this.state.expanded })}>
           {slot}
           {search}
           {clear}

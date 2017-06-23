@@ -60,27 +60,6 @@ const columnDefinitions = [
   Object.assign({ ...def }, { label: 'Col C', key: 'colC' })
 ];
 
-const groupedWithCheckboxes = (
-  <Ripanga
-    globalKey='ripanga-sandbox-grouped'
-    idKey='key'
-    scope='sandbox'
-    showCheckboxes
-    onMounted={state => console.log(state)}
-    tableData={tableDataGrouped}
-    {...{
-      columnDefinitions,
-      onSort,
-      renderCell,
-      renderGroupTitle,
-      renderSidebarBodyCell,
-      renderSidebarGroupCell,
-      renderSidebarHeadCell,
-      stylesheets: [sandboxStyles]
-    }}
-  />
-);
-
 render(
   <div className={sandboxStyles.sandboxContainer}>
     <button
@@ -90,7 +69,24 @@ render(
       Uncheck All
     </button>
 
-    {groupedWithCheckboxes}
+    <Ripanga
+      showCheckboxes={true}
+      globalKey='ripanga-sandbox'
+      idKey='key'
+      scope='sandbox'
+      onMounted={state => console.log(state)}
+      tableData={tableDataGrouped}
+      {...{
+        columnDefinitions,
+        onSort,
+        renderCell,
+        renderGroupTitle,
+        renderSidebarBodyCell,
+        renderSidebarGroupCell,
+        renderSidebarHeadCell,
+        stylesheets: [sandboxStyles]
+      }}
+    />
   </div>,
   document.getElementById('root'),
 );

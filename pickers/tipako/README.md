@@ -4,6 +4,10 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.4.7
+- More style cleanup
+- Padding adjustments based on presence of clear button
+
 ##### 3.4.6
 - Style cleanup
 - Dropdown opens on focus/click of input

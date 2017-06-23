@@ -18,8 +18,8 @@ $h: 30px;
   align-items: center;
   border: 1px solid #939393;
   border-radius: 2px;
+  cursor: pointer;
   display: flex;
-  overflow: hidden;
   padding-right: $h;
   position: relative;
 
@@ -31,7 +31,14 @@ $h: 30px;
     flex-grow: 1;
     height: $h;
     line-height: $h;
-    padding: 0 4px;
+    overflow: hidden;
+    padding: 0 30px 0 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.noClear {
+      padding-right: 8px;
+    }
   }
 
   &.expanded {
@@ -44,14 +51,20 @@ $h: 30px;
   cursor: text;
   display: block;
   flex-grow: 1;
-  font-family: sans-serif;
-  font-size: 13px;
+  font: 13px sans-serif;
   height: $h;
   line-height: $h;
   padding: 0 30px 0 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 
   &:focus {
     outline: none;
+  }
+
+  &.noClear {
+    padding-right: 8px;
   }
 }
 
@@ -164,17 +177,10 @@ $h: 30px;
 }
 
 .item {
-  align-items: center;
-  background: 0;
-  border: 0;
   cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  font-family: sans-serif;
-  font-size: 13px;
   font-weight: bold;
-  text-align: left;
   padding: 8px 16px;
+  user-select: none;
   width: 100%;
 
   * {
@@ -203,21 +209,12 @@ $h: 30px;
   width: $h;
 }
 
-.itemText {
-}
-
-.groupItem {
-  // color: seagreen;
-}
-
 .childItem {
-  font-size: 13px;
   font-weight: normal;
-  padding: 8px 16px 8px 32px;
+  padding-left: 32px;
 }
 
 .ungroupedItem {
-  // color: turquoise;
   cursor: pointer;
 }
 
@@ -257,14 +254,4 @@ $h: 30px;
 .itemsContainer {
   max-height: 250px;
   overflow-y: auto;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
 }

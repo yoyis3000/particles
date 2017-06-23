@@ -73,6 +73,7 @@ export default class Tipako extends React.Component {
     }
 
     this.state = {
+      currentIndex: 0,
       expanded: false,
       value: props.titleValue
     };
@@ -215,6 +216,22 @@ export default class Tipako extends React.Component {
     return 'No items found.';
   }
 
+  keyListener = (evt) => {
+    if (evt.keyCode === 38) {
+      let { currentIndex } = this.state;
+      currentIndex -= 1;
+      this.setState({ currentIndex });
+    }
+
+    if (evt.keyCode === 40) {
+      let { currentIndex } = this.state;
+      currentIndex += 1;
+      this.setState({ currentIndex });
+    }
+
+    console.log(this.state.currentIndex);
+  }
+
   render() {
     const {
       data,
@@ -240,6 +257,9 @@ export default class Tipako extends React.Component {
       ? value.toLowerCase()
       : '';
 
+    const { currentIndex } = this.state;
+    let counter = 0;
+
     const items = data.reduce((acc, v, i) => {
       // Grouped
       if (v.children) {
@@ -248,10 +268,15 @@ export default class Tipako extends React.Component {
             return result;
           }
 
+          counter += 1;
+          console.log(counter);
           return result.concat(<div
             onClick={(evt) => { this.onChildClick(evt, vv); }}
             className={cx(this.styles.item, this.styles.childItem,
-              { [this.styles.disabled]: vv.disabled })}
+              {
+                [this.styles.disabled]: vv.disabled,
+                [this.styles.keyFocus]: counter === currentIndex
+              })}
             key={`child-${v[keyField]}-${vv[keyField]}`}
           >
             {renderItem ? renderItem(vv, ii) : vv[valueField]}
@@ -259,6 +284,7 @@ export default class Tipako extends React.Component {
         }, []);
 
         if (children.length === 0 && v[valueField].toLowerCase().indexOf(searchTerm) === -1) {
+          counter += 1;
           return acc;
         }
 
@@ -271,10 +297,14 @@ export default class Tipako extends React.Component {
           {renderGroup ? renderGroup(v, i) : v[valueField]}
         </div>);
 
+        counter += 1;
+        console.log(counter);
         return acc.concat(group).concat(children);
       }
 
       if (v[valueField].toLowerCase().indexOf(searchTerm) === -1) {
+        counter += 1;
+        console.log(counter);
         return acc;
       }
 
@@ -288,6 +318,8 @@ export default class Tipako extends React.Component {
         {renderItem ? renderItem(v, i) : v[valueField]}
       </div>);
 
+      counter += 1;
+      console.log(counter);
       return acc.concat(ungrouped);
     }, []);
 
@@ -346,6 +378,7 @@ export default class Tipako extends React.Component {
           onChange={this.onSearch}
           onClick={this.onCaretClick}
           onFocus={this.onSearchFocus}
+          onKeyDown={this.keyListener}
           placeholder={titlePlaceholder}
           ref={(input) => { this.searchInput = input; }}
           type='text'

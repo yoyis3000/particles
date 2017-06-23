@@ -54,7 +54,7 @@ const data = [
 ];
 
 const loading = false;
-const searchable = false;
+const searchable = true;
 const closeOnSelect = false;
 const updateOnSelect = false;
 
@@ -73,7 +73,7 @@ const keyField = 'key';
 const valueField = 'value';
 const titleValue = 'Calypso';
 const titlePlaceholder = 'Make a selection...';
-const titleSlot = <div className={`fa fa-bus ${sandboxStyles.titleIcon}`} />;
+// const titleSlot = <div className={`fa fa-bus ${sandboxStyles.titleIcon}`} />;
 
 render(
   <Tipako
@@ -92,7 +92,7 @@ render(
       searchable,
       stylesheets,
       titlePlaceholder,
-      titleSlot,
+      // titleSlot,
       titleValue,
       updateOnSelect,
       valueField

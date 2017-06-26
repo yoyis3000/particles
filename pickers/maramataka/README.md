@@ -4,6 +4,10 @@ A date picker.
 
 # Change Log
 
+##### 1.2.0
+- Style updates
+- `closeOnSelect` prop added
+
 ##### 1.1.2
 - Resolving type on `value` prop to accept numeric and string arguments
 

@@ -182,7 +182,6 @@ export default class Tipako extends React.Component {
   onSearchFocus = (evt) => {
     evt.target.select();
     this.props.onFocus();
-    this.onCaretClick();
   }
 
   onBlur = () => {
@@ -329,7 +328,7 @@ export default class Tipako extends React.Component {
         <span className={cx('fa', 'fa-caret-down', this.styles.arrow, { [this.styles.expanded]: this.state.expanded })} />
       </button>);
 
-    const clear = value
+    const clear = (value && searchable)
       ? <button onClick={this.onInputClear} className={this.styles.clear} />
       : null;
 

@@ -1,6 +1,6 @@
 {
   "name": "tipako",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "A picker with support for group or individual selections.",
   "main": "index.js",
   "scripts": {

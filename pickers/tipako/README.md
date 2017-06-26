@@ -4,6 +4,10 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.5.1
+- Fixing animation spin
+- Removing 'clear search' if not searchable
+
 ##### 3.5.0
 - Adding onFocus event
 

@@ -9,16 +9,27 @@ const items = [
   { id: 3, text: 'Another Item to Edit' }
 ];
 
+const emptyMessage = 'No items being passed in';
 const itemFormatter = item => item.text;
-const valueField = 'id';
-const onSubmit = ({ ids, fields }) => console.log("ids: ", ids, "field values: ", fields); // eslint-disable-line
 const onRemove = item => console.log('Would have removed: ', item); // eslint-disable-line
+const onSubmit = ({ ids, fields }) => console.log("ids: ", ids, "field values: ", fields); // eslint-disable-line
+const valueField = 'id';
 
 const stylesheets = [];
 
 render(
   <div style={{ margin: '10px' }}>
-    <BulkEditor {...{ onSubmit, items, stylesheets, itemFormatter, onRemove, valueField }} />
+    <BulkEditor
+      {...{
+        emptyMessage,
+        itemFormatter,
+        items,
+        onRemove,
+        onSubmit,
+        stylesheets,
+        valueField
+      }}
+    />
   </div>,
   window.document.getElementById('root')
 );

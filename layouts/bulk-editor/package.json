@@ -1,6 +1,6 @@
 {
   "name": "bulk-editor",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A template partial for showing bulk edit interactions",
   "main": "index.js",
   "scripts": {

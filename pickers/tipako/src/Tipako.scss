@@ -178,7 +178,6 @@ $h: 30px;
 
 .item {
   cursor: pointer;
-  font-weight: bold;
   padding: 8px 16px;
   user-select: none;
   width: 100%;
@@ -207,6 +206,10 @@ $h: 30px;
   margin-right: 5px;
   display: flex;
   width: $h;
+}
+
+.groupItem {
+  font-weight: bold;
 }
 
 .childItem {

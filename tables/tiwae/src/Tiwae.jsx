@@ -7,19 +7,18 @@ let styles = {};
 
 export default class Tiwae extends React.Component {
   static propTypes = {
+    bottomSlot: PropTypes.node,
     columns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     defaultColumns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    isRowHeightChange: PropTypes.bool,
     isSelectAll: PropTypes.bool,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
-    onRowHeightChange: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape())
   };
 
   static defaultProps = {
+    bottomSlot: null,
     isSelectAll: true,
-    isRowHeightChange: true,
     lockLimit: 3,
     stylesheets: []
   }
@@ -45,7 +44,6 @@ export default class Tiwae extends React.Component {
 
     this.state = {
       isAllChecked,
-      isMinHeight: false,
       columns,
       expanded: false,
       ghostIndex: -1,
@@ -177,25 +175,12 @@ export default class Tiwae extends React.Component {
     this.setState({ expanded: !this.state.expanded });
   }
 
-  changeRowHeight = (evt) => {
-    evt.stopPropagation();
-    this.setState({ isMinHeight: !this.state.isMinHeight });
-    this.props.onRowHeightChange();
-  }
-
   render() {
     const {
       ghostIndex,
       columns,
       startIndex
     } = this.state;
-
-    const rowHeightControl = this.props.isRowHeightChange
-    ? (<div
-      className={styles.rowHeightControl}
-      onClick={this.changeRowHeight}
-    >{this.state.isMinHeight ? 'Increase Row Height' : 'Decrease Row Height'}</div>)
-    : null;
 
     const selectAll = this.props.isSelectAll
     ? (<div className={styles.selectAll} onClick={this.onSelectAll}>
@@ -273,7 +258,7 @@ export default class Tiwae extends React.Component {
               onDrop={this.onDrop}
             >{items}</div>
           </div>
-          {rowHeightControl}
+          {this.props.bottomSlot}
         </div>
       </div>
     );

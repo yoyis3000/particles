@@ -46,7 +46,8 @@ const onChange = (newColumnDefinitions) => {
   console.warn(newColumnDefinitions); // eslint-disable-line
 };
 
-const onRowHeightChange = () => {
+const onRowHeightChange = (evt) => {
+  evt.stopPropagation();
   console.log('Change row height'); // eslint-disable-line
 };
 
@@ -56,14 +57,17 @@ const lockLimit = 3;
 
 const isSelectAll = true;
 
-const isRowHeightChange = true;
+const bottomSlot = (<div
+  className={sandboxStyles.rowHeightControl}
+  onClick={onRowHeightChange}
+>Change Row Height</div>);
 
 render(
   <ColumnOrganizer
     {...{
       columns,
       defaultColumns,
-      isRowHeightChange,
+      bottomSlot,
       isSelectAll,
       lockLimit,
       onChange,

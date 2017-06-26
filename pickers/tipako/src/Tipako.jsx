@@ -22,6 +22,7 @@ export default class Tipako extends React.Component {
     loading: PropTypes.bool,
     onClear: PropTypes.func,
     onClearAll: PropTypes.func,
+    onFocus: PropTypes.func,
     onSearch: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     onSelectAll: PropTypes.func,
@@ -42,9 +43,10 @@ export default class Tipako extends React.Component {
     data: [],
     keyField: 'key',
     loading: false,
-    onSearch: null,
     onClear: null,
     onClearAll: null,
+    onFocus: null,
+    onSearch: null,
     onSelectAll: null,
     renderEmpty: null,
     renderGroup: null,
@@ -179,6 +181,7 @@ export default class Tipako extends React.Component {
 
   onSearchFocus = (evt) => {
     evt.target.select();
+    this.props.onFocus();
     this.onCaretClick();
   }
 

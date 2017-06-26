@@ -4,6 +4,9 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.5.0
+- Adding onFocus event
+
 ##### 3.4.7
 - More style cleanup
 - Padding adjustments based on presence of clear button

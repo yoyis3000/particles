@@ -5,7 +5,7 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 # Change Log
 
 ##### 2.4.0
-- Added support for bottom slot
+- Added support for row height control
 
 ##### 2.3.1
 - Update default styles

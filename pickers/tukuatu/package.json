@@ -1,7 +1,7 @@
 {
   "name": "tukuatu",
   "version": "1.0.3",
-  "description": "A select dropdown to manage downloads.",
+  "description": "A file uploader that supports drag and drop.",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV='development' webpack --progress --colors --watch",

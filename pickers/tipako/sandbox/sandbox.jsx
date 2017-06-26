@@ -59,6 +59,7 @@ const closeOnSelect = false;
 const updateOnSelect = false;
 
 const onClearAll = () => { console.warn('Clear all.'); };
+const onFocus = () => { console.warn('Focus.'); };
 // const onSearch = (str) => { console.warn('Searching for', str); };
 const onSelect = (item) => { console.warn('Selected', item); };
 const onSelectAll = () => { console.warn('Select all.'); };

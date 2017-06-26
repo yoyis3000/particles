@@ -4,6 +4,25 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.5.2
+- Fixing spinner hover state
+- Fixing message if loading vs. if empty
+- Adding focus call to arrow click (in addition to search focus)
+
+##### 3.5.1
+- Fixing animation spin
+- Removing 'clear search' if not searchable
+
+##### 3.5.0
+- Adding onFocus event
+
+##### 3.4.7
+- More style cleanup
+- Padding adjustments based on presence of clear button
+
+##### 3.4.6
+- Style cleanup
+- Dropdown opens on focus/click of input
 
 ##### 3.4.5
 - Removed the controls div if not being used

@@ -44,6 +44,10 @@ const RipangaBodyRow = ({
         />
       </label>
     </div>);
+  } else if (showGroups === true) {
+    cells.unshift(<div key={`${rowData[idKey]}-checkboxes`} className={styles.controlCell}>
+      {placeholder}
+    </div>);
   }
 
   return (<div

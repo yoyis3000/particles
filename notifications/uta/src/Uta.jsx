@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import baseStyles from './Uta.scss';
-import defaultStyles from './UtaDefault.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
 
 let styles = {};
@@ -17,7 +16,7 @@ const Uta = (props) => {
     titleText
   } = props;
 
-  styles = composeStyles(baseStyles, [defaultStyles, ...stylesheets]);
+  styles = composeStyles(baseStyles, [...stylesheets]);
 
   const classes = cx(
     className,

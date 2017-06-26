@@ -4,6 +4,13 @@ A date picker.
 
 # Change Log
 
+##### 1.2.0
+- Style updates
+- `closeOnSelect` prop added
+
+##### 1.1.2
+- Resolving type on `value` prop to accept numeric and string arguments
+
 ##### 1.1.1
 - Changed internal clearing to work as a function instead of object assignment as setState doe snot merge correctly. Updated inputs to be 'controlled'
 

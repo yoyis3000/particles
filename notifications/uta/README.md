@@ -4,6 +4,10 @@ A loading spinner which wraps around content.
 
 # Change Log
 
+##### 1.2.7
+- Removing default styles
+- Fixing star selector bug
+
 ##### 1.2.6
 - Updating package.json to Particles URL
 

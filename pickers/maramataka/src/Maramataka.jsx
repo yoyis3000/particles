@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import baseStyles from './Maramataka.scss';
 import composeStyles from '../../../shared/stylesheetComposer';
@@ -9,6 +10,7 @@ const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
 
 export default class Maramataka extends React.Component {
   static propTypes = {
+    closeOnSelect: PropTypes.bool,
     onClear: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     stylesheets: PropTypes.arrayOf(PropTypes.shape()),
@@ -16,6 +18,7 @@ export default class Maramataka extends React.Component {
   };
 
   static defaultProps = {
+    closeOnSelect: true,
     onClear: () => {},
     stylesheets: [],
     value: { day: '', month: '', year: '' }
@@ -35,7 +38,7 @@ export default class Maramataka extends React.Component {
       errors: { day: false, month: false, year: false },
       expanded: false,
       selected: { day: null, month: null, year: null },
-      value: props.value
+      value: { day: props.value.day * 1, month: props.value.month * 1, year: props.value.year * 1 }
     };
   }
 
@@ -118,7 +121,7 @@ export default class Maramataka extends React.Component {
     const selected = { day, month, year };
     const value = { day, month: month + 1, year };
 
-    this.setState({ selected, value, expanded: false }, () => {
+    this.setState({ selected, value, expanded: !this.props.closeOnSelect }, () => {
       this.updateDateArrays();
       this.props.onSelect(value);
     });
@@ -243,16 +246,19 @@ export default class Maramataka extends React.Component {
   }
 
   renderHead() {
-    const { errors, value } = this.state;
+    const { errors, expanded, value } = this.state;
 
     const button = (value.day || value.month || value.year)
         ? <button className={this.styles.clearButton} onClick={this.onClear} />
         : null;
 
     return (
-      <div className={this.styles.head} onClick={this.onHeadClick}>
+      <div
+        className={cx(this.styles.head, { [this.styles.expanded]: expanded })}
+        onClick={this.onHeadClick}
+      >
         <input
-          className={cx(this.styles.firstInput, this.styles.input,
+          className={cx(this.styles.input,
             { [this.styles.invalid]: errors.month })}
           max='12'
           min='1'
@@ -371,13 +377,13 @@ export default class Maramataka extends React.Component {
     const days = this.renderDays();
 
     const dayTitles = dayNames.map(name =>
-      <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 2)}</div>);
+      <div key={`daytitle-${name}`} className={this.styles.dayTitle}>{name.substr(0, 1)}</div>);
 
     return (
       <div className={this.styles.container}>
         {head}
 
-        <div className={this.styles.dropdownContainer}>
+        <div className={this.styles.dropdownContainer} onClick={evt => evt.stopPropagation()}>
           <div className={cx(this.styles.dropdown, { [this.styles.expanded]: expanded })}>
             <div className={this.styles.month}>
               <div className={this.styles.leftArrow} onClick={this.onLeftArrowClick} />

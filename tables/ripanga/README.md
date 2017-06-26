@@ -4,8 +4,15 @@ A table component with self-managed checkboxes, sticky head, sticky right panel,
 
 # Change Log
 
+##### 2.4.0
+- Added support for bottom slot
+
+##### 2.3.1
+- Update default styles
+
 ##### 2.3.0
-- Added support for row height control
+- Adding in a listener to clear all checkboxes on a listener
+- upgraded to webpack 3
 
 ##### 2.2.7
 - Don't show sidebar cells when groups are collapsed

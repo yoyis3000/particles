@@ -82,7 +82,7 @@ $h: 30px;
   width: $h;
 
   &:hover {
-    background: #e7e7e7;
+    background-color: #e7e7e7;
     cursor: pointer;
   }
 }
@@ -144,6 +144,11 @@ $h: 30px;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 16px 16px;
+
+  &:hover {
+    background-color: transparent;
+    cursor: default;
+  }
 }
 
 .dropdownContainer {

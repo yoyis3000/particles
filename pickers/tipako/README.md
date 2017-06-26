@@ -4,6 +4,11 @@ A picker with support for group or individual selections.
 
 # Change Log
 
+##### 3.5.2
+- Fixing spinner hover state
+- Fixing message if loading vs. if empty
+- Adding focus call to arrow click (in addition to search focus)
+
 ##### 3.5.1
 - Fixing animation spin
 - Removing 'clear search' if not searchable

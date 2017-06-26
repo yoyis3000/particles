@@ -166,6 +166,7 @@ export default class Tipako extends React.Component {
   onCaretClick = () => {
     if (this.state.expanded === false) {
       this.setState({ expanded: true, guid: this.guid });
+      this.props.onFocus();
     }
   }
 
@@ -212,6 +213,10 @@ export default class Tipako extends React.Component {
   getEmptyString = () => {
     if (this.state.value) {
       return `No matches for "${this.state.value}".`;
+    }
+
+    if (this.props.loading) {
+      return 'Retrieving items...';
     }
 
     return 'No items found.';

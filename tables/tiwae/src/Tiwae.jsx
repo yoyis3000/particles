@@ -9,6 +9,7 @@ export default class Tiwae extends React.Component {
   static propTypes = {
     columns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     defaultColumns: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    isRowHeightChange: PropTypes.bool,
     isSelectAll: PropTypes.bool,
     lockLimit: PropTypes.number,
     onChange: PropTypes.func.isRequired,
@@ -18,6 +19,7 @@ export default class Tiwae extends React.Component {
 
   static defaultProps = {
     isSelectAll: true,
+    isRowHeightChange: true,
     lockLimit: 3,
     stylesheets: []
   }
@@ -188,10 +190,12 @@ export default class Tiwae extends React.Component {
       startIndex
     } = this.state;
 
-    const rowHeightControl = (<div
+    const rowHeightControl = this.props.isRowHeightChange
+    ? (<div
       className={styles.rowHeightControl}
       onClick={this.changeRowHeight}
-    >{this.state.isMinHeight ? 'Increase Row Height' : 'Decrease Row Height'}</div>);
+    >{this.state.isMinHeight ? 'Increase Row Height' : 'Decrease Row Height'}</div>)
+    : null;
 
     const selectAll = this.props.isSelectAll
     ? (<div className={styles.selectAll} onClick={this.onSelectAll}>
@@ -268,8 +272,8 @@ export default class Tiwae extends React.Component {
               onDragOver={this.onDragOverBody}
               onDrop={this.onDrop}
             >{items}</div>
-          {rowHeightControl}
           </div>
+          {rowHeightControl}
         </div>
       </div>
     );
